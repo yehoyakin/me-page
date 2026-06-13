@@ -1,17 +1,37 @@
 ---
 // src/components/Text/Body.astro
+import { uiDictionary, type UiVariant } from "../../config/uiDictionary";
+
 interface Props {
   class?: string;
   className?: string;
+  variant?: UiVariant;
 }
 
-const customClass = Astro.props.class ?? Astro.props.className ?? "";
+const {
+  class: customClass = "",
+  className = "",
+  variant = "primary"
+} = Astro.props;
+
+const config = uiDictionary[variant];
+
+/* =========================
+   FONT FROM DICTIONARY
+   ========================= */
+const fontClass =
+  config.font === "psx"
+    ? "font-psx"
+    : config.font === "title"
+    ? "font-title"
+    : "font-terminal";
 ---
 
 <p
   class:list={[
-    "font-psx text-zinc-400 text-base md:text-lg leading-relaxed max-w-2xl",
-    customClass
+    fontClass,
+    "text-base md:text-lg leading-relaxed max-w-2xl",
+    customClass || className
   ]}
 >
   <slot />

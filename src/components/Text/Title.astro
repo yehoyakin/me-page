@@ -1,21 +1,33 @@
 ---
-// src/components/Text/Title.astro
+import { uiDictionary, type UiVariant } from "../../config/uiDictionary";
+
 interface Props {
-  level?: "1" | "2" | "3" | "4" | "5" | "6";
   class?: string;
-  className?: string;
+  level?: 1 | 2 | 3 | 4 | 5 | 6;
+  variant?: UiVariant;
 }
 
-const { level = "2" } = Astro.props;
-const customClass = Astro.props.class ?? Astro.props.className ?? "";
+const {
+  class: customClass = "",
+  level = 2,
+  variant = "primary"
+} = Astro.props;
 
-// Choose the structural heading tag dynamically
+const config = uiDictionary[variant];
+
+const fontClass =
+  config.font === "psx"
+    ? "font-psx"
+    : config.font === "title"
+    ? "font-title"
+    : "font-terminal";
+
 const Tag = `h${level}` as any;
 ---
 
 <Tag
   class:list={[
-    "font-title font-bold tracking-wide text-zinc-100",
+    fontClass,
     customClass
   ]}
 >
