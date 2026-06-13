@@ -1,0 +1,79 @@
+---
+import Title from "../Text/Title.astro";
+import Body from "../Text/Body.astro";
+import { uiDictionary, type UiVariant } from "../../config/uiDictionary";
+
+interface Props {
+  href: string;
+  tag: string;
+  title: string;
+  description: string;
+  actionText: string;
+  variant?: UiVariant;
+  class?: string;
+}
+
+const {
+  href,
+  tag,
+  title,
+  description,
+  actionText,
+  variant = "primary",
+  class: extraClass = ""
+} = Astro.props;
+
+const config = uiDictionary[variant];
+
+const cardClasses = [
+  "group relative flex items-center justify-center overflow-hidden transition-all duration-300 min-h-[450px] w-full",
+  `font-${config.font}`,
+  extraClass
+].filter(Boolean).join(" ");
+---
+
+<a
+  href={href}
+  data-theme={config.transition}
+  class={cardClasses}
+>
+
+  {Astro.slots.has('background') && (
+    <div class="absolute inset-0 z-0 opacity-10 transition-all duration-700 group-hover:scale-105 group-hover:opacity-20 mix-blend-luminosity card-bg-modifier">
+      <slot name="background" />
+    </div>
+  )}
+
+  <div class="absolute inset-0 z-10 opacity-0 transition duration-500 group-hover:opacity-100 theme-glow-bg" />
+
+  <div class="relative z-20 max-w-lg px-10 py-16 text-center lg:text-left transition duration-500 group-hover:-translate-y-2">
+
+    <span class="text-sm uppercase tracking-[0.3em] text-zinc-400">
+      {tag}
+    </span>
+
+    <Title level="2" class="mt-2 text-5xl md:text-6xl">
+      {title}
+    </Title>
+
+    <Body class="mt-4">
+      {description}
+    </Body>
+
+    <div class="mt-8 inline-flex items-center gap-3 font-title transition group-hover:gap-5 text-zinc-300">
+      <span>{actionText}</span>
+    </div>
+
+  </div>
+
+</a>
+
+<style is:global>
+  .card-bg-modifier > div {
+    width: 100% !important;
+    height: 100% !important;
+    border: none !important;
+    border-radius: 20px !important;
+    box-shadow: none !important;
+  }
+</style>

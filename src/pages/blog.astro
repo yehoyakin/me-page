@@ -1,0 +1,51 @@
+---
+import MyLayout from "../layouts/MyLayout.astro";
+---
+
+<MyLayout title="Blog">
+
+        <script is:inline>
+    document.addEventListener("astro:page-load", () => {
+        if (document.startViewTransition) {
+            document.startViewTransition(() => {
+                document.documentElement.dataset.theme = "traversal";
+            });
+        } else {
+            document.documentElement.dataset.theme = "traversal";
+        }
+    });
+</script>
+
+    <section class="py-24">
+
+        <h1 class="text-6xl font-bold mb-4">
+            Blog
+        </h1>
+
+        <p class="text-zinc-400 mb-16 max-w-2xl">
+            Thoughts about programming, game development and tools.
+        </p>
+
+        <div class="space-y-8">
+
+            <article class="border-b border-zinc-800 pb-8">
+
+                <p class="text-sm text-zinc-500">
+                    April 2026
+                </p>
+
+                <h2 class="text-3xl font-bold mt-2">
+                    Building a Graph Editor in Unity
+                </h2>
+
+                <p class="text-zinc-400 mt-4">
+                    Lessons learned while developing editor tooling.
+                </p>
+
+            </article>
+
+        </div>
+
+    </section>
+
+</MyLayout>

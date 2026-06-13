@@ -1,0 +1,52 @@
+---
+// src/components/Hero/InfoHeader.astro
+import Title from "../Text/Title.astro";
+import Portrait from "./MyImage.astro";
+
+interface Props {
+  name: string;
+  description: string;
+  portraitSrc: string;
+  theme?: "primary" | "secondary" | "terminal";
+}
+
+const { 
+  name, 
+  description, 
+  portraitSrc,
+  theme = "primary"
+} = Astro.props;
+
+// Convert the layout theme parameter directly into your global.css color key variables
+const dynamicStyle = `--header-theme-color: var(--color-retro-${theme});`;
+---
+
+<div 
+  class="flex flex-col items-center justify-center text-center py-24 px-8"
+  style={dynamicStyle}
+>
+  <Title level="1" class="text-2xl md:text-4xl tracking-[0.12em] uppercase">
+    {name}
+  </Title>
+
+  <div class="flex justify-center mt-6">
+    <Portrait 
+      src={portraitSrc} 
+      theme={theme} 
+      shape="squircle" 
+      size="md" 
+      animate="none" 
+    />
+  </div>
+
+  <p class="mt-4 font-title text-sm uppercase tracking-widest theme-label-color">
+    {description}
+  </p>
+</div>
+
+<style>
+  /* Hooks directly into the context colors passed through your global rules sheet */
+  .theme-label-color {
+    color: rgb(var(--header-theme-color));
+  }
+</style>

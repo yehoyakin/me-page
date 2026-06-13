@@ -1,0 +1,18 @@
+---
+// src/components/Text/Body.astro
+interface Props {
+  class?: string;
+  className?: string;
+}
+
+const customClass = Astro.props.class ?? Astro.props.className ?? "";
+---
+
+<p
+  class:list={[
+    "font-psx text-zinc-400 text-base md:text-lg leading-relaxed max-w-2xl",
+    customClass
+  ]}
+>
+  <slot />
+</p>

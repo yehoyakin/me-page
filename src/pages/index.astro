@@ -1,11 +1,82 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+// src/pages/index.astro
+import MyLayout from "../layouts/MyLayout.astro";
+import SplitLanding from "../components/Hero/SplitLanding.astro";
+import ContactPanel from "../components/Hero/ContactPanel.astro";
+import Portrait from "../components/Hero/MyImage.astro";
+import HeaderInfo from "../components/Hero/InfoHeader.astro"; 
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<MyLayout title="Home">
+
+	<script is:inline>
+  document.addEventListener("astro:page-load", () => {
+    if (document.startViewTransition) {
+      document.startViewTransition(() => {
+        document.documentElement.dataset.theme = "crt";
+      });
+    } else {
+      document.documentElement.dataset.theme = "crt";
+    }
+  });
+</script>
+
+  <div class="relative h-screen bg-zinc-950 overflow-hidden">
+
+    <div class="fixed inset-0 z-0 opacity-20 pointer-events-none root-page-bg">
+      <Portrait 
+        src="/images/frontPage/background.png" 
+        shape="square" 
+        crt={true} 
+        animate="float"
+      />
+    </div>
+
+    <div class="absolute inset-0 z-10 bg-zinc-950/85 pointer-events-none" />
+
+    <div class="relative z-20 flex h-screen flex-col min-h-0">
+      <header class="absolute top-0 right-0 px-8 py-6 z-50">
+        <ContactPanel />
+      </header>
+
+      <HeaderInfo 
+        name="Homepage"
+        description="Joaquin Herrera / Game Developer"
+        portraitSrc="/images/frontPage/me.png"
+        theme="primary"
+      />
+
+      <div class="flex-1 min-h-0 w-full">
+        <SplitLanding
+          background="/images/background.svg"
+          backgroundL="/images/background.svg"
+          backgroundR="/images/background.svg"
+        />
+      </div>
+    </div>
+
+  </div>
+</MyLayout>
+
+
+<style is:global>
+  .root-page-bg > div,
+  .root-page-bg > div > div {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    max-width: none !important;
+    max-height: none !important;
+    border: none !important;
+    border-radius: 0px !important;
+    box-shadow: none !important;
+  }
+
+  .root-page-bg img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+  }
+</style>

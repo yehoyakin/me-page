@@ -1,0 +1,77 @@
+---
+import Body from "../Text/Body.astro";
+import Portrait from "./MyImage.astro";
+import Card from "./Card.astro";
+
+interface Props {
+  background: string;
+  backgroundL: string;
+  backgroundR: string;
+}
+
+const { background, backgroundL, backgroundR } = Astro.props;
+---
+
+<section class="relative flex-1 min-h-0 overflow-hidden">
+
+  <div
+    class="absolute inset-0 bg-cover bg-center mix-blend-luminosity opacity-20"
+    style={`background-image: url('${background}')`}
+  />
+
+  <div class="absolute inset-0 bg-zinc-950/85" />
+
+  <div class="relative z-10 flex h-full min-h-0 flex-col">
+
+    <div class="grid flex-1 min-h-0 lg:grid-cols-2">
+
+      <Card
+        href="/portfolio"
+        tag="My projects"
+        title="Portfolio"
+        description="Take a look at my Unity and Unreal Engine projects."
+        actionText="View projects"
+        variant="primary"
+        class="border-b border-zinc-800/60 lg:border-b-0 lg:border-r"
+      >
+        <Portrait
+          slot="background"
+          src={backgroundL}
+          shape="square"
+          size="xl"
+          crt={false}
+          animate="float"
+        />
+      </Card>
+
+      <Card
+        href="/blog"
+        tag="My thoughts"
+        title="Blog"
+        description="Just my thoughts on videogames, game development and movies."
+        actionText="Read articles"
+        variant="primary"
+      >
+        <Portrait
+          slot="background"
+          src={backgroundR}
+          shape="square"
+          size="xl"
+          crt={false}
+          animate="float"
+        />
+      </Card>
+
+    </div>
+
+    <div class="shrink-0 border-t border-zinc-800/60 bg-zinc-950/50 px-8 py-6 backdrop-blur-md">
+      <div class="mx-auto max-w-2xl text-center">
+        <Body class="text-sm italic text-zinc-500">
+          "a footer goes here!."
+        </Body>
+      </div>
+    </div>
+
+  </div>
+
+</section>

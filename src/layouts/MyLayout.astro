@@ -1,0 +1,29 @@
+---
+import "../styles/global.css";
+import "../styles/transitions.css";
+import { ClientRouter } from "astro:transitions";
+
+const { title = "JoacoDev", animation = "grid" } = Astro.props;
+---
+
+<html lang="en" data-theme={animation}>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>{title}</title>
+
+  <ClientRouter />
+</head>
+
+<body class="bg-zinc-950 text-zinc-100 font-main">
+
+  <div class="fixed inset-0 bg-[linear-gradient(to_right,#1f293715_1px,transparent_1px),linear-gradient(to_bottom,#1f293715_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none"></div>
+
+  <main class="relative z-10 min-h-screen">
+    <div class="max-w-7xl mx-auto px-6">
+      <slot />
+    </div>
+  </main>
+
+</body>
+</html>

@@ -1,0 +1,70 @@
+---
+interface Props {
+  href: string;
+  text: string;
+  icon: string; // raw SVG string
+  external?: boolean;
+}
+
+const { href, text, icon, external = false } = Astro.props;
+---
+
+<a
+  href={href}
+  target={external ? "_blank" : undefined}
+  class="group relative flex items-center gap-2 font-mono text-xs md:text-sm font-bold text-zinc-300 transition hover:text-amber-400"
+>
+
+  <!-- ICON -->
+  <span
+    class="w-4 h-4 transition duration-300 group-hover:drop-shadow-[0_0_6px_rgba(251,191,36,0.8)]"
+    set:html={icon}
+  />
+
+  <!-- TEXT -->
+  <span class="relative overflow-hidden">
+    {text}
+    <span class="scanline"></span>
+  </span>
+
+</a>
+
+<style>
+/* =========================
+   CRT GLOW (ICON)
+   ========================= */
+
+.group:hover svg {
+  filter: drop-shadow(0 0 6px rgba(251, 191, 36, 0.75));
+}
+
+/* =========================
+   SCANLINE EFFECT
+   ========================= */
+
+.scanline {
+  position: absolute;
+  left: -120%;
+  top: 0;
+  width: 120%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(251, 191, 36, 0.25),
+    transparent
+  );
+  transform: skewX(-20deg);
+  opacity: 0;
+}
+
+.group:hover .scanline {
+  animation: scanSweep 700ms ease-out;
+  opacity: 1;
+}
+
+@keyframes scanSweep {
+  0% { left: -120%; }
+  100% { left: 120%; }
+}
+</style>

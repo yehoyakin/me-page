@@ -1,0 +1,44 @@
+---
+// src/components/Display/CrtMonitor.astro
+const { id = "crt-display" } = Astro.props;
+---
+
+<div class="crt-chassis w-full aspect-video bg-zinc-900 border-[6px] border-zinc-800 rounded-xl shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)] relative overflow-hidden flex items-center justify-center">
+  <div class="crt-filter absolute inset-0 pointer-events-none z-30"></div>
+  
+  <div id={id} class="crt-screen-content w-full h-full relative z-10 p-6 flex flex-col justify-between">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .crt-chassis {
+    box-shadow: 
+      inset 0 0 60px rgba(0, 0, 0, 0.95),
+      0 0 30px rgba(251, 191, 36, 0.03);
+  }
+
+  /* The actual scanline mesh vector generation */
+  .crt-filter {
+    background: linear-gradient(
+        rgba(18, 16, 16, 0) 50%, 
+        rgba(0, 0, 0, 0.35) 50%
+      ), 
+      linear-gradient(
+        90deg, 
+        rgba(255, 0, 0, 0.05), 
+        rgba(0, 255, 0, 0.03), 
+        rgba(0, 0, 255, 0.05)
+      );
+    background-size: 100% 4px, 6px 100%;
+  }
+
+  /* Glass bulb curve overlay phosphor bloom simulation */
+  .crt-filter::after {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: radial-gradient(circle, transparent 55%, rgba(0, 0, 0, 0.5) 100%);
+  }
+</style>

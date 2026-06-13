@@ -1,0 +1,55 @@
+---
+import MyLayout from "../layouts/MyLayout.astro";
+---
+
+<MyLayout title="Portfolio">
+
+<script is:inline>
+  document.addEventListener("astro:page-load", () => {
+    if (document.startViewTransition) {
+      document.startViewTransition(() => {
+        document.documentElement.dataset.theme = "traversal";
+      });
+    } else {
+      document.documentElement.dataset.theme = "traversal";
+    }
+  });
+</script>
+
+<section class="py-24">
+
+  <h1 class="text-6xl font-bold mb-4">
+    Portfolio
+  </h1>
+
+  <p class="text-zinc-400 mb-16 max-w-2xl">
+    Selected projects I've worked on.
+  </p>
+
+  <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-8">
+
+    <article class="rounded-2xl border border-zinc-800 p-6">
+      <h2 class="text-2xl font-bold mb-3">
+        Unity Graph Tool
+      </h2>
+
+      <p class="text-zinc-400">
+        Custom editor framework for graph-based workflows.
+      </p>
+    </article>
+
+    <article class="rounded-2xl border border-zinc-800 p-6">
+      <h2 class="text-2xl font-bold mb-3">
+        Terminal Engine
+      </h2>
+
+      <p class="text-zinc-400">
+        Experimental engine architecture exploration.
+      </p>
+    </article>
+
+  </div>
+
+</section>
+
+</MyLayout>
