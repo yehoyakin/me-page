@@ -3,6 +3,7 @@ import MyLayout from "../layouts/MyLayout.astro";
 import Title from "../components/Text/Title.astro";
 import Body from "../components/Text/Body.astro";
 
+import BackLink from "../components/Hero/BackLink.astro";
 import CallCard from "../components/Hero/CallCard.astro";
 import SocialLink from "../components/Hero/Link.astro";
 
@@ -14,6 +15,8 @@ const ProjectSlot = ({ order }: { order: number }) => {
 ---
 
 <MyLayout title="Portfolio | JoacoDev" animation="traversal">
+
+  <BackLink />
 
   <!-- =========================
        PAGE HEADER

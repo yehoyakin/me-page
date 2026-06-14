@@ -1,0 +1,12 @@
+---
+interface Props {
+  href?: string;
+  text?: string;
+}
+
+const { href = "/", text = "← Back to home" } = Astro.props;
+---
+
+<a href={href} class="inline-flex items-center gap-2 text-sm font-medium uppercase tracking-[0.3em] text-retro-primary transition hover:text-white">
+  <span>{text}</span>
+</a>

@@ -14,18 +14,18 @@ const { post } = Astro.props;
 const date = new Date(post.data.date);
 ---
 
-<a href={`/blog/${post.slug}`} class="block border-b border-zinc-800 pb-8 group">
+<a href={`/blog/${post.slug}`} class="group block rounded-3xl border border-zinc-800 bg-zinc-950/40 p-8 transition hover:-translate-y-1 hover:border-retro-primary hover:bg-white/5 hover:shadow-[0_20px_60px_-30px_rgba(255,255,255,0.25)]">
+  <div class="space-y-4">
+    <Meta class="text-sm text-zinc-500 transition group-hover:text-retro-primary">
+      {date.toDateString()}
+    </Meta>
 
-  <Meta>
-    {date.toDateString()}
-  </Meta>
+    <Title level={2} class="text-3xl mt-2 transition group-hover:text-retro-primary">
+      {post.data.title}
+    </Title>
 
-  <Title level={2} class="text-3xl mt-2 group-hover:text-retro-primary transition">
-    {post.data.title}
-  </Title>
-
-  <Body class="text-zinc-400 mt-4">
-    {post.data.description}
-  </Body>
-
+    <Body class="text-zinc-400 mt-4">
+      {post.data.description}
+    </Body>
+  </div>
 </a>
