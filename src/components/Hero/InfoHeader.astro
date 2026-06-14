@@ -10,32 +10,32 @@ interface Props {
   theme?: "primary" | "secondary" | "terminal";
 }
 
-const { 
-  name, 
-  description, 
+const {
+  name,
+  description,
   portraitSrc,
   theme = "primary"
 } = Astro.props;
 
-// Convert the layout theme parameter directly into your global.css color key variables
+// Correct: just forward the CSS variable reference (no rgb() wrapping here)
 const dynamicStyle = `--header-theme-color: var(--color-retro-${theme});`;
 ---
 
-<div 
+<div
   class="flex flex-col items-center justify-center text-center py-24 px-8"
   style={dynamicStyle}
 >
-  <Title level="1" class="text-2xl md:text-4xl tracking-[0.12em] uppercase">
+  <Title level={1} class="text-2xl md:text-4xl tracking-[0.12em] uppercase">
     {name}
   </Title>
 
   <div class="flex justify-center mt-6">
-    <Portrait 
-      src={portraitSrc} 
-      theme={theme} 
-      shape="squircle" 
-      size="md" 
-      animate="none" 
+    <Portrait
+      src={portraitSrc}
+      theme={theme}
+      shape="squircle"
+      size="md"
+      animate="none"
     />
   </div>
 
@@ -45,8 +45,8 @@ const dynamicStyle = `--header-theme-color: var(--color-retro-${theme});`;
 </div>
 
 <style>
-  /* Hooks directly into the context colors passed through your global rules sheet */
+  /* FIX: do NOT wrap with rgb(), the variable already resolves through CSS */
   .theme-label-color {
-    color: rgb(var(--header-theme-color));
+    color: var(--header-theme-color);
   }
 </style>

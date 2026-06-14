@@ -9,13 +9,16 @@ const blog = defineCollection({
 
   schema: z.object({
     title: z.string(),
+    theme: z.string(),
     description: z.string(),
     date: z.coerce.date(), // IMPORTANT FIX
+    cardBackground: z.string().optional(),
 
     background: z.string().optional(),
 
     backgroundBlur: z.number().optional().default(0),
     backgroundOpacity: z.number().optional().default(1),
+    backgroundParallax: z.number().optional().default(0.2),
 
     scenes: z
       .array(
@@ -23,10 +26,27 @@ const blog = defineCollection({
           image: z.string(),
           start: z.number(),
           end: z.number(),
+          align: z.enum(["left", "right", "center"]).optional(),
+        })
+      )
+      .optional(),
+    backgrounds: z
+      .array(
+        z.object({
+          percent: z.number(),
+          image: z.string(),
         })
       )
       .optional(),
 
+    widgetPosition: z
+      .object({
+        top: z.string().optional(),
+        right: z.string().optional(),
+        bottom: z.string().optional(),
+        left: z.string().optional(),
+      })
+      .optional(),
     cards: z
       .array(
         z
@@ -56,4 +76,4 @@ const blog = defineCollection({
   }),
 });
 
-export const collections = { blog };
+export const collections = { blog }; 

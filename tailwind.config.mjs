@@ -3,6 +3,7 @@
 export default {
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,ts,tsx}'],
 
+  /* Overwrites global.css
   theme: {
     extend: {
 
@@ -22,5 +23,9 @@ export default {
     }
   },
 
+  */
+  
   plugins: []
 };
+
+

@@ -1,0 +1,42 @@
+---
+import LinkCard from "../Hero/LinkCard.astro";
+
+interface CardItem {
+  href?: string;
+  tag?: string;
+  title: string;
+  description?: string;
+  actionText?: string;
+  backgroundImage?: string;
+  links?: {
+    href: string;
+    text?: string;
+    image?: string;
+  }[];
+}
+
+interface Props {
+  cards: CardItem[];
+}
+
+const { cards = [] } = Astro.props as Props;
+---
+
+<aside class="relative z-10 space-y-10 lg:sticky lg:top-24">
+  {cards.length > 0 ? (
+    <div class="space-y-6">
+      {cards.map((card) => (
+        <LinkCard
+          href={card.href}
+          links={card.links}
+          tag={card.tag}
+          title={card.title}
+          description={card.description}
+          actionText={card.actionText}
+          backgroundImage={card.backgroundImage}
+          class="h-auto"
+        />
+      ))}
+    </div>
+  ) : null}
+</aside>
