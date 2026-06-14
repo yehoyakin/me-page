@@ -1,0 +1,31 @@
+---
+import type { BlogPost } from "../../types/blog";
+
+import Title from "../Text/Title.astro";
+import Body from "../Text/Body.astro";
+import Meta from "../Text/Body.astro";
+
+type Props = {
+  post: BlogPost;
+};
+
+const { post } = Astro.props;
+
+const date = new Date(post.data.date);
+---
+
+<a href={`/blog/${post.slug}`} class="block border-b border-zinc-800 pb-8 group">
+
+  <Meta>
+    {date.toDateString()}
+  </Meta>
+
+  <Title level={2} class="text-3xl mt-2 group-hover:text-retro-primary transition">
+    {post.data.title}
+  </Title>
+
+  <Body class="text-zinc-400 mt-4">
+    {post.data.description}
+  </Body>
+
+</a>

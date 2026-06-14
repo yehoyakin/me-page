@@ -9,9 +9,7 @@ interface Props {
   title: string;
   shortDescription: string;
   fullDescription?: string;
-
-  roles?: ProjectRole[]; // 👈 NEW
-
+  roles?: ProjectRole[];
   variant?: UiVariant;
   class?: string;
   backgroundImage?: string;
@@ -34,7 +32,7 @@ const {
   title,
   shortDescription,
   fullDescription = "",
-  roles = [], // 👈 NEW DEFAULT
+  roles = [],
   variant = "primary",
   class: extraClass = "",
   backgroundImage
@@ -42,9 +40,6 @@ const {
 
 const config = uiDictionary[variant];
 
-/* =========================
-   HOVER ACCENT COLOR
-   ========================= */
 const themeColorClass =
   config.theme === "primary"
     ? "group-hover:text-retro-primary"
@@ -52,67 +47,63 @@ const themeColorClass =
     ? "group-hover:text-retro-secondary"
     : "group-hover:text-retro-terminal";
 
-/* =========================
-   DEFAULT TEXT STYLE
-   - black text
-   - bold
-   - WHITE OUTLINE (key fix)
-   ========================= */
 const baseText =
   "text-white text-lg transition-colors duration-300 retro-outline";
 
-/* =========================
-   CARD WRAPPER
-   ========================= */
+/**
+ * 🔥 KEY IDEA:
+ * fixed base height + expandable max-height
+ */
 const cardClasses = [
   "group relative overflow-hidden rounded-2xl border border-zinc-800",
-  "min-h-[450px] transition-all duration-500",
-  `font-${config.font}`,
+  "w-full h-[500px]",
+
+  "transition-[height] duration-500 ease-in-out",
+
+  "hover:h-auto",
+
+  "hover:z-20",
+
   extraClass
 ].join(" ");
 ---
 
 <div class={cardClasses} data-theme={config.transition}>
 
-  <!-- =========================
-       BACKGROUND IMAGE
-       DEFAULT: slightly blurred + dimmed
-       HOVER: sharp + zoom + darker
-  ========================== -->
+  <!-- BACKGROUND -->
   {backgroundImage && (
-    <div class="absolute inset-0 overflow-hidden">
+    <div class="absolute inset-0 overflow-hidden z-0">
       <img
         src={backgroundImage}
         class="
-          h-full w-full
-          object-cover
+          h-full w-full object-cover
+          scale-105 brightness-100
+          transition duration-700
 
-          /* DEFAULT */
-          blur-[1.5px] brightness-90 scale-105
-
-          /* HOVER */
-          transition-all duration-700
-          group-hover:blur-0
-          group-hover:scale-150
+          group-hover:scale-110
           group-hover:brightness-50
         "
       />
 
       <div class="
         absolute inset-0
-        bg-zinc-950/20
-        group-hover:bg-zinc-950/70
+        bg-transparent
+        group-hover:bg-zinc-950/60
         transition
       " />
     </div>
   )}
 
-  <!-- =========================
-       CONTENT
-  ========================== -->
-  <div class="relative z-10 flex h-full flex-col justify-center p-10">
+  <!-- BANNER (always visible) -->
+  <div class="
+    relative z-20
+    w-full p-8
 
-    <!-- TAG -->
+    bg-zinc-950/85
+    backdrop-blur-md
+    border-b border-zinc-800
+  ">
+
     <span class={`
       text-sm uppercase tracking-[0.3em]
       ${baseText}
@@ -121,7 +112,6 @@ const cardClasses = [
       {tag}
     </span>
 
-    <!-- TITLE -->
     <Title class={`
       mt-3 text-5xl md:text-6xl
       ${baseText}
@@ -130,52 +120,53 @@ const cardClasses = [
       {title}
     </Title>
 
-    <!-- SHORT DESCRIPTION -->
     <Body class={`
-    mt-4
-    ${baseText}
-    font-semibold
-    text-lg
-    leading-relaxed
-    transition-colors duration-300
-    ${themeColorClass}
+      mt-4 font-semibold text-lg
+      ${baseText}
+      ${themeColorClass}
     `}>
-
-    {shortDescription}
+      {shortDescription}
     </Body>
-    
-    <!-- EXPANDED CONTENT -->
+
+  </div>
+
+  <!-- EXPANDING CONTENT (THIS MAKES IT "GROW") -->
+  {fullDescription && (
     <div class="
-      overflow-hidden
-      max-h-0
+      relative z-10
+      p-8
+
       opacity-0
+      translate-y-4
+
       transition-all duration-500
-      group-hover:max-h-[400px]
+
       group-hover:opacity-100
+      group-hover:translate-y-0
     ">
 
-      {fullDescription && (
-        <Body class="mt-6 text-zinc-100 text-base retro-outline">
-          {fullDescription}
-        </Body>
+      <Body class="text-zinc-100 text-base retro-outline">
+        {fullDescription}
+      </Body>
+
+      {roles.length > 0 && (
+        <div class="mt-6 flex flex-wrap gap-2">
+          {roles.map((role) => (
+            <span class="
+              text-xs px-2 py-1 rounded-md
+              bg-zinc-900 text-white retro-outline
+            ">
+              {roleLabels[role]}
+            </span>
+          ))}
+        </div>
       )}
 
-
-      <div class="mt-8 flex flex-wrap gap-4">
+      <div class="mt-6 flex flex-wrap gap-4">
         <slot name="links" />
       </div>
 
-          {roles.length > 0 && (
-  <div class="mt-6 flex flex-wrap gap-2">
-    {roles.map((role) => (
-    <span class="text-xs px-2 py-1 rounded-md bg-zinc-950/80 text-white retro-outline">
-        {roleLabels[role]}
-      </span>
-    ))}
-  </div>
-)}
-
     </div>
+  )}
 
-  </div>
 </div>
