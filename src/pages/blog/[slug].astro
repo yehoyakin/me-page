@@ -3,7 +3,8 @@ import MyLayout from "../../layouts/MyLayout.astro";
 import BackLink from "../../components/Hero/BackLink.astro";
 import Title from "../../components/Text/Title.astro";
 import Body from "../../components/Text/Body.astro";
-import Card from "../../components/Hero/Card.astro";
+import Link from "../../components/Hero/Link.astro";
+import LinkCard from "../../components/Hero/LinkCard.astro";
 import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
@@ -31,6 +32,17 @@ const backgroundBlur = post.data.backgroundBlur ?? 0;
 const backgroundOpacity = post.data.backgroundOpacity ?? 1;
 
 const blurClass = backgroundBlur > 0 ? `blur-[${Math.round(backgroundBlur * 24)}px]` : "";
+
+function iconFor(href: string, backgroundImage?: string) {
+  const host = (href || "").toLowerCase();
+  if (backgroundImage) return `<img src="${backgroundImage}" class="w-4 h-4 rounded-sm object-cover" />`;
+  if (host.includes("steam")) {
+    return `<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"currentColor\" class=\"w-4 h-4\"><path d=\"M12.5 10.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM12 2a10 10 0 100 20 10 10 0 000-20zM7.3 15.2a2.5 2.5 0 114.6-.2l4.1-2.3a3 3 0 10-.9-1.6l-4.3 2.4a2.5 2.5 0 11-3.5 1.3z\"/></svg>`;
+  } else if (host.includes("gog")) {
+    return `<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"currentColor\" class=\"w-4 h-4\"><path d=\"M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z\"/></svg>`;
+  }
+  return `<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"currentColor\" class=\"w-4 h-4\"><path d=\"M3.9 12a8.1 8.1 0 1116.2 0 8.1 8.1 0 01-16.2 0zM11 7h2v6h-2zM11 15h2v2h-2z\"/></svg>`;
+}
 ---
 
 <MyLayout title={post.data.title}>
@@ -71,13 +83,13 @@ const blurClass = backgroundBlur > 0 ? `blur-[${Math.round(backgroundBlur * 24)}
       {cards.length > 0 && (
         <div class="space-y-6">
           {cards.map((card) => (
-            <Card
+            <LinkCard
               href={card.href}
+              links={(card as any).links}
               tag={card.tag}
               title={card.title}
               description={card.description}
               actionText={card.actionText}
-              variant={card.variant ?? "secondary"}
               backgroundImage={card.backgroundImage}
               class="h-auto"
             />

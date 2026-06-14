@@ -29,15 +29,28 @@ const blog = defineCollection({
 
     cards: z
       .array(
-        z.object({
-          href: z.string(),
-          tag: z.string(),
-          title: z.string(),
-          description: z.string(),
-          actionText: z.string(),
-          variant: z.enum(["primary", "secondary"]).optional(),
-          backgroundImage: z.string().optional(),
-        })
+        z
+          .object({
+            href: z.string().optional(),
+            tag: z.string(),
+            title: z.string(),
+            description: z.string(),
+            actionText: z.string(),
+            variant: z.enum(["primary", "secondary"]).optional(),
+            backgroundImage: z.string().optional(),
+            links: z
+              .array(
+                z.object({
+                  href: z.string(),
+                  text: z.string().optional(),
+                  image: z.string().optional(),
+                })
+              )
+              .optional(),
+          })
+          .refine((item) => !!item.href || (Array.isArray(item.links) && item.links.length > 0), {
+            message: "card must have either `href` or non-empty `links` array",
+          })
       )
       .optional(),
   }),
