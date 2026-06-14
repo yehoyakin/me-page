@@ -3,13 +3,29 @@ import Body from "../Text/Body.astro";
 import Portrait from "./MyImage.astro";
 import Card from "./Card.astro";
 
-interface Props {
-  background: string;
-  backgroundL: string;
-  backgroundR: string;
+interface CardData {
+  href: string;
+  tag: string;
+  title: string;
+  description: string;
+  actionText: string;
+  variant?: "primary" | "secondary";
+  imageSrc: string;
 }
 
-const { background, backgroundL, backgroundR } = Astro.props;
+interface Props {
+  background: string;
+  left: CardData;
+  right: CardData;
+  footerText?: string;
+}
+
+const {
+  background,
+  left,
+  right,
+  footerText = "a footer goes here!.",
+} = Astro.props as Props;
 ---
 
 <section class="relative flex-1 min-h-0 overflow-hidden">
@@ -26,17 +42,17 @@ const { background, backgroundL, backgroundR } = Astro.props;
     <div class="grid flex-1 min-h-0 lg:grid-cols-2">
 
       <Card
-        href="/portfolio"
-        tag="My projects"
-        title="Portfolio"
-        description="Take a look at my Unity and Unreal Engine projects."
-        actionText="View projects"
-        variant="primary"
+        href={left.href}
+        tag={left.tag}
+        title={left.title}
+        description={left.description}
+        actionText={left.actionText}
+        variant={left.variant ?? "primary"}
         class="border-b border-zinc-800/60 lg:border-b-0 lg:border-r"
       >
         <Portrait
           slot="background"
-          src={backgroundL}
+          src={left.imageSrc}
           shape="square"
           size="xl"
           crt={false}
@@ -45,16 +61,16 @@ const { background, backgroundL, backgroundR } = Astro.props;
       </Card>
 
       <Card
-        href="/blog"
-        tag="My thoughts"
-        title="Blog"
-        description="Just my thoughts on videogames, game development and movies."
-        actionText="Read articles"
-        variant="primary"
+        href={right.href}
+        tag={right.tag}
+        title={right.title}
+        description={right.description}
+        actionText={right.actionText}
+        variant={right.variant ?? "primary"}
       >
         <Portrait
           slot="background"
-          src={backgroundR}
+          src={right.imageSrc}
           shape="square"
           size="xl"
           crt={false}

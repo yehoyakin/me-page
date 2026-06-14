@@ -10,6 +10,7 @@ interface Props {
   description: string;
   actionText: string;
   variant?: UiVariant;
+  backgroundImage?: string;
   class?: string;
 }
 
@@ -20,6 +21,7 @@ const {
   description,
   actionText,
   variant = "primary",
+  backgroundImage,
   class: extraClass = ""
 } = Astro.props;
 
@@ -51,6 +53,17 @@ const cardClasses = [
   data-transition={config.transition}
   class={cardClasses}
 >
+
+  <!-- BACKGROUND IMAGE -->
+  {backgroundImage && (
+    <div class="absolute inset-0 overflow-hidden z-0">
+      <img
+        src={backgroundImage}
+        class="h-full w-full object-cover scale-105 transition duration-700 group-hover:scale-110"
+      />
+      <div class="absolute inset-0 bg-zinc-950/50 transition group-hover:bg-zinc-950/60" />
+    </div>
+  )}
 
   <!-- BACKGROUND SLOT -->
   {Astro.slots.has('background') && (

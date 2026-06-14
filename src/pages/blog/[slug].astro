@@ -1,6 +1,9 @@
 ---
 import MyLayout from "../../layouts/MyLayout.astro";
 import BackLink from "../../components/Hero/BackLink.astro";
+import Title from "../../components/Text/Title.astro";
+import Body from "../../components/Text/Body.astro";
+import Card from "../../components/Hero/Card.astro";
 import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
@@ -8,58 +11,154 @@ export async function getStaticPaths() {
 
   return posts.map((post) => ({
     params: {
-      slug: post.slug,
-    },
-    props: {
-      post,
+      slug: post.id,
     },
   }));
 }
 
-const { post } = Astro.props;
-let Content;
-let notFound = false;
+const slug = Astro.params.slug;
+const posts = await getCollection("blog");
+const post = posts.find((entry) => entry.id === slug);
 
-if (post) {
-  const rendered = await post.render();
-  Content = rendered.Content;
-} else {
-  notFound = true;
+if (!post) {
+  throw new Response("Post not found", { status: 404 });
 }
+
+const scenes = post.data.scenes ?? [];
+const cards = post.data.cards ?? [];
+const heroImage = post.data.background ?? scenes[0]?.image ?? "";
+const backgroundBlur = post.data.backgroundBlur ?? 0;
+const backgroundOpacity = post.data.backgroundOpacity ?? 1;
+
+const blurClass = backgroundBlur > 0 ? `blur-[${Math.round(backgroundBlur * 24)}px]` : "";
 ---
 
-<MyLayout title={notFound ? "Post not found" : post.data.title}>
+<MyLayout title={post.data.title}>
   <BackLink />
 
-  <article class="prose prose-invert mx-auto py-16">
-    {notFound ? (
-      <div class="space-y-6">
-        <header>
-          <p class="text-sm uppercase tracking-[0.3em] text-retro-primary">Blog</p>
-          <h1 class="mt-4 text-4xl font-semibold">Post not found</h1>
-        </header>
-        <p class="text-zinc-400">
-          The blog post you tried to open does not exist or may have been removed.
-        </p>
-      </div>
-    ) : (
-      <div class="space-y-10">
-        <header>
-          <p class="text-sm uppercase tracking-[0.3em] text-retro-primary">Blog</p>
-          <h1 class="mt-4 text-4xl font-semibold">{post.data.title}</h1>
-          <p class="mt-4 text-zinc-400">{post.data.description}</p>
-          <time class="mt-3 block text-sm text-zinc-500" datetime={post.data.date.toISOString()}>
-            {new Date(post.data.date).toLocaleDateString()}
-          </time>
-        </header>
-
-        <hr class="border-zinc-800" />
-
-        <div class="prose prose-invert">
-          <Content />
-        </div>
+  <section class="relative grid gap-12 lg:grid-cols-[minmax(0,1fr)_360px] py-16">
+    {heroImage && (
+      <div class="fixed inset-0 z-0 -top-20 overflow-hidden">
+        <img
+          src={heroImage}
+          alt={post.data.title}
+          class="h-full w-full object-cover"
+          style={`opacity: ${backgroundOpacity}; filter: blur(${backgroundBlur * 24}px);`}
+        />
       </div>
     )}
-  </article>
+
+    <main class="relative z-10 space-y-12">
+      <header class="space-y-6 rounded-[2rem] border border-zinc-800/50 bg-zinc-950/70 p-8 backdrop-blur-md">
+        <p class="text-sm uppercase tracking-[0.3em] text-retro-primary">Blog</p>
+        <Title level={1} class="text-5xl md:text-6xl">
+          {post.data.title}
+        </Title>
+        <Body class="max-w-3xl text-zinc-400">
+          {post.data.description}
+        </Body>
+        <time class="block text-sm text-zinc-500" datetime={post.data.date.toISOString()}>
+          {new Date(post.data.date).toLocaleDateString()}
+        </time>
+      </header>
+
+      <div class="prose prose-invert max-w-none rounded-[2rem] border border-zinc-800/50 bg-zinc-950/70 p-8 backdrop-blur-md" id="blog-content">
+        <div set:html={post.body} />
+      </div>
+    </main>
+
+    <aside class="relative z-10 space-y-10 lg:sticky lg:top-24">
+      {cards.length > 0 && (
+        <div class="space-y-6">
+          {cards.map((card) => (
+            <Card
+              href={card.href}
+              tag={card.tag}
+              title={card.title}
+              description={card.description}
+              actionText={card.actionText}
+              variant={card.variant ?? "secondary"}
+              backgroundImage={card.backgroundImage}
+              class="h-auto"
+            />
+          ))}
+        </div>
+      )}
+    </aside>
+  </section>
+
+  <script define:vars={{ scenes }}>
+    const scenesData = scenes;
+    const blogContent = document.getElementById("blog-content");
+
+    if (blogContent && scenesData && scenesData.length > 0) {
+      const html = blogContent.innerHTML;
+      const sceneRegex = /\[scene\[(\d+)\]\]/g;
+
+      const updatedHtml = html.replace(sceneRegex, (match, index) => {
+        const sceneIndex = parseInt(index, 10);
+        if (scenesData[sceneIndex]) {
+          const scene = scenesData[sceneIndex];
+          return `<figure class="my-8 overflow-hidden rounded-2xl border border-zinc-800"><img src="${scene.image}" alt="Scene ${sceneIndex}" class="w-full h-auto" /></figure>`;
+        }
+        return match;
+      });
+
+      blogContent.innerHTML = updatedHtml;
+    }
+  </script>
+
+  <script is:inline>
+    const scenes = Array.from(document.querySelectorAll("[data-scene]"));
+
+    const updateScenes = () => {
+      const scrollPosition = window.scrollY;
+      const height = document.body.scrollHeight - window.innerHeight;
+      const progress = height > 0 ? (scrollPosition / height) * 100 : 0;
+
+      scenes.forEach((scene) => {
+        const start = Number(scene.dataset.start ?? 0);
+        const end = Number(scene.dataset.end ?? 100);
+        const active = progress >= start && progress < end;
+        scene.classList.toggle("opacity-100", active);
+        scene.classList.toggle("opacity-0", !active);
+      });
+    };
+
+    updateScenes();
+    window.addEventListener("scroll", updateScenes, { passive: true });
+  </script>
+
+  <style>
+    .scene-slide {
+      animation: slideUp 800ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    .scene-slide.opacity-0 {
+      animation: slideDown 800ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      to {
+        opacity: 0;
+        transform: translateY(-40px);
+      }
+    }
+  </style>
 </MyLayout>
 ---

@@ -49,8 +49,23 @@ import HeaderInfo from "../components/Hero/InfoHeader.astro";
       <div class="flex-1 min-h-0 w-full">
         <SplitLanding
           background="/images/background.svg"
-          backgroundL="/images/background.svg"
-          backgroundR="/images/background.svg"
+          left={{
+            href: "/portfolio",
+            tag: "My projects",
+            title: "Portfolio",
+            description: "Take a look at my Unity and Unreal Engine projects.",
+            actionText: "View projects",
+            imageSrc: "/images/background.svg",
+          }}
+          right={{
+            href: "/blog",
+            tag: "My thoughts",
+            title: "Blog",
+            description: "Just my thoughts on videogames, game development and movies.",
+            actionText: "Read articles",
+            imageSrc: "/images/background.svg",
+          }}
+          footerText="a footer goes here!."
         />
       </div>
     </div>
