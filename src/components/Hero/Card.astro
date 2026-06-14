@@ -28,22 +28,11 @@ const {
 const config = uiDictionary[variant];
 
 /* =========================
-   FIX: SAFE FONT MAPPING
-   (Tailwind-compatible, no dynamic strings)
-   ========================= */
-const fontClass =
-  config.font === "psx"
-    ? "font-psx"
-    : config.font === "title"
-    ? "font-title"
-    : "font-terminal";
-
-/* =========================
-   CARD BASE CLASS
+   CARD CLASS
    ========================= */
 const cardClasses = [
   "group relative flex items-center justify-center overflow-hidden transition-all duration-300 min-h-[450px] w-full",
-  fontClass,
+  config.fontClass,
   extraClass
 ].filter(Boolean).join(" ");
 ---
@@ -54,43 +43,62 @@ const cardClasses = [
   class={cardClasses}
 >
 
-  <!-- BACKGROUND IMAGE -->
-  {backgroundImage && (
-    <div class="absolute inset-0 overflow-hidden z-0">
-      <img
-        src={backgroundImage}
-        class="h-full w-full object-cover scale-105 transition duration-700 group-hover:scale-110"
-      />
-      <div class="absolute inset-0 bg-zinc-950/50 transition group-hover:bg-zinc-950/60" />
-    </div>
-  )}
+  {/* BACKGROUND IMAGE */}
+{backgroundImage && (
+  <div class="absolute inset-0 overflow-hidden z-0">
+    
+    {/* IMAGE */}
+    <img
+      src={backgroundImage}
+class="h-full w-full object-cover scale-105
+       [filter:grayscale(0%)_brightness(75%)_contrast(110%)]
+       transition duration-700 ease-out
+       group-hover:scale-110
+       group-hover:[filter:grayscale(0%)_brightness(100%)_contrast(100%)]"
+    />
 
-  <!-- BACKGROUND SLOT -->
+    {/* DARK OVERLAY (fades out) */}
+    <div class="absolute inset-0 bg-zinc-950/50 opacity-100 transition duration-700
+                group-hover:opacity-0" />
+
+    {/* LIGHT SWEEP EFFECT */}
+    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-700">
+      <div class="absolute -left-1/2 top-0 h-full w-1/2 rotate-12
+                  bg-gradient-to-r from-transparent via-white/10 to-transparent
+                  blur-xl animate-[sweep_1.2s_ease-out]">
+      </div>
+    </div>
+
+  </div>
+)}
+
+  {/* OPTIONAL SLOT */}
   {Astro.slots.has('background') && (
-    <div class="absolute inset-0 z-0 opacity-10 transition-all duration-700 group-hover:scale-105 group-hover:opacity-20 mix-blend-luminosity card-bg-modifier">
+    <div class="absolute inset-0 z-0 opacity-10 transition-all duration-700 group-hover:scale-105 
+    group-hover:opacity-20 card-bg-modifier">
       <slot name="background" />
     </div>
   )}
 
-  <!-- HOVER GLOW -->
+  {/* HOVER GLOW */}
   <div class="absolute inset-0 z-10 opacity-0 transition duration-500 group-hover:opacity-100 theme-glow-bg" />
 
-  <!-- CONTENT -->
+  {/* CONTENT */}
   <div class="relative z-20 max-w-lg px-10 py-16 text-center lg:text-left transition duration-500 group-hover:-translate-y-2">
 
-    <span class="text-sm uppercase tracking-[0.3em] text-zinc-400">
+    <Body variant={variant} class="mt-2">
       {tag}
-    </span>
+    </Body>
 
-    <Title level={2} class="mt-2 text-5xl md:text-6xl">
+    <Title level={2} variant={variant} class="mt-2 text-5xl md:text-6xl">
       {title}
     </Title>
 
-    <Body class="mt-4">
+    <Body variant={variant} class="mt-4">
       {description}
     </Body>
 
-    <div class="mt-8 inline-flex items-center gap-3 transition group-hover:gap-5 text-zinc-300">
+    <div class="mt-8 inline-flex items-center gap-3 transition group-hover:gap-5 text-ui-base">
       <span>{actionText}</span>
     </div>
 

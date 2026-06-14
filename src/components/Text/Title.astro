@@ -15,19 +15,15 @@ const {
 
 const config = uiDictionary[variant];
 
-const fontClass =
-  config.font === "psx"
-    ? "font-psx"
-    : config.font === "title"
-    ? "font-title"
-    : "font-terminal";
-
 const Tag = `h${level}` as any;
 ---
 
 <Tag
   class:list={[
-    fontClass,
+    config.fontClass,
+    config.text.base,
+    config.text.hover,
+    "transition-colors font-bold",
     customClass
   ]}
 >

@@ -13,86 +13,55 @@ interface Props {
 
 const { bodyHtml, scenes = [] } = Astro.props as Props;
 
-const sceneHtml = scenes.length > 0
-  ? bodyHtml.replace(/\[scene\[(\d+)\]\]/g, (match, index) => {
-      const sceneIndex = parseInt(index, 10);
-      const scene = scenes[sceneIndex];
-      if (!scene) return match;
+/**
+ * Replace [scene[x]] markers with images
+ * WITHOUT any visibility logic
+ */
+const sceneHtml =
+  scenes.length > 0
+    ? bodyHtml.replace(/\[scene\[(\d+)\]\]/g, (match, index) => {
+        const sceneIndex = parseInt(index, 10);
+        const scene = scenes[sceneIndex];
+        if (!scene) return match;
 
-      const align = (scene.align || "center").toLowerCase();
-      let figureClass = "my-8 overflow-hidden rounded-2xl border border-zinc-800";
-      let imgClass = "w-full h-auto";
+        const align = (scene.align || "center").toLowerCase();
 
-      switch (align) {
-        case "left":
-          figureClass += " float-left max-w-[45%] mr-6 mb-4";
-          break;
-        case "right":
-          figureClass += " float-right max-w-[45%] ml-6 mb-4";
-          break;
-        default:
-          figureClass += " mx-auto w-full mb-6";
-          break;
-      }
+        let figureClass =
+          "my-8 overflow-hidden rounded-2xl border border-zinc-800";
 
-      return `<figure class="${figureClass}" data-scene="true" data-start="${scene.start}" data-end="${scene.end}"><img src="${scene.image}" alt="Scene ${sceneIndex}" class="${imgClass}" /></figure>`;
-    })
-  : bodyHtml;
+        let imgClass =
+          "w-full h-auto";
+
+        switch (align) {
+          case "left":
+            figureClass += " float-left max-w-[45%] mr-6 mb-4";
+            break;
+          case "right":
+            figureClass += " float-right max-w-[45%] ml-6 mb-4";
+            break;
+          default:
+            figureClass += " mx-auto w-full mb-6";
+            break;
+        }
+
+        return `
+          <figure class="${figureClass}">
+            <img
+              src="${scene.image}"
+              alt="Scene ${sceneIndex}"
+              class="${imgClass}"
+            />
+          </figure>
+        `;
+      })
+    : bodyHtml;
 ---
 
-<div class="prose prose-invert max-w-none rounded-[2rem] border border-zinc-800/50 bg-zinc-950/70 p-8 backdrop-blur-md" id="blog-content">
+<div
+  class="prose prose-invert max-w-none rounded-[2rem]
+         border border-zinc-800/50 bg-zinc-950/70
+         p-8 backdrop-blur-md"
+  id="blog-content"
+>
   <div set:html={sceneHtml} />
 </div>
-
-<script is:inline>
-  const sceneElements = Array.from(document.querySelectorAll("[data-scene]"));
-
-  const updateSceneVisibility = () => {
-    const scrollPosition = window.scrollY;
-    const height = document.body.scrollHeight - window.innerHeight;
-    const progress = height > 0 ? (scrollPosition / height) * 100 : 0;
-
-    sceneElements.forEach((scene) => {
-      const start = Number(scene.dataset.start ?? 0);
-      const end = Number(scene.dataset.end ?? 100);
-      const active = progress >= start && progress < end;
-      scene.classList.toggle("opacity-100", active);
-      scene.classList.toggle("opacity-0", !active);
-    });
-  };
-
-  updateSceneVisibility();
-  window.addEventListener("scroll", updateSceneVisibility, { passive: true });
-</script>
-
-<style>
-  .scene-slide {
-    animation: slideUp 800ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-  }
-
-  .scene-slide.opacity-0 {
-    animation: slideDown 800ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-  }
-
-  @keyframes slideUp {
-    from {
-      opacity: 0;
-      transform: translateY(40px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes slideDown {
-    from {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    to {
-      opacity: 0;
-      transform: translateY(-40px);
-    }
-  }
-</style>

@@ -1,0 +1,47 @@
+/* UI TEXT COLORS */
+.text-ui-base {
+  color: var(--ui-base);
+}
+
+.text-ui-muted {
+  color: var(--ui-muted);
+}
+
+.text-ui-invert {
+  color: var(--ui-invert);
+}
+
+/* RETRO COLORS */
+.text-retro-primary {
+  color: var(--retro-primary);
+}
+
+.text-retro-secondary {
+  color: var(--retro-secondary);
+}
+
+.text-retro-terminal {
+  color: var(--retro-terminal);
+}
+
+/* HOVER (FIXED — NO ESCAPES) */
+.group:hover .group-hover-retro-primary {
+  color: var(--retro-primary);
+}
+
+.group:hover .group-hover-retro-secondary {
+  color: var(--retro-secondary);
+}
+
+.group:hover .group-hover-retro-terminal {
+  color: var(--retro-terminal);
+}
+
+/* RETRO OUTLINES */
+.retro-outline {
+  text-shadow:
+    -1px -1px 0 rgba(0,0,0,0.9),
+     1px -1px 0 rgba(0,0,0,0.9),
+    -1px  1px 0 rgba(0,0,0,0.9),
+     1px  1px 0 rgba(0,0,0,0.9);
+}

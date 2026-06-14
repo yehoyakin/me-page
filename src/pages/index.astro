@@ -23,14 +23,12 @@ import HeaderInfo from "../components/Hero/InfoHeader.astro";
 
   <div class="relative h-screen bg-zinc-950 overflow-hidden">
 
-    <div class="fixed inset-0 z-0 opacity-20 pointer-events-none root-page-bg">
-      <Portrait 
-        src="/images/frontPage/background.png" 
-        shape="square" 
-        crt={true} 
-        animate="float"
-      />
-    </div>
+  <div class="fixed inset-0 -z-10 pointer-events-none">
+    <img
+      src="/images/kbg.gif"
+      class="w-full h-full object-cover opacity-80"
+    />
+  </div>
 
     <div class="absolute inset-0 z-10 bg-zinc-950/85 pointer-events-none" />
 
@@ -48,14 +46,14 @@ import HeaderInfo from "../components/Hero/InfoHeader.astro";
 
       <div class="flex-1 min-h-0 w-full">
         <SplitLanding
-          background="/images/background.svg"
+          background=""
           left={{
             href: "/portfolio",
             tag: "My projects",
             title: "Portfolio",
             description: "Take a look at my Unity and Unreal Engine projects.",
             actionText: "View projects",
-            imageSrc: "/images/background.svg",
+            imageSrc: "/images/kbg2.gif",
           }}
           right={{
             href: "/blog",
@@ -63,9 +61,9 @@ import HeaderInfo from "../components/Hero/InfoHeader.astro";
             title: "Blog",
             description: "Just my thoughts on videogames, game development and movies.",
             actionText: "Read articles",
-            imageSrc: "/images/background.svg",
+            imageSrc: "/images/kbg1.gif",
           }}
-          footerText="a footer goes here!."
+          footerText="Pixel art by Kirokaze!."
         />
       </div>
     </div>

@@ -22,21 +22,30 @@ interface Props {
 const { cards = [] } = Astro.props as Props;
 ---
 
-<aside class="relative z-10 space-y-10 lg:sticky lg:top-24">
-  {cards.length > 0 ? (
-    <div class="space-y-6">
+<aside
+  class="relative z-20 w-full lg:sticky lg:top-24 lg:h-fit
+         lg:max-h-[calc(100vh-6rem)] overflow-y-auto"
+>
+  {cards.length > 0 && (
+    <div
+      class="space-y-5 rounded-2xl border border-zinc-800/60
+             bg-zinc-950/40 backdrop-blur-xl
+             p-4 shadow-[0_20px_60px_-30px_rgba(0,0,0,0.8)]"
+    >
       {cards.map((card) => (
-        <LinkCard
-          href={card.href}
-          links={card.links}
-          tag={card.tag}
-          title={card.title}
-          description={card.description}
-          actionText={card.actionText}
-          backgroundImage={card.backgroundImage}
-          class="h-auto"
-        />
+        <div class="w-full overflow-hidden rounded-xl">
+          <LinkCard
+            href={card.href}
+            links={card.links}
+            tag={card.tag}
+            title={card.title}
+            description={card.description}
+            actionText={card.actionText}
+            backgroundImage={card.backgroundImage}
+            class="h-auto"
+          />
+        </div>
       ))}
     </div>
-  ) : null}
+  )}
 </aside>

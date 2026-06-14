@@ -1,0 +1,41 @@
+#blog-content {
+  color: var(--ui-base);
+  font-size: 1.1rem;
+  line-height: 1.9;
+}
+
+#blog-content p {
+  margin: 1.5rem 0;
+}
+
+#blog-content h1,
+#blog-content h2,
+#blog-content h3,
+#blog-content h4 {
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+/* links */
+#blog-content a {
+  color: var(--retro-primary);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+#blog-content a:hover {
+  opacity: 0.8;
+}
+
+/* lists */
+#blog-content ul,
+#blog-content ol {
+  padding-left: 1.5rem;
+}
+
+/* blockquotes */
+#blog-content blockquote {
+  border-left: 4px solid var(--retro-primary);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 1rem 1.5rem;
+}

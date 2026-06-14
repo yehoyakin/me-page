@@ -38,12 +38,8 @@ cards:
 
 scenes:
   - image: "/images/blog/eastward/eastwardAnim.png"
-    start: 0
-    end: 30
-
   - image: "/images/blog/eastward/eastward2.png"
-    start: 30
-    end: 70
+  
 ---
 
 ## Once in a while you get to play a game that just "clicks" with who you are and what you've gone and your current situation.

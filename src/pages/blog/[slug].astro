@@ -28,7 +28,7 @@ if (!post) {
 
 const scenes = post.data.scenes ?? [];
 const cards = post.data.cards ?? [];
-const widgetPosition = post.data.widgetPosition ?? { top: "1.5rem", left: "1.5rem" };
+const widgetPosition = post.data.widgetPosition ?? { top: "1.5rem", right: "1.5rem" };
 const rawBackgrounds = post.data.backgrounds ?? [];
 const backgrounds = rawBackgrounds
   .map((b) => ({ percent: b.percent <= 1 ? b.percent * 100 : b.percent, image: b.image }))
@@ -43,38 +43,57 @@ const rendered = post.rendered?.html ?? "";
 
 <MyLayout title={post.data.title} animation={post.data.theme ?? "grid"}>
     
-  <BackLink href="/blog" text="← Back to blog" />
+  <div class="relative z-30">
+    <BackLink href="/blog" text="← Back to blog" />
+  </div>
 
-  <section class="relative grid gap-12 lg:grid-cols-[minmax(0,1fr)_360px] py-16">
-    {(backgrounds.length > 0 || heroImage) && (
+
+<section class="relative py-16">
+
+  {/* BACKGROUND */}
+  {(backgrounds.length > 0 || heroImage) && (
+    <div class="absolute inset-0 -z-10 pointer-events-none">
       <BlogBackgrounds
         backgrounds={backgrounds}
         heroImage={heroImage}
         backgroundBlur={backgroundBlur}
         backgroundOpacity={backgroundOpacity}
       />
-    )}
+    </div>
+  )}
+
+  {/* TOP UI */}
+  <div class="relative z-40">
+    <BackLink href="/blog" text="← Back to blog" />
+  </div>
+
+  {/* CENTERED GRID WRAPPER */}
+  <div >
 
     {cards.length > 0 && (
       <TopLeftLinkWidget
-        title="Get it here!"
+        title="Buy eastward!"
         links={(cards[0] as any).links}
-        position={widgetPosition}
       />
     )}
 
-    <main class="relative z-10 space-y-12">
+    {/* MAIN CONTENT */}
+    <main class="space-y-12">
       <BlogHeader
         title={post.data.title}
         description={post.data.description}
         date={post.data.date}
       />
 
-    <BlogContent bodyHtml={rendered} scenes={scenes} />
+      <BlogContent bodyHtml={rendered} scenes={scenes} />
     </main>
 
+    {/* SIDEBAR */}
     <BlogSidebar cards={cards.slice(1)} />
-  </section>
+
+  </div>
+
+</section>
 
   <script define:vars={{ backgrounds, backgroundOpacity, backgroundBlur, backgroundParallax }}>
     const bgOpacity = backgroundOpacity ?? 1;

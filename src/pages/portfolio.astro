@@ -2,7 +2,7 @@
 import MyLayout from "../layouts/MyLayout.astro";
 import Title from "../components/Text/Title.astro";
 import Body from "../components/Text/Body.astro";
-
+import Portrait from "../components/Hero/MyImage.astro";
 import BackLink from "../components/Hero/BackLink.astro";
 import CallCard from "../components/Hero/CallCard.astro";
 import SocialLink from "../components/Hero/Link.astro";
@@ -14,7 +14,14 @@ const ProjectSlot = ({ order }: { order: number }) => {
 };
 ---
 
-<MyLayout title="Portfolio | JoacoDev" animation="traversal">
+<MyLayout title="Portfolio | JoacoDev" animation="grid">
+
+  <div class="fixed inset-0 -z-10 pointer-events-none">
+    <img
+      src="/images/kbg2.gif"
+      class="w-full h-full object-cover opacity-40 "
+    />
+  </div>
 
   <BackLink />
 

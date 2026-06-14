@@ -1,0 +1,18 @@
+/* deprecated
+
+html[data-theme="crt"] {
+  font-family: "Silkscreen", system-ui, sans-serif;
+  letter-spacing: 0.5px;
+}
+
+
+html[data-theme="grid"] {
+  font-family: "Rajdhani", system-ui, sans-serif;
+}
+
+
+html[data-theme="crash"] {
+  font-family: "Share Tech Mono", monospace;
+}
+
+*/

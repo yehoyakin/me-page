@@ -12,25 +12,35 @@ import BackLink from "../components/Hero/BackLink.astro";
 const posts = (await getCollection("blog")) as BlogPost[];
 ---
 
-<MyLayout title="Blog">
+<MyLayout title="Blog" animation="traversal">
 
-<section class="py-24">
-  <BackLink href="/" text="← Back to home" />
+  <div class="fixed inset-0 -z-10 pointer-events-none">
+    <img
+      src="/images/kbg1.gif"
+      class="w-full h-full object-cover opacity-40"
+    />
+  </div>
+
+  <section class="py-24">
+
+    <BackLink href="/" text="← Back to home" />
 
     <Title class="mt-3 text-5xl md:text-6xl" level={1} variant="primary">
     </Title>
 
     <Body variant="secondary">
-     Thoughts on my favorite art.
+      Thoughts on my favorite art.
     </Body>
 
+    {/* BIG SPACING GAP */}
+    <div class="mt-24" />
 
-  <div class="space-y-8">
-    {posts.map((post) => (
-      <BlogCard post={post} />
-    ))}
-  </div>
+    <div class="space-y-10">
+      {posts.map((post) => (
+        <BlogCard post={post} />
+      ))}
+    </div>
 
-</section>
+  </section>
 
 </MyLayout>

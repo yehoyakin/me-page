@@ -2,6 +2,7 @@
 // src/components/Hero/InfoHeader.astro
 import Title from "../Text/Title.astro";
 import Portrait from "./MyImage.astro";
+import Body from "../Text/Body.astro";
 
 interface Props {
   name: string;
@@ -39,9 +40,10 @@ const dynamicStyle = `--header-theme-color: var(--color-retro-${theme});`;
     />
   </div>
 
-  <p class="mt-4 font-title text-sm uppercase tracking-widest theme-label-color">
+  <Body variant={theme} class="mt-4 text-sm tracking-widest uppercase">
     {description}
-  </p>
+  </Body>
+
 </div>
 
 <style>

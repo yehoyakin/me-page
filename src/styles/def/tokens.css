@@ -1,0 +1,12 @@
+:root {
+  /* retro colors */
+  --retro-primary: rgb(251 191 36);
+  --retro-secondary: rgb(147 197 253);
+  --retro-terminal: rgb(34 197 94);
+
+  /* UI neutrals */
+  --ui-base: rgb(228 228 231);
+  --ui-muted: rgb(161 161 170);
+  --ui-invert: rgb(255 255 255);
+}
+

@@ -71,28 +71,51 @@ const cardClasses = [
 <div class={cardClasses} data-theme={config.transition}>
 
   <!-- BACKGROUND -->
-  {backgroundImage && (
-    <div class="absolute inset-0 overflow-hidden z-0">
-      <img
-        src={backgroundImage}
-        class="
-          h-full w-full object-cover
-          scale-105 brightness-100
-          transition duration-700
+{backgroundImage && (
+  <div class="absolute inset-0 overflow-hidden z-0 bg-zinc-950">
 
-          group-hover:scale-110
-          group-hover:brightness-50
-        "
-      />
-
-      <div class="
+    {/* IMAGE */}
+    <img
+      src={backgroundImage}
+      class="
         absolute inset-0
-        bg-transparent
-        group-hover:bg-zinc-950/60
-        transition
-      " />
-    </div>
-  )}
+        h-full w-full
+
+        object-contain
+        object-center
+
+        scale-100
+        transition duration-700 ease-out
+
+        group-hover:scale-105
+        group-hover:brightness-50
+      "
+    />
+
+    {/* VIGNETTE */}
+    <div class="
+      absolute inset-0
+
+      bg-gradient-to-b
+      from-zinc-950/10
+      via-transparent
+      to-zinc-950/70
+
+      transition duration-500
+    " />
+
+    {/* RETRO OVERLAY */}
+    <div class="
+      absolute inset-0
+
+      bg-transparent
+      group-hover:bg-zinc-950/40
+
+      transition duration-500
+    " />
+
+  </div>
+)}
 
   <!-- BANNER (always visible) -->
   <div class="
