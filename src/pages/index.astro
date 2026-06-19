@@ -1,21 +1,18 @@
 ---
-// src/pages/index.astro
 import MyLayout from "../layouts/MyLayout.astro";
 import SplitLanding from "../components/Hero/SplitLanding.astro";
 import ContactPanel from "../components/Hero/ContactPanel.astro";
-import Portrait from "../components/Hero/MyImage.astro";
 import HeaderInfo from "../components/Hero/InfoHeader.astro"; 
+const base = import.meta.env.BASE_URL;
 ---
 
 <MyLayout title="Home">
-
-
 
   <div class="relative h-screen overflow-hidden">
 
   <div class="fixed inset-0 -z-10 pointer-events-none">
     <img
-      src="/me-page/images/kbg.gif"
+      src={`${base}images/kbg.gif`}
       class="w-full h-full object-cover opacity-100"
     />
   </div>
@@ -31,27 +28,27 @@ import HeaderInfo from "../components/Hero/InfoHeader.astro";
         name="Homepage"
         description="Joaquin Herrera / Game Developer"
         portraitSrc="/me-page/images/frontPage/me.png"
-        theme="primary"
+        theme="secondary"
       />
 
       <div class="flex-1 min-h-0 w-full">
         <SplitLanding
           background=""
           left={{
-            href: `${import.meta.env.BASE_URL}/portfolio/`,
+            href: `${base}/portfolio/`,
             tag: "My projects",
             title: "Portfolio",
             description: "Take a look at my Unity and Unreal Engine projects.",
             actionText: "View projects",
-            imageSrc: "/me-page/images/kbg2.gif",
+            imageSrc: `${base}images/kbg2.gif`,
           }}
           right={{
-            href: `${import.meta.env.BASE_URL}/blog/`,
+            href: `${base}/blog/`,
             tag: "My thoughts",
             title: "Blog",
             description: "Just my thoughts on videogames, game development and movies.",
             actionText: "Read articles",
-            imageSrc: "/me-page/images/kbg1.gif",
+            imageSrc: `${base}images/kbg1.gif`,
           }}
           footerText="Pixel art by Kirokaze!."
         />
