@@ -3,5 +3,7 @@ import tailwind from "@astrojs/tailwind";
 
 export default defineConfig({
   integrations: [tailwind()],
-  output: "static"
+  output: "static",
+  site:"https://yehoyakin.github.io",
+  base:"/cyan-centauri"
 });
