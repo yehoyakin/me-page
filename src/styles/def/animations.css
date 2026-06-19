@@ -1,0 +1,169 @@
+.link {
+  position: relative;
+}
+
+.pulse {
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  border: 1px solid rgba(251,191,36,.9);
+  opacity: 0;
+  pointer-events: none;
+  animation: borderPulse 2.8s infinite;
+}
+
+.link:hover .pulse {
+  animation-duration: .9s;
+}
+
+@keyframes borderPulse {
+  0%, 75%, 100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+
+  8% {
+    opacity: .8;
+  }
+
+  20% {
+    opacity: 0;
+    transform: scale(1.04);
+  }
+}
+
+.link::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    transparent 35%,
+    rgba(251,191,36,.9) 50%,
+    transparent 65%,
+    transparent 100%
+  );
+  background-size: 250% 100%;
+  animation: borderSweep 3s linear infinite;
+
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+
+  pointer-events: none;
+}
+
+@keyframes borderSweep {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -50% 0;
+  }
+}
+
+/* =========================
+   CRT GLOW (ICON)
+   ========================= */
+
+.group:hover svg {
+  filter: drop-shadow(0 0 6px rgba(251, 191, 36, 0.75));
+}
+
+/* =========================
+   SCANNING BORDER
+   ========================= */
+
+.link::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      transparent 40%,
+      rgba(251,191,36,.95) 50%,
+      transparent 60%,
+      transparent 100%
+    );
+
+  background-size: 250% 100%;
+  animation: borderSweep 3.2s linear infinite;
+
+  pointer-events: none;
+
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+/* Faster when hovered */
+
+.link:hover::before {
+  animation-duration: 1s;
+}
+
+/* Slight glow while hovered */
+
+.link:hover {
+  box-shadow:
+    0 0 10px rgba(251,191,36,.15),
+    0 0 20px rgba(251,191,36,.08);
+}
+
+/* =========================
+   SCANLINE
+   ========================= */
+
+.scanline {
+  position: absolute;
+  left: -120%;
+  top: 0;
+  width: 120%;
+  height: 100%;
+
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(251,191,36,.18),
+    transparent
+  );
+
+  transform: skewX(-20deg);
+  opacity: 0;
+}
+
+.group:hover .scanline {
+  animation: scanSweep .7s ease-out;
+  opacity: 1;
+}
+
+@keyframes scanSweep {
+  from {
+    left: -120%;
+  }
+  to {
+    left: 120%;
+  }
+}
+
+@keyframes borderSweep {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -50% 0;
+  }
+}

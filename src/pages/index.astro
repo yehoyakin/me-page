@@ -9,17 +9,7 @@ import HeaderInfo from "../components/Hero/InfoHeader.astro";
 
 <MyLayout title="Home">
 
-	<script is:inline>
-  document.addEventListener("astro:page-load", () => {
-    if (document.startViewTransition) {
-      document.startViewTransition(() => {
-        document.documentElement.dataset.theme = "crt";
-      });
-    } else {
-      document.documentElement.dataset.theme = "crt";
-    }
-  });
-</script>
+
 
   <div class="relative h-screen bg-zinc-950 overflow-hidden">
 

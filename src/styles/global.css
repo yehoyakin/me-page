@@ -18,6 +18,7 @@
 @import "def/fonts.css";
 @import "def/transitions.css";
 @import "def/rules.css";
+@import "def/animations.css";
 
 @tailwind base;
 @tailwind components;

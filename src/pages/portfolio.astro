@@ -2,16 +2,23 @@
 import MyLayout from "../layouts/MyLayout.astro";
 import Title from "../components/Text/Title.astro";
 import Body from "../components/Text/Body.astro";
-import Portrait from "../components/Hero/MyImage.astro";
 import BackLink from "../components/Hero/BackLink.astro";
 import CallCard from "../components/Hero/CallCard.astro";
 import SocialLink from "../components/Hero/Link.astro";
+import { getCollection } from "astro:content";
 
-const ProjectSlot = ({ order }: { order: number }) => {
-  return {
-    order,
-  };
-};
+const rawProjects = await getCollection("projects");
+
+const projects = await Promise.all(
+  rawProjects.map(async (project) => {
+    return {
+      ...project,
+      rendered: project.rendered?.html ?? "",
+    };
+  })
+);
+
+
 ---
 
 <MyLayout title="Portfolio | JoacoDev" animation="grid">
@@ -19,17 +26,13 @@ const ProjectSlot = ({ order }: { order: number }) => {
   <div class="fixed inset-0 -z-10 pointer-events-none">
     <img
       src="/images/kbg2.gif"
-      class="w-full h-full object-cover opacity-40 "
+      class="w-full h-full object-cover opacity-40"
     />
   </div>
 
   <BackLink />
 
-  <!-- =========================
-       PAGE HEADER
-       ========================= -->
   <section class="space-y-4 mb-16">
-
     <Title class="mt-3 text-5xl md:text-6xl" level={1} variant="primary">
       Portfolio
     </Title>
@@ -37,119 +40,33 @@ const ProjectSlot = ({ order }: { order: number }) => {
     <Body variant="secondary">
       Hover to inspect projects and reveal additional details.
     </Body>
-
   </section>
 
-  <!-- =========================
-       PROJECT GRID (ORDERED)
-       ========================= -->
-<div class="grid md:grid-cols-2 gap-8 items-start overflow-visible">
+  <div class="grid md:grid-cols-2 gap-8 items-start overflow-visible">
 
-    <!-- =========================
-         CARD 1
-    ========================= -->
-    <div class="md:order-3">
-      <CallCard
-        tag="UNREAL ENGINE - AI SYSTEM"
-        title="Thesis Project"
-        shortDescription="A strategy RPG exploring emergent enemy decision making."
-        fullDescription="Enemy units rely on search-based planning algorithms rather than handcrafted scripts. The system adapts dynamically to battlefield conditions while keeping behavior readable for players."
-        roles={["lead_programmer", "game_design", "systems", "ui", "tools"]}
-        variant="primary"
-        backgroundImage="/images/projects/playfield.png"
-      >
-
-        <Fragment slot="links">
+ {projects.map((project) => (
+  <div class={`md:order-${project.data.order}`}>
+    <CallCard
+      tag={project.data.tag}
+      title={project.data.title}
+      shortDescription={project.data.shortDescription}
+      fullDescription={project.rendered}
+      roles={project.data.roles}
+      variant={project.data.variant}
+      backgroundImage={project.data.backgroundImage}
+    >
+      <Fragment slot="links">
+        {project.data.links.map((link) => (
           <SocialLink
-            href="https://gitlab.com/joaquinignacio.herrerabriones/srpg-prototype/-/tree/main/UE_Project?ref_type=heads"
-            text="GitLab Repo"
+            href={link.href}
+            text={link.text}
             external
-            icon={`<svg xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        class="w-4 h-4">
-                <path d="M22.65 13.39l-2.24-6.9a.93.93 0 00-1.77 0l-1.5 4.62H6.86L5.36 6.49a.93.93 0 00-1.77 0l-2.24 6.9a1.35 1.35 0 00.49 1.51L12 22.28l10.16-7.38a1.35 1.35 0 00.49-1.51z"/>
-                </svg>`}
           />
-        </Fragment>
-
-      </CallCard>
-    </div>
-
-    <!-- =========================
-         CARD 2
-    ========================= -->
-    <div class="md:order-1">
-      <CallCard
-        tag="UNITY ENGINE - PLUGIN TOOL"
-        title="Level Building Sidekick"
-        shortDescription="Procedural assistance for rapid level creation."
-        fullDescription="A Unity Editor plugin for designing top-down and strategy levels. Uses procedural algorithms and templates to generate varied layouts directly inside the editor."
-        roles={["developer", "systems", "ui", "tools"]}
-        variant="primary"
-        backgroundImage="/images/projects/lbs.background.png"
-      >
-
-        <Fragment slot="links">
-          <SocialLink
-            href="https://assetstore.unity.com/packages/tools/level-design/level-building-sidekick-308621"
-            text="Unity Asset Store"
-            external
-            icon={`<img src="/images/projects/unityIcon.png" class="w-4 h-4 object-contain" />`}
-          />
-        </Fragment>
-
-      </CallCard>
-    </div>
-
-    <!-- =========================
-         CARD 3 (FILL THIS)
-    ========================= -->
-    <div class="md:order-2">
-      <CallCard
-        tag="UNREAL ENGINE - GAME"
-        title="Borrowed Wings"
-        shortDescription="3D platformer about exploring islands and making deliviries."
-        fullDescription="Play as Tommy a kid with a big debt that must be payed. Use your trusty plane
-        to travel the archipelago and make deliviries to those in need or to explore forgotten caves and ruins in search for treasure.
-        
-        Inspired by Mario 64 and Porco Rosso. Duration 2 hours.
-        "
-        roles={["developer", "systems", "ui", "game_design"]}
-        variant="secondary"
-        backgroundImage="/images/projects/bw.png"
-        >
-
-        <Fragment slot="links">
-        <SocialLink
-            href="https://yehoyakin-98.itch.io/borrowed-wings"
-            text="Borrowed Wings on Itch.io"
-            external
-            icon={`<svg xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        class="w-4 h-4">
-            <path d="M2 7.8c0-.8.6-1.5 1.4-1.6l2.2-.3L7 3.6c.3-.4.8-.6 1.3-.6h7.4c.5 0 1 .2 1.3.6l1.4 2.3 2.2.3c.8.1 1.4.8 1.4 1.6v5.4c0 .8-.6 1.5-1.4 1.6l-2.2.3-1.4 2.3c-.3.4-.8.6-1.3.6H8.3c-.5 0-1-.2-1.3-.6l-1.4-2.3-2.2-.3A1.6 1.6 0 0 1 2 13.2V7.8zm5.5 1.2c-.8 0-1.5.7-1.5 1.5S6.7 12 7.5 12 9 11.3 9 10.5 8.3 9 7.5 9zm9 0c-.8 0-1.5.7-1.5 1.5S15.7 12 16.5 12s1.5-.7 1.5-1.5S17.3 9 16.5 9z"/>
-            </svg>`}
-        />
-        </Fragment>
-
-     </CallCard>
-    </div>
-
-    {false && (
-    <div class="md:order-4">
-        <CallCard
-        tag="YOUR PROJECT TYPE"
-        title="Right Project 2"
-        shortDescription="Description for your second right-side project."
-        fullDescription="More detailed explanation goes here."
-        roles={["developer"]}
-        variant="secondary"
-        backgroundImage="/images/projects/example2.png"
-        />
-    </div>
-    )}
+        ))}
+      </Fragment>
+    </CallCard>
+  </div>
+))}
 
   </div>
 

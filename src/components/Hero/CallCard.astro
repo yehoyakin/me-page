@@ -168,9 +168,7 @@ const cardClasses = [
       group-hover:translate-y-0
     ">
 
-      <Body class="text-zinc-100 text-base retro-outline">
-        {fullDescription}
-      </Body>
+    <div class="space-y-4" set:html={fullDescription} />
 
       {roles.length > 0 && (
         <div class="mt-6 flex flex-wrap gap-2">

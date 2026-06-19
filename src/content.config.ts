@@ -1,7 +1,9 @@
 import { defineCollection, z } from "astro:content";
 import { glob } from "astro/loaders";
 
-const blog = defineCollection({
+const blog = defineCollection(
+    
+    {
   loader: glob({
     pattern: "**/*.{md,mdx}",
     base: "./src/content/blog",
@@ -21,15 +23,14 @@ const blog = defineCollection({
     backgroundParallax: z.number().optional().default(0.2),
 
     scenes: z
-      .array(
+    .array(
         z.object({
-          image: z.string(),
-          start: z.number(),
-          end: z.number(),
-          align: z.enum(["left", "right", "center"]).optional(),
+        image: z.string(),
+        align: z.enum(["left", "right", "center"]).optional(),
         })
-      )
-      .optional(),
+    )
+    .optional(),
+
     backgrounds: z
       .array(
         z.object({
@@ -76,4 +77,48 @@ const blog = defineCollection({
   }),
 });
 
-export const collections = { blog }; 
+const projects = defineCollection({
+
+  loader: glob({
+    pattern: "**/*.{md,mdx}",
+    base: "./src/content/projects",
+  }),
+
+  schema: z.object({
+    title: z.string(),
+    tag: z.string(),
+
+    shortDescription: z.string(),
+
+    roles: z.array(
+      z.enum([
+        "lead_programmer",
+        "ui",
+        "game_design",
+        "art",
+        "audio",
+        "tech_art",
+        "systems",
+        "tools",
+        "developer",
+      ])
+    ),
+
+    variant: z.enum(["primary", "secondary"]),
+
+    backgroundImage: z.string(),
+
+    order: z.number(),
+
+    links: z.array(
+      z.object({
+        text: z.string(),
+        href: z.string(),
+      })
+    ),
+  }),
+});
+
+export const collections = {
+  projects,blog
+};

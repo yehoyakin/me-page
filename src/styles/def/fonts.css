@@ -1,3 +1,19 @@
+.font-title {
+  font-family: "Sora", system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.font-psx {
+  font-family: "Manrope", system-ui, sans-serif;
+  letter-spacing: 0.01em;
+}
+
+.font-terminal {
+  font-family: "JetBrains Mono", monospace;
+}
+
+/* MODERN
 .font-psx {
   font-family: "Space Grotesk", system-ui, sans-serif;
   letter-spacing: 0.02em;
@@ -13,7 +29,8 @@
   font-family: "JetBrains Mono", monospace;
 }
 
-/* OG
+
+ OG
 .font-psx {
   font-family: "Silkscreen", system-ui, sans-serif;
 }

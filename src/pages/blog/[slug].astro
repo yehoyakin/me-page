@@ -41,6 +41,18 @@ const backgroundParallax = post.data.backgroundParallax ?? 0.2;
 const rendered = post.rendered?.html ?? "";
 ---
 
+	<script is:inline>
+  document.addEventListener("astro:page-load", () => {
+    if (document.startViewTransition) {
+      document.startViewTransition(() => {
+        document.documentElement.dataset.theme = "grid";
+      });
+    } else {
+      document.documentElement.dataset.theme = "grid";
+    }
+  });
+</script>
+
 <MyLayout title={post.data.title} animation={post.data.theme ?? "grid"}>
     
   <div class="relative z-30">
