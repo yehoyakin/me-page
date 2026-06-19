@@ -5,5 +5,5 @@ export default defineConfig({
   integrations: [tailwind()],
   output: "static",
   site:"https://yehoyakin.github.io",
-  base:"/cyan-centauri"
+  base:"/me-page"
 });
