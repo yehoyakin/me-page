@@ -12,7 +12,6 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/tailwind": "^6.0.2",
     "@tailwindcss/vite": "^4.3.0",
     "astro": "^6.4.6"
   },
