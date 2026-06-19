@@ -14,7 +14,7 @@ roles:
 
 variant: primary
 
-backgroundImage: "/images/projects/lbs.background.png"
+backgroundImage: "/me-page/images/projects/lbs.background.png"
 
 order: 1
 

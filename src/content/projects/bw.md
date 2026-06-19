@@ -14,7 +14,7 @@ roles:
 
 variant: secondary
 
-backgroundImage: "/images/projects/bw.png"
+backgroundImage: "/me-page/images/projects/bw.png"
 
 order: 2
 
