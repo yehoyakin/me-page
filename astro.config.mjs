@@ -5,6 +5,7 @@ export default defineConfig({
   output: "static",
   site: "https://yehoyakin.github.io",
   base: "/me-page/",
+  trailingSlash: "always", // <-- Forces consistent routing behavior
   vite: {
     plugins: [tailwindcss()],
   },

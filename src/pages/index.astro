@@ -38,7 +38,7 @@ import HeaderInfo from "../components/Hero/InfoHeader.astro";
         <SplitLanding
           background=""
           left={{
-            href: "/portfolio",
+            href: "${import.meta.env.BASE_URL}/portfolio",
             tag: "My projects",
             title: "Portfolio",
             description: "Take a look at my Unity and Unreal Engine projects.",
@@ -46,7 +46,7 @@ import HeaderInfo from "../components/Hero/InfoHeader.astro";
             imageSrc: "/me-page/images/kbg2.gif",
           }}
           right={{
-            href: "/blog",
+            href: "${import.meta.env.BASE_URL}/blog",
             tag: "My thoughts",
             title: "Blog",
             description: "Just my thoughts on videogames, game development and movies.",
