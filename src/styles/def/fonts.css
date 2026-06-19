@@ -1,44 +1,46 @@
-.font-title {
-  font-family: "Sora", system-ui, sans-serif;
-  font-weight: 600;
-  letter-spacing: 0.01em;
+:root {
+  --font-ui: "Silkscreen", monospace;
+  --font-body: "Pixelify Sans", monospace;
+  --font-title: "Press Start 2P", monospace;
+  --font-alt-title: "VT323", monospace;
+  --font-terminal: "VT323", monospace;
 }
 
-.font-psx {
-  font-family: "Manrope", system-ui, sans-serif;
-  letter-spacing: 0.01em;
-}
 
-.font-terminal {
-  font-family: "JetBrains Mono", monospace;
-}
-
-/* MODERN
-.font-psx {
-  font-family: "Space Grotesk", system-ui, sans-serif;
-  letter-spacing: 0.02em;
+.font-ui {
+  font-family: var(--font-ui) !important;
 }
 
 .font-title {
-  font-family: "Inter", system-ui, sans-serif;
-  font-weight: 600;
-  letter-spacing: 0.01em;
+  font-family: var(--font-title) !important;
+}
+
+.font-alt-title {
+  font-family: var(--font-alt-title) !important;
 }
 
 .font-terminal {
-  font-family: "JetBrains Mono", monospace;
+  font-family: var(--font-terminal) !important;
 }
 
-
- OG
-.font-psx {
-  font-family: "Silkscreen", system-ui, sans-serif;
+html {
+  font-family: var(--font-body) !important;
 }
 
-.font-title {
-  font-family: "Rajdhani", system-ui, sans-serif;
+body {
+  font-family: inherit;
 }
 
-.font-terminal {
-  font-family: "Share Tech Mono", monospace;
-}*/
+p, span, a, button, input, textarea {
+  font-family: inherit;
+}
+
+body {
+  letter-spacing: 0.5px;
+  line-height: 1.4;
+}
+
+h1, h2, h3 {
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}

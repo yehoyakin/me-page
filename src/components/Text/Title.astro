@@ -19,13 +19,13 @@ const Tag = `h${level}` as any;
 ---
 
 <Tag
-  class:list={[
-    config.fontClass,
-    config.text.base,
-    config.text.hover,
-    "transition-colors font-bold",
-    customClass
-  ]}
+class:list={[
+  config.font.title,
+  config.text.base,
+  config.text.hover,
+  "transition-colors font-bold",
+  customClass
+]}
 >
   <slot />
 </Tag>
