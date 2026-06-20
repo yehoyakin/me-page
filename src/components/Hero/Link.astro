@@ -12,50 +12,86 @@ const { href, text = "", icon, external } = Astro.props;
 <a
   href={href}
   target={external ? "_blank" : undefined}
-  class="link group relative overflow-hidden flex items-center gap-2 rounded-lg border border-amber-400/40 px-3 py-2 text-sm text-zinc-200 transition-all duration-300 hover:bg-white/5 hover:border-amber-300 hover:shadow-[0_0_18px_rgba(251,191,36,.25)]"
+  class="link group relative overflow-hidden flex items-center justify-center gap-2 
+         /* 💡 Sharp 90-degree aliased corners */
+         rounded-none 
+         px-4 py-3 text-sm font-mono uppercase tracking-wider
+         /* 💡 Low-res frame rate transition */
+         transition-all duration-150 ease-[steps(4)]
+         
+         /* =========================================================
+            🎨 ROOT COLOR MAPS
+            To swap to an alternate theme, replace var(--retro-primary)
+            below with var(--retro-terminal) or var(--retro-secondary)!
+            ========================================================= */
+         bg-zinc-950/60 text-[color:var(--ui-base)]
+         border-2 border-[color:var(--retro-primary)]/50
+         
+         hover:text-[color:var(--ui-invert)]
+         hover:bg-[color:var(--retro-primary)]/10 
+         hover:border-[color:var(--retro-primary)]
+         
+         /* 💡 Solid 2D pixelated structural offset shadow */
+         hover:shadow-[4px_4px_0px_0px_var(--retro-primary)]"
 >
-  {icon && <span set:html={icon} />}
-  <span>{text}</span>
+  {icon && (
+    <span 
+      class="flex items-center justify-center scale-100 transition-transform duration-75 ease-[steps(2)] group-hover:scale-110" 
+      set:html={icon} 
+    />
+  )}
+  <span class="relative z-10">{text}</span>
 
   <span class="scanline"></span>
 </a>
 
 <style>
 /* =========================
-   CRT GLOW (ICON)
+   CRT / PIXEL GLOW (ICON)
    ========================= */
 
-.group:hover svg {
-  filter: drop-shadow(0 0 6px rgba(251, 191, 36, 0.75));
+.group:hover :global(svg) {
+  /* 💡 Sharp offset SVG drop-shadow utilizing your retro global variable */
+  filter: drop-shadow(2px 2px 0px var(--retro-primary));
 }
 
 /* =========================
-   SCANLINE EFFECT
+   SCANLINE REFRESH ENGINE
    ========================= */
 
 .scanline {
   position: absolute;
-  left: -120%;
-  top: 0;
-  width: 120%;
+  left: 0;
+  top: -100%;
+  width: 100%;
   height: 100%;
+  
+  /* 💡 Horizontal flat electronic gun scan line mapped to color variables */
   background: linear-gradient(
     to bottom,
-    transparent,
-    rgba(251, 191, 36, 0.25),
-    transparent
+    rgba(0, 0, 0, 0) 0%,
+    var(--retro-primary) 50%,
+    rgba(0, 0, 0, 0) 100%
   );
-  transform: skewX(-20deg);
+  
+  /* Subtle fallback if opacity mixing needs extra boost */
+  mix-blend-mode: screen; 
   opacity: 0;
+  pointer-events: none;
 }
 
 .group:hover .scanline {
-  animation: scanSweep 700ms ease-out;
-  opacity: 1;
+  /* 💡 Rigid steps block forces the line to stagger downward like hardware scan refreshes */
+  animation: scanSweep 350ms steps(8) forwards;
+  opacity: 0.45;
 }
 
 @keyframes scanSweep {
-  0% { left: -120%; }
-  100% { left: 120%; }
+  0% { 
+    top: -100%; 
+  }
+  100% { 
+    top: 100%; 
+  }
 }
 </style>

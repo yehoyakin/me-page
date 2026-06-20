@@ -7,14 +7,12 @@ import BlogContent from "../../components/Blog/BlogContent.astro";
 import BlogSidebar from "../../components/Blog/BlogSidebar.astro";
 import TopLeftLinkWidget from "../../components/Hero/TopLeftLinkWidget.astro";
 import { getCollection } from "astro:content";
+import { asset } from "../../utils/asset";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
-
   return posts.map((post) => ({
-    params: {
-      slug: post.id,
-    },
+    params: { slug: post.id },
   }));
 }
 
@@ -26,92 +24,106 @@ if (!post) {
   throw new Response("Post not found", { status: 404 });
 }
 
-const scenes = post.data.scenes ?? [];
 const cards = post.data.cards ?? [];
-const widgetPosition = post.data.widgetPosition ?? { top: "1.5rem", right: "1.5rem" };
+
+/* ✅ Normalize scenes THROUGH asset */
+const scenes = Array.isArray(post.data.scenes)
+  ? post.data.scenes.map((s) => ({
+      image: asset(s.image),
+      align: s.align ?? "center",
+    }))
+  : [];
+
+/* backgrounds ALSO asset-normalized */
 const rawBackgrounds = post.data.backgrounds ?? [];
-const backgrounds = rawBackgrounds
-  .map((b) => ({ percent: b.percent <= 1 ? b.percent * 100 : b.percent, image: b.image }))
-  .sort((a, b) => a.percent - b.percent);
-const heroImage = post.data.background ?? "";
+const backgrounds = Array.isArray(rawBackgrounds)
+  ? rawBackgrounds
+      .map((b) => ({
+        percent: b.percent <= 1 ? b.percent * 100 : b.percent,
+        image: asset(b.image),
+      }))
+      .sort((a, b) => a.percent - b.percent)
+  : [];
+
+/* hero image also asset */
+const heroImage = post.data.background ? asset(post.data.background) : "";
+
 const backgroundBlur = post.data.backgroundBlur ?? 0;
 const backgroundOpacity = post.data.backgroundOpacity ?? 1;
 const backgroundParallax = post.data.backgroundParallax ?? 0.2;
 
 const rendered = post.rendered?.html ?? "";
+
+// 💡 DYNAMICALLY SANITIZE THE BASE URL (Matches home & card configurations)
+const baseUrl = import.meta.env.BASE_URL.endsWith("/")
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
 ---
 
 <MyLayout title={post.data.title} animation={post.data.theme ?? "grid"}>
-    
+  
   <div class="relative z-30">
-    <BackLink href={`${import.meta.env.BASE_URL}/blog`} text="← Back to blog" />
+    <BackLink href={`${baseUrl}blog/`} text="← Back to blog" />
   </div>
 
+  <section class="relative py-16 px-4 max-w-7xl mx-auto">
+    
+    {/* 1. MOUNT VISUAL BACKGROUNDS COMPONENT */}
+    <BlogBackgrounds
+      backgrounds={backgrounds}
+      heroImage={heroImage}
+      backgroundBlur={backgroundBlur}
+      backgroundOpacity={backgroundOpacity}
+    />
 
-<section class="relative py-16">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-12">
+      {/* 2. MAIN BLOG POST CONTENT CONTAINER */}
+      <div class="lg:col-span-2 space-y-8">
+        <BlogHeader
+          title={post.data.title}
+          description={post.data.description}
+          date={post.data.date}
+        />
+        <BlogContent bodyHtml={rendered} scenes={scenes} />
+      </div>
 
-  {/* BACKGROUND */}
-  {(backgrounds.length > 0 || heroImage) && (
-    <div class="absolute inset-0 -z-10 pointer-events-none">
-      <BlogBackgrounds
-        backgrounds={backgrounds}
-        heroImage={heroImage}
-        backgroundBlur={backgroundBlur}
-        backgroundOpacity={backgroundOpacity}
-      />
+      {/* 3. SIDEBAR */}
+      <div class="lg:col-span-1">
+        <BlogSidebar cards={cards} />
+      </div>
     </div>
-  )}
+  </section>
 
-
-  {/* CENTERED GRID WRAPPER */}
-  <div >
-
-    {cards.length > 0 && (
-      <TopLeftLinkWidget
-        title="Buy eastward!"
-        links={(cards[0] as any).links}
-      />
-    )}
-
-    {/* MAIN CONTENT */}
-    <main class="space-y-12">
-      <BlogHeader
-        title={post.data.title}
-        description={post.data.description}
-        date={post.data.date}
-      />
-
-      <BlogContent bodyHtml={rendered} scenes={scenes} />
-    </main>
-
-    {/* SIDEBAR */}
-    <BlogSidebar cards={cards.slice(1)} />
-
-  </div>
-
-</section>
-
-  <script define:vars={{ backgrounds, backgroundOpacity, backgroundBlur, backgroundParallax }}>
+  {/* 4. BACKGROUND SCROLL ENGINE */}
+  <script define:vars={{
+    backgrounds,
+    backgroundOpacity,
+    backgroundBlur,
+    backgroundParallax
+  }}>
     const bgOpacity = backgroundOpacity ?? 1;
     const bgBlur = backgroundBlur ?? 0;
     const parallaxFactor = Number(backgroundParallax ?? 0.2);
+
     window.__backgrounds = backgrounds;
 
     const updateBackgrounds = () => {
       const scrollPosition = window.scrollY;
       const height = document.body.scrollHeight - window.innerHeight;
       const progress = height > 0 ? (scrollPosition / height) * 100 : 0;
-      const bgs = window.__backgrounds || [];
 
+      const bgs = window.__backgrounds || [];
       if (!bgs.length) return;
 
       const selectedIndex = bgs.findIndex((b) => progress <= b.percent);
       const activeIndex = selectedIndex !== -1 ? selectedIndex : bgs.length - 1;
+
       const offset = -window.scrollY * parallaxFactor;
 
       bgs.forEach((_, index) => {
         const bgEl = document.getElementById(`dynamic-bg-${index}`);
         if (!bgEl) return;
+
         bgEl.style.backgroundImage = `url('${bgs[index].image}')`;
         bgEl.style.filter = `blur(${bgBlur * 24}px)`;
         bgEl.style.transform = `translate3d(0, ${offset}px, 0)`;
@@ -123,5 +135,5 @@ const rendered = post.rendered?.html ?? "";
     updateBackgrounds();
     window.addEventListener("scroll", updateBackgrounds, { passive: true });
   </script>
+
 </MyLayout>
----

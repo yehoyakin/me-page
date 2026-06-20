@@ -1,14 +1,12 @@
 ---
 // src/components/BackLink.astro
+
 interface Props {
   href?: string;
   text?: string;
 }
 
-const { href: propsHref, text = "← Back to home" } = Astro.props;
-
-// 💡 This forces Astro to fall back if propsHref is missing OR empty ("")
-const href = propsHref || `${import.meta.env.BASE_URL}/`;
+const { href = "/", text = "← Back to home" } = Astro.props;
 ---
 
 <a

@@ -15,7 +15,7 @@ roles:
 
 variant: primary
 
-backgroundImage: "/me-page/images/projects/playfield.png"
+backgroundImage: "images/projects/playfield.png"
 
 order: 3
 

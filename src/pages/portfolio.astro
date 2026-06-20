@@ -6,6 +6,7 @@ import BackLink from "../components/Hero/BackLink.astro";
 import CallCard from "../components/Hero/CallCard.astro";
 import SocialLink from "../components/Hero/Link.astro";
 import { getCollection } from "astro:content";
+import { asset } from "../utils/asset";
 
 const rawProjects = await getCollection("projects");
 
@@ -17,20 +18,18 @@ const projects = await Promise.all(
     };
   })
 );
-
-
 ---
 
 <MyLayout title="Portfolio | JoacoDev" animation="grid">
 
   <div class="fixed inset-0 -z-10 pointer-events-none">
     <img
-      src="/me-page/images/kbg2.gif"
+      src={asset("images/kbg2.gif")}
       class="w-full h-full object-cover opacity-100"
     />
   </div>
 
-  <BackLink/>
+  <BackLink />
 
   <section class="space-y-4 mb-16">
     <Title class="mt-3 text-5xl md:text-6xl" level={1} variant="primary">
@@ -44,29 +43,29 @@ const projects = await Promise.all(
 
   <div class="grid md:grid-cols-2 gap-8 items-start overflow-visible">
 
- {projects.map((project) => (
-  <div class={`md:order-${project.data.order}`}>
-    <CallCard
-      tag={project.data.tag}
-      title={project.data.title}
-      shortDescription={project.data.shortDescription}
-      fullDescription={project.rendered}
-      roles={project.data.roles}
-      variant={project.data.variant}
-      backgroundImage={project.data.backgroundImage}
-    >
-      <Fragment slot="links">
-        {project.data.links.map((link) => (
-          <SocialLink
-            href={link.href}
-            text={link.text}
-            external
-          />
-        ))}
-      </Fragment>
-    </CallCard>
-  </div>
-))}
+    {projects.map((project) => (
+      <div class={`md:order-${project.data.order}`}>
+        <CallCard
+          tag={project.data.tag}
+          title={project.data.title}
+          shortDescription={project.data.shortDescription}
+          fullDescription={project.rendered}
+          roles={project.data.roles}
+          variant={project.data.variant}
+          backgroundImage={asset(project.data.backgroundImage)}
+        >
+          <Fragment slot="links">
+            {project.data.links.map((link) => (
+              <SocialLink
+                href={link.href}
+                text={link.text}
+                external
+              />
+            ))}
+          </Fragment>
+        </CallCard>
+      </div>
+    ))}
 
   </div>
 

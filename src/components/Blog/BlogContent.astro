@@ -1,4 +1,6 @@
 ---
+import { asset } from "../../utils/asset";
+
 interface SceneItem {
   image: string;
   align?: "left" | "right" | "center";
@@ -13,30 +15,32 @@ const { bodyHtml, scenes = [] } = Astro.props as Props;
 
 /**
  * Replace [scene[x]] markers with images
- * WITHOUT any visibility logic
+ * SAFE for BOTH raw paths and asset() resolved paths
  */
 const sceneHtml =
-  scenes.length > 0
+  Array.isArray(scenes) && scenes.length > 0
     ? bodyHtml.replace(/\[scene\[(\d+)\]\]/g, (match, index) => {
         const sceneIndex = parseInt(index, 10);
         const scene = scenes[sceneIndex];
-        if (!scene) return match;
+
+        if (!scene?.image) return match;
 
         const align = (scene.align || "center").toLowerCase();
 
         let figureClass =
           "my-8 overflow-hidden rounded-2xl border border-zinc-800";
 
-        let imgClass =
-          "w-full h-auto";
+        let imgClass = "w-full h-auto";
 
         switch (align) {
           case "left":
             figureClass += " float-left max-w-[45%] mr-6 mb-4";
             break;
+
           case "right":
             figureClass += " float-right max-w-[45%] ml-6 mb-4";
             break;
+
           default:
             figureClass += " mx-auto w-full mb-6";
             break;
@@ -45,7 +49,7 @@ const sceneHtml =
         return `
           <figure class="${figureClass}">
             <img
-              src="${scene.image}"
+              src="${asset(scene.image)}"
               alt="Scene ${sceneIndex}"
               class="${imgClass}"
             />

@@ -17,31 +17,48 @@ const {
   backgroundBlur = 0,
   backgroundOpacity = 1,
 } = Astro.props as Props;
+
+/* ✅ SATELLITE PATH RESOLVER - Bypasses redundant nesting */
+const resolve = (path: string) => {
+  if (!path) return "";
+  // If your asset() engine already processed it, don't re-append base URL
+  if (path.startsWith("http") || path.startsWith("/me-page")) return path;
+  
+  const base = import.meta.env.BASE_URL.endsWith("/") 
+    ? import.meta.env.BASE_URL 
+    : `${import.meta.env.BASE_URL}/`;
+    
+  return `${base}${path.replace(/^\//, "")}`;
+};
 ---
 
 <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
 
   {backgrounds.length > 0 ? (
-    backgrounds.map((bg, index) => (
-      <div
-        id={`dynamic-bg-${index}`}
-        data-active={index === 0 ? "1" : "0"}
-        class="absolute -inset-[15vh] bg-center bg-cover transition-opacity duration-700 will-change-transform"
-        style={`
-          background-image: url('${bg.image}');
-          opacity: ${index === 0 ? backgroundOpacity : 0};
-          filter: blur(${backgroundBlur * 24}px);
-          transform: translate3d(0,0,0);
-        `}
-      />
-    ))
+    backgrounds.map((bg, index) => {
+      const src = resolve(bg.image);
+
+      return (
+        <div
+          id={`dynamic-bg-${index}`}
+          data-active={index === 0 ? "1" : "0"}
+          class="absolute -inset-[15vh] bg-center bg-cover transition-opacity duration-700 will-change-transform"
+          style={`
+            background-image: url('${src}');
+            opacity: ${index === 0 ? backgroundOpacity : 0};
+            filter: blur(${backgroundBlur * 24}px);
+            transform: translate3d(0,0,0);
+          `}
+        />
+      );
+    })
   ) : (
     <div
       id="dynamic-bg-0"
       data-active="1"
       class="absolute -inset-[15vh] bg-center bg-cover transition-opacity duration-700 will-change-transform"
       style={`
-        background-image: url('${heroImage}');
+        background-image: url('${resolve(heroImage)}');
         opacity: ${backgroundOpacity};
         filter: blur(${backgroundBlur * 24}px);
         transform: translate3d(0,0,0);
