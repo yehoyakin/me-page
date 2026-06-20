@@ -34,12 +34,15 @@ const { href, text = "", icon, external } = Astro.props;
          /* 💡 Solid 2D pixelated structural offset shadow */
          hover:shadow-[4px_4px_0px_0px_var(--retro-primary)]"
 >
-  {icon && (
-    <span 
-      class="flex items-center justify-center scale-100 transition-transform duration-75 ease-[steps(2)] group-hover:scale-110" 
-      set:html={icon} 
-    />
+  
+  /* No icon for now have to upload them to a dictionary later on*/
+  {false && icon && (
+    <span class="flex items-center justify-center">
+      <img src={icon} class="w-4 h-4 object-cover" alt="" />
+    </span>
   )}
+
+
   <span class="relative z-10">{text}</span>
 
   <span class="scanline"></span>
