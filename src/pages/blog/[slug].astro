@@ -26,7 +26,7 @@ if (!post) {
 
 const cards = post.data.cards ?? [];
 
-/* ✅ Normalize scenes THROUGH asset */
+/* ✅ Normalize content scenes through asset */
 const scenes = Array.isArray(post.data.scenes)
   ? post.data.scenes.map((s) => ({
       image: asset(s.image),
@@ -34,7 +34,7 @@ const scenes = Array.isArray(post.data.scenes)
     }))
   : [];
 
-/* backgrounds ALSO asset-normalized */
+/* ✅ Normalize layers through asset */
 const rawBackgrounds = post.data.backgrounds ?? [];
 const backgrounds = Array.isArray(rawBackgrounds)
   ? rawBackgrounds
@@ -45,7 +45,7 @@ const backgrounds = Array.isArray(rawBackgrounds)
       .sort((a, b) => a.percent - b.percent)
   : [];
 
-/* hero image also asset */
+/* ✅ Normalize single cover through asset */
 const heroImage = post.data.background ? asset(post.data.background) : "";
 
 const backgroundBlur = post.data.backgroundBlur ?? 0;
@@ -54,13 +54,23 @@ const backgroundParallax = post.data.backgroundParallax ?? 0.2;
 
 const rendered = post.rendered?.html ?? "";
 
-// 💡 DYNAMICALLY SANITIZE THE BASE URL (Matches home & card configurations)
+// 💡 SANITIZE THE BASE PATH ROUTE FOR REDIRECT COMPATIBILITY
 const baseUrl = import.meta.env.BASE_URL.endsWith("/")
   ? import.meta.env.BASE_URL
   : `${import.meta.env.BASE_URL}/`;
+
+// 💡 GATHER INTENSE PRELOAD ARRAYS AFTER ENGINES RUN
+const imagesToPreload = [
+  heroImage,
+  ...backgrounds.map((b) => b.image)
+].filter(Boolean);
 ---
 
-<MyLayout title={post.data.title} animation={post.data.theme ?? "grid"}>
+<MyLayout 
+  title={post.data.title} 
+  animation={post.data.theme ?? "grid"} 
+  preloadImages={imagesToPreload}
+>
   
   <div class="relative z-30">
     <BackLink href={`${baseUrl}blog/`} text="← Back to blog" />
@@ -68,7 +78,7 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
 
   <section class="relative py-16 px-4 max-w-7xl mx-auto">
     
-    {/* 1. MOUNT VISUAL BACKGROUNDS COMPONENT */}
+    {/* 1. LAYER RENDERING CONTAINER */}
     <BlogBackgrounds
       backgrounds={backgrounds}
       heroImage={heroImage}
@@ -77,7 +87,7 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
     />
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-12">
-      {/* 2. MAIN BLOG POST CONTENT CONTAINER */}
+      {/* 2. BODY GRAPH COLUMN */}
       <div class="lg:col-span-2 space-y-8">
         <BlogHeader
           title={post.data.title}
@@ -87,14 +97,14 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
         <BlogContent bodyHtml={rendered} scenes={scenes} />
       </div>
 
-      {/* 3. SIDEBAR */}
+      {/* 3. SIDE RESPONSIVE WIDGET SYSTEM */}
       <div class="lg:col-span-1">
         <BlogSidebar cards={cards} />
       </div>
     </div>
   </section>
 
-  {/* 4. BACKGROUND SCROLL ENGINE */}
+  {/* 4. MOTION PARALLAX CONTROLLER */}
   <script define:vars={{
     backgrounds,
     backgroundOpacity,

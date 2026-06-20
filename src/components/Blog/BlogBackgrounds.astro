@@ -18,10 +18,9 @@ const {
   backgroundOpacity = 1,
 } = Astro.props as Props;
 
-/* ✅ SATELLITE PATH RESOLVER - Bypasses redundant nesting */
+/* ✅ SATELLITE PATH RESOLVER - Prevents base nesting bugs */
 const resolve = (path: string) => {
   if (!path) return "";
-  // If your asset() engine already processed it, don't re-append base URL
   if (path.startsWith("http") || path.startsWith("/me-page")) return path;
   
   const base = import.meta.env.BASE_URL.endsWith("/") 
