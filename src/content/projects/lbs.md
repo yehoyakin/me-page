@@ -28,3 +28,19 @@ A Unity Editor plugin designed to streamline the creation of top-down and strate
 It combines procedural generation techniques with reusable templates, allowing designers to quickly produce varied layouts directly inside the editor.
 
 The goal of the tool is to reduce repetitive work while preserving designer control over the final result.
+
+<div class="retro-contribution">
+
+### MY CONTRIBUTION
+
+- Began my work at the middle of development, adding multiple optimization and system rewrites. For example, layer generation from 700-1000ms to 10-30ms.
+
+- Implemented a custom grammar-based quest generation system with scriptable objects and auto generated Visual Elements and Monobehaviours.
+
+- Useful static libraries and functions for the rest of the development team to use.
+
+- Standarized magic numbers to defined constants.
+
+- Mentored two students who did their proffesional internship throughout development.
+
+</div>

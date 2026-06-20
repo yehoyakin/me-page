@@ -44,7 +44,7 @@ const projects = await Promise.all(
     </Body>
   </section>
 
-  <div class="grid md:grid-cols-2 gap-8 items-start overflow-visible">
+<div class="columns-1 md:columns-2 gap-8 space-y-8">
 
     {projects.map((project) => (
       <div class={`md:order-${project.data.order}`}>
