@@ -5,12 +5,13 @@
   "engines": {
     "node": ">=22.12.0"
   },
-  "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro"
-  },
+"scripts": {
+  "dev": "astro dev",
+  "start": "astro dev",
+  "build": "astro clean && astro build",
+  "preview": "astro preview",
+  "astro": "astro"
+},
   "dependencies": {
     "@tailwindcss/vite": "^4.3.1"
   },
