@@ -18,23 +18,25 @@ const projects = await Promise.all(
     };
   })
 );
+
+// 💡 Save the resolved background asset path string
+const bgGif = asset("images/kbg2.gif");
 ---
 
-<MyLayout title="Portfolio | JoacoDev" animation="grid">
+<MyLayout title="Portfolio | JoacoDev" animation="grid" preloadImages={[bgGif]}>
 
   <div class="fixed inset-0 -z-10 pointer-events-none">
     <img
-      src={asset("images/kbg2.gif")}
-      class="w-full h-full object-cover opacity-100"
+      src={bgGif}
+      class="w-full h-full object-cover opacity-100 blur-[4px]"
+      alt=""
+      role="presentation"
     />
   </div>
 
   <BackLink />
 
   <section class="py-24">
-
-    <BackLink />
-
     <Title class="mt-3 text-5xl md:text-6xl" level={1} variant="primary">
       Portfolio
     </Title>
@@ -44,8 +46,7 @@ const projects = await Promise.all(
     </Body>
   </section>
 
-<div class="columns-1 md:columns-2 gap-8 space-y-8">
-
+  <div class="columns-1 md:columns-2 gap-8 space-y-8">
     {projects.map((project) => (
       <div class={`md:order-${project.data.order}`}>
         <CallCard
@@ -69,7 +70,6 @@ const projects = await Promise.all(
         </CallCard>
       </div>
     ))}
-
   </div>
 
 </MyLayout>
