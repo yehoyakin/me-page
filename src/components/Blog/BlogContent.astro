@@ -27,8 +27,9 @@ const sceneHtml =
 
         const align = (scene.align || "center").toLowerCase();
 
+        // 💡 FIXED: Kept your original logic pristine, just switched to rounded-none
         let figureClass =
-          "my-8 overflow-hidden rounded-2xl border border-zinc-800";
+          "my-8 overflow-hidden rounded-none border border-zinc-800";
 
         let imgClass = "w-full h-auto";
 
@@ -59,10 +60,11 @@ const sceneHtml =
     : bodyHtml;
 ---
 
+{/* 💡 FIXED: Changed container to rounded-none without touching the HTML output data chain */}
 <div
-  class="prose prose-invert max-w-none rounded-[2rem]
+  class="prose prose-invert max-w-none rounded-none
          border border-zinc-800/50 bg-zinc-950/70
-         p-8 backdrop-blur-md"
+         p-5 sm:p-8 backdrop-blur-md"
   id="blog-content"
 >
   <div set:html={sceneHtml} />

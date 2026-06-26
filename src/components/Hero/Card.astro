@@ -27,12 +27,14 @@ const {
 
 const config = uiDictionary[variant];
 
-/* =========================
+/* =========================================================
    CARD CLASS
-   ========================= */
+   💡 FIXED: Swapped min-h-[450px] for full h-full & w-full 
+   so it fills exactly 50% of its split-landing container slots.
+   ========================================================= */
 const cardClasses = [
-  "group relative flex items-center justify-center overflow-hidden transition-all duration-300 min-h-[450px] w-full",
-  config.fontClass,
+  "group relative flex flex-col justify-center items-center overflow-hidden w-full h-full min-h-0 rounded-none transition-all duration-300",
+  config.font,
   extraClass
 ].filter(Boolean).join(" ");
 ---
@@ -45,16 +47,17 @@ const cardClasses = [
 
   {/* BACKGROUND IMAGE */}
 {backgroundImage && (
-  <div class="absolute inset-0 overflow-hidden z-0">
+  <div class="absolute inset-0 overflow-hidden z-0 w-full h-full">
     
     {/* IMAGE */}
     <img
       src={backgroundImage}
-class="h-full w-full object-cover scale-105
-       [filter:grayscale(0%)_brightness(75%)_contrast(110%)]
-       transition duration-700 ease-out
-       group-hover:scale-110
-       group-hover:[filter:grayscale(0%)_brightness(100%)_contrast(100%)]"
+      class="h-full w-full object-cover scale-105
+             [filter:grayscale(0%)_brightness(75%)_contrast(110%)]
+             transition duration-700 ease-out
+             group-hover:scale-110
+             group-hover:[filter:grayscale(0%)_brightness(100%)_contrast(100%)]"
+      alt=""
     />
 
     {/* DARK OVERLAY (fades out) */}
@@ -72,9 +75,10 @@ class="h-full w-full object-cover scale-105
   </div>
 )}
 
-  {/* OPTIONAL SLOT */}
+  {/* OPTIONAL SLOT (Your Portrait/Kirokaze background animation loop) */}
   {Astro.slots.has('background') && (
-    <div class="absolute inset-0 z-0 opacity-10 transition-all duration-700 group-hover:scale-105 
+    /* 💡 FIXED: w-full h-full forces the graphic wrapper to span edge-to-edge inside the half-grid */
+    <div class="absolute inset-0 z-0 w-full h-full opacity-10 transition-all duration-700 group-hover:scale-105 
     group-hover:opacity-20 card-bg-modifier">
       <slot name="background" />
     </div>
@@ -84,22 +88,22 @@ class="h-full w-full object-cover scale-105
   <div class="absolute inset-0 z-10 opacity-0 transition duration-500 group-hover:opacity-100 theme-glow-bg" />
 
   {/* CONTENT */}
-  <div class="relative z-20 max-w-lg px-10 py-16 text-center lg:text-left transition duration-500 group-hover:-translate-y-2">
+  <div class="relative z-20 max-w-lg px-6 sm:px-10 py-10 sm:py-16 text-center lg:text-left transition duration-500 group-hover:-translate-y-2">
 
     <Body variant={variant} class="mt-2">
       {tag}
     </Body>
 
-    <Title level={2} variant={variant} class="mt-2 text-5xl md:text-6xl">
+    <Title level={2} variant={variant} class="mt-2 text-4xl sm:text-5xl md:text-6xl">
       {title}
     </Title>
 
-    <Body variant={variant} class="mt-4">
+    <Body variant={variant} class="mt-4 text-sm sm:text-base">
       {description}
     </Body>
 
-    <div class="mt-8 inline-flex items-center gap-3 transition group-hover:gap-5 text-ui-base">
-      <span>{actionText}</span>
+    <div class="mt-6 sm:mt-8 inline-flex items-center gap-3 transition group-hover:gap-5 text-ui-base">
+      <span class="font-mono text-sm tracking-wider uppercase">{actionText}</span>
     </div>
 
   </div>
@@ -107,11 +111,12 @@ class="h-full w-full object-cover scale-105
 </a>
 
 <style is:global>
+  /* 💡 FIXED: Removed border-radius overrides to maintain perfectly blocky pixel layouts */
   .card-bg-modifier > div {
     width: 100% !important;
     height: 100% !important;
     border: none !important;
-    border-radius: 20px !important;
+    border-radius: 0px !important; 
     box-shadow: none !important;
   }
 </style>

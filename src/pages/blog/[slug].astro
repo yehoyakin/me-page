@@ -5,7 +5,6 @@ import BlogBackgrounds from "../../components/Blog/BlogBackgrounds.astro";
 import BlogHeader from "../../components/Blog/BlogHeader.astro";
 import BlogContent from "../../components/Blog/BlogContent.astro";
 import BlogSidebar from "../../components/Blog/BlogSidebar.astro";
-import TopLeftLinkWidget from "../../components/Hero/TopLeftLinkWidget.astro";
 import { getCollection } from "astro:content";
 import { asset } from "../../utils/asset";
 
@@ -76,7 +75,8 @@ const imagesToPreload = [
     <BackLink href={`${baseUrl}blog/`} text="← Back to blog" />
   </div>
 
-  <section class="relative py-16 px-4 max-w-7xl mx-auto">
+  {/* 💡 MOBILE ACCESSIBLE CONTAINER GRID: Responsive layout structure drops layout constraints evenly on mobile viewports */}
+  <section class="relative py-12 md:py-16 px-2 sm:px-4 max-w-7xl mx-auto w-full">
     
     {/* 1. LAYER RENDERING CONTAINER */}
     <BlogBackgrounds
@@ -86,9 +86,9 @@ const imagesToPreload = [
       backgroundOpacity={backgroundOpacity}
     />
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-12">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 mt-12 w-full items-start">
       {/* 2. BODY GRAPH COLUMN */}
-      <div class="lg:col-span-2 space-y-8">
+      <div class="grid grid-cols-1 lg:col-span-2 gap-6 sm:gap-8 w-full min-w-0">
         <BlogHeader
           title={post.data.title}
           description={post.data.description}
@@ -98,7 +98,7 @@ const imagesToPreload = [
       </div>
 
       {/* 3. SIDE RESPONSIVE WIDGET SYSTEM */}
-      <div class="lg:col-span-1">
+      <div class="grid grid-cols-1 lg:col-span-1 w-full min-w-0">
         <BlogSidebar cards={cards} />
       </div>
     </div>

@@ -11,15 +11,23 @@ interface Props {
 const { title, description, date } = Astro.props as Props;
 ---
 
-<header class="space-y-6 rounded-[2rem] border border-zinc-800/50 bg-zinc-950/70 p-8 backdrop-blur-md text-center">
-  <p class="text-sm uppercase tracking-[0.3em] text-retro-primary">Blog</p>
-  <Title level={1}  class="text-5xl md:text-6xl mx-auto">
+{/* 💡 FIXED: Stripped rounded-[2rem] down to sharp rounded-none and synchronized layout styling */}
+<header class="space-y-6 rounded-none border border-zinc-800/60 bg-zinc-950/85 p-6 sm:p-8 backdrop-blur-md text-center relative overflow-hidden">
+  
+  {/* Subtly matches the current layout's text accent color dynamically */}
+  <p class="text-xs sm:text-sm uppercase tracking-[0.3em] font-mono text-[color:var(--retro-primary)]">
+    [ Data Entry ]
+  </p>
+  
+  <Title level={1} class="text-4xl sm:text-5xl md:text-6xl mx-auto tracking-tight font-bold">
     {title}
   </Title>
-  <Body class="mx-auto max-w-3xl text-zinc-400 text-center">
+  
+  <Body class="mx-auto max-w-3xl text-zinc-400 text-center text-sm sm:text-base">
     {description}
   </Body>
-  <time class="mx-auto block text-sm text-zinc-500" datetime={date.toISOString()}>
-    {date.toLocaleDateString()}
+  
+  <time class="mx-auto block font-mono text-xs sm:text-sm text-zinc-500 tracking-wider" datetime={date.toISOString()}>
+    ⏱️ {date.toLocaleDateString()}
   </time>
 </header>
