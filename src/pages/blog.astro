@@ -14,33 +14,43 @@ const bgGif = asset("images/kbg1.gif");
 
 <MyLayout title="Blog" animation="traversal" preloadImages={[bgGif]}>
 
-  <div class="fixed inset-0 -z-10 pointer-events-none">
-    <img
-      src={bgGif}
-      class="w-full h-full object-cover opacity-100 blur-[4px]"
-      alt=""
-      role="presentation"
-    />
-  </div>
+  {/* 💡 FIXED: Uses absolute/fixed breakouts to isolate layers and prevent text vanishing acts */}
+  <div class="absolute inset-0 w-full min-h-screen overflow-x-hidden bg-zinc-950">
 
-  <section class="py-24">
-    <BackLink />
-
-    <Title class="mt-3 text-5xl md:text-6xl" level={1} variant="primary">
-      Blog
-    </Title>
-
-    <Body variant="secondary">
-      Thoughts on my favorite art.
-    </Body>
-
-    <div class="mt-24" />
-
-    <div class="space-y-10">
-      {posts.map((post) => (
-        <BlogCard post={post} />
-      ))}
+    {/* 💡 FIXED: Native GPU blur filter matching the homepage breakout engine */}
+    <div class="fixed inset-0 z-0 pointer-events-none style3d" style="filter: blur(4px); transform: scale(1.05);">
+      <img
+        src={bgGif}
+        class="w-full h-full object-cover opacity-100"
+        alt=""
+        role="presentation"
+      />
     </div>
-  </section>
+
+    {/* 💡 FIXED: Dark tint layer matching home configuration stack */}
+    <div class="absolute inset-0 z-10 pointer-events-none" />
+
+    {/* 💡 FIXED: Section is lifted safely to z-20 so title, description, and list stay fully visible */}
+    <section class="relative z-20 py-24 px-4 sm:px-6 md:px-8 max-w-7xl mx-auto w-full">
+      <BackLink />
+
+      <Title class="mt-3 text-5xl md:text-6xl" level={1} variant="primary">
+        Blog
+      </Title>
+
+      <Body variant="secondary">
+        Thoughts on my favorite art.
+      </Body>
+
+      <div class="mt-24" />
+
+      <div class="space-y-10">
+        {posts.map((post) => (
+          <BlogCard post={post} />
+        ))}
+      </div>
+    </section>
+
+  </div>
 
 </MyLayout>

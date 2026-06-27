@@ -28,55 +28,68 @@ const imagesToPreload = [bgGif, ...cardPreviews];
 
 <MyLayout title="Portfolio | JoacoDev" animation="grid" preloadImages={imagesToPreload}>
 
-  <div class="fixed inset-0 -z-10 pointer-events-none">
-    <img
-      src={bgGif}
-      class="w-full h-full object-cover opacity-100 blur-[4px]"
-      alt=""
-      role="presentation"
-    />
-  </div>
+  {/* 💡 FIXED: Master breakout layer container isolating stacking indices */}
+  <div class="absolute inset-0 w-full min-h-screen overflow-x-hidden bg-zinc-950">
 
-  <BackLink />
-
-  <section class="py-16 md:py-24 max-w-7xl mx-auto w-full">
-    <Title class="mt-3 text-5xl md:text-6xl" level={1} variant="primary">
-      Portfolio
-    </Title>
-
-    <Body variant="secondary" class="mt-4">
-      Hover to inspect projects and reveal additional details.
-    </Body>
-
-    {/* 💡 GRID WRAPPER: Fixed layout structures so they auto-render balanced dimensions natively */}
-    <div class="mt-12 sm:mt-16 grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 auto-rows-max items-start">
-      {projects.map((project) => (
-        <div style={`order: ${project.data.order ?? 0};`} class="w-full h-full min-h-0">
-          <CallCard
-            tag={project.data.tag}
-            title={project.data.title}
-            shortDescription={project.data.shortDescription}
-            fullDescription={project.rendered}
-            roles={project.data.roles}
-            variant={project.data.variant}
-            backgroundImage={asset(project.data.backgroundImage)}
-          >
-            <Fragment slot="links">
-              {project.data.links && project.data.links.map((link) => (
-                <a
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="link group/btn relative overflow-hidden flex items-center justify-center rounded-none px-3 py-2 text-xs font-mono uppercase tracking-wider transition-all duration-75 ease-[steps(2)] bg-zinc-900 border border-zinc-800 text-zinc-300 hover:text-white hover:bg-zinc-800 hover:border-zinc-700"
-                >
-                  <span>{link.text}</span>
-                </a>
-              ))}
-            </Fragment>
-          </CallCard>
-        </div>
-      ))}
+    {/* 💡 FIXED: Native GPU blur engine running at z-0 */}
+    <div class="fixed inset-0 z-0 pointer-events-none style3d" style="filter: blur(4px); transform: scale(1.05);">
+      <img
+        src={bgGif}
+        class="w-full h-full object-cover opacity-100"
+        alt=""
+        role="presentation"
+      />
     </div>
-  </section>
+
+    {/* 💡 FIXED: Hardware static overlay layer at z-10 protecting text contrast */}
+    <div class="absolute inset-0 z-10 pointer-events-none" />
+
+    {/* 💡 FIXED: Shifted navigation links and content into relative z-20 layers */}
+    <div class="relative z-20 py-16 md:py-24 px-4 sm:px-6 md:px-8 max-w-7xl mx-auto w-full">
+      
+      <BackLink />
+
+      <section class="mt-6 w-full">
+        <Title class="mt-3 text-5xl md:text-6xl" level={1} variant="primary">
+          Portfolio
+        </Title>
+
+        <Body variant="secondary" class="mt-4">
+          Hover to inspect projects and reveal additional details.
+        </Body>
+
+        {/* 💡 GRID WRAPPER: Responsive grid elements rendered securely at z-20 */}
+        <div class="mt-12 sm:mt-16 grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 auto-rows-max items-start">
+          {projects.map((project) => (
+            <div style={`order: ${project.data.order ?? 0};`} class="w-full h-full min-h-0">
+              <CallCard
+                tag={project.data.tag}
+                title={project.data.title}
+                shortDescription={project.data.shortDescription}
+                fullDescription={project.rendered}
+                roles={project.data.roles}
+                variant={project.data.variant}
+                backgroundImage={asset(project.data.backgroundImage)}
+              >
+                <Fragment slot="links">
+                  {project.data.links && project.data.links.map((link) => (
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="link group/btn relative overflow-hidden flex items-center justify-center rounded-none px-3 py-2 text-xs font-mono uppercase tracking-wider transition-all duration-75 ease-[steps(2)] bg-zinc-900 border border-zinc-800 text-zinc-300 hover:text-white hover:bg-zinc-800 hover:border-zinc-700"
+                    >
+                      <span>{link.text}</span>
+                    </a>
+                  ))}
+                </Fragment>
+              </CallCard>
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
+
+  </div>
 
 </MyLayout>

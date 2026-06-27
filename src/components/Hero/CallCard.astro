@@ -40,46 +40,100 @@ const {
 
 const config = uiDictionary[variant];
 
-// 💡 Dynamically resolve CSS variable tokens depending on the incoming project data entry variants
-const dynamicToken = 
+/* =========================================================
+   VISUAL THEME CONFIGURATION
+   ========================================================= */
+
+const dynamicToken =
   config.theme === "primary"
     ? "var(--retro-primary)"
     : config.theme === "secondary"
-    ? "var(--retro-secondary)"
-    : "var(--retro-terminal)";
+      ? "var(--retro-secondary)"
+      : "var(--retro-terminal)";
 
 const themeColorClass =
   config.theme === "primary"
-    ? "group-hover:text-[color:var(--retro-primary)]"
+    ? "group-hover:text-[color:var(--retro-primary)] group-[[data-active=true]]:text-[color:var(--retro-primary)]"
     : config.theme === "secondary"
-    ? "group-hover:text-[color:var(--retro-secondary)]"
-    : "group-hover:text-[color:var(--retro-terminal)]";
+      ? "group-hover:text-[color:var(--retro-secondary)] group-[[data-active=true]]:text-[color:var(--retro-secondary)]"
+      : "group-hover:text-[color:var(--retro-terminal)] group-[[data-active=true]]:text-[color:var(--retro-terminal)]";
+
+/* =========================================================
+   EXPANDABLE CARD LAYOUT CONFIGURATION
+   ========================================================= */
+
+const COLLAPSED_CARD_VIEWPORT_HEIGHT = "55vh";
+const MINIMUM_COLLAPSED_CARD_HEIGHT = "380px";
+
+const EXPANDED_CARD_BORDER_THICKNESS = "8px";
+
+const COLLAPSED_CARD_STACKING_PRIORITY = 1;
+const EXPANDED_CARD_STACKING_PRIORITY = 30;
+
+/* =========================================================
+   DRAWER ANIMATION CONFIGURATION
+   ========================================================= */
+
+const DRAWER_REVEAL_VERTICAL_OFFSET = "20px";
+
+const CARD_EXPANSION_DURATION_MS = 200;
+const DRAWER_REVEAL_DURATION_MS = 200;
+
+const PIXELATED_TRANSITION_STEPS = 100;
+
+/* =========================================================
+   EXPANDED CARD BEHAVIOR CONFIGURATION
+   ========================================================= */
+
+const EXPANDED_CARD_ATTACHMENT_MODE = "align-start";
+/*
+  center
+  align-start
+  align-end
+*/
 
 const baseText =
   "text-white text-lg transition-colors duration-150 ease-[steps(2)] retro-outline";
 
 const cardClasses = [
-  "group relative rounded-none border border-zinc-900 bg-zinc-950/60",
-  "overflow-hidden",
-  "w-full",
-  "h-[55vh] min-h-[380px] max-h-[650px]",
-  "hover:h-auto hover:min-h-[55vh]",
-  "hover:z-20",
-  /* 💡 Added blocky 2D structural shadow on interaction maps */
-  "hover:shadow-[4px_4px_0px_0px_var(--current-token)]",
-  "transition-all duration-150 ease-[steps(4)]",
+  "group retro-expandable-card relative rounded-none border border-zinc-900 bg-zinc-950/60",
+  "w-full overflow-visible select-none",
   extraClass
 ].join(" ");
 ---
 
-<div 
-  class={cardClasses} 
+<div
+  class={cardClasses}
   data-theme={config.transition}
-  style={`--current-token: ${dynamicToken}; border-color: rgba(63, 63, 70, 0.4);`}
->
+  data-expand-anchor={EXPANDED_CARD_ATTACHMENT_MODE}
+  data-active="false"
+  style={`
+    --current-token: ${dynamicToken};
 
+    --collapsed-card-height: ${COLLAPSED_CARD_VIEWPORT_HEIGHT};
+    --collapsed-card-min-height: ${MINIMUM_COLLAPSED_CARD_HEIGHT};
+
+    --expanded-card-border-width: ${EXPANDED_CARD_BORDER_THICKNESS};
+
+    --drawer-offset: ${DRAWER_REVEAL_VERTICAL_OFFSET};
+
+    --card-transition-duration: ${CARD_EXPANSION_DURATION_MS}ms;
+    --drawer-transition-duration: ${DRAWER_REVEAL_DURATION_MS}ms;
+
+    --pixel-transition-steps: ${PIXELATED_TRANSITION_STEPS};
+  `}
+  onclick="
+    const state = this.getAttribute('data-active') === 'true';
+
+    document
+      .querySelectorAll('.retro-expandable-card')
+      .forEach(card => card.setAttribute('data-active', 'false'));
+
+    this.setAttribute('data-active', state ? 'false' : 'true');
+  "
+>
   {backgroundImage && (
-    <div class="absolute inset-0 overflow-hidden z-0 bg-zinc-950">
+    <div class="absolute inset-0 overflow-hidden z-0 bg-zinc-950 pointer-events-none">
       <img
         src={backgroundImage}
         class="
@@ -87,24 +141,21 @@ const cardClasses = [
           w-full h-full
           object-cover
           object-center
-
           scale-100
-          transition duration-150 ease-[steps(2)]
-
+          transition
+          duration-200
+          ease-[steps(100)]
           group-hover:scale-105
           group-hover:brightness-50
         "
         alt=""
       />
 
-      <div class="absolute inset-0 bg-gradient-to-b from-zinc-950/10 via-transparent to-zinc-950/70 transition duration-150" />
-      <div class="absolute inset-0 bg-transparent group-hover:bg-zinc-950/40 transition duration-150" />
+      <div class="absolute inset-0 bg-gradient-to-b from-zinc-950/10 via-transparent to-zinc-950/80" />
     </div>
   )}
 
-  <span class="scanline"></span>
-
-  <div class="relative z-50 w-full p-4 sm:p-6 bg-zinc-950/85 border-b border-zinc-900/50">
+  <div class="relative z-10 w-full p-4 sm:p-6 bg-zinc-950/85 border-b border-zinc-900/50 pointer-events-none">
     {tag && (
       <span class={`text-xs sm:text-sm uppercase tracking-[0.3em] ${baseText} ${themeColorClass}`}>
         {tag}
@@ -121,74 +172,81 @@ const cardClasses = [
   </div>
 
   {fullDescription && (
-    <div class="
-      relative z-10
-      m-3 sm:m-4
-      p-4 sm:p-6
+    <div class="project-drawer">
+      <div class="p-4 sm:p-6 m-3 sm:m-4 bg-zinc-950/95 border border-zinc-800/80 backdrop-blur-md">
+        <div
+          class="space-y-6 sm:space-y-8 prose prose-invert max-w-none text-sm sm:text-base text-zinc-300"
+          set:html={fullDescription}
+        />
 
-      bg-zinc-950/95
-      border border-zinc-800/80
-      backdrop-blur-md
-      rounded-none
+        {roles.length > 0 && (
+          <div class="mt-6 flex flex-wrap gap-2">
+            {roles.map((role) => (
+              <span class="text-[10px] sm:text-xs px-2 py-1 rounded-none bg-zinc-900 text-zinc-300 font-mono border border-zinc-800/80">
+                {roleLabels[role]}
+              </span>
+            ))}
+          </div>
+        )}
 
-      opacity-0
-      translate-y-4
-
-      transition-all duration-150 ease-[steps(4)]
-
-      group-hover:opacity-100
-      group-hover:translate-y-0
-    ">
-
-      <div class="space-y-6 sm:space-y-8 prose prose-invert max-w-none text-sm sm:text-base" set:html={fullDescription} />
-
-      {roles.length > 0 && (
-        <div class="mt-6 flex flex-wrap gap-2">
-          {roles.map((role) => (
-            <span class="text-[10px] sm:text-xs px-2 py-1 rounded-none bg-zinc-900 text-zinc-300 font-mono border border-zinc-800/80">
-              {roleLabels[role]}
-            </span>
-          ))}
+        <div class="mt-8 sm:mt-12 flex flex-wrap gap-3 sm:gap-4 items-center">
+          <slot name="links" />
         </div>
-      )}
-
-      <div class="mt-8 sm:mt-12 flex flex-wrap gap-3 sm:gap-4 items-center">
-        <slot name="links" />
       </div>
-
     </div>
   )}
-
 </div>
 
 <style>
-/* =========================
-   DYNAMIC CARD SCANLINE ENGINE
-   ========================= */
-.scanline {
-  position: absolute;
-  left: 0;
-  top: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0) 0%,
-    var(--current-token) 50%,
-    rgba(0, 0, 0, 0) 100%
-  );
+.retro-expandable-card {
+  height: var(--collapsed-card-height);
+  min-height: var(--collapsed-card-min-height);
+
+  z-index: 1;
+
+  border-color: rgba(63, 63, 70, 0.4);
+
+  transition:
+    height var(--card-transition-duration)
+      steps(var(--pixel-transition-steps)),
+    border-color 150ms ease;
+}
+
+.retro-expandable-card .project-drawer {
   opacity: 0;
-  pointer-events: none;
-  z-index: 5;
+
+  transform: translateY(var(--drawer-offset));
+
+  visibility: hidden;
+  height: 0;
+
+  overflow: hidden;
+
+  transition:
+    all var(--drawer-transition-duration)
+      steps(var(--pixel-transition-steps));
 }
 
-.group:hover .scanline {
-  animation: scanSweep 400ms steps(8) forwards;
-  opacity: 0.35;
+.retro-expandable-card[data-active="true"] {
+  height: auto;
+
+  min-height: var(--collapsed-card-height);
+
+  z-index: 30;
+
+  border:
+    var(--expanded-card-border-width)
+    solid
+    var(--current-token);
 }
 
-@keyframes scanSweep {
-  0% { top: -100%; }
-  100% { top: 100%; }
+.retro-expandable-card[data-active="true"] .project-drawer {
+  opacity: 1;
+
+  transform: translateY(0);
+
+  visibility: visible;
+
+  height: auto;
 }
 </style>

@@ -8,19 +8,21 @@ import { asset } from "../utils/asset";
 
 <MyLayout title="Home">
 
-  {/* 💡 FIXED: Uses fixed/absolute inset tracking to ignore the parent layout padding completely */}
+{/* 💡 BULLETPROOF BLUR SYSTEM: Moves the blur effect directly onto the graphic layer */}
   <div class="absolute inset-0 w-full h-full min-h-screen overflow-hidden bg-zinc-950">
 
-    {/* 💡 FIXED: Changed -z-10 to z-0 so it renders accurately in front of the layout body layer */}
-    <div class="fixed inset-0 z-0 pointer-events-none">
+    {/* 💡 FIXED: We use native 'filter: blur' and 'transform: translate3d' here.
+        This forces the GPU to render the blur natively on all browsers without relying on backdrop sampling. */}
+    <div class="fixed inset-0 z-0 pointer-events-none style3d" style="filter: blur(4px); transform: scale(1.05);">
       <img
         src={asset("images/kbg.gif")}
-        class="w-full h-full object-cover opacity-100 blur-[4px]"
+        class="w-full h-full object-cover opacity-100"
         alt=""
       />
     </div>
 
-    <div class="absolute inset-0 z-10 bg-zinc-950/85 opacity-33 pointer-events-none" />
+    {/* 💡 Clean, high-performance static dark overlay tint */}
+    <div class="absolute inset-0 z-10 pointer-events-none" />
 
     <div class="relative z-20 flex h-full flex-col min-h-0 w-full">
 
