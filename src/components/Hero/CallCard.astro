@@ -67,30 +67,12 @@ const MINIMUM_COLLAPSED_CARD_HEIGHT = "380px";
 
 const EXPANDED_CARD_BORDER_THICKNESS = "8px";
 
-const COLLAPSED_CARD_STACKING_PRIORITY = 1;
-const EXPANDED_CARD_STACKING_PRIORITY = 30;
-
-/* =========================================================
-   DRAWER ANIMATION CONFIGURATION
-   ========================================================= */
-
-const DRAWER_REVEAL_VERTICAL_OFFSET = "20px";
-
 const CARD_EXPANSION_DURATION_MS = 200;
 const DRAWER_REVEAL_DURATION_MS = 200;
 
+const DRAWER_REVEAL_VERTICAL_OFFSET = "20px";
+
 const PIXELATED_TRANSITION_STEPS = 100;
-
-/* =========================================================
-   EXPANDED CARD BEHAVIOR CONFIGURATION
-   ========================================================= */
-
-const EXPANDED_CARD_ATTACHMENT_MODE = "align-start";
-/*
-  center
-  align-start
-  align-end
-*/
 
 const baseText =
   "text-white text-lg transition-colors duration-150 ease-[steps(2)] retro-outline";
@@ -105,7 +87,6 @@ const cardClasses = [
 <div
   class={cardClasses}
   data-theme={config.transition}
-  data-expand-anchor={EXPANDED_CARD_ATTACHMENT_MODE}
   data-active="false"
   style={`
     --current-token: ${dynamicToken};
@@ -171,30 +152,48 @@ const cardClasses = [
     </Body>
   </div>
 
-  {fullDescription && (
-    <div class="project-drawer">
-      <div class="p-4 sm:p-6 m-3 sm:m-4 bg-zinc-950/95 border border-zinc-800/80 backdrop-blur-md">
-        <div
-          class="space-y-6 sm:space-y-8 prose prose-invert max-w-none text-sm sm:text-base text-zinc-300"
-          set:html={fullDescription}
-        />
-
-        {roles.length > 0 && (
-          <div class="mt-6 flex flex-wrap gap-2">
-            {roles.map((role) => (
-              <span class="text-[10px] sm:text-xs px-2 py-1 rounded-none bg-zinc-900 text-zinc-300 font-mono border border-zinc-800/80">
-                {roleLabels[role]}
-              </span>
-            ))}
-          </div>
-        )}
-
-        <div class="mt-8 sm:mt-12 flex flex-wrap gap-3 sm:gap-4 items-center">
-          <slot name="links" />
-        </div>
-      </div>
+{/* COLLAPSED PREVIEW */}
+{fullDescription && (
+  <div class="project-preview">
+    <div class="project-description-preview">
+      <div
+        class="space-y-6 sm:space-y-8 prose prose-invert max-w-none text-sm sm:text-base text-zinc-300"
+        set:html={fullDescription}
+      />
     </div>
-  )}
+
+    <div class="project-description-hint">
+      CLICK FOR MORE
+    </div>
+  </div>
+)}
+
+{/* EXPANDED CONTENT */}
+{fullDescription && (
+  <div class="project-drawer">
+    <div class="p-4 sm:p-6 m-3 sm:m-4 bg-zinc-950/95 border border-zinc-800/80 backdrop-blur-md">
+
+      <div
+        class="space-y-6 sm:space-y-8 prose prose-invert max-w-none text-sm sm:text-base text-zinc-300"
+        set:html={fullDescription}
+      />
+
+      {roles.length > 0 && (
+        <div class="mt-6 flex flex-wrap gap-2">
+          {roles.map((role) => (
+            <span class="text-[10px] sm:text-xs px-2 py-1 rounded-none bg-zinc-900 text-zinc-300 font-mono border border-zinc-800/80">
+              {roleLabels[role]}
+            </span>
+          ))}
+        </div>
+      )}
+    </div>
+  </div>
+)}
+
+  <div class="project-links-bar">
+    <slot name="links" />
+  </div>
 </div>
 
 <style>
@@ -248,5 +247,110 @@ const cardClasses = [
   visibility: visible;
 
   height: auto;
+}
+
+.project-links-bar {
+  position: relative;
+  z-index: 100;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+
+  padding: 1rem;
+
+  border-top: 1px solid rgba(63, 63, 70, 0.4);
+
+  background: rgba(24, 24, 27, 0.9);
+
+  backdrop-filter: blur(8px);
+
+  transition:
+    border-color 150ms ease,
+    background-color 150ms ease;
+}
+
+.retro-expandable-card:hover .project-links-bar {
+  border-color: var(--current-token);
+}
+
+.project-description-preview {
+  position: relative;
+
+  max-height: 8rem;
+
+  overflow: hidden;
+
+  opacity: 0.35;
+
+  transition:
+    opacity 150ms ease,
+    max-height 200ms ease;
+}
+
+.project-description-preview::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height: 4rem;
+
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(9, 9, 11, 1)
+  );
+
+  pointer-events: none;
+}
+
+.project-description-hint {
+  margin-top: 0.75rem;
+
+  font-size: 0.75rem;
+
+  letter-spacing: 0.25em;
+
+  text-transform: uppercase;
+
+  opacity: 0.7;
+
+  color: var(--current-token);
+
+  transition: opacity 150ms ease;
+}
+
+.retro-expandable-card:hover .project-description-preview {
+  opacity: 0.55;
+}
+
+.retro-expandable-card:hover .project-description-hint {
+  opacity: 1;
+}
+
+.retro-expandable-card[data-active="true"] .project-description-preview {
+  max-height: none;
+
+  opacity: 1;
+}
+
+.retro-expandable-card[data-active="true"] .project-description-preview::after {
+  display: none;
+}
+
+.retro-expandable-card[data-active="true"] .project-description-hint {
+  display: none;
+}
+
+.project-preview {
+  padding: 1rem;
+}
+
+.retro-expandable-card[data-active="true"] .project-preview {
+  display: none;
 }
 </style>
