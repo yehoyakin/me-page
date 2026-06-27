@@ -79,7 +79,7 @@ const baseText =
 
 const cardClasses = [
   "group retro-expandable-card relative rounded-none border border-zinc-900 bg-zinc-950/60",
-  "w-full overflow-visible select-none",
+  "w-full overflow-hidden select-none",
   extraClass
 ].join(" ");
 ---
@@ -113,28 +113,16 @@ const cardClasses = [
     this.setAttribute('data-active', state ? 'false' : 'true');
   "
 >
-  {backgroundImage && (
-    <div class="absolute inset-0 overflow-hidden z-0 bg-zinc-950 pointer-events-none">
-      <img
-        src={backgroundImage}
-        class="
-          absolute inset-0
-          w-full h-full
-          object-cover
-          object-center
-          scale-100
-          transition
-          duration-200
-          ease-[steps(100)]
-          group-hover:scale-105
-          group-hover:brightness-50
-        "
-        alt=""
-      />
-
-      <div class="absolute inset-0 bg-gradient-to-b from-zinc-950/10 via-transparent to-zinc-950/80" />
-    </div>
-  )}
+{backgroundImage && (
+  <div class="absolute inset-0 overflow-hidden z-0 bg-zinc-950 pointer-events-none">
+    <img
+      src={backgroundImage}
+      class="absolute inset-0 w-full h-full object-center scale-100 transition duration-200 ease-[steps(100)] group-hover:scale-105 group-hover:brightness-50"
+      alt=""
+    />
+    <div class="absolute inset-0 bg-gradient-to-b from-zinc-950/10 via-transparent to-zinc-950/80" />
+  </div>
+)}
 
   <div class="relative z-10 w-full p-4 sm:p-6 bg-zinc-950/85 border-b border-zinc-900/50 pointer-events-none">
     {tag && (
@@ -152,48 +140,53 @@ const cardClasses = [
     </Body>
   </div>
 
-{/* COLLAPSED PREVIEW */}
-{fullDescription && (
-  <div class="project-preview">
-    <div class="project-description-preview">
-      <div
-        class="space-y-6 sm:space-y-8 prose prose-invert max-w-none text-sm sm:text-base text-zinc-300"
-        set:html={fullDescription}
-      />
+  <div class="relative z-10 p-4 sm:p-6">
+    <div>
+      <slot name="links" />
     </div>
-
-    <div class="project-description-hint">
+    <div class="project-description-hint font-bold">
       CLICK FOR MORE
     </div>
   </div>
-)}
 
-{/* EXPANDED CONTENT */}
-{fullDescription && (
-  <div class="project-drawer">
-    <div class="p-4 sm:p-6 m-3 sm:m-4 bg-zinc-950/95 border border-zinc-800/80 backdrop-blur-md">
 
-      <div
-        class="space-y-6 sm:space-y-8 prose prose-invert max-w-none text-sm sm:text-base text-zinc-300"
-        set:html={fullDescription}
-      />
-
-      {roles.length > 0 && (
-        <div class="mt-6 flex flex-wrap gap-2">
-          {roles.map((role) => (
-            <span class="text-[10px] sm:text-xs px-2 py-1 rounded-none bg-zinc-900 text-zinc-300 font-mono border border-zinc-800/80">
-              {roleLabels[role]}
-            </span>
-          ))}
+  {/* MAIN CONTENT AREA CONTAINING PREVIEW AND DRAWER */}
+  <div class="relative z-10 p-4 sm:p-6">
+    {fullDescription && (
+      <div class="project-preview">
+        <div class="project-description-preview">
+          <div
+            class="space-y-6 sm:space-y-8 prose prose-invert max-w-none text-sm sm:text-base text-zinc-300"
+            set:html={fullDescription}
+          />
         </div>
-      )}
-    </div>
-  </div>
-)}
+      </div>
+    )}
 
-  <div class="project-links-bar">
-    <slot name="links" />
+    {/* EXPANDED CONTENT */}
+    {fullDescription && (
+      <div class="project-drawer">
+        <div class="p-4 sm:p-6 bg-zinc-950/95 border border-zinc-800/80 backdrop-blur-md">
+
+          <div
+            class="space-y-6 sm:space-y-8 prose prose-invert max-w-none text-sm sm:text-base text-zinc-300"
+            set:html={fullDescription}
+          />
+
+          {roles.length > 0 && (
+            <div class="mt-6 flex flex-wrap gap-2">
+              {roles.map((role) => (
+                <span class="text-[10px] sm:text-xs px-2 py-1 rounded-none bg-zinc-900 text-zinc-300 font-mono border border-zinc-800/80">
+                  {roleLabels[role]}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    )}
   </div>
+
 </div>
 
 <style>
@@ -250,9 +243,6 @@ const cardClasses = [
 }
 
 .project-links-bar {
-  position: relative;
-  z-index: 100;
-
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
@@ -347,7 +337,7 @@ const cardClasses = [
 }
 
 .project-preview {
-  padding: 1rem;
+  padding: 0;
 }
 
 .retro-expandable-card[data-active="true"] .project-preview {
