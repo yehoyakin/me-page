@@ -3,6 +3,7 @@ import MyLayout from "../layouts/MyLayout.astro";
 import Title from "../components/Text/Title.astro";
 import Body from "../components/Text/Body.astro";
 import BackLink from "../components/Hero/BackLink.astro";
+import SocialLink from "../components/Hero/Link.astro";
 import CallCard from "../components/Hero/CallCard.astro";
 import { getCollection } from "astro:content";
 import { asset } from "../utils/asset";
@@ -71,18 +72,16 @@ const imagesToPreload = [bgGif, ...cardPreviews];
                 variant={project.data.variant}
                 backgroundImage={asset(project.data.backgroundImage)}
               >
-                <Fragment slot="links">
-                  {project.data.links && project.data.links.map((link) => (
-                    <a
-                      href={link.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="link group/btn relative overflow-hidden flex items-center justify-center rounded-none px-3 py-2 text-xs font-mono uppercase tracking-wider transition-all duration-75 ease-[steps(2)] bg-zinc-900 border border-zinc-800 text-zinc-300 hover:text-white hover:bg-zinc-800 hover:border-zinc-700"
-                    >
-                      <span>{link.text}</span>
-                    </a>
-                  ))}
-                </Fragment>
+           <Fragment slot="links">
+              {project.data.links && project.data.links.map((link) => (
+
+                <SocialLink
+                  href={link.href}
+                  text={link.text}
+                  external={true}
+                />
+              ))}
+            </Fragment>
               </CallCard>
             </div>
           ))}

@@ -7,12 +7,10 @@ import { asset } from "../utils/asset";
 ---
 
 <MyLayout title="Home">
+  {/* 💡 BULLETPROOF BLUR SYSTEM */}
+  <div class="fixed inset-0 w-full h-screen overflow-hidden bg-zinc-950">
 
-{/* 💡 BULLETPROOF BLUR SYSTEM: Moves the blur effect directly onto the graphic layer */}
-  <div class="absolute inset-0 w-full h-full min-h-screen overflow-hidden bg-zinc-950">
-
-    {/* 💡 FIXED: We use native 'filter: blur' and 'transform: translate3d' here.
-        This forces the GPU to render the blur natively on all browsers without relying on backdrop sampling. */}
+    {/* 💡 FIXED BACKGROUND LAYER */}
     <div class="fixed inset-0 z-0 pointer-events-none style3d" style="filter: blur(4px); transform: scale(1.05);">
       <img
         src={asset("images/kbg.gif")}
@@ -21,23 +19,28 @@ import { asset } from "../utils/asset";
       />
     </div>
 
-    {/* 💡 Clean, high-performance static dark overlay tint */}
+    {/* 💡 Static dark overlay tint */}
     <div class="absolute inset-0 z-10 pointer-events-none" />
 
-    <div class="relative z-20 flex h-full flex-col min-h-0 w-full">
+    {/* 💡 THE FIX: Grid layout that divides space by screen height fractions */}
+    <div class="relative z-20 grid grid-rows-[auto_1fr] h-screen max-h-screen w-full overflow-hidden">
 
       <header class="absolute top-0 right-0 px-8 py-6 z-50">
         <ContactPanel />
       </header>
 
-      <HeaderInfo 
-        name="Homepage"
-        description="Joaquin Herrera / Game Developer"
-        portraitSrc={asset("images/frontPage/me.png")}
-        theme="secondary"
-      />
+      {/* HEADER SECTION: Max height limits keep it from drowning out the splits */}
+      <div class="w-full max-h-[75vh] min-h-[50vh] flex items-center justify-center overflow-hidden p-2">
+        <HeaderInfo 
+          name="Homepage"
+          description="Joaquin Herrera / Game Developer"
+          portraitSrc={asset("images/frontPage/me.webp")}
+          theme="secondary"
+        />
+      </div>
 
-      <div class="flex-1 min-h-0 w-full">
+      {/* SPLIT CONTENT: Takes up the entire remaining vertical viewport portion */}
+      <div class="w-full max-h-[50vh] min-h-[25vh] flex items-center justify-center overflow-hidden p-2">
         <SplitLanding
           background=""
           left={{

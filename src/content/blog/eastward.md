@@ -3,14 +3,14 @@ title: "My favorite videogame"
 theme: "crt"
 description: "Warmth, coziness and fun."
 date: 2026-04-01
-cardBackground: "images/blog/eastward/eastward1.jpg"
+cardBackground: "images/blog/eastward/eastward1.webp"
 backgrounds:
   - percent: 0.25
-    image: "images/blog/eastward/eastwardbc.jpg"
+    image: "images/blog/eastward/eastwardbc.webp"
   - percent: 0.50
-    image: "images/blog/eastward/eastwardbc1.jpg"
+    image: "images/blog/eastward/eastwardbc1.webp"
   - percent: 1.00
-    image: "images/blog/eastward/eastwardbc2.jpg"
+    image: "images/blog/eastward/eastwardbc2.webp"
 
 backgroundBlur: 0.2
 backgroundOpacity: 0.5
@@ -21,7 +21,7 @@ cards:
     title: "Buy it here!"
     description: ""
     actionText: "Open store"
-    backgroundImage: "images/blog/eastward/eastward.jpg"
+    backgroundImage: "images/blog/eastward/eastward.webp"
     links:
       - image: "steam"
         href: "https://store.steampowered.com/app/977880/Eastward"
@@ -37,8 +37,8 @@ cards:
         text: "Xbox"
 
 scenes:
-  - image: "images/blog/eastward/eastwardAnim.png"
-  - image: "images/blog/eastward/eastward2.png"
+  - image: "images/blog/eastward/eastwardAnim.webp"
+  - image: "images/blog/eastward/eastward2.webp"
   
 ---
 

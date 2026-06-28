@@ -28,22 +28,22 @@ const {
 } = Astro.props as Props;
 ---
 
-<section class="relative flex-1 min-h-[50vh] overflow-hidden">
+{/* 💡 FIXED: Set to always allow vertical expansion when content inside the cards grows in length */}
+<section class="relative flex-1 w-full h-full overflow-y-auto">
 
   <div
-    class="absolute inset-0 bg-cover bg-center opacity-20"
+    class="absolute inset-0 bg-cover bg-center opacity-20 pointer-events-none"
     style={`background-image: url('${background}')`}
   />
 
-  <div class="absolute inset-0 bg-zinc-950/85" />
+  <div class="absolute inset-0 bg-zinc-950/85 pointer-events-none" />
 
- <div class="relative z-10 flex h-full min-h-0 flex-col">
+  <div class="relative z-10 flex min-h-full flex-col justify-between">
 
-    {/* 💡 FIXED: Enforced a 1-column vertical split grid on mobile, and matching 2-column tracks on large layouts. */}
-    <div class="grid grid-cols-1 grid-rows-2 flex-1 min-h-0 lg:grid-cols-2 lg:grid-rows-1">
+    <div class="grid grid-cols-2 flex-1 w-full min-h-0">
 
-      {/* 💡 FIXED: Added h-full/w-full bounds so Card children inherit the 50% grid block perfectly */}
-      <div class="min-h-[320px] w-full h-full min-h-0">
+
+      <div class="w-full h-full min-h-[340px]">
         <Card
           href={left.href}
           tag={left.tag}
@@ -51,20 +51,20 @@ const {
           description={left.description}
           actionText={left.actionText}
           variant={left.variant ?? "primary"}
-          class="h-full w-full border-b border-zinc-800/60 lg:border-b-0 lg:border-r"
+
+          class="h-full w-full border-r border-zinc-800/60"
         >
           <Portrait
             slot="background"
             src={left.imageSrc}
             shape="square"
             size="xl"
-            crt={false}
-            animate="float"
           />
         </Card>
       </div>
 
-      <div class="w-full h-full min-h-0">
+      {/* RIGHT CARD CONTAINER */}
+      <div class="w-full h-full min-h-[340px]">
         <Card
           href={right.href}
           tag={right.tag}
@@ -79,14 +79,13 @@ const {
             src={right.imageSrc}
             shape="square"
             size="xl"
-            crt={false}
-            animate="float"
           />
         </Card>
       </div>
 
     </div>
 
+    {/* FOOTER BAR */}
     <div class="shrink-0 border-t border-zinc-800/60 bg-zinc-950/50 px-8 py-4 sm:py-6 backdrop-blur-md">
       <div class="mx-auto max-w-2xl text-center">
         <Body class="text-sm italic text-zinc-500">

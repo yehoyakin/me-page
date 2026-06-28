@@ -15,7 +15,7 @@ roles:
 
 variant: primary
 
-backgroundImage: "images/projects/playfield.png"
+backgroundImage: "images/projects/playfield.webp"
 
 order: 3
 
