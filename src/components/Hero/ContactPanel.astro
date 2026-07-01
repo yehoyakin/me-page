@@ -2,7 +2,7 @@
 import SocialLink from "../../components/Hero/Link.astro";
 ---
 
-{/* FIXED: Hover Floating Tab Socials Layout Panel */}
+{/* Hover Floating Tab Socials Layout Panel */}
 <div 
   id="socials-container" 
   class="group fixed top-1/4 right-0 z-50 flex items-start transition-transform duration-300 translate-x-[calc(100%-44px)] [&.socials-open]:translate-x-0"
@@ -14,7 +14,6 @@ import SocialLink from "../../components/Hero/Link.astro";
     class="bg-black text-white p-3 rounded-l-xl shadow-lg cursor-pointer select-none border border-r-0 border-white/20 group-[.socials-open]:opacity-0 transition-opacity duration-200 flex items-center justify-center focus:outline-none"
     aria-label="Toggle Social Links"
   >
-    {/* Only display the chainlink icon */}
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5 text-amber-400">
       <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
     </svg>
@@ -46,32 +45,30 @@ import SocialLink from "../../components/Hero/Link.astro";
   </div>
 </div>
 
-<script>
-  const socialsContainer = document.getElementById('socials-container');
-  const socialsToggle = document.getElementById('socials-toggle');
+<script is:inline>
+  (function() {
+    var container = document.getElementById('socials-container');
+    var toggle = document.getElementById('socials-toggle');
 
-  if (socialsContainer && socialsToggle) {
-    // 1. Mobile & Global Tap Toggle
-    socialsToggle.addEventListener('click', (e) => {
-      e.stopPropagation();
-      socialsContainer.classList.toggle('socials-open');
-    });
+    if (container && toggle) {
+      toggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        container.classList.toggle('socials-open');
+      });
 
-    // 2. PC Mouse Hover Open
-    socialsContainer.addEventListener('mouseenter', () => {
-      socialsContainer.classList.add('socials-open');
-    });
+      container.addEventListener('mouseenter', function() {
+        container.classList.add('socials-open');
+      });
 
-    // 3. PC Mouse Hover Close
-    socialsContainer.addEventListener('mouseleave', () => {
-      socialsContainer.classList.remove('socials-open');
-    });
+      container.addEventListener('mouseleave', function() {
+        container.classList.remove('socials-open');
+      });
 
-    // 4. Click Outside Dismissal for Mobile users
-    document.addEventListener('click', (e) => {
-      if (!socialsContainer.contains(e.target as Node)) {
-        socialsContainer.classList.remove('socials-open');
-      }
-    });
-  }
+      document.addEventListener('click', function(e) {
+        if (container && !container.contains(e.target)) {
+          container.classList.remove('socials-open');
+        }
+      });
+    }
+  })();
 </script>
