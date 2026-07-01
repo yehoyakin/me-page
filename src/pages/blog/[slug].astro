@@ -98,26 +98,31 @@ const imagesToPreload = [
     </div>
   </section>
 
-{/* FIXED: Hover Floating Tab Sidebar Layout Panel */}
-<div class="group fixed top-1/4 right-0 z-50 flex items-start transition-transform duration-300 translate-x-[calc(100%-44px)] hover:translate-x-0">
-  
-  {/* Hitbox Sidebar Trigger Tab with proper padding and styling */}
-  <div class="bg-black text-white p-3 rounded-l-xl shadow-lg cursor-pointer select-none border border-r-0 border-white/20 group-hover:opacity-0 transition-opacity duration-200 flex items-center justify-center">
+  {/* FIXED: Dynamic panel using both click class-toggling for mobile and basic container grouping */}
+  <div 
+    id="sidebar-container" 
+    class="group fixed top-1/4 right-0 z-50 flex items-start transition-transform duration-300 translate-x-[calc(100%-44px)] [&.sidebar-open]:translate-x-0"
+  >
     
-    {/* Chainlink Icon - Removed animation, keeping static color accent */}
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5 text-amber-400">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
-    </svg>
+    {/* Swapped to a button for seamless touch tap tracking on mobile screens */}
+    <button 
+      id="sidebar-toggle" 
+      class="bg-black text-white p-3 rounded-l-xl shadow-lg cursor-pointer select-none border border-r-0 border-white/20 group-[.sidebar-open]:opacity-0 transition-opacity duration-200 flex items-center justify-center focus:outline-none"
+      aria-label="Toggle Sidebar"
+    >
+      {/* Chainlink Icon */}
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5 text-amber-400">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
+      </svg>
+    </button>
 
+    {/* Hidden Panel Content Container */}
+    <div class="bg-zinc-900/95 backdrop-blur-md p-6 rounded-l-xl border border-white/10 shadow-2xl w-80 max-h-[70vh] overflow-y-auto">
+      <BlogSidebar cards={cards} />
+    </div>
   </div>
 
-  {/* Hidden Panel Content Container */}
-  <div class="bg-zinc-900/95 backdrop-blur-md p-6 rounded-l-xl border border-white/10 shadow-2xl w-80 max-h-[70vh] overflow-y-auto">
-    <BlogSidebar cards={cards} />
-  </div>
-</div>
-
-  {/* 4. MOTION PARALLAX CONTROLLER */}
+  {/* 4. MOTION PARALLAX & SIDEBAR CONTROLLER */}
   <script define:vars={{
     backgrounds,
     backgroundOpacity,
@@ -157,6 +162,35 @@ const imagesToPreload = [
 
     updateBackgrounds();
     window.addEventListener("scroll", updateBackgrounds, { passive: true });
+
+    // --- SIDEBAR DYNAMIC DEVICE SCRIPTS ---
+    const container = document.getElementById('sidebar-container');
+    const toggle = document.getElementById('sidebar-toggle');
+
+    if (container && toggle) {
+      // 1. Mobile & Global Tap Toggle
+      toggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        container.classList.toggle('sidebar-open');
+      });
+
+      // 2. PC Mouse Hover Open
+      container.addEventListener('mouseenter', () => {
+        container.classList.add('sidebar-open');
+      });
+
+      // 3. PC Mouse Hover Close
+      container.addEventListener('mouseleave', () => {
+        container.classList.remove('sidebar-open');
+      });
+
+      // 4. Click Outside Dismissal (Essential to let mobile users hide it)
+      document.addEventListener('click', (e) => {
+        if (!container.contains(e.target)) {
+          container.classList.remove('sidebar-open');
+        }
+      });
+    }
   </script>
 
 </MyLayout>

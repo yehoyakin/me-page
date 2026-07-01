@@ -15,13 +15,14 @@ const config = uiDictionary[variant];
 ---
 
 <p
-class:list={[
-  config.font.body,
-  config.text.base,
-  config.text.hover,
-  "transition-colors",
-  customClass
-]}
+  class:list={[
+    config.font.body,
+    config.text.base,
+    config.text.hover,
+    "transition-colors",
+    "text-sm sm:text-base leading-relaxed break-words max-w-prose",
+    customClass
+  ]}
 >
   <slot />
 </p>
