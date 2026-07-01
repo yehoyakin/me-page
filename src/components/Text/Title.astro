@@ -12,24 +12,24 @@ const {
   class: customClass = "",
   level = 2,
   variant = "primary",
-  outline = false 
+  outline = true 
 } = Astro.props;
 
 const config = uiDictionary[variant];
 
 const Tag = `h${level}` as any;
 
-// Fluid handling rules depending on the header importance hierarchy level
+// FIXED: All font step sizes shifted down by exactly one hierarchy level
 const fluidSizing = {
-  1: "text-[clamp(2rem,7vw,4.5rem)] leading-none", // Level 1 (Hero sizes down smoothly, maxes at 4.5rem)
-  2: "text-[clamp(1.5rem,5vw,3rem)] leading-tight", // Level 2
-  3: "text-[clamp(1.25rem,4vw,2rem)] leading-tight",
-  4: "text-xl",
-  5: "text-lg",
-  6: "text-base"
+  1: "text-[clamp(1.5rem,5vw,3rem)] leading-tight",   // Was Level 2
+  2: "text-[clamp(1.25rem,4vw,2rem)] leading-tight", // Was Level 3
+  3: "text-xl leading-tight",                        // Was Level 4
+  4: "text-lg",                                      // Was Level 5
+  5: "text-base",                                    // Was Level 6
+  6: "text-sm"                                       // Scaled down to small footprint
 };
 
-const defaultFluidClass = fluidSizing[level as keyof typeof fluidSizing] || "text-xl";
+const defaultFluidClass = fluidSizing[level as keyof typeof fluidSizing] || "text-lg";
 ---
 
 <Tag
@@ -37,7 +37,7 @@ const defaultFluidClass = fluidSizing[level as keyof typeof fluidSizing] || "tex
     config.font.title,
     config.text.base, 
     config.text.hover,
-    "transition-colors font-bold break-words", // 'break-words' acts as a safety shield against long words
+    "transition-colors font-bold break-words", 
     defaultFluidClass,
     outline && "[-webkit-text-stroke:1px_#000]",
     customClass
