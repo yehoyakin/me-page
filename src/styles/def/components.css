@@ -47,13 +47,16 @@
     1px  1px 0 rgba(0,0,0,1),
 
 }
-
 .retro-contribution {
   margin-top: 2rem;
   padding: 1rem 1.25rem;
 
   border: 2px solid var(--retro-primary);
   background: rgba(10, 10, 10, 0.85);
+  
+  /* SAFETY: Ensures the parent box respects its layout container dimensions */
+  box-sizing: border-box; 
+  width: 100%;
 }
 
 .retro-contribution h3 {
@@ -63,6 +66,11 @@
   text-transform: uppercase;
   letter-spacing: 0.25em;
   font-size: 0.9rem;
+
+  /* FIXED: Prevents overflowing layouts by handling long words or tight strings safely */
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal;
 }
 
 .retro-contribution ul {
@@ -80,4 +88,3 @@
 .retro-contribution li::marker {
   color: var(--retro-primary);
 }
-

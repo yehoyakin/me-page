@@ -19,14 +19,14 @@ const config = uiDictionary[variant];
 
 const Tag = `h${level}` as any;
 
-// FIXED: All font step sizes shifted down by exactly one hierarchy level
+// Fluid handling rules using container queries (cqw) so text adapts to card size, not screen size
 const fluidSizing = {
-  1: "text-[clamp(1.5rem,5vw,3rem)] leading-tight",   // Was Level 2
-  2: "text-[clamp(1.25rem,4vw,2rem)] leading-tight", // Was Level 3
-  3: "text-xl leading-tight",                        // Was Level 4
-  4: "text-lg",                                      // Was Level 5
-  5: "text-base",                                    // Was Level 6
-  6: "text-sm"                                       // Scaled down to small footprint
+  1: "text-[clamp(1.5rem,12cqw,3rem)] leading-none", 
+  2: "text-[clamp(1.1rem,10cqw,2rem)] leading-tight", // Ideal for your project cards
+  3: "text-xl leading-tight",                        
+  4: "text-lg",                                      
+  5: "text-base",                                    
+  6: "text-sm"                                       
 };
 
 const defaultFluidClass = fluidSizing[level as keyof typeof fluidSizing] || "text-lg";
@@ -37,7 +37,7 @@ const defaultFluidClass = fluidSizing[level as keyof typeof fluidSizing] || "tex
     config.font.title,
     config.text.base, 
     config.text.hover,
-    "transition-colors font-bold break-words", 
+    "transition-colors font-bold break-normal whitespace-normal tracking-wide", // Fixed text snapping
     defaultFluidClass,
     outline && "[-webkit-text-stroke:1px_#000]",
     customClass
