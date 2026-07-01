@@ -2,33 +2,76 @@
 import SocialLink from "../../components/Hero/Link.astro";
 ---
 
-<div class="space-y-3">
+{/* FIXED: Hover Floating Tab Socials Layout Panel */}
+<div 
+  id="socials-container" 
+  class="group fixed top-1/4 right-0 z-50 flex items-start transition-transform duration-300 translate-x-[calc(100%-44px)] [&.socials-open]:translate-x-0"
+>
+  
+  {/* The clickable/hoverable chainlink tab handle */}
+  <button 
+    id="socials-toggle" 
+    class="bg-black text-white p-3 rounded-l-xl shadow-lg cursor-pointer select-none border border-r-0 border-white/20 group-[.socials-open]:opacity-0 transition-opacity duration-200 flex items-center justify-center focus:outline-none"
+    aria-label="Toggle Social Links"
+  >
+    {/* Only display the chainlink icon */}
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5 text-amber-400">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
+    </svg>
+  </button>
 
-  <SocialLink
-    href="mailto:joaquinignacio.herrerabriones@email.com"
-    text="Email"
-    icon={`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-      d="M3 8l9 6 9-6m0 0V6a2 2 0 00-2-2H5a2 2 0 00-2 2v2zm0 0v10a2 2 0 002 2h14a2 2 0 002-2V8" />
-    </svg>`}
-/>
+  {/* Hidden Panel Content Container */}
+  <div class="bg-zinc-900/95 backdrop-blur-md p-6 rounded-l-xl border border-white/10 shadow-2xl w-64 max-h-[70vh] overflow-y-auto">
+    <div class="space-y-3">
+      <SocialLink
+        href="mailto:joaquinignacio.herrerabriones@email.com"
+        text="Email"
+        icon={`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l9 6 9-6m0 0V6a2 2 0 00-2-2H5a2 2 0 00-2 2v2zm0 0v10a2 2 0 002 2h14a2 2 0 002-2V8" /></svg>`}
+      />
 
-  <SocialLink
-    href="https://github.com/yehoyakin"
-    text="GitHub"
-    external
-    icon={`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 .5C5.73.5.75 5.7.75 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2.2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.6-1.3-1.6-1-.7.1-.7.1-.7 1.1.1 1.7 1.2 1.7 1.2 1 .1.8 2 .8 2 .8 1.4 2.1 1 2.6.7.1-.7.4-1 .7-1.2-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.4-2.3 1.1-3.2-.1-.3-.5-1.5.1-3.1 0 0 .9-.3 3.2 1.2.9-.3 1.9-.4 2.9-.4s2 .1 2.9.4c2.3-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.7.9 1.1 1.9 1.1 3.2 0 4.5-2.7 5.5-5.3 5.8.4.3.8 1 .8 2v3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.25 5.7 18.27.5 12 .5z"/>
-    </svg>`}
-/>
+      <SocialLink
+        href="https://github.com/yehoyakin"
+        text="GitHub"
+        external
+        icon={`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.75 5.7.75 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2.2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.6-1.3-1.6-1-.7.1-.7.1-.7 1.1.1 1.7 1.2 1.7 1.2 1 .1.8 2 .8 2 .8 1.4 2.1 1 2.6.7.1-.7.4-1 .7-1.2-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.4-2.3 1.1-3.2-.1-.3-.5-1.5.1-3.1 0 0 .9-.3 3.2 1.2.9-.3 1.9-.4 2.9-.4s2 .1 2.9.4c2.3-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.7.9 1.1 1.9 1.1 3.2 0 4.5-2.7 5.5-5.3 5.8.4.3.8 1 .8 2v3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.25 5.7 18.27.5 12 .5z"/></svg>`}
+      />
 
-  <SocialLink
-    href="https://www.linkedin.com/in/joaquín-herrera-366b2a175"
-    text="LinkedIn"
-    external
-    icon={`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.05-1.86-3.05-1.86 0-2.14 1.45-2.14 2.95v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.65-1.86 3.39-1.86 3.63 0 4.3 2.39 4.3 5.49v6.26zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/>
-    </svg>`}
-/>
-
+      <SocialLink
+        href="https://www.linkedin.com/in/joaquín-herrera-366b2a175"
+        text="LinkedIn"
+        external
+        icon={`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.05-1.86-3.05-1.86 0-2.14 1.45-2.14 2.95v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.65-1.86 3.39-1.86 3.63 0 4.3 2.39 4.3 5.49v6.26zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>`}
+      />
+    </div>
+  </div>
 </div>
+
+<script>
+  const socialsContainer = document.getElementById('socials-container');
+  const socialsToggle = document.getElementById('socials-toggle');
+
+  if (socialsContainer && socialsToggle) {
+    // 1. Mobile & Global Tap Toggle
+    socialsToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      socialsContainer.classList.toggle('socials-open');
+    });
+
+    // 2. PC Mouse Hover Open
+    socialsContainer.addEventListener('mouseenter', () => {
+      socialsContainer.classList.add('socials-open');
+    });
+
+    // 3. PC Mouse Hover Close
+    socialsContainer.addEventListener('mouseleave', () => {
+      socialsContainer.classList.remove('socials-open');
+    });
+
+    // 4. Click Outside Dismissal for Mobile users
+    document.addEventListener('click', (e) => {
+      if (!socialsContainer.contains(e.target as Node)) {
+        socialsContainer.classList.remove('socials-open');
+      }
+    });
+  }
+</script>
