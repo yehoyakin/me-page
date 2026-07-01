@@ -5,12 +5,14 @@ interface Props {
   class?: string;
   level?: 1 | 2 | 3 | 4 | 5 | 6;
   variant?: UiVariant;
+  outline?: boolean; 
 }
 
 const {
   class: customClass = "",
   level = 2,
-  variant = "primary"
+  variant = "primary",
+  outline = true 
 } = Astro.props;
 
 const config = uiDictionary[variant];
@@ -19,13 +21,14 @@ const Tag = `h${level}` as any;
 ---
 
 <Tag
-class:list={[
-  config.font.title,
-  config.text.base,
-  config.text.hover,
-  "transition-colors font-bold",
-  customClass
-]}
+  class:list={[
+    config.font.title,
+    config.text.base, 
+    config.text.hover,
+    "transition-colors font-bold",
+    outline && "[-webkit-text-stroke:1px_#000]",
+    customClass
+  ]}
 >
   <slot />
 </Tag>

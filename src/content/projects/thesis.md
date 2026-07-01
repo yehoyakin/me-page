@@ -24,8 +24,9 @@ links:
     href: "https://gitlab.com/joaquinignacio.herrerabriones/srpg-prototype/-/tree/main/UE_Project?ref_type=heads"
 ---
 
-Enemy units rely on search-based planning algorithms rather than handcrafted scripts.
+A Tactical JRPG (Final Fantasy Tactics, Triangle Strategy), with different Algorithms for their combat AI. Optimized for 100.000+ simulations under a second.
 
-The system adapts dynamically to battlefield conditions while keeping behavior readable for players.
+Applied search based algorithms (Alpha-Beta, MonteCarlo Tree Search, and others) for enemy AI.
+Changing difficulty by modifying a single evaluation method instead of specific behavior.
 
-This project explores how classical AI techniques can be used to create opponents that feel intelligent without sacrificing player understanding.
+Game works in simulation - development in halt.

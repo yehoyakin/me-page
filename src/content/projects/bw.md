@@ -23,9 +23,7 @@ links:
     href: "https://yehoyakin-98.itch.io/borrowed-wings"
 ---
 
-Play as Tommy, a kid burdened by a large debt that must somehow be repaid.
-
-Using your trusty seaplane, you'll travel across an island archipelago delivering supplies to those in need while uncovering hidden caves, forgotten ruins, and long-lost treasures.
+3D Collectathon, Grab objects to obtain effects, and pilot a hidroplane to explore an archipelago and be free of life threatening debt!
 
 Borrowed Wings draws inspiration from the freeform exploration of **Super Mario 64** and the adventurous spirit of **Porco Rosso**.
 

@@ -75,8 +75,7 @@ const imagesToPreload = [
     <BackLink href={`${baseUrl}blog/`} text="← Back to blog" />
   </div>
 
-  {/* 💡 MOBILE ACCESSIBLE CONTAINER GRID: Responsive layout structure drops layout constraints evenly on mobile viewports */}
-  <section class="relative py-12 md:py-16 px-2 sm:px-4 max-w-7xl mx-auto w-full">
+  <section class="relative py-12 md:py-16 px-4 max-w-4xl mx-auto w-full">
     
     {/* 1. LAYER RENDERING CONTAINER */}
     <BlogBackgrounds
@@ -86,9 +85,9 @@ const imagesToPreload = [
       backgroundOpacity={backgroundOpacity}
     />
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 mt-12 w-full items-start">
+    <div class="mt-12 w-full min-w-0">
       {/* 2. BODY GRAPH COLUMN */}
-      <div class="grid grid-cols-1 lg:col-span-2 gap-6 sm:gap-8 w-full min-w-0">
+      <div class="flex flex-col gap-6 sm:gap-8 w-full min-w-0">
         <BlogHeader
           title={post.data.title}
           description={post.data.description}
@@ -96,13 +95,27 @@ const imagesToPreload = [
         />
         <BlogContent bodyHtml={rendered} scenes={scenes} />
       </div>
-
-      {/* 3. SIDE RESPONSIVE WIDGET SYSTEM */}
-      <div class="grid grid-cols-1 lg:col-span-1 w-full min-w-0">
-        <BlogSidebar cards={cards} />
-      </div>
     </div>
   </section>
+
+{/* FIXED: Hover Floating Tab Sidebar Layout Panel */}
+<div class="group fixed top-1/4 right-0 z-50 flex items-start transition-transform duration-300 translate-x-[calc(100%-44px)] hover:translate-x-0">
+  
+  {/* Hitbox Sidebar Trigger Tab with proper padding and styling */}
+  <div class="bg-black text-white p-3 rounded-l-xl shadow-lg cursor-pointer select-none border border-r-0 border-white/20 group-hover:opacity-0 transition-opacity duration-200 flex items-center justify-center">
+    
+    {/* Chainlink Icon - Removed animation, keeping static color accent */}
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5 text-amber-400">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
+    </svg>
+
+  </div>
+
+  {/* Hidden Panel Content Container */}
+  <div class="bg-zinc-900/95 backdrop-blur-md p-6 rounded-l-xl border border-white/10 shadow-2xl w-80 max-h-[70vh] overflow-y-auto">
+    <BlogSidebar cards={cards} />
+  </div>
+</div>
 
   {/* 4. MOTION PARALLAX CONTROLLER */}
   <script define:vars={{

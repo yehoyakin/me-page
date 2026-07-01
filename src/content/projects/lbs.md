@@ -25,7 +25,7 @@ links:
 
 A Unity Editor plugin designed to streamline the creation of top-down and strategy game levels.
 
-It combines procedural generation techniques with reusable templates, allowing designers to quickly produce varied layouts directly inside the editor.
+It combines procedural generation techniques with reusable templates, allowing designers for quick level generation.
 
 The goal of the tool is to reduce repetitive work while preserving designer control over the final result.
 

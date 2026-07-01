@@ -10,14 +10,7 @@ interface Props {
 
 const { title, description, date } = Astro.props as Props;
 ---
-
-{/* 💡 FIXED: Stripped rounded-[2rem] down to sharp rounded-none and synchronized layout styling */}
 <header class="space-y-6 rounded-none border border-zinc-800/60 bg-zinc-950/85 p-6 sm:p-8 backdrop-blur-md text-center relative overflow-hidden">
-  
-  {/* Subtly matches the current layout's text accent color dynamically */}
-  <p class="text-xs sm:text-sm uppercase tracking-[0.3em] font-mono text-[color:var(--retro-primary)]">
-    [ Data Entry ]
-  </p>
   
   <Title level={1} class="text-4xl sm:text-5xl md:text-6xl mx-auto tracking-tight font-bold">
     {title}
@@ -27,7 +20,7 @@ const { title, description, date } = Astro.props as Props;
     {description}
   </Body>
   
-  <time class="mx-auto block font-mono text-xs sm:text-sm text-zinc-500 tracking-wider" datetime={date.toISOString()}>
+  <time class="tracking-wider" datetime={date.toISOString()}>
     ⏱️ {date.toLocaleDateString()}
   </time>
 </header>
