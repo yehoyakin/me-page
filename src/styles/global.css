@@ -17,6 +17,9 @@
 @import "def/callCardImage.css";
 @import "def/linkButton.css";
 @import "def/contribution.css";
+@import "def/parallaxImage.css";
+@import "def/card.css";
+
 /*
 @tailwind base;
 @tailwind components;

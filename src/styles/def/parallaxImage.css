@@ -1,0 +1,100 @@
+.parallax-background {
+
+    position:absolute;
+
+    inset:0;
+
+    overflow:hidden;
+
+    background:#09090b;
+
+}
+
+
+
+.parallax-strip {
+
+    position:absolute;
+
+    left:-20%;
+
+    width:140%;
+
+    height:33%;
+
+
+    background-image:
+        var(--texture);
+
+
+    background-repeat:
+        repeat-x;
+
+
+    background-size:
+        var(--texture-size)
+        var(--texture-size);
+
+
+    opacity:
+        var(--opacity);
+
+
+    image-rendering:
+        pixelated;
+
+
+    animation:
+        strip-scroll
+        var(--speed)
+        linear
+        infinite;
+
+}
+
+
+
+
+.strip-0 {
+
+    top:0;
+
+}
+
+
+.strip-1 {
+
+    top:33%;
+
+}
+
+
+.strip-2 {
+
+    top:66%;
+
+}
+
+
+
+
+
+@keyframes strip-scroll {
+
+
+    from {
+
+        background-position:
+            0 0;
+
+    }
+
+
+    to {
+
+        background-position:
+            512px 0;
+
+    }
+
+}

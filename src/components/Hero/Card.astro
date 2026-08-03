@@ -27,14 +27,8 @@ const {
 
 const config = uiDictionary[variant];
 
-/* =========================================================
-   CARD CLASS
-   💡 FIXED: Swapped 
-   n-h-[450px] for full h-full & w-full 
-   so it fills exactly 50% of its split-landing container slots.
-   ========================================================= */
 const cardClasses = [
-  "group relative flex flex-col justify-center items-center overflow-hidden w-full h-full min-h-0 rounded-none transition-all duration-300",
+  "split-card",
   config.font,
   extraClass
 ].filter(Boolean).join(" ");
@@ -42,82 +36,67 @@ const cardClasses = [
 
 <a
   href={href}
-  data-transition={config.transition}
   class={cardClasses}
+  data-transition={config.transition}
 >
 
-  {/* BACKGROUND IMAGE */}
-{backgroundImage && (
-  <div class="absolute inset-0 overflow-hidden z-0 w-full h-full">
-    
-    {/* IMAGE */}
-    <img
-      src={backgroundImage}
-      class="h-full w-full object-cover scale-105
-             [filter:grayscale(0%)_brightness(75%)_contrast(110%)]
-             transition duration-700 ease-out
-             group-hover:scale-110
-             group-hover:[filter:grayscale(0%)_brightness(100%)_contrast(100%)]"
-      alt=""
-    />
 
-    {/* DARK OVERLAY (fades out) */}
-    <div class="absolute inset-0 bg-zinc-950/50 opacity-100 transition duration-700
-                group-hover:opacity-0" />
-
-    {/* LIGHT SWEEP EFFECT */}
-    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-700">
-      <div class="absolute -left-1/2 top-0 h-full w-1/2 rotate-12
-                  bg-gradient-to-r from-transparent via-white/10 to-transparent
-                  blur-xl animate-[sweep_1.2s_ease-out]">
-      </div>
+  <!-- TEXTURE BACKGROUND -->
+  {backgroundImage && (
+    <div
+      class="split-card-background"
+      style={`--texture:url("${backgroundImage}")`}
+    >
     </div>
+  )}
 
-  </div>
-)}
 
-  {/* OPTIONAL SLOT (Your Portrait/Kirokaze background animation loop) */}
-  {Astro.slots.has('background') && (
-    /* 💡 FIXED: w-full h-full forces the graphic wrapper to span edge-to-edge inside the half-grid */
-    <div class="absolute inset-0 z-0 w-full h-full opacity-10 transition-all duration-700 group-hover:scale-105 
-    group-hover:opacity-20 card-bg-modifier">
+  <!-- DARKENING LAYER -->
+  <div class="split-card-overlay"></div>
+
+
+  <!-- OPTIONAL EXTRA BACKGROUND SLOT -->
+  {Astro.slots.has("background") && (
+    <div class="split-card-extra">
       <slot name="background" />
     </div>
   )}
 
-  {/* HOVER GLOW */}
-  <div class="absolute inset-0 z-10 opacity-0 transition duration-500 group-hover:opacity-100 theme-glow-bg" />
 
-  {/* CONTENT */}
-  <div class="relative z-20 max-w-lg px-6 sm:px-10 py-10 sm:py-16 text-center lg:text-left transition duration-500 group-hover:-translate-y-2">
+  <!-- CONTENT -->
 
-    <Body variant={variant} class="mt-2">
+  <div class="split-card-content">
+
+    <Body variant={variant}>
       {tag}
     </Body>
 
-    <Title level={2} variant={variant} class="mt-2 text-4xl sm:text-5xl md:text-6xl">
+
+    <Title
+      level={2}
+      variant={variant}
+      class="split-card-title"
+    >
       {title}
     </Title>
 
-    <Body variant={variant} class="mt-4 text-sm sm:text-base">
+
+    <Body
+      variant={variant}
+      class="split-card-description"
+    >
       {description}
     </Body>
 
-    <div class="mt-6 sm:mt-8 inline-flex items-center gap-3 transition group-hover:gap-5 text-ui-base">
-      <span class="font-mono text-sm tracking-wider uppercase">{actionText}</span>
+
+    <div class="split-card-action">
+      <span>
+        {actionText}
+      </span>
     </div>
+
 
   </div>
 
-</a>
 
-<style is:global>
-  /* 💡 FIXED: Removed border-radius overrides to maintain perfectly blocky pixel layouts */
-  .card-bg-modifier > div {
-    width: 100% !important;
-    height: 100% !important;
-    border: none !important;
-    border-radius: 0px !important; 
-    box-shadow: none !important;
-  }
-</style>
+</a>

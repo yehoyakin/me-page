@@ -18,8 +18,8 @@ const {
   theme = "primary",
 } = Astro.props;
 
-// Pure container classes - no animations, no complex setups
-const baseClasses = "relative overflow-hidden border-4 bg-zinc-950 backdrop-blur-sm";
+// Added box-border and isolate to prevent background bleed around rounded borders
+const baseClasses = "relative overflow-hidden border-4 bg-zinc-950 isolate box-border";
 
 const shapeMap = {
   circle: "rounded-full",
@@ -47,24 +47,22 @@ const dynamicContainerClasses = [
   themeMap[theme]
 ].filter(Boolean).join(" ");
 
-// 💡 FORCED: Every image now uses object-cover to completely fill the space without bars
-const imgClasses = "w-full h-full object-contain select-none pointer-events-none";
+// Critical: Forces width/height override and resets inline aspect-ratio from Astro asset optimization
+const imgClasses = "absolute inset-0 !w-full !h-full !max-w-none !max-h-none block !object-cover select-none pointer-events-none";
 ---
 
 <div class={dynamicContainerClasses}>
-  <div class="w-full h-full flex items-center justify-center overflow-hidden">
-    {typeof src === 'string' ? (
-      <img
-        src={src}
-        alt={alt}
-        class={imgClasses}
-      />
-    ) : (
-      <Image
-        src={src}
-        alt={alt}
-        class={imgClasses}
-      />
-    )}
-  </div>
+  {typeof src === 'string' ? (
+    <img
+      src={src}
+      alt={alt}
+      class={imgClasses}
+    />
+  ) : (
+    <Image
+      src={src}
+      alt={alt}
+      class={imgClasses}
+    />
+  )}
 </div>

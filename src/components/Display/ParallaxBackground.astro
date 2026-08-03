@@ -1,0 +1,36 @@
+---
+interface Strip {
+    image:string;
+    speed:number;
+    size?:number;
+    opacity?:number;
+    direction?: "left" | "right";
+}
+
+interface Props {
+    strips:Strip[];
+}
+
+
+const { strips } = Astro.props;
+
+---
+
+<div class="parallax-background">
+
+{
+    strips.map((strip,index)=>(
+        <div
+            class={`parallax-strip strip-${index}`}
+            style={`
+                --texture:url('${strip.image}');
+                --speed:${strip.speed}s;
+                --texture-size:${strip.size ?? 256}px;
+                --opacity:${strip.opacity ?? 1};
+                --direction:${strip.direction ?? "left"};
+            `}
+        />
+    ))
+}
+
+</div>
