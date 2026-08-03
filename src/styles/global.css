@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;600;700&family=Press+Start+2P&family=Orbitron:wght@400;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=M+PLUS+Rounded+1c:wght@400;500;700&family=Pixelify+Sans:wght@400;600;700&family=Rubik:wght@400;600;700&family=VT323&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Press+Start+2P&family=Pixelify+Sans:wght@400;500;600;700&family=VT323&family=Tiny5&family=DotGothic16&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jersey+10&family=Jersey+15&family=Kode+Mono:wght@400;500;600;700&family=Share+Tech+Mono&family=Major+Mono+Display&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Press+Start+2P&family=Pixelify+Sans:wght@400;500;600;700&family=VT323&family=Tiny5&family=DotGothic16&family=Jersey+10&family=Jersey+15&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400;500;600;700&family=Share+Tech+Mono&family=Major+Mono+Display&family=Nova+Mono&display=swap');
 
 @import "def/tokens.css";
 @import "def/themes.css";
@@ -8,9 +12,41 @@
 @import "def/fonts.css";
 @import "def/rules.css";
 @import "def/animations.css";
+@import "def/projectGallery.css";
+@import "def/callCard.css";
+@import "def/callCardImage.css";
+@import "def/linkButton.css";
+@import "def/contribution.css";
 /*
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 */
 @import "tailwindcss";
+
+
+@font-face {
+    font-family: "PixelFlag";
+    src: url("../fonts/PixelFlag.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+@font-face {
+    font-family: "PixelBit-Free";
+    src: url("../fonts/PixelBit-Free.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+@font-face {
+    font-family: "Pixeled";
+    src: url("../fonts/Pixeled.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}

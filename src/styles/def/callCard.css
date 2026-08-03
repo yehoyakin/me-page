@@ -1,0 +1,612 @@
+/* ============================================================
+   CARD BASE
+============================================================ */
+
+
+.retro-expandable-card {
+
+    position:relative;
+
+    margin:1rem 0;
+
+    min-height:260px;
+
+    background:#09090b;
+
+    overflow:hidden;
+
+    cursor:pointer;
+
+
+    transition:
+
+        transform 120ms steps(100);
+
+
+}
+
+
+
+.retro-expandable-card:hover {
+
+    /*transform:translateX(6px);*/
+
+}
+
+
+
+.retro-expandable-card:nth-child(even):hover {
+
+   /* transform:translateX(-6px);*/
+
+}
+
+
+
+
+
+
+
+/* ============================================================
+   MAIN LAYOUT
+============================================================ */
+
+
+.card-main-layout {
+
+
+    display:grid;
+
+
+    grid-template-columns:
+
+        minmax(0,1.2fr)
+
+        minmax(260px,.8fr);
+
+
+
+    gap:1.5rem;
+
+
+    padding:1.5rem;
+
+
+    align-items:center;
+
+
+}
+
+
+
+
+
+
+
+/* ============================================================
+   TEXT SIDE
+============================================================ */
+
+
+.card-info-panel {
+
+
+    display:flex;
+
+
+    flex-direction:column;
+
+
+    justify-content:space-between;
+
+
+    min-height:220px;
+
+
+}
+
+
+
+
+.card-title-area {
+
+
+    display:flex;
+
+
+    flex-direction:column;
+
+
+    gap:.5rem;
+
+
+}
+
+
+
+
+
+.card-tag {
+
+
+    font-size:.7rem;
+
+
+    letter-spacing:.35em;
+
+
+    text-transform:uppercase;
+
+
+    color:white;
+
+
+}
+
+
+
+
+.card-project-title {
+
+
+    font-size:clamp(
+        1.6rem,
+        3vw,
+        2.6rem
+    );
+
+
+    line-height:.95;
+
+
+    text-transform:uppercase;
+
+
+}
+
+
+
+.card-description {
+
+
+    max-width:38rem;
+
+
+    color:#a1a1aa;
+
+
+    font-size:.9rem;
+
+
+    line-height:1.5;
+
+
+}
+
+
+
+
+
+
+
+/* ============================================================
+   FOOTER
+============================================================ */
+
+
+.card-footer {
+
+
+    margin-top:1.5rem;
+
+
+    display:flex;
+
+
+    flex-direction:column;
+
+
+    gap:.5rem;
+
+
+}
+
+
+
+
+
+.card-links {
+
+
+    display:flex;
+
+
+    flex-wrap:wrap;
+
+
+    gap:.5rem;
+
+
+}
+
+
+
+
+.project-description-hint {
+
+
+    font-size:.65rem;
+
+
+    letter-spacing:.35em;
+
+
+    text-transform:uppercase;
+
+
+    color:white;
+
+
+    opacity:.7;
+
+
+}
+
+
+
+
+
+
+
+/* ============================================================
+   IMAGE AREA
+============================================================ */
+
+
+.card-preview-frame {
+
+
+    width:100%;
+
+
+    height:100%;
+
+
+    min-height:220px;
+
+
+    overflow:hidden;
+
+
+}
+
+
+
+.card-preview-image {
+
+
+    width:100%;
+
+
+    height:100%;
+
+
+    object-fit:cover;
+
+
+    display:block;
+
+
+
+    transition:
+
+
+        transform 250ms steps(8);
+
+
+}
+
+
+
+
+.retro-expandable-card:hover
+.card-preview-image {
+
+
+    transform:scale(1.1);
+
+
+}
+
+
+
+
+
+
+/* ============================================================
+   EXPANDED STATE
+============================================================ */
+
+
+.retro-expandable-card[data-active="true"] {
+
+
+    z-index:20;
+
+
+}
+
+
+
+.retro-expandable-card[data-active="true"]
+.card-main-layout {
+
+
+    grid-template-columns:
+
+
+        minmax(0,1fr)
+
+        minmax(420px,1fr);
+
+
+}
+
+
+
+.retro-expandable-card[data-active="true"]
+.card-preview-image {
+
+
+    transform:scale(1);
+
+
+}
+
+
+
+
+
+
+
+/* ============================================================
+   DRAWER
+============================================================ */
+
+
+.card-expanded-content {
+
+
+    padding:
+
+        0
+
+        1.5rem
+
+        1.5rem;
+
+
+}
+
+
+
+
+.project-preview {
+
+
+    display:block;
+
+
+}
+
+
+
+.project-description-preview {
+
+
+    max-height:4.5rem;
+
+
+    overflow:hidden;
+
+
+    opacity:.45;
+
+
+}
+
+
+
+
+.retro-expandable-card[data-active="true"]
+.project-preview {
+
+
+    display:none;
+
+
+}
+
+
+
+
+
+.project-drawer {
+
+
+    opacity:0;
+
+
+    height:0;
+
+
+    visibility:hidden;
+
+
+
+    transform:
+
+        translateY(12px);
+
+
+
+    overflow:hidden;
+
+
+
+    transition:
+
+
+        opacity 150ms steps(4),
+
+        transform 150ms steps(4);
+
+
+}
+
+
+
+
+
+.retro-expandable-card[data-active="true"]
+.project-drawer {
+
+
+    opacity:1;
+
+
+    height:auto;
+
+
+    visibility:visible;
+
+
+
+    transform:translateY(0);
+
+
+}
+
+
+
+
+
+
+.project-drawer-inner {
+
+
+    padding:1.5rem;
+
+
+    background:#09090b;
+
+
+}
+
+
+
+
+/* ============================================================
+   ROLES / CONTRIBUTIONS
+============================================================ */
+
+
+.project-role-list {
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:.75rem 1.25rem;
+
+    margin-top:1.25rem;
+
+}
+
+
+
+.project-role {
+
+    padding:.4rem .8rem;
+
+
+    font-family:var(--retro-font);
+
+
+    font-size:.75rem;
+
+
+    font-weight:700;
+
+
+    font-style:italic;
+
+
+    letter-spacing:.15em;
+
+
+    text-transform:uppercase;
+
+
+    color:white;
+
+}
+
+.project-role-title {
+
+    margin-top:1.5rem;
+
+    margin-bottom:.75rem;
+
+
+    font-family:var(--retro-font);
+
+
+    font-size:.7rem;
+
+
+    font-weight:700;
+
+
+    letter-spacing:.35em;
+
+
+    text-transform:uppercase;
+
+
+    color:white;
+
+
+    opacity:.7;
+
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+
+@media(max-width:900px){
+
+
+    .card-main-layout {
+
+
+        grid-template-columns:1fr;
+
+
+    }
+
+
+
+    .card-preview-frame {
+
+
+        min-height:180px;
+
+
+    }
+
+
+}

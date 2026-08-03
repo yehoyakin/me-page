@@ -1,11 +1,26 @@
+/*:root {
+
+  --font-title: "IBM Plex Sans", sans-serif;
+
+  --font-ui: "IBM Plex Mono", monospace;
+
+  --font-body: "Inter", sans-serif;
+
+  --font-terminal: "JetBrains Mono", monospace;
+
+}
+*/
+
+/* PIXEL ART
 :root {
+
+  --font-title: "Jersey 15", monospace;
   --font-ui: "Silkscreen", monospace;
   --font-body: "Pixelify Sans", monospace;
-  --font-title: "Press Start 2P", monospace;
-  --font-alt-title: "VT323", monospace;
-  --font-terminal: "VT323", monospace;
-}
+  --font-terminal: "JetBrains Mono", monospace;
 
+}
+*/
 
 .font-ui {
   font-family: var(--font-ui) !important;

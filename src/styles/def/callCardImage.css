@@ -1,0 +1,231 @@
+/* ============================================================
+   CALL CARD IMAGE SYSTEM
+   ONLY CONTROLS IMAGE LAYOUT
+   NO COLOR MODIFICATION
+============================================================ */
+
+
+
+/* ============================================================
+   IMAGE COLUMN
+============================================================ */
+
+
+.card-preview-frame {
+
+    width:100%;
+
+
+    aspect-ratio:16 / 9;
+
+
+    overflow:hidden;
+
+
+    position:relative;
+
+
+    background:#09090b;
+
+
+    border:
+
+        1px solid
+
+        rgba(255,255,255,.15);
+
+
+
+    transition:
+
+
+        aspect-ratio .25s ease,
+
+        border-color .15s ease;
+
+
+}
+
+
+
+
+
+/* ============================================================
+   IMAGE ITSELF
+   ORIGINAL COLORS PRESERVED
+============================================================ */
+
+
+.card-preview-image {
+
+
+    width:100%;
+
+
+    height:100%;
+
+
+    object-fit:cover;
+
+
+    display:block;
+
+
+    transition:
+
+
+        object-position .25s ease;
+
+
+
+}
+
+
+
+
+
+/* ============================================================
+   HOVER
+   Expand image area, do not zoom image
+============================================================ */
+
+
+.retro-expandable-card:hover
+.card-main-layout {
+
+
+    grid-template-columns:
+
+
+        minmax(0,1.25fr)
+
+        minmax(320px,1fr);
+
+
+
+    transition:
+
+
+        grid-template-columns .25s ease;
+
+
+}
+
+
+
+
+
+.retro-expandable-card:hover
+.card-preview-frame {
+
+    /*
+    border-color:
+
+   
+        var(--current-token);
+    */
+
+}
+
+
+
+
+
+/* ============================================================
+   ACTIVE CARD
+   Image gets priority space
+============================================================ */
+
+
+.retro-expandable-card[data-active="true"]
+.card-main-layout {
+
+
+    grid-template-columns:
+
+
+        minmax(0,1fr)
+
+        minmax(440px,1fr);
+
+
+
+}
+
+
+
+
+
+.retro-expandable-card[data-active="true"]
+.card-preview-frame {
+
+
+    aspect-ratio:
+
+        16 / 10;
+
+
+    /*border-color:
+
+        var(--current-token);
+*/
+
+}
+
+
+
+
+
+/* ============================================================
+   IMAGE SIZE FEEL
+   No scale transform.
+   The container grows instead.
+============================================================ */
+
+
+.retro-expandable-card:hover
+.card-preview-image {
+
+
+    object-position:center;
+
+
+}
+
+
+
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+
+@media(max-width:900px){
+
+
+    .card-preview-frame {
+
+
+        aspect-ratio:
+
+            16 / 9;
+
+
+    }
+
+
+
+    .retro-expandable-card[data-active="true"]
+    .card-preview-frame {
+
+
+        aspect-ratio:
+
+            16 / 10;
+
+
+    }
+
+
+}

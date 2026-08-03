@@ -1,8 +1,8 @@
 :root {
   /* retro colors */
-  --retro-primary: rgb(251 191 36);
-  --retro-secondary: rgb(147 197 253);
-  --retro-terminal: rgb(34 197 94);
+  --retro-primary: rgb(236, 251, 32);
+  --retro-secondary: rgb(4, 255, 251);
+  --retro-terminal: rgb(255, 52, 252);
 
   /* UI neutrals */
   --ui-base: rgb(228 228 231);
