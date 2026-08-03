@@ -31,42 +31,23 @@ const {
   class: extraClass = ""
 } = Astro.props as Props;
 
-/* ✅ BASE SAFE RESOLVER */
-const base = import.meta.env.BASE_URL;
+const base = import.meta.env.BASE_URL.endsWith("/")
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
 
-const resolve = (path?: string) =>
-  path
-    ? path.startsWith("http")
-      ? path
-      : `${base}${path.replace(/^\//, "")}`
-    : "";
+const resolve = (path?: string) => {
+  if (!path) return "";
+  if (path.startsWith("http://") || path.startsWith("https://")) return path;
+  const cleanPath = path.startsWith("/") ? path.slice(1) : path;
+  return `${base}${cleanPath}`;
+};
 
-/* ❌ FIX: no HTML string injection */
-function iconFor(href?: string, image?: string) {
-  if (image) {
-    return `
-      <img 
-        src="${resolve(image)}"
-        class="w-4 h-4 rounded-sm object-cover"
-        alt=""
-      />
-    `;
-  }
-
-  return `
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-      fill="currentColor" class="w-4 h-4">
-      <path d="M3.9 12a8.1 8.1 0 1116.2 0 8.1 8.1 0 01-16.2 0z"/>
-    </svg>
-  `;
-}
+const isExternal = (url?: string) => url?.startsWith("http://") || url?.startsWith("https://");
 ---
 
 {links.length > 0 ? (
   <div class={`group block rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-950/60 transition ${extraClass}`}>
-
     <div class="p-4">
-
       {backgroundImage && (
         <div class="w-full h-36 mb-4 overflow-hidden rounded-md">
           <img
@@ -96,24 +77,22 @@ function iconFor(href?: string, image?: string) {
       <div class="mt-4 flex flex-col gap-2">
         {links.map((l: LinkItem) => (
           <Link
-            href={l.href}
+            href={resolve(l.href)}
             text={l.text ?? "Open"}
-            icon={iconFor(l.href, l.image)}
-            external
+            external={isExternal(l.href)}
           />
         ))}
       </div>
-
     </div>
   </div>
 ) : (
   <a
     href={resolve(href)}
-    target="_blank"
+    target={isExternal(href) ? "_blank" : undefined}
+    rel={isExternal(href) ? "noopener noreferrer" : undefined}
     class={`group block rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-950/60 transition hover:scale-[1.01] ${extraClass}`}
   >
     <div class="flex items-center gap-4 p-4">
-
       {backgroundImage && (
         <div class="w-20 h-20 flex-shrink-0 overflow-hidden rounded-lg">
           <img
@@ -141,14 +120,10 @@ function iconFor(href?: string, image?: string) {
       </div>
 
       <div class="flex items-center">
-        <Link
-          href={href ?? "#"}
-          text={actionText || "Open"}
-          icon={iconFor(href, backgroundImage)}
-          external
-        />
+        <span class="inline-flex items-center gap-1.5 text-sm font-medium text-ui-primary">
+          {actionText || "Open"}
+        </span>
       </div>
-
     </div>
   </a>
 )}
