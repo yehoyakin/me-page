@@ -1,9 +1,7 @@
 ---
 import type { BlogPost } from "../../types/blog";
-
 import Title from "../UI/Title.astro";
 import Body from "../UI/Body.astro";
-import Meta from "../UI/Meta.astro";
 import { asset } from "../../utils/asset";
 
 type Props = {
@@ -74,11 +72,11 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
 
     <div class="space-y-4 flex-1">
 
-      <Meta
+      <Body
         class="text-xs sm:text-sm text-zinc-500 transition duration-500 group-hover:text-retro-primary"
       >
         {date.toDateString()}
-      </Meta>
+    </Body>
 
       <Title
         level={2}
