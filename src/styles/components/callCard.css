@@ -17,7 +17,7 @@
 
   cursor: pointer;
 
-  transition: transform 120ms steps(100);
+  transition: transform 200ms ease;
 }
 
 .retro-expandable-card:hover {
@@ -82,9 +82,6 @@
   font-size: clamp(1.6rem, 3vw, 2.6rem);
 
   line-height: 0.95;
-
-  height: auto;
-  aspect-ratio: 16 / 9; /* Example aspect ratio */
   text-transform: uppercase;
 }
 
@@ -104,7 +101,6 @@
 
 .card-footer {
   height: auto;
-  aspect-ratio: 16 / 9; /* Example aspect ratio */
 
   display: flex;
 
@@ -156,11 +152,14 @@
 
   display: block;
 
-  transition: transform 250ms steps(8);
+  transform-origin: center;
+  transform: scale(1.1); /* default: subtly zoomed-in */
+  transition: transform 300ms ease;
 }
 
+/* Hover: image zooms out to reveal more */
 .retro-expandable-card:hover .card-preview-image {
-  transform: scale(1.1);
+  transform: scale(1);
 }
 
 /* ============================================================
@@ -168,13 +167,18 @@
 ============================================================ */
 
 .retro-expandable-card[data-active="true"] {
-  z-index: 20;
+  z-index: 40;
 }
 
 .retro-expandable-card[data-active="true"] .card-main-layout {
+  /* Expand the image column on active instead of scaling the whole card */
   grid-template-columns:
     minmax(0, 1fr)
-    minmax(420px, 1fr);
+    minmax(480px, 1fr);
+}
+
+.retro-expandable-card[data-active="true"] .card-preview-frame {
+  aspect-ratio: 16 / 10;
 }
 
 .retro-expandable-card[data-active="true"] .card-preview-image {

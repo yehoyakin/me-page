@@ -41,6 +41,7 @@
   max-width: 100%;
 
   object-fit: cover;
+  object-position: center;
 
   display: block;
 
@@ -77,7 +78,7 @@
 .retro-expandable-card[data-active="true"] .card-main-layout {
   grid-template-columns:
     minmax(0, 1fr)
-    minmax(440px, 1fr);
+    minmax(480px, 1fr);
 }
 
 .retro-expandable-card[data-active="true"] .card-preview-frame {
