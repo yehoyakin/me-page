@@ -32,7 +32,7 @@
 
 @font-face {
   font-family: "PixelFlag";
-  src: url("../fonts/PixelFlag.ttf") format("truetype");
+  src: url("../fonts/(PixelFlag).ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
