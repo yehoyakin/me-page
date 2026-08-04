@@ -27,7 +27,7 @@ const sceneHtml =
 
         const align = (scene.align || "center").toLowerCase();
 
-        // 💡 FIXED: Kept your original logic pristine, just switched to rounded-none
+        // Present each scene as a full-width media block.
         let figureClass =
           "my-8 overflow-hidden rounded-none border border-zinc-800";
 
@@ -60,7 +60,7 @@ const sceneHtml =
     : bodyHtml;
 ---
 
-{/* 💡 FIXED: Changed container to rounded-none without touching the HTML output data chain */}
+{/* Article content container. */}
 <div
   class="prose prose-invert max-w-none rounded-none
          border border-zinc-800/50 bg-zinc-950/70

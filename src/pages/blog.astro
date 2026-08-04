@@ -14,10 +14,10 @@ const bgGif = asset("images/kbg1.gif");
 
 <MyLayout title="Blog" animation="traversal" preloadImages={[bgGif]}>
 
-  {/* 💡 FIXED: Uses absolute/fixed breakouts to isolate layers and prevent text vanishing acts */}
+  {/* Layered page background for the blog listing. */}
   <div class="absolute inset-0 w-full min-h-screen overflow-x-hidden bg-zinc-950">
 
-    {/* 💡 FIXED: Native GPU blur filter matching the homepage breakout engine */}
+    {/* Background image layer with soft blur. */}
     <div class="fixed inset-0 z-0 pointer-events-none style3d" style="filter: blur(10px); transform: scale(1.05);">
       <img
         src={bgGif}
@@ -27,10 +27,10 @@ const bgGif = asset("images/kbg1.gif");
       />
     </div>
 
-    {/* 💡 FIXED: Dark tint layer matching home configuration stack */}
+    {/* Overlay to improve contrast over the background image. */}
     <div class="absolute inset-0 z-10 pointer-events-none" />
 
-    {/* 💡 FIXED: Section is lifted safely to z-20 so title, description, and list stay fully visible */}
+    {/* Main content layer. */}
     <section class="relative z-20 py-24 px-4 sm:px-6 md:px-8 max-w-7xl mx-auto w-full">
       <BackLink />
 

@@ -9,7 +9,7 @@
 
     margin:1rem 0;
 
-    min-height:260px;
+    min-height:220px;
 
     background:#09090b;
 
@@ -66,10 +66,10 @@
 
 
 
-    gap:1.5rem;
+    gap:1rem;
 
 
-    padding:1.5rem;
+    padding:1rem;
 
 
     align-items:center;
@@ -589,24 +589,50 @@
 
 @media(max-width:900px){
 
+    .retro-expandable-card {
+        min-height: auto;
+        margin: 0.75rem 0;
+    }
 
     .card-main-layout {
-
-
-        grid-template-columns:1fr;
-
-
+        grid-template-columns: 1fr;
+        gap: 0.9rem;
+        padding: 0.9rem;
     }
 
+    .card-info-panel {
+        min-height: auto;
+        gap: 0.75rem;
+    }
 
+    .card-title-area {
+        gap: 0.35rem;
+    }
+
+    .card-project-title {
+        font-size: clamp(1.2rem, 5vw, 1.6rem);
+    }
+
+    .card-description {
+        font-size: 0.85rem;
+        line-height: 1.45;
+    }
+
+    .card-footer {
+        margin-top: 0.75rem;
+        gap: 0.45rem;
+    }
 
     .card-preview-frame {
-
-
-        min-height:180px;
-
-
+        min-height: 160px;
     }
 
+    .card-expanded-content {
+        padding: 0 0.9rem 0.9rem;
+    }
+
+    .project-drawer-inner {
+        padding: 1rem;
+    }
 
 }

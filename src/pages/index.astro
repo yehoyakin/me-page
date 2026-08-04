@@ -7,10 +7,10 @@ import { asset } from "../utils/asset";
 ---
 
 <MyLayout title="Home">
-  {/* 💡 BULLETPROOF BLUR SYSTEM */}
+  {/* Full-screen backdrop for the landing experience. */}
   <div class="fixed inset-0 w-full h-screen overflow-hidden bg-zinc-950">
 
-    {/* 💡 FIXED BACKGROUND LAYER */}
+    {/* Background image layer with a soft blur effect. */}
     <div class="fixed inset-0 z-0 pointer-events-none style3d" style="filter: blur(10px); transform: scale(1.05);">
       <img
         src={asset("images/kbg.gif")}
@@ -19,10 +19,10 @@ import { asset } from "../utils/asset";
       />
     </div>
 
-    {/* 💡 Static dark overlay tint */}
+    {/* Dark overlay to improve text contrast. */}
     <div class="absolute inset-0 z-10 pointer-events-none" />
 
-    {/* 💡 THE FIX: Grid layout that divides space by screen height fractions */}
+    {/* Split layout for the hero and supporting content. */}
     <div class="relative z-20 grid grid-rows-[auto_1fr] h-screen max-h-screen w-full overflow-hidden">
 
       <header class="absolute top-0 right-0 px-8 py-6 z-50">

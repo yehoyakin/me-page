@@ -27,14 +27,14 @@ const { cards = [] } = Astro.props as Props;
          lg:max-h-[calc(100vh-6rem)] overflow-y-auto retro-scrollbar"
 >
   {cards.length > 0 && (
-    /* 💡 FIXED: Removed rounded-2xl container curves and unified flat block layout look */
+    /* Keep the sidebar layout aligned with the surrounding card styling. */
     <div
       class="space-y-6 rounded-none border border-zinc-800/60
              bg-zinc-950/60 backdrop-blur-xl
              p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)]"
     >
       {cards.map((card) => (
-        /* 💡 FIXED: Changed individual wrapper rounded-xl to completely square edge elements */
+        /* Use sharp edges for a more deliberate editorial presentation. */
         <div class="w-full overflow-hidden rounded-none border border-zinc-900/40 bg-zinc-950/40">
           <LinkCard
             href={card.href}

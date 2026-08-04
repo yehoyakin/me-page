@@ -28,7 +28,7 @@ const {
 } = Astro.props as Props;
 ---
 
-{/* 💡 FIXED: Set to always allow vertical expansion when content inside the cards grows in length */}
+{/* Allow the landing section to grow vertically as content expands. */}
 <section class="relative flex-1 w-full h-full overflow-y-auto">
 
   <div
@@ -40,10 +40,9 @@ const {
 
   <div class="relative z-10 flex min-h-full flex-col justify-between">
 
-    <div class="grid grid-cols-2 flex-1 w-full min-h-0">
+    <div class="grid grid-cols-1 gap-0 md:grid-cols-2 flex-1 w-full min-h-0">
 
-
-      <div class="w-full h-full min-h-[340px]">
+      <div class="w-full h-full min-h-[220px] md:min-h-[340px]">
         <Card
           href={left.href}
           tag={left.tag}
@@ -52,7 +51,7 @@ const {
           actionText={left.actionText}
           variant={left.variant ?? "primary"}
 
-          class="h-full w-full border-r border-zinc-800/60"
+          class="h-full w-full border-b border-zinc-800/60 md:border-b-0 md:border-r border-zinc-800/60"
         >
           <Portrait
             slot="background"
@@ -64,7 +63,7 @@ const {
       </div>
 
       {/* RIGHT CARD CONTAINER */}
-      <div class="w-full h-full min-h-[340px]">
+      <div class="w-full h-full min-h-[220px] md:min-h-[340px]">
         <Card
           href={right.href}
           tag={right.tag}
@@ -86,9 +85,9 @@ const {
     </div>
 
     {/* FOOTER BAR */}
-    <div class="shrink-0 border-t border-zinc-800/60 bg-zinc-950/50 px-8 py-4 sm:py-6 backdrop-blur-md">
+    <div class="shrink-0 border-t border-zinc-800/60 bg-zinc-950/50 px-4 py-4 sm:px-8 sm:py-6 backdrop-blur-md">
       <div class="mx-auto max-w-2xl text-center">
-        <Body class="text-sm italic text-zinc-500">
+        <Body class="text-xs sm:text-sm italic text-zinc-500">
           {footerText}
         </Body>
       </div>

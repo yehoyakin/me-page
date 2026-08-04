@@ -261,7 +261,7 @@
 
     padding:
 
-        2rem;
+        1.25rem;
 
 
 
@@ -407,18 +407,30 @@
 
 @media(max-width:900px){
 
-
-    .split-card-background {
-
-
-        background-size:
-
-            160px
-
-            160px;
-
-
+    .split-card-content {
+        padding: 1rem;
+        max-width: 100%;
     }
 
+    .split-card-title {
+        font-size: clamp(1.35rem, 5.5vw, 2rem);
+        line-height: 1.1;
+    }
+
+    .split-card-description {
+        margin-top: 0.75rem;
+        font-size: 0.9rem;
+        line-height: 1.45;
+    }
+
+    .split-card-action {
+        margin-top: 1rem;
+        padding: 0.65rem 1rem;
+        font-size: 0.8rem;
+    }
+
+    .split-card-background {
+        background-size: 160px 160px;
+    }
 
 }

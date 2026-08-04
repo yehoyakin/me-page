@@ -53,12 +53,12 @@ const backgroundParallax = post.data.backgroundParallax ?? 0.2;
 
 const rendered = post.rendered?.html ?? "";
 
-// 💡 SANITIZE THE BASE PATH ROUTE FOR REDIRECT COMPATIBILITY
+// Resolve the base URL for internal links.
 const baseUrl = import.meta.env.BASE_URL.endsWith("/")
   ? import.meta.env.BASE_URL
   : `${import.meta.env.BASE_URL}/`;
 
-// 💡 GATHER INTENSE PRELOAD ARRAYS AFTER ENGINES RUN
+// Preload the hero and background images for the article page.
 const imagesToPreload = [
   heroImage,
   ...backgrounds.map((b) => b.image)
@@ -98,7 +98,7 @@ const imagesToPreload = [
     </div>
   </section>
 
-  {/* FIXED: Dynamic panel using both click class-toggling for mobile and basic container grouping */}
+  {/* Floating sidebar for related articles and cards. */}
   <div 
     id="sidebar-container" 
     class="group fixed top-1/4 right-0 z-50 flex items-start transition-transform duration-300 translate-x-[calc(100%-44px)] [&.sidebar-open]:translate-x-0"
