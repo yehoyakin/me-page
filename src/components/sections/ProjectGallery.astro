@@ -66,137 +66,173 @@ const totalProjects = projects.length;
 </div>
 
 <script is:inline>
-  const INTERVAL = 10000;
+  const INTERVAL = 20000;
 
-  const gallery = document.getElementById("project-gallery");
+  function initGallery() {
+    const gallery = document.getElementById("project-gallery");
+    if (!gallery) return;
 
-  const slides = [...gallery.querySelectorAll("[data-slide]")];
+    // Prevent double init — but first clear any leftover timers from previous page
+    if (gallery.dataset.galleryInitialized === "true") return;
+    gallery.dataset.galleryInitialized = "true";
 
-  const dots = [...gallery.querySelectorAll("[data-dot]")];
+    // Clear stale timers/RAF stored on the element from a previous page's init
+    if (gallery._timer) clearInterval(gallery._timer);
+    if (gallery._raf) cancelAnimationFrame(gallery._raf);
+    gallery._timer = null;
+    gallery._raf = null;
 
-  const progress = document.getElementById("gallery-progress-fill");
+    const slides = [...gallery.querySelectorAll("[data-slide]")];
+    const dots = [...gallery.querySelectorAll("[data-dot]")];
+    const progress = document.getElementById("gallery-progress-fill");
 
-  let current = 0;
+    let current = 0;
 
-  let timer = null;
+    // Store timers on the gallery element so they survive across navigations
+    gallery._timer = null;
+    gallery._raf = null;
 
-  let animationFrame = null;
-
-  function currentCard() {
-    return slides[current]?.querySelector(".retro-expandable-card");
-  }
-
-  function isExpanded() {
-    return currentCard()?.dataset.active === "true";
-  }
-
-  function updateDots() {
-    dots.forEach((dot, index) => {
-      dot.classList.toggle("active", index === current);
-    });
-  }
-
-  function show(index) {
-    if (index < 0) index = slides.length - 1;
-
-    if (index >= slides.length) index = 0;
-
-    slides.forEach((slide, i) => {
-      slide.style.display = i === index ? "block" : "none";
-    });
-
-    current = index;
-
-    updateDots();
-
-    restartProgress();
-  }
-
-  function next() {
-    if (isExpanded()) return;
-
-    show(current + 1);
-  }
-
-  function startTimer() {
-    stopTimer();
-
-    timer = setInterval(() => {
-      next();
-    }, INTERVAL);
-  }
-
-  function stopTimer() {
-    if (timer) {
-      clearInterval(timer);
-
-      timer = null;
+    function currentCard() {
+      return slides[current]?.querySelector(".retro-expandable-card");
     }
-  }
 
-  function restartProgress() {
-    if (!progress) return;
+    function isExpanded() {
+      return currentCard()?.dataset.active === "true";
+    }
 
-    cancelAnimationFrame(animationFrame);
+    function updateDots() {
+      dots.forEach((dot, index) => {
+        dot.classList.toggle("active", index === current);
+      });
+    }
 
-    progress.style.transition = "none";
+    function show(index) {
+      if (index < 0) index = slides.length - 1;
+      if (index >= slides.length) index = 0;
 
-    progress.style.transform = "scaleX(0)";
+      // Deselect any expanded card when advancing to another project
+      document.querySelectorAll(".retro-expandable-card").forEach((card) => {
+        card.setAttribute("data-active", "false");
+      });
 
-    void progress.offsetWidth;
+      slides.forEach((slide, i) => {
+        slide.style.display = i === index ? "block" : "none";
+      });
 
-    if (isExpanded()) return;
+      current = index;
+      updateDots();
+      restartProgress();
+    }
 
-    animationFrame = requestAnimationFrame(() => {
-      progress.style.transition = `transform ${INTERVAL}ms linear`;
+    function next() {
+      if (isExpanded()) return;
+      show(current + 1);
+    }
 
-      progress.style.transform = "scaleX(1)";
-    });
-  }
+    function startTimer() {
+      stopTimer();
+      gallery._timer = setInterval(() => {
+        next();
+      }, INTERVAL);
+    }
 
-  function resetGalleryTimer() {
-    stopTimer();
+    function stopTimer() {
+      if (gallery._timer) {
+        clearInterval(gallery._timer);
+        gallery._timer = null;
+      }
+    }
 
-    restartProgress();
+    function restartProgress() {
+      if (!progress) return;
+      if (gallery._raf) cancelAnimationFrame(gallery._raf);
+      progress.style.transition = "none";
+      progress.style.transform = "scaleX(0)";
+      void progress.offsetWidth;
+      if (isExpanded()) return;
+      gallery._raf = requestAnimationFrame(() => {
+        progress.style.transition = `transform ${INTERVAL}ms linear`;
+        progress.style.transform = "scaleX(1)";
+      });
+    }
 
-    startTimer();
-  }
+    function resetGalleryTimer() {
+      stopTimer();
+      restartProgress();
+      startTimer();
+    }
 
-  dots.forEach((dot) => {
-    dot.addEventListener("click", () => {
-      const index = Number(dot.dataset.dot);
-
-      show(index);
-
-      resetGalleryTimer();
-    });
-  });
-
-  slides.forEach((slide) => {
-    const card = slide.querySelector(".retro-expandable-card");
-
-    card.addEventListener("click", () => {
-      // Let CallCard handle data-active first
-
+    function handleCardClick() {
+      // Let CallCard handle data-active first, then sync gallery
       requestAnimationFrame(() => {
         if (isExpanded()) {
-          // selected
-
           stopTimer();
-
           restartProgress();
         } else {
-          // deselected
+          resetGalleryTimer();
+        }
+      });
+    }
 
+    // Dot click handlers
+    dots.forEach((dot) => {
+      dot.addEventListener("click", () => {
+        const index = Number(dot.dataset.dot);
+        show(index);
+        resetGalleryTimer();
+      });
+    });
+
+    // Card click handlers
+    slides.forEach((slide) => {
+      const card = slide.querySelector(".retro-expandable-card");
+      if (card) {
+        card.addEventListener("click", handleCardClick);
+      }
+    });
+
+    // Listen for custom card-toggle events from CallCard
+    gallery.addEventListener("card-toggle", () => {
+      requestAnimationFrame(() => {
+        if (isExpanded()) {
+          stopTimer();
+          restartProgress();
+        } else {
           resetGalleryTimer();
         }
       });
     });
+
+    // START STATE
+    show(0);
+    resetGalleryTimer();
+  }
+
+  function destroyGallery() {
+    const gallery = document.getElementById("project-gallery");
+    if (!gallery) return;
+    gallery.dataset.galleryInitialized = "false";
+    // Clear timers stored on the element
+    if (gallery._timer) {
+      clearInterval(gallery._timer);
+      gallery._timer = null;
+    }
+    if (gallery._raf) {
+      cancelAnimationFrame(gallery._raf);
+      gallery._raf = null;
+    }
+  }
+
+  // Initial load
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initGallery);
+  } else {
+    initGallery();
+  }
+
+  // Re-init after Astro client-side navigation
+  document.addEventListener("astro:after-swap", () => {
+    destroyGallery();
+    initGallery();
   });
-
-  // START STATE AFTER RELOAD
-
-  show(0);
-
-  resetGalleryTimer();
 </script>

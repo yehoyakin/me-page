@@ -96,6 +96,12 @@ const cardClasses = [
       'data-active',
       state ? 'false' : 'true'
     );
+
+    // Notify the gallery that a card was toggled
+    const gallery = this.closest('#project-gallery');
+    if (gallery) {
+      gallery.dispatchEvent(new CustomEvent('card-toggle'));
+    }
   "
 >
   <div class="card-main-layout">
