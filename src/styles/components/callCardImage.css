@@ -1,175 +1,93 @@
+/* Purpose: Styles - src/styles/components/callCardImage.css (Image layout for call cards) */
+
 /* ============================================================
    CALL CARD IMAGE SYSTEM
    ONLY CONTROLS IMAGE LAYOUT
    NO COLOR MODIFICATION
 ============================================================ */
 
-
-
 /* ============================================================
    IMAGE COLUMN
 ============================================================ */
 
-
 .card-preview-frame {
+  width: 100%;
 
-    width:100%;
+  aspect-ratio: 16 / 9;
 
+  overflow: hidden;
 
-    aspect-ratio:16 / 9;
+  position: relative;
 
+  background: #09090b;
 
-    overflow:hidden;
+  border: 1px solid rgba(255, 255, 255, 0.15);
 
-
-    position:relative;
-
-
-    background:#09090b;
-
-
-    border:
-
-        1px solid
-
-        rgba(255,255,255,.15);
-
-
-
-    transition:
-
-
-        aspect-ratio .25s ease,
-
-        border-color .15s ease;
-
-
+  transition:
+    aspect-ratio 0.25s ease,
+    border-color 0.15s ease;
 }
-
-
-
-
 
 /* ============================================================
    IMAGE ITSELF
    ORIGINAL COLORS PRESERVED
 ============================================================ */
 
-
 .card-preview-image {
+  width: 100%;
 
-    width:100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  max-width: 100%;
 
-    height:auto;
-    aspect-ratio: 16 / 9;
-    max-width:100%;
+  object-fit: cover;
 
-    object-fit:cover;
+  display: block;
 
-    display:block;
-
-    transition:
-
-        object-position .25s ease;
-
-
+  transition: object-position 0.25s ease;
 }
-
-
-
-
 
 /* ============================================================
    HOVER
    Expand image area, do not zoom image
 ============================================================ */
 
+.retro-expandable-card:hover .card-main-layout {
+  grid-template-columns:
+    minmax(0, 1.25fr)
+    minmax(320px, 1fr);
 
-.retro-expandable-card:hover
-.card-main-layout {
-
-
-    grid-template-columns:
-
-
-        minmax(0,1.25fr)
-
-        minmax(320px,1fr);
-
-
-
-    transition:
-
-
-        grid-template-columns .25s ease;
-
-
+  transition: grid-template-columns 0.25s ease;
 }
 
-
-
-
-
-.retro-expandable-card:hover
-.card-preview-frame {
-
-    /*
+.retro-expandable-card:hover .card-preview-frame {
+  /*
     border-color:
 
    
         var(--current-token);
     */
-
 }
-
-
-
-
 
 /* ============================================================
    ACTIVE CARD
    Image gets priority space
 ============================================================ */
 
-
-.retro-expandable-card[data-active="true"]
-.card-main-layout {
-
-
-    grid-template-columns:
-
-
-        minmax(0,1fr)
-
-        minmax(440px,1fr);
-
-
-
+.retro-expandable-card[data-active="true"] .card-main-layout {
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(440px, 1fr);
 }
 
+.retro-expandable-card[data-active="true"] .card-preview-frame {
+  aspect-ratio: 16 / 10;
 
-
-
-
-.retro-expandable-card[data-active="true"]
-.card-preview-frame {
-
-
-    aspect-ratio:
-
-        16 / 10;
-
-
-    /*border-color:
+  /*border-color:
 
         var(--current-token);
 */
-
 }
-
-
-
-
 
 /* ============================================================
    IMAGE SIZE FEEL
@@ -177,50 +95,20 @@
    The container grows instead.
 ============================================================ */
 
-
-.retro-expandable-card:hover
-.card-preview-image {
-
-
-    object-position:center;
-
-
+.retro-expandable-card:hover .card-preview-image {
+  object-position: center;
 }
-
-
-
-
 
 /* ============================================================
    MOBILE
 ============================================================ */
 
+@media (max-width: 900px) {
+  .card-preview-frame {
+    aspect-ratio: 16 / 9;
+  }
 
-@media(max-width:900px){
-
-
-    .card-preview-frame {
-
-
-        aspect-ratio:
-
-            16 / 9;
-
-
-    }
-
-
-
-    .retro-expandable-card[data-active="true"]
-    .card-preview-frame {
-
-
-        aspect-ratio:
-
-            16 / 10;
-
-
-    }
-
-
+  .retro-expandable-card[data-active="true"] .card-preview-frame {
+    aspect-ratio: 16 / 10;
+  }
 }

@@ -1,3 +1,5 @@
+/* Purpose: Styles - src/styles/components/components.css (Shared component baseline styles) */
+
 /* UI TEXT COLORS */
 .text-ui-base {
   color: var(--ui-base);
@@ -41,9 +43,8 @@
 .retro-outline {
   text-shadow:
     /* Cardinal Directions (Up, Down, Left, Right) */
-    1px -1px 0 rgba(0,0,0,1),
-    1px  1px 0 rgba(0,0,0,1),
-   -1px  1px 0 rgba(0,0,0,1),
-    1px  1px 0 rgba(0,0,0,1),
-
+    1px -1px 0 rgba(0, 0, 0, 1),
+    1px 1px 0 rgba(0, 0, 0, 1),
+    -1px 1px 0 rgba(0, 0, 0, 1),
+    1px 1px 0 rgba(0, 0, 0, 1);
 }

@@ -1,4 +1,5 @@
 ---
+// Purpose: Section - src/components/sections/TopLeftLinkWidget.astro (Top-left floating links widget)
 import Link from "../shared/Link.astro";
 
 interface LinkItem {
@@ -13,17 +14,11 @@ interface Props {
   label?: string;
 }
 
-const {
-  links = [],
-  title = "",
-  label = "Find it here",
-} = Astro.props as Props;
+const { links = [], title = "", label = "Find it here" } = Astro.props as Props;
 ---
 
-<!-- GLOBAL HUD LAYER (DO NOT TOUCH LAYOUT) -->
 <div class="fixed top-6 right-6 z-[999] pointer-events-none">
   <div class="pointer-events-auto relative group">
-
     <!-- TRIGGER -->
     <button
       class="flex items-center gap-2 rounded-full border border-zinc-800
@@ -37,44 +32,42 @@ const {
 
     <!-- PANEL -->
     <div
-    class="absolute right-0 top-full -mt-px w-80
-
+      class="absolute right-0 top-full -mt-px w-80
             border border-zinc-800
             bg-zinc-950/95 backdrop-blur-xl
             shadow-[0_12px_40px_rgba(0,0,0,0.5)]
-
             opacity-0 translate-y-2
             pointer-events-none
-
             transition duration-200 ease-out
-
             group-hover:opacity-100
             group-hover:translate-y-0
             group-hover:pointer-events-auto
-
             group-focus-within:opacity-100
             group-focus-within:translate-y-0
             group-focus-within:pointer-events-auto"
     >
-    <div class="border-b border-zinc-800 px-4 py-3">
-        {title && (
-        <div class="text-xs uppercase tracking-[0.2em] text-zinc-400">
-            {title}
-        </div>
-        )}
-    </div>
+      <div class="border-b border-zinc-800 px-4 py-3">
+        {
+          title && (
+            <div class="text-xs uppercase tracking-[0.2em] text-zinc-400">
+              {title}
+            </div>
+          )
+        }
+      </div>
 
-    <div class="p-3 space-y-2">
-        {links.map((link) => (
-        <Link
-            href={link.href}
-            text={link.text ?? "Open"}
-            icon=""
-            external
-        />
-        ))}
+      <div class="p-3 space-y-2">
+        {
+          links.map((link) => (
+            <Link
+              href={link.href}
+              text={link.text ?? "Open"}
+              icon=""
+              external
+            />
+          ))
+        }
+      </div>
     </div>
-    </div>
-
   </div>
 </div>

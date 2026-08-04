@@ -1,4 +1,5 @@
 ---
+// Purpose: Component - src/components/Blog/BlogHeader.astro (Blog post header: title, date, description)
 import Title from "../UI/Title.astro";
 import Body from "../UI/Body.astro";
 
@@ -10,16 +11,23 @@ interface Props {
 
 const { title, description, date } = Astro.props as Props;
 ---
-<header class="space-y-6 rounded-none border border-zinc-800/60 bg-zinc-950/85 p-6 sm:p-8 backdrop-blur-md text-center relative overflow-hidden">
-  
-  <Title level={1} class="text-4xl sm:text-5xl md:text-6xl mx-auto tracking-tight font-bold">
+
+<header
+  class="space-y-6 rounded-none border border-zinc-800/60 bg-zinc-950/85 p-6 sm:p-8 backdrop-blur-md text-center relative overflow-hidden"
+>
+  <Title
+    level={1}
+    class="text-4xl sm:text-5xl md:text-6xl mx-auto tracking-tight font-bold"
+  >
     {title}
   </Title>
-  
-  <Body class="mx-auto max-w-3xl text-zinc-400 text-center text-sm sm:text-base">
+
+  <Body
+    class="mx-auto max-w-3xl text-zinc-400 text-center text-sm sm:text-base"
+  >
     {description}
   </Body>
-  
+
   <time class="tracking-wider" datetime={date.toISOString()}>
     ⏱️ {date.toLocaleDateString()}
   </time>

@@ -1,5 +1,5 @@
 ---
-// src/components/Hero/InfoHeader.astro
+// Purpose: Section - src/components/sections/InfoHeader.astro (Hero header info block)
 import Title from "../UI/Title.astro";
 import Portrait from "../shared/MyImage.astro";
 import Body from "../UI/Body.astro";
@@ -11,12 +11,7 @@ interface Props {
   theme?: "primary" | "secondary" | "terminal";
 }
 
-const {
-  name,
-  description,
-  portraitSrc,
-  theme = "primary"
-} = Astro.props;
+const { name, description, portraitSrc, theme = "primary" } = Astro.props;
 
 const dynamicStyle = `--header-theme-color: var(--color-retro-${theme});`;
 ---
@@ -30,12 +25,7 @@ const dynamicStyle = `--header-theme-color: var(--color-retro-${theme});`;
   </Title>
 
   <div class="flex justify-center mt-4">
-    <Portrait
-      src={portraitSrc}
-      theme={theme}
-      shape="squircle"
-      size="md"
-    />
+    <Portrait src={portraitSrc} theme={theme} shape="squircle" size="md" />
   </div>
 
   <Body variant={theme} class="mt-3 text-sm tracking-widest uppercase">

@@ -1,3 +1,5 @@
+/* Purpose: Styles - src/styles/base/tokens.css (Design tokens: colors, spacing, sizes) */
+
 :root {
   /* retro colors */
   --retro-primary: rgb(236, 251, 32);
@@ -9,4 +11,3 @@
   --ui-muted: rgb(161 161 170);
   --ui-invert: rgb(255 255 255);
 }
-

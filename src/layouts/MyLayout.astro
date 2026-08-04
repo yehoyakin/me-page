@@ -1,4 +1,5 @@
 ---
+// Purpose: Layout - src/layouts/MyLayout.astro (Main site layout used by pages)
 import "../styles/global.css";
 import { ClientRouter } from "astro:transitions";
 
@@ -8,19 +9,30 @@ const { title = "JoacoDev", animation = "grid" } = Astro.props;
 <html lang="en" data-theme={animation}>
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=5.0"
+    />
     <title>{title}</title>
 
     <ClientRouter />
   </head>
 
-  <body class="bg-zinc-950 text-zinc-100 font-main antialiased selection:bg-amber-500/30 selection:text-white">
+  <body
+    class="bg-zinc-950 text-zinc-100 font-main antialiased selection:bg-amber-500/30 selection:text-white"
+  >
+    <div
+      class="fixed inset-0 bg-[linear-gradient(to_right,#1f293715_1px,transparent_1px),linear-gradient(to_bottom,#1f293715_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none"
+    >
+    </div>
 
-    <div class="fixed inset-0 bg-[linear-gradient(to_right,#1f293715_1px,transparent_1px),linear-gradient(to_bottom,#1f293715_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none"></div>
+    <canvas
+      id="pixel-transition-canvas"
+      class="fixed inset-0 pointer-events-none z-[9999] w-full h-full"></canvas>
 
-    <canvas id="pixel-transition-canvas" class="fixed inset-0 pointer-events-none z-[9999] w-full h-full"></canvas>
-
-    <main class="relative z-10 min-h-screen w-full flex flex-col overflow-x-hidden">
+    <main
+      class="relative z-10 min-h-screen w-full flex flex-col overflow-x-hidden"
+    >
       <div class="w-full flex-1 px-4 sm:px-6 md:px-8 mx-auto">
         <slot />
       </div>

@@ -5,18 +5,20 @@
   "engines": {
     "node": ">=22.12.0"
   },
-"scripts": {
-  "dev": "astro dev",
-  "start": "astro dev",
-  "build": "astro clean && astro build",
-  "preview": "astro preview",
-  "astro": "astro"
-},
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro clean && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.1"
   },
   "devDependencies": {
     "astro": "^6.4.8",
+    "prettier": "^3.9.6",
+    "prettier-plugin-astro": "^0.14.1",
     "tailwindcss": "^4.3.1"
   },
   "overrides": {

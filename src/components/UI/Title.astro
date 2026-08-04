@@ -1,18 +1,19 @@
 ---
+// Purpose: Component - src/components/UI/Title.astro (UI Title component)
 import { uiDictionary, type UiVariant } from "../../config/uiDictionary";
 
 interface Props {
   class?: string;
   level?: 1 | 2 | 3 | 4 | 5 | 6;
   variant?: UiVariant;
-  outline?: boolean; 
+  outline?: boolean;
 }
 
 const {
   class: customClass = "",
   level = 2,
   variant = "primary",
-  outline = true 
+  outline = true,
 } = Astro.props;
 
 const config = uiDictionary[variant];
@@ -21,26 +22,27 @@ const Tag = `h${level}` as any;
 
 // Fluid handling rules using container queries (cqw) so text adapts to card size, not screen size
 const fluidSizing = {
-  1: "text-[clamp(1.5rem,12cqw,3rem)] leading-none", 
+  1: "text-[clamp(1.5rem,12cqw,3rem)] leading-none",
   2: "text-[clamp(1.1rem,10cqw,2rem)] leading-tight", // Ideal for your project cards
-  3: "text-xl leading-tight",                        
-  4: "text-lg",                                      
-  5: "text-base",                                    
-  6: "text-sm"                                       
+  3: "text-xl leading-tight",
+  4: "text-lg",
+  5: "text-base",
+  6: "text-sm",
 };
 
-const defaultFluidClass = fluidSizing[level as keyof typeof fluidSizing] || "text-lg";
+const defaultFluidClass =
+  fluidSizing[level as keyof typeof fluidSizing] || "text-lg";
 ---
 
 <Tag
   class:list={[
     config.font.title,
-    config.text.base, 
+    config.text.base,
     config.text.hover,
     "transition-colors font-bold break-normal whitespace-normal tracking-wide",
     defaultFluidClass,
     outline && "[-webkit-text-stroke:1px_#000]",
-    customClass
+    customClass,
   ]}
 >
   <slot />

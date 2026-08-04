@@ -1,4 +1,5 @@
 ---
+// Purpose: Section - src/components/sections/Card.astro (Generic content card)
 import Title from "../UI/Title.astro";
 import Body from "../UI/Body.astro";
 import { uiDictionary, type UiVariant } from "../../config/uiDictionary";
@@ -22,81 +23,61 @@ const {
   actionText,
   variant = "primary",
   backgroundImage,
-  class: extraClass = ""
+  class: extraClass = "",
 } = Astro.props;
 
 const config = uiDictionary[variant];
 
-const cardClasses = [
-  "split-card",
-  config.font,
-  extraClass
-].filter(Boolean).join(" ");
+const cardClasses = ["split-card", config.font, extraClass]
+  .filter(Boolean)
+  .join(" ");
 ---
 
-<a
-  href={href}
-  class={cardClasses}
-  data-transition={config.transition}
->
-
-
+<a href={href} class={cardClasses} data-transition={config.transition}>
   <!-- TEXTURE BACKGROUND -->
-  {backgroundImage && (
-    <div
-      class="split-card-background"
-      style={`--texture:url("${backgroundImage}")`}
-    >
-    </div>
-  )}
-
+  {
+    backgroundImage && (
+      <div
+        class="split-card-background"
+        style={`--texture:url("${backgroundImage}")`}
+      />
+    )
+  }
 
   <!-- DARKENING LAYER -->
   <div class="split-card-overlay"></div>
 
-
   <!-- OPTIONAL EXTRA BACKGROUND SLOT -->
-  {Astro.slots.has("background") && (
-    <div class="split-card-extra">
-      <slot name="background" />
-    </div>
-  )}
-
+  {
+    Astro.slots.has("background") && (
+      <div class="split-card-extra">
+        <slot name="background" />
+      </div>
+    )
+  }
 
   <!-- CONTENT -->
 
   <div class="split-card-content">
-
-    <Body variant={variant} class="text-[11px] sm:text-sm uppercase tracking-[0.25em]">
+    <Body
+      variant={variant}
+      class="text-[11px] sm:text-sm uppercase tracking-[0.25em]"
+    >
       {tag}
     </Body>
 
-
-    <Title
-      level={2}
-      variant={variant}
-      class="split-card-title"
-    >
+    <Title level={2} variant={variant} class="split-card-title">
       {title}
     </Title>
 
-
-    <Body
-      variant={variant}
-      class="split-card-description"
-    >
+    <Body variant={variant} class="split-card-description">
       {description}
     </Body>
-
 
     <div class="split-card-action">
       <span>
         {actionText}
       </span>
     </div>
-
-
   </div>
-
-
 </a>

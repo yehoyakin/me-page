@@ -1,4 +1,5 @@
 ---
+// Purpose: Page - src/pages/blog/[slug].astro (Blog post template)
 import MyLayout from "../../layouts/MyLayout.astro";
 import BackLink from "../../components/shared/BackLink.astro";
 import BlogBackgrounds from "../../components/Blog/BlogBackgrounds.astro";
@@ -59,24 +60,21 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
   : `${import.meta.env.BASE_URL}/`;
 
 // Preload the hero and background images for the article page.
-const imagesToPreload = [
-  heroImage,
-  ...backgrounds.map((b) => b.image)
-].filter(Boolean);
+const imagesToPreload = [heroImage, ...backgrounds.map((b) => b.image)].filter(
+  Boolean,
+);
 ---
 
-<MyLayout 
-  title={post.data.title} 
-  animation={post.data.theme ?? "grid"} 
+<MyLayout
+  title={post.data.title}
+  animation={post.data.theme ?? "grid"}
   preloadImages={imagesToPreload}
 >
-  
   <div class="relative z-30">
     <BackLink href={`${baseUrl}blog/`} text="← Back to blog" />
   </div>
 
   <section class="relative py-12 md:py-16 px-4 max-w-4xl mx-auto w-full">
-    
     {/* 1. LAYER RENDERING CONTAINER */}
     <BlogBackgrounds
       backgrounds={backgrounds}
@@ -99,36 +97,52 @@ const imagesToPreload = [
   </section>
 
   {/* Floating sidebar for related articles and cards. */}
-  <div 
-    id="sidebar-container" 
+  <div
+    id="sidebar-container"
     class="group fixed top-1/4 right-0 z-50 flex items-start transition-transform duration-300 translate-x-[calc(100%-44px)] [&.sidebar-open]:translate-x-0"
   >
-    
-    {/* Swapped to a button for seamless touch tap tracking on mobile screens */}
-    <button 
-      id="sidebar-toggle" 
+    {
+      /* Swapped to a button for seamless touch tap tracking on mobile screens */
+    }
+    <button
+      id="sidebar-toggle"
       class="bg-black text-white p-3 rounded-l-xl shadow-lg cursor-pointer select-none border border-r-0 border-white/20 group-[.sidebar-open]:opacity-0 transition-opacity duration-200 flex items-center justify-center focus:outline-none"
       aria-label="Toggle Sidebar"
     >
       {/* Chainlink Icon */}
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="2.5"
+        stroke="currentColor"
+        class="w-5 h-5"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244"
+        ></path>
       </svg>
     </button>
 
     {/* Hidden Panel Content Container */}
-    <div class="bg-zinc-900/95 backdrop-blur-md p-6 rounded-l-xl border border-white/10 shadow-2xl w-80 max-h-[70vh] overflow-y-auto">
+    <div
+      class="bg-zinc-900/95 backdrop-blur-md p-6 rounded-l-xl border border-white/10 shadow-2xl w-80 max-h-[70vh] overflow-y-auto"
+    >
       <BlogSidebar cards={cards} />
     </div>
   </div>
 
   {/* 4. MOTION PARALLAX & SIDEBAR CONTROLLER */}
-  <script define:vars={{
-    backgrounds,
-    backgroundOpacity,
-    backgroundBlur,
-    backgroundParallax
-  }}>
+  <script
+    define:vars={{
+      backgrounds,
+      backgroundOpacity,
+      backgroundBlur,
+      backgroundParallax,
+    }}
+  >
     const bgOpacity = backgroundOpacity ?? 1;
     const bgBlur = backgroundBlur ?? 0;
     const parallaxFactor = Number(backgroundParallax ?? 0.2);
@@ -165,41 +179,40 @@ const imagesToPreload = [
 
     // --- SIDEBAR DYNAMIC DEVICE SCRIPTS ---
     const initSidebar = () => {
-      const container = document.getElementById('sidebar-container');
-      const toggle = document.getElementById('sidebar-toggle');
+      const container = document.getElementById("sidebar-container");
+      const toggle = document.getElementById("sidebar-toggle");
 
       if (!container || !toggle) return;
-      if (container.dataset.sidebarBound === 'true') return;
+      if (container.dataset.sidebarBound === "true") return;
 
       // 1. Mobile & Global Tap Toggle
-      toggle.addEventListener('click', (e) => {
+      toggle.addEventListener("click", (e) => {
         e.stopPropagation();
-        container.classList.toggle('sidebar-open');
+        container.classList.toggle("sidebar-open");
       });
 
       // 2. PC Mouse Hover Open
-      container.addEventListener('mouseenter', () => {
-        container.classList.add('sidebar-open');
+      container.addEventListener("mouseenter", () => {
+        container.classList.add("sidebar-open");
       });
 
       // 3. PC Mouse Hover Close
-      container.addEventListener('mouseleave', () => {
-        container.classList.remove('sidebar-open');
+      container.addEventListener("mouseleave", () => {
+        container.classList.remove("sidebar-open");
       });
 
       // 4. Click Outside Dismissal (Essential to let mobile users hide it)
-      document.addEventListener('click', (e) => {
+      document.addEventListener("click", (e) => {
         if (!container.contains(e.target)) {
-          container.classList.remove('sidebar-open');
+          container.classList.remove("sidebar-open");
         }
       });
 
-      container.dataset.sidebarBound = 'true';
+      container.dataset.sidebarBound = "true";
     };
 
-    document.addEventListener('astro:page-load', initSidebar);
-    document.addEventListener('DOMContentLoaded', initSidebar);
+    document.addEventListener("astro:page-load", initSidebar);
+    document.addEventListener("DOMContentLoaded", initSidebar);
     initSidebar();
   </script>
-
 </MyLayout>

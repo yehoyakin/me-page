@@ -1,4 +1,5 @@
 ---
+// Purpose: Page - src/pages/portfolio.astro (Portfolio listing)
 import MyLayout from "../layouts/MyLayout.astro";
 import Title from "../components/UI/Title.astro";
 import Body from "../components/UI/Body.astro";
@@ -11,80 +12,62 @@ import { asset } from "../utils/asset";
 const rawProjects = await getCollection("projects");
 
 const projects = await Promise.all(
-    rawProjects.map(async (project) => ({
-        ...project,
-        rendered: project.rendered?.html ?? "",
-    }))
+  rawProjects.map(async (project) => ({
+    ...project,
+    rendered: project.rendered?.html ?? "",
+  })),
 );
 
 const bgGif = asset("images/kbg2.gif");
 
 const cardPreviews = projects
-    .map((p) => asset(p.data.backgroundImage))
-    .filter(Boolean);
+  .map((p) => asset(p.data.backgroundImage))
+  .filter(Boolean);
 
-const imagesToPreload = [
-    bgGif,
-    ...cardPreviews
-];
+const imagesToPreload = [bgGif, ...cardPreviews];
 ---
 
 <MyLayout
-    title="Portfolio | JoacoDev"
-    animation="grid"
-    preloadImages={imagesToPreload}
+  title="Portfolio | JoacoDev"
+  animation="grid"
+  preloadImages={imagesToPreload}
 >
-
-    <div class="absolute inset-0 w-full min-h-screen overflow-x-hidden bg-zinc-950">
-
-        <div
-            class="fixed inset-0 z-0 pointer-events-none style3d"
-            style="filter: blur(10px); transform: scale(1.05);"
-        >
-            <img
-                src={bgGif}
-                class="w-full h-full object-cover opacity-100"
-                alt=""
-                role="presentation"
-            />
-        </div>
-
-        <div class="absolute inset-0 z-10 pointer-events-none" />
-
-        <div class="relative z-20 py-16 md:py-24 px-4 sm:px-6 md:px-8 max-w-6xl mx-auto w-full">
-
-            <BackLink />
-
-            <section class="mt-6 w-full">
-
-                <Title
-                    class="mt-3 text-5xl md:text-6xl"
-                    level={1}
-                    variant="primary"
-                >
-                    Portfolio
-                </Title>
-
-                <Body
-                    variant="secondary"
-                    class="mt-4 max-w-2xl"
-                >
-                    Browse through my projects. Click any project to expand it and
-                    explore the full development breakdown.
-                </Body>
-
-                <div class="mt-12">
-
-                    <ProjectGallery
-                        projects={projects}
-                    />
-
-                </div>
-
-            </section>
-
-        </div>
-
+  <div
+    class="absolute inset-0 w-full min-h-screen overflow-x-hidden bg-zinc-950"
+  >
+    <div
+      class="fixed inset-0 z-0 pointer-events-none style3d"
+      style="filter: blur(10px); transform: scale(1.05);"
+    >
+      <img
+        src={bgGif}
+        class="w-full h-full object-cover opacity-100"
+        alt=""
+        role="presentation"
+      />
     </div>
 
+    <div class="absolute inset-0 z-10 pointer-events-none"></div>
+
+    <div
+      class="relative z-20 py-16 md:py-24 px-4 sm:px-6 md:px-8 max-w-6xl mx-auto w-full"
+    >
+      <BackLink />
+
+      <section class="mt-6 w-full">
+        <Title class="mt-3 text-5xl md:text-6xl" level={1} variant="primary">
+          Portfolio
+        </Title>
+
+        <Body variant="secondary" class="mt-4 max-w-2xl">
+          Browse through my projects. Click any project to expand it and explore
+          the full development breakdown.
+        </Body>
+
+        <div class="mt-12">
+          <ProjectGallery projects={projects} />
+        </div>
+      </section>
+    </div>
+  </div>
 </MyLayout>

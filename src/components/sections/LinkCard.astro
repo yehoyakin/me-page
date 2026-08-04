@@ -1,4 +1,5 @@
 ---
+// Purpose: Section - src/components/sections/LinkCard.astro (Small link card used across sidebars)
 import Title from "../UI/Title.astro";
 import Body from "../UI/Body.astro";
 import Link from "../shared/Link.astro";
@@ -28,7 +29,7 @@ const {
   description = "",
   actionText = "",
   backgroundImage = "",
-  class: extraClass = ""
+  class: extraClass = "",
 } = Astro.props as Props;
 
 const base = import.meta.env.BASE_URL.endsWith("/")
@@ -42,68 +43,26 @@ const resolve = (path?: string) => {
   return `${base}${cleanPath}`;
 };
 
-const isExternal = (url?: string) => url?.startsWith("http://") || url?.startsWith("https://");
+const isExternal = (url?: string) =>
+  url?.startsWith("http://") || url?.startsWith("https://");
 ---
 
-{links.length > 0 ? (
-  <div class={`group block rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-950/60 transition ${extraClass}`}>
-    <div class="p-4">
-      {backgroundImage && (
-        <div class="w-full h-36 mb-4 overflow-hidden rounded-md">
-          <img
-            src={resolve(backgroundImage)}
-            class="w-full h-full object-cover"
-            alt=""
-          />
-        </div>
-      )}
+{
+  links.length > 0 ? (
+    <div
+      class={`group block rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-950/60 transition ${extraClass}`}
+    >
+      <div class="p-4">
+        {backgroundImage && (
+          <div class="w-full h-36 mb-4 overflow-hidden rounded-md">
+            <img
+              src={resolve(backgroundImage)}
+              class="w-full h-full object-cover"
+              alt=""
+            />
+          </div>
+        )}
 
-      {tag && (
-        <div class="text-xs uppercase tracking-[0.2em] text-ui-muted">
-          {tag}
-        </div>
-      )}
-
-      <Title level={4} class="mt-1">
-        {title}
-      </Title>
-
-      {description && (
-        <Body class="mt-2 text-sm">
-          {description}
-        </Body>
-      )}
-
-      <div class="mt-4 flex flex-col gap-2">
-        {links.map((l: LinkItem) => (
-          <Link
-            href={resolve(l.href)}
-            text={l.text ?? "Open"}
-            external={isExternal(l.href)}
-          />
-        ))}
-      </div>
-    </div>
-  </div>
-) : (
-  <a
-    href={resolve(href)}
-    target={isExternal(href) ? "_blank" : undefined}
-    rel={isExternal(href) ? "noopener noreferrer" : undefined}
-    class={`group block rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-950/60 transition hover:scale-[1.01] ${extraClass}`}
-  >
-    <div class="flex items-center gap-4 p-4">
-      {backgroundImage && (
-        <div class="w-20 h-20 flex-shrink-0 overflow-hidden rounded-lg">
-          <img
-            src={resolve(backgroundImage)}
-            class="w-full h-full object-cover"
-            alt=""
-          />
-        </div>
-      )}
-
-      <div class="flex-1">
         {tag && (
           <div class="text-xs uppercase tracking-[0.2em] text-ui-muted">
             {tag}
@@ -114,16 +73,57 @@ const isExternal = (url?: string) => url?.startsWith("http://") || url?.startsWi
           {title}
         </Title>
 
-        <Body class="mt-2 text-sm">
-          {description}
-        </Body>
-      </div>
+        {description && <Body class="mt-2 text-sm">{description}</Body>}
 
-      <div class="flex items-center">
-        <span class="inline-flex items-center gap-1.5 text-sm font-medium text-ui-primary">
-          {actionText || "Open"}
-        </span>
+        <div class="mt-4 flex flex-col gap-2">
+          {links.map((l: LinkItem) => (
+            <Link
+              href={resolve(l.href)}
+              text={l.text ?? "Open"}
+              external={isExternal(l.href)}
+            />
+          ))}
+        </div>
       </div>
     </div>
-  </a>
-)}
+  ) : (
+    <a
+      href={resolve(href)}
+      target={isExternal(href) ? "_blank" : undefined}
+      rel={isExternal(href) ? "noopener noreferrer" : undefined}
+      class={`group block rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-950/60 transition hover:scale-[1.01] ${extraClass}`}
+    >
+      <div class="flex items-center gap-4 p-4">
+        {backgroundImage && (
+          <div class="w-20 h-20 flex-shrink-0 overflow-hidden rounded-lg">
+            <img
+              src={resolve(backgroundImage)}
+              class="w-full h-full object-cover"
+              alt=""
+            />
+          </div>
+        )}
+
+        <div class="flex-1">
+          {tag && (
+            <div class="text-xs uppercase tracking-[0.2em] text-ui-muted">
+              {tag}
+            </div>
+          )}
+
+          <Title level={4} class="mt-1">
+            {title}
+          </Title>
+
+          <Body class="mt-2 text-sm">{description}</Body>
+        </div>
+
+        <div class="flex items-center">
+          <span class="inline-flex items-center gap-1.5 text-sm font-medium text-ui-primary">
+            {actionText || "Open"}
+          </span>
+        </div>
+      </div>
+    </a>
+  )
+}

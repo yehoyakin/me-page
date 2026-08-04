@@ -1,5 +1,4 @@
 :root {
-
   --font-title: "IBM Plex Sans", sans-serif;
 
   --font-ui: "IBM Plex Mono", monospace;
@@ -7,9 +6,7 @@
   --font-body: "Inter", sans-serif;
 
   --font-terminal: "JetBrains Mono", monospace;
-
 }
-
 
 /* PIXEL ART
 :root {
@@ -38,6 +35,8 @@
   font-family: var(--font-terminal) !important;
 }
 
+/* Purpose: Styles - src/styles/base/fonts.css (Font-face declarations and font utilities) */
+
 html {
   font-family: var(--font-body) !important;
 }
@@ -46,7 +45,12 @@ body {
   font-family: inherit;
 }
 
-p, span, a, button, input, textarea {
+p,
+span,
+a,
+button,
+input,
+textarea {
   font-family: inherit;
 }
 
@@ -55,7 +59,9 @@ body {
   line-height: 1.4;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   letter-spacing: 1px;
   text-transform: uppercase;
 }

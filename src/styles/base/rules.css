@@ -1,4 +1,7 @@
-html, body {
+/* Purpose: Styles - src/styles/base/rules.css (Base reset and utility rules) */
+
+html,
+body {
   height: 100%;
   background: black;
 }

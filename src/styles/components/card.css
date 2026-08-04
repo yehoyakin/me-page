@@ -2,435 +2,221 @@
    BASE CARD
 ========================================================= */
 
-
+/* Purpose: Styles - src/styles/components/card.css (Base card component styling) */
 .split-card {
+  position: relative;
 
-    position:relative;
+  display: flex;
 
-    display:flex;
+  justify-content: center;
 
-    justify-content:center;
+  align-items: center;
 
-    align-items:center;
+  width: 100%;
 
+  height: 100%;
 
-    width:100%;
+  overflow: hidden;
 
-    height:100%;
+  cursor: pointer;
 
+  background: #09090b;
 
-    overflow:hidden;
+  text-decoration: none;
 
+  isolation: isolate;
 
-    cursor:pointer;
-
-
-    background:#09090b;
-
-
-    text-decoration:none;
-
-
-    isolation:isolate;
-
-
-    transition:
-        transform .25s ease;
-
+  transition: transform 0.25s ease;
 }
-
-
 
 .split-card:hover {
-
-    transform:translateY(-6px);
-
+  transform: translateY(-6px);
 }
-
-
-
-
-
-
 
 /* =========================================================
    REPEATED TEXTURE BACKGROUND
 ========================================================= */
 
-
 .split-card-background {
+  position: absolute;
 
-    position:absolute;
+  inset: -20%;
 
-    inset:-20%;
+  z-index: 0;
 
+  background-image: var(--texture);
 
-    z-index:0;
+  background-repeat: repeat;
 
-
-    background-image:var(--texture);
-
-    background-repeat:repeat;
-
-
-    /*
+  /*
       IMPORTANT:
       This controls the texture pixel size.
       Smaller = denser pattern.
     */
 
-    background-size:256px 256px;
+  background-size: 256px 256px;
 
+  animation: textureScroll 18s linear infinite;
 
-    animation:
+  transform: rotate(-5deg);
 
-        textureScroll
-
-        18s
-
-        linear
-
-        infinite;
-
-
-    transform:rotate(-5deg);
-
-
-    opacity:.75;
-
+  opacity: 0.75;
 }
-
-
-
-
-
 
 @keyframes textureScroll {
+  from {
+    background-position: 0px 0px;
+  }
 
-
-    from {
-
-        background-position:
-
-            0px
-
-            0px;
-
-    }
-
-
-    to {
-
-        background-position:
-
-            256px
-
-            256px;
-
-    }
-
+  to {
+    background-position: 256px 256px;
+  }
 }
-
-
-
-
-
-
 
 /* =========================================================
    COLOR / CONTRAST LAYER
 ========================================================= */
 
-
 .split-card-overlay {
+  position: absolute;
 
+  inset: 0;
 
-    position:absolute;
+  z-index: 1;
 
+  background: linear-gradient(
+    90deg,
+    rgba(9, 9, 11, 0.85),
+    rgba(9, 9, 11, 0.35)
+  );
 
-    inset:0;
-
-
-    z-index:1;
-
-
-    background:
-
-        linear-gradient(
-
-            90deg,
-
-            rgba(9,9,11,.85),
-
-            rgba(9,9,11,.35)
-
-        );
-
-
-    transition:
-
-        opacity .35s ease;
-
-
+  transition: opacity 0.35s ease;
 }
 
-
-
-.split-card:hover
-.split-card-overlay {
-
-
-    opacity:.45;
-
+.split-card:hover .split-card-overlay {
+  opacity: 0.45;
 }
-
-
-
-
-
-
 
 /* =========================================================
    EXTRA SLOT
 ========================================================= */
 
-
 .split-card-extra {
+  position: absolute;
 
+  inset: 0;
 
-    position:absolute;
+  z-index: 2;
 
+  opacity: 0.15;
 
-    inset:0;
+  pointer-events: none;
 
-
-    z-index:2;
-
-
-    opacity:.15;
-
-
-    pointer-events:none;
-
-
-    transition:
-
-        transform .5s ease,
-
-        opacity .5s ease;
-
-
+  transition:
+    transform 0.5s ease,
+    opacity 0.5s ease;
 }
 
+.split-card:hover .split-card-extra {
+  transform: scale(1.05);
 
-
-.split-card:hover
-.split-card-extra {
-
-
-    transform:scale(1.05);
-
-
-    opacity:.3;
-
-
+  opacity: 0.3;
 }
-
-
-
-
-
-
 
 /* =========================================================
    CONTENT
 ========================================================= */
 
-
 .split-card-content {
+  position: relative;
 
+  z-index: 3;
 
-    position:relative;
+  max-width: 520px;
 
+  padding: 1.25rem;
 
-    z-index:3;
+  text-align: center;
 
-
-    max-width:520px;
-
-
-    padding:
-
-        1.25rem;
-
-
-
-    text-align:center;
-
-
-
-    transition:
-
-        transform .3s ease;
-
-
-
+  transition: transform 0.3s ease;
 }
 
-
-
-.split-card:hover
-.split-card-content {
-
-
-    transform:translateY(-8px);
-
+.split-card:hover .split-card-content {
+  transform: translateY(-8px);
 }
-
-
-
-
 
 .split-card-title {
+  margin-top: 0.5rem;
 
-
-    margin-top:.5rem;
-
-
-    font-size:
-
-        clamp(
-
-            2rem,
-
-            5vw,
-
-            4rem
-
-        );
-
-
+  font-size: clamp(2rem, 5vw, 4rem);
 }
-
-
-
-
 
 .split-card-description {
+  margin-top: 1rem;
 
-
-    margin-top:1rem;
-
-
-    line-height:1.6;
-
-
+  line-height: 1.6;
 }
-
-
-
-
 
 /* =========================================================
    ACTION
 ========================================================= */
 
-
 .split-card-action {
+  display: inline-flex;
 
+  margin-top: 2rem;
 
-    display:inline-flex;
+  padding: 0.75rem 1.5rem;
 
+  background: white;
 
-    margin-top:2rem;
+  color: black;
 
+  font-family: var(--retro-font);
 
-    padding:
+  text-transform: uppercase;
 
-        .75rem
+  letter-spacing: 0.15em;
 
-        1.5rem;
-
-
-    background:white;
-
-
-
-    color:black;
-
-
-
-    font-family:var(--retro-font);
-
-
-
-    text-transform:uppercase;
-
-
-    letter-spacing:.15em;
-
-
-
-    transition:
-
-        background .15s steps(4),
-
-        color .15s steps(4);
-
-
+  transition:
+    background 0.15s steps(4),
+    color 0.15s steps(4);
 }
 
+.split-card:hover .split-card-action {
+  background: black;
 
-
-.split-card:hover
-.split-card-action {
-
-
-    background:black;
-
-
-    color:white;
-
-
+  color: white;
 }
-
-
-
-
-
-
 
 /* =========================================================
    MOBILE
 ========================================================= */
 
+@media (max-width: 900px) {
+  .split-card-content {
+    padding: 1rem;
+    max-width: 100%;
+  }
 
-@media(max-width:900px){
+  .split-card-title {
+    font-size: clamp(1.35rem, 5.5vw, 2rem);
+    line-height: 1.1;
+  }
 
-    .split-card-content {
-        padding: 1rem;
-        max-width: 100%;
-    }
+  .split-card-description {
+    margin-top: 0.75rem;
+    font-size: 0.9rem;
+    line-height: 1.45;
+  }
 
-    .split-card-title {
-        font-size: clamp(1.35rem, 5.5vw, 2rem);
-        line-height: 1.1;
-    }
+  .split-card-action {
+    margin-top: 1rem;
+    padding: 0.65rem 1rem;
+    font-size: 0.8rem;
+  }
 
-    .split-card-description {
-        margin-top: 0.75rem;
-        font-size: 0.9rem;
-        line-height: 1.45;
-    }
-
-    .split-card-action {
-        margin-top: 1rem;
-        padding: 0.65rem 1rem;
-        font-size: 0.8rem;
-    }
-
-    .split-card-background {
-        background-size: 160px 160px;
-    }
-
+  .split-card-background {
+    background-size: 160px 160px;
+  }
 }

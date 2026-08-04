@@ -1,132 +1,83 @@
+/* Purpose: Styles - src/styles/components/contribution.css (Contribution / badge styles) */
+
 /* ============================================================
    RETRO CONTRIBUTIONS
 ============================================================ */
 
 .retro-contribution {
+  margin-top: 2rem;
 
-    margin-top:2rem;
+  padding: 1rem 1.25rem;
 
-    padding:1rem 1.25rem;
+  width: 100%;
 
+  box-sizing: border-box;
 
-    width:100%;
+  background: #09090b;
 
-    box-sizing:border-box;
-
-
-    background:#09090b;
-
-    border-left:4px solid white;
-
-
+  border-left: 4px solid white;
 }
-
-
 
 /* =========================
    TITLE
 ========================= */
 
-
 .retro-contribution h3 {
+  margin: 0 0 1rem;
 
+  color: white;
 
-    margin:0 0 1rem;
+  font-family: var(--retro-font);
 
+  font-size: 0.8rem;
 
-    color:white;
+  font-weight: 700;
 
+  letter-spacing: 0.3em;
 
-    font-family:var(--retro-font);
+  text-transform: uppercase;
 
-
-    font-size:.8rem;
-
-
-    font-weight:700;
-
-
-    letter-spacing:.3em;
-
-
-    text-transform:uppercase;
-
-
-
-    opacity:.9;
-
-
+  opacity: 0.9;
 }
-
-
-
-
 
 /* =========================
    LIST
 ========================= */
 
-
 .retro-contribution ul {
+  list-style: none;
 
+  padding: 0;
 
-    list-style:none;
+  margin: 0;
 
+  display: flex;
 
-    padding:0;
+  flex-wrap: wrap;
 
-    margin:0;
-
-
-    display:flex;
-
-    flex-wrap:wrap;
-
-
-    gap:.5rem;
-
-
+  gap: 0.5rem;
 }
-
-
-
 
 .retro-contribution li {
+  padding: 0.45rem 0.8rem;
 
+  background: #18181b;
 
-    padding:.45rem .8rem;
+  color: white;
 
+  font-family: var(--retro-font);
 
-    background:#18181b;
+  font-size: 0.7rem;
 
+  font-weight: bold;
 
-    color:white;
+  letter-spacing: 0.12em;
 
-
-    font-family:var(--retro-font);
-
-
-    font-size:.7rem;
-
-
-    font-weight:bold;
-
-
-    letter-spacing:.12em;
-
-
-    text-transform:uppercase;
-
-
+  text-transform: uppercase;
 }
 
-
-
-
 .retro-contribution li::marker {
-
-    display:none;
-
+  display: none;
 }
 
 /* ============================================================
@@ -134,48 +85,33 @@
 ============================================================ */
 
 .project-role {
+  padding: 0.45rem 0.85rem;
 
-    padding:.45rem .85rem;
+  font-family: var(--retro-font);
 
+  font-size: 0.65rem;
 
-    font-family:var(--retro-font);
+  font-weight: 700;
 
+  letter-spacing: 0.12em;
 
-    font-size:.65rem;
+  text-transform: uppercase;
 
+  color: #09090b;
 
-    font-weight:700;
+  background: white;
 
+  border: 2px solid #09090b;
 
-    letter-spacing:.12em;
+  box-shadow: 3px 3px 0 #09090b;
 
-
-    text-transform:uppercase;
-
-
-    color:#09090b;
-
-
-    background:white;
-
-
-    border:2px solid #09090b;
-
-
-    box-shadow:3px 3px 0 #09090b;
-
-
-    transition:
-        transform .12s steps(3),
-        box-shadow .12s steps(3);
-
+  transition:
+    transform 0.12s steps(3),
+    box-shadow 0.12s steps(3);
 }
 
-
 .project-role:hover {
+  transform: translate(2px, 2px);
 
-    transform:translate(2px,2px);
-
-    box-shadow:1px 1px 0 #09090b;
-
+  box-shadow: 1px 1px 0 #09090b;
 }
