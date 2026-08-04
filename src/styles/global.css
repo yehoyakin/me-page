@@ -5,6 +5,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Press+Start+2P&family=Pixelify+Sans:wght@400;500;600;700&family=VT323&family=Tiny5&family=DotGothic16&family=Jersey+10&family=Jersey+15&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400;500;600;700&family=Share+Tech+Mono&family=Major+Mono+Display&family=Nova+Mono&display=swap');
 
+@import "base/layout.css";
 @import "base/tokens.css";
 @import "base/themes.css";
 @import "components/components.css";
