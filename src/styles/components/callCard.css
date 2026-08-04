@@ -18,6 +18,8 @@
   cursor: pointer;
 
   transition: transform 200ms ease;
+
+  touch-action: manipulation;
 }
 
 .retro-expandable-card:hover {
@@ -282,6 +284,9 @@
   text-transform: uppercase;
 
   color: white;
+
+  pointer-events: none;
+  user-select: none;
 }
 
 .project-role-title {
