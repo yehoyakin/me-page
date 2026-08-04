@@ -9,7 +9,9 @@ import { asset } from "../utils/asset";
 
 <MyLayout title="Home">
   {/* Full-screen backdrop for the landing experience. */}
-  <div class="fixed inset-0 w-full h-screen overflow-hidden bg-zinc-950">
+  <div
+    class="fixed inset-0 w-full h-screen overflow-y-auto md:overflow-hidden bg-zinc-950"
+  >
     {/* Background image layer with a soft blur effect. */}
     <div
       class="fixed inset-0 z-0 pointer-events-none style3d"
@@ -23,11 +25,11 @@ import { asset } from "../utils/asset";
     </div>
 
     {/* Dark overlay to improve text contrast. */}
-    <div class="absolute inset-0 z-10 pointer-events-none"></div>
+    <div class="fixed inset-0 z-10 pointer-events-none"></div>
 
     {/* Split layout for the hero and supporting content. */}
     <div
-      class="relative z-20 flex flex-col h-screen max-h-screen w-full overflow-hidden"
+      class="relative z-20 flex flex-col h-auto md:h-screen md:max-h-screen w-full overflow-hidden min-h-screen"
     >
       <header class="absolute top-0 right-0 px-8 py-6 z-50">
         <ContactPanel />
@@ -37,7 +39,7 @@ import { asset } from "../utils/asset";
         /* HEADER SECTION: Max height limits keep it from drowning out the splits */
       }
       <div
-        class="w-full max-h-[30vh] min-h-[25vh] md:max-h-[75vh] md:min-h-[50vh] flex items-center justify-center overflow-hidden p-2"
+        class="w-full md:max-h-[75vh] md:min-h-[50vh] flex items-center justify-center overflow-hidden p-2"
       >
         <HeaderInfo
           name="Joaquin Herrera"
@@ -52,7 +54,7 @@ import { asset } from "../utils/asset";
         /* SPLIT CONTENT: Takes up the entire remaining vertical viewport portion */
       }
       <div
-        class="w-full flex-1 flex items-center justify-center overflow-hidden px-2 pb-2 md:p-2"
+        class="w-full flex-1 md:flex-1 flex items-center justify-center overflow-hidden px-2 pb-2 md:p-2"
       >
         <SplitLanding
           background=""
