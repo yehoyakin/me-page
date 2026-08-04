@@ -170,19 +170,21 @@
   z-index: 40;
 }
 
-.retro-expandable-card[data-active="true"] .card-main-layout {
-  /* Expand the image column on active instead of scaling the whole card */
-  grid-template-columns:
-    minmax(0, 1fr)
-    minmax(480px, 1fr);
-}
+@media (min-width: 901px) {
+  .retro-expandable-card[data-active="true"] .card-main-layout {
+    /* Expand the image column on active instead of scaling the whole card */
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(480px, 1fr);
+  }
 
-.retro-expandable-card[data-active="true"] .card-preview-frame {
-  aspect-ratio: 16 / 10;
-}
+  .retro-expandable-card[data-active="true"] .card-preview-frame {
+    aspect-ratio: 16 / 10;
+  }
 
-.retro-expandable-card[data-active="true"] .card-preview-image {
-  transform: scale(1);
+  .retro-expandable-card[data-active="true"] .card-preview-image {
+    transform: scale(1);
+  }
 }
 
 /* ============================================================
@@ -344,5 +346,24 @@
 
   .project-drawer-inner {
     padding: 1rem;
+  }
+
+  /* Keep active/hover layout single-column on mobile and reorder image */
+  .retro-expandable-card:hover .card-main-layout,
+  .retro-expandable-card[data-active="true"] .card-main-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .card-info-panel { order: 1; }
+  .card-preview-frame { order: 2; width: 100%; height: auto; aspect-ratio: 16 / 9; }
+
+  /* Ensure long text wraps and doesn't break into single-column characters */
+  .card-project-title,
+  .card-description,
+  .card-footer,
+  .card-tag,
+  .project-role {
+    overflow-wrap: anywhere;
+    word-break: break-word;
   }
 }
