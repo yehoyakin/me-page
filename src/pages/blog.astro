@@ -1,11 +1,11 @@
 ---
 import MyLayout from "../layouts/MyLayout.astro";
-import Title from "../components/Text/Title.astro";
-import Body from "../components/Text/Body.astro";
+import Title from "../components/ui/Title.astro";
+import Body from "../components/ui/Body.astro";
 import { getCollection } from "astro:content";
 import type { BlogPost } from "../types/blog";
-import BlogCard from "../components/Hero/BlogCard.astro";
-import BackLink from "../components/Hero/BackLink.astro";
+import BlogCard from "../components/sections/BlogCard.astro";
+import BackLink from "../components/shared/BackLink.astro";
 import { asset } from "../utils/asset";
 
 const posts = (await getCollection("blog")) as BlogPost[];
