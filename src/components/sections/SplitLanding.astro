@@ -25,7 +25,7 @@ const { background, left, right, footerText = "" } = Astro.props as Props;
 ---
 
 {/* Allow the landing section to grow vertically as content expands. */}
-<section class="relative flex-1 w-full h-full overflow-y-auto">
+<section class="relative flex-1 w-full h-full">
   <div
     class="absolute inset-0 bg-cover bg-center opacity-20 pointer-events-none"
     style={`background-image: url('${background}')`}
@@ -36,7 +36,7 @@ const { background, left, right, footerText = "" } = Astro.props as Props;
 
   <div class="relative z-10 flex min-h-full flex-col justify-between">
     <div class="grid grid-cols-1 gap-0 md:grid-cols-2 flex-1 w-full min-h-0">
-      <div class="w-full h-full min-h-[220px] md:min-h-[340px]">
+      <div class="w-full h-full min-h-[140px] md:min-h-[340px]">
         <Card
           href={left.href}
           tag={left.tag}
@@ -56,7 +56,7 @@ const { background, left, right, footerText = "" } = Astro.props as Props;
       </div>
 
       {/* RIGHT CARD CONTAINER */}
-      <div class="w-full h-full min-h-[220px] md:min-h-[340px]">
+      <div class="w-full h-full min-h-[140px] md:min-h-[340px]">
         <Card
           href={right.href}
           tag={right.tag}
@@ -78,10 +78,10 @@ const { background, left, right, footerText = "" } = Astro.props as Props;
 
     {/* FOOTER BAR */}
     <div
-      class="shrink-0 border-t border-zinc-800/60 bg-zinc-950/50 px-4 py-4 sm:px-8 sm:py-6 backdrop-blur-md"
+      class="shrink-0 border-t border-zinc-800/60 bg-zinc-950/50 px-3 py-2 sm:px-8 sm:py-6 backdrop-blur-md"
     >
       <div class="mx-auto max-w-2xl text-center">
-        <Body class="text-xs sm:text-sm italic text-zinc-500">
+        <Body class="text-[10px] sm:text-sm italic text-zinc-500">
           {footerText}
         </Body>
       </div>

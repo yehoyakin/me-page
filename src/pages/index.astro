@@ -27,7 +27,7 @@ import { asset } from "../utils/asset";
 
     {/* Split layout for the hero and supporting content. */}
     <div
-      class="relative z-20 grid grid-rows-[auto_1fr] h-screen max-h-screen w-full overflow-hidden"
+      class="relative z-20 flex flex-col h-screen max-h-screen w-full overflow-hidden"
     >
       <header class="absolute top-0 right-0 px-8 py-6 z-50">
         <ContactPanel />
@@ -52,7 +52,7 @@ import { asset } from "../utils/asset";
         /* SPLIT CONTENT: Takes up the entire remaining vertical viewport portion */
       }
       <div
-        class="w-full max-h-[50vh] min-h-[25vh] flex items-center justify-center overflow-hidden p-2"
+        class="w-full flex-1 flex items-center justify-center overflow-hidden px-2 pb-2 md:p-2"
       >
         <SplitLanding
           background=""
