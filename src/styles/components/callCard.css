@@ -158,7 +158,8 @@
 
     line-height:.95;
 
-
+            height:auto;
+            aspect-ratio: 16 / 9; /* Example aspect ratio */
     text-transform:uppercase;
 
 
@@ -197,7 +198,8 @@
 .card-footer {
 
 
-    margin-top:1.5rem;
+    height:auto;
+    aspect-ratio: 16 / 9; /* Example aspect ratio */
 
 
     display:flex;
@@ -624,7 +626,9 @@
     }
 
     .card-preview-frame {
-        min-height: 160px;
+        min-height: 0;
+        height: auto;
+        aspect-ratio: 16 / 9;
     }
 
     .card-expanded-content {
