@@ -130,7 +130,7 @@ Other aspects that are many times disregarded by some videogames such as the use
 
 The visuals are accompanied by incredible sound design, in actions, dialogue (sounds at different pitches and speed to represent the character and mood) and a heartwarmming soundtrack. **Joel Corelitz**'s compositon is mostly ambient and it has a retro but modern sound that I can't put to words, but only feel. The music accompanies every moment perfectly, from the exploration of ruins, a industrial complex, a busy town, a cold morning, or action sequences, there is no track missplaced in this game, specially during the story's most poigniant moments.
 
-The uniqueness of the style, its ambient sounds, level design, foreground and background layers, lightning, dialoges make every single scene in Eastward look handcrafted and handled with care.
+The uniqueness of the style, its ambient sounds, level design, foreground and background layers, lightning, dialogues make every single scene in Eastward look handcrafted and handled with care.
 
 [scene[20]]
 [scene[18]]
@@ -140,9 +140,9 @@ The uniqueness of the style, its ambient sounds, level design, foreground and ba
 
 ## Their story
 
-No need to go into detail with the story, but I absolutely adore it, more than plot-driven, I'd say it is a sequence of memorable moments (like Samurai Champloo or Space Dandy) that are barely threaded together by the plot, instead they are threaded by Sam and John, who travel eastward, trying to find her place in the world, learning aobut the neccesity for friendship, community, food, art, and love. 
+No need to go into detail with the story, but I absolutely adore it, more than plot-driven, I'd say it is a sequence of memorable moments (like Samurai Champloo or Space Dandy) that are barely threaded together by the plot, instead they are threaded by Sam and John, who travel eastward, trying to find her place in the world, learning aobut the neccesity of friendship, community, food, art, and love. 
 
-The story ends with a bitter ending, memories of are lost, and yet, the behavior, the character, the very esccense of a person and what's imprinted by loved ones remain.
+The story ends with a bitter ending, memories are lost, and yet, the behavior, the character, the very esccense of a person and what's imprinted by loved ones remain.
 
 Get Eastward by clicking the link's panel!
 
