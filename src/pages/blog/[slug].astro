@@ -160,7 +160,11 @@ const imagesToPreload = [heroImage, ...backgrounds.map((b) => b.image)].filter(
       const selectedIndex = bgs.findIndex((b) => progress <= b.percent);
       const activeIndex = selectedIndex !== -1 ? selectedIndex : bgs.length - 1;
 
-      const offset = -window.scrollY * parallaxFactor;
+      const maxOffset = window.innerHeight * 0.20;
+      const offset = Math.max(
+        -maxOffset,
+        -window.scrollY * parallaxFactor
+      );
 
       bgs.forEach((_, index) => {
         const bgEl = document.getElementById(`dynamic-bg-${index}`);
