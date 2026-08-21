@@ -1,7 +1,7 @@
 ---
 title: "My favorite videogame"
 theme: "crt"
-description: "Warmth | coziness and fun."
+description: "Warmth | Coziness | Fun."
 date: 2026-04-01
 cardBackground: "images/blog/eastward/image (16).webp"
 backgrounds:
@@ -21,7 +21,7 @@ cards:
     title: "Buy it here!"
     description: ""
     actionText: "Open store"
-    backgroundImage: "images/blog/eastward/image (17).webp"
+    backgroundImage: "images/blog/eastward/eastward_link.webp"
     links:
       - image: "steam"
         href: "https://store.steampowered.com/app/977880/Eastward"
