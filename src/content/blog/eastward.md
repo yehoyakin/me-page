@@ -3,7 +3,7 @@ title: "My favorite videogame"
 theme: "crt"
 description: "Warmth | coziness and fun."
 date: 2026-04-01
-cardBackground: "images/blog/eastward/image (0).webp"
+cardBackground: "images/blog/eastward/image (16).webp"
 backgrounds:
   - percent: 0.25
     image: "images/blog/eastward/eastwardbc.webp"
