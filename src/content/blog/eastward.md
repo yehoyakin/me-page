@@ -21,7 +21,7 @@ cards:
     title: "Buy it here!"
     description: ""
     actionText: "Open store"
-    backgroundImage: "images/blog/eastward/eastward.webp"
+    backgroundImage: "images/blog/eastward/image (17).webp"
     links:
       - image: "steam"
         href: "https://store.steampowered.com/app/977880/Eastward"
