@@ -1,7 +1,7 @@
 ---
 title: "My favorite videogame"
 theme: "crt"
-description: "Warmth | Coziness | Fun."
+description: "Warmth | Coziness | Fun"
 date: 2026-04-01
 cardBackground: "images/blog/eastward/image (16).webp"
 backgrounds:
@@ -95,7 +95,7 @@ The gameplay loop consists of the following chain of events:
 <ol>
   <li>Exploration and roleplay (talk/roam)</li>
   <li>Introduction of a game mechanic</li>
-  <li>level/dungeon, with puzzles, secrets and plenty of combat.</li>
+  <li>Level/dungeon, with puzzles, secrets and plenty of combat.</li>
 </ol>
 
   The game's main mechanic is the control of our protagonists, the ever happy and cheerful *Sam* and *John* our silent gruffy father figure(GREAT GEORGE MICHAEL SONG).
