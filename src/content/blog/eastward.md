@@ -68,82 +68,100 @@ scenes:
   - image: "images/blog/eastward/image (26).webp" #25
 ---
 
-Once in a while you get to play a game that just "clicks" with who you, it is just what you need at a given time, for me that game was ...
+Once in a while you get to play a game that just "clicks" with you, it is just what you need at a given time, for me that game was...
 
-## EASTWARD
 [scene[16]]
 
-... the first time I saw it, the pixel art immediately caught my eye, the music, the design of the characters, it is as if a game was tailored just for me.
+Developed by **Pixpil** and published by **Chucklefish**, the first trailer of this adventure game looked like it was ready to entertain me, feast my eyes, ears and pull at my heartstrings. 
 
-developed by **Pixpil** and published by **Chucklefish**, the game follows *The Legend of Zelda* formula, of roleplay segments, followed by a level(*temple/dungueon*) and a boss with a narrative that holds it all together. 
-
-When starting the game we are introduced to a hand-drawn cinematic with a style different from the game's but completely fitting, in it characters are introduced and music with a cut sequence of clips tells us what the game is about, adeventure, friendship, darkness and travel.
-
-[scene[26]]
-
-From the very beggining the selling points of the game meet their promise. Colorful enviorments that feel alive and cute memorable characters, even though detailed pixel art comes with an inherit visual stacticity given the effort it takes both, thanks to the use of Pixpil's custom engine (see the link's panel) with their own lighting system and shaders. Memorable characters, locations and set-pieces are what have stayed the most after a few years.
+When booting the game we are introduced to a hand-drawn cinematic with a style different from the game's, but completely fitting. In it, characters are introduced in a quick succession of clips, the tone is set from the very beginning of the experience, this is a game about adventure, friendship, loss, love and **trains!**
 
 [scene[0]]
-[scene[6]]
-[scene[21]]
+[scene[26]]
 
 ## Gameplay
-
-After picking the start button one of my favorite story telling tropes takes places "the story within the story" in this case a videogame inspired by Dragon Quest, whose story mirrors our protagonist's **journey**. 
-The gameplay loop consists of the following chain of events:
+ 
+The gameplay loop consists of the following chain of 3 events:
 
 <ol>
-  <li>Exploration and roleplay (talk/roam)</li>
-  <li>Introduction of a game mechanic</li>
-  <li>Level/dungeon, with puzzles, secrets and plenty of combat.</li>
+  <li>Free roam | Exploration | Roleplaying</li>
+  <li>Introduction of a game mechanic | New gimmick</li>
+  <li>Level with puzzles, secrets and plenty of combat to put the player to the test.</li>
 </ol>
 
-  The game's main mechanic is the control of our protagonists, the ever happy and cheerful *Sam* and *John* our silent gruffy father figure(GREAT GEORGE MICHAEL SONG).
+The game's main mechanic is the control of our two protagonists, the ever happy *Sam* and *John* our silent gruffy father figure(GREAT GEORGE MICHAEL SONG). During gameplay John will deliver brute force, while Sam will be handy whenever we want to avoid conflict and danger. They can be controlled together or separately which opens up lots of fun and interesting level design, puzzles and combat.
 
-During gameplay John will be out trusty pawn whenever brute force and agressiveness are required, meanwhile Sam will be handy whenever we play offensive, or dealing with the dreaded miasma (black goo that has covered the world, a representation of nature, death, and rebirth).
+The game’s structure is that of chapters, which is required, given the storyline, this may upset completionists but to me it was a breath of fresh air given the boom of open world games at that time.
 
-During most exploration phases the player can part-take into two other mechanics:
+[scene[6]]
+[scene[21]]
+[scene[10]]
 
-## Feeding the soul
+### Cooking
+There is a cooking mechanic in which 3 ingredients of different types are combined to create a food, which will restore health or even have special benefits. This mechanic shows just how much care went into every detail, as all recipes have a quirky funny description.
 
-There is a cooking mechanic in which 3 ingredients of different types are combined to create a food, which will restore health or even have special benefits. This mechanic shows just how much care went into every detail, all recipes have a quirky funny description, and food is an important part of the story, how it brings people together, it is a way to show love, even building friendship. 
+Cooking is a big part of the narrative, as it is an activity that brings people together, it is a way to show love and fill the belly of course!
 
 [scene[7]]
 [scene[8]]
 
-## The game within the game
+### Earthborn
 
-Earthborn is a mini-game that we have access to pretty much from the start, it's a turn-based rpg with a timer and random battles. While simple, not knowing or managing your resources correctly (mostly time) will quickly wear you down, this is when a pachinko-like mechanic is introduced, in which we buy objects that will yeild unique advantages while playing Earthborn, making it possible to finish it. An incredible detail to me is that this "mini-game" its completely recontextualized once the game finishes, its our story, but with a happier ending.
+Earthborn is a mini-game within the game. The player gets access to pretty much from the start, it's a turn-based rpg with a timer and random battles. While simple, not knowing or managing your resources correctly (mostly time) will quickly wear you down.
+
+A pachinko-like mechanic allows to buy objects that yeild unique advantages while playing Earthborn, making it easier to finish. 
+
+An incredible detail to me is that this "mini-game" its completely recontextualized once the game finishes, its our story, but with a happier ending.
 
 [scene[14]]
 [scene[3]]
 [scene[5]]
 [scene[2]]
 
-## The juice
+# The juice
 
 While simple, the game's mechanics are polished, every input in the game feels impactful, the different attacks on enemies with their unique death animations, the damage types effects such when John or Sam are electrocuted and their skeletons flash a-la looney toons. 
 
-The defensive and special abilities of sam, also reflect who she is as a character, her postivity her calmness, her shielding and protection of others.
+Other aspects that are many times disregarded by some videogames such as the user interface's style, here are full of *the juice*, a feel of polish and confidence. Panels, menus, font, sound navigation, icons, everything is full style, a style that fits the aesthetic perfectly. 
 
-Other aspects that are many times disregarded by some videogames such as the user interface's style, here are full of *the juice*, a feel of polish and confidence. Panels, menu, font, sound navigation, object art, character protraits, store portaits, everything is full style, a style that fits the aesthetic perfectly. 
-
-The visuals are accompanied by incredible sound design, in actions, dialogue (sounds at different pitches and speed to represent the character and mood) and a heartwarmming soundtrack. **Joel Corelitz**'s compositon is mostly ambient and it has a retro but modern sound that I can't put to words, but only feel. The music accompanies every moment perfectly, from the exploration of ruins, a industrial complex, a busy town, a cold morning, or action sequences, there is no track missplaced in this game, specially during the story's most poigniant moments.
-
-The uniqueness of the style, its ambient sounds, level design, foreground and background layers, lightning, dialogues make every single scene in Eastward look handcrafted and handled with care.
-
-[scene[20]]
-[scene[18]]
-[scene[12]]
 [scene[13]]
+[scene[12]]
+
+Eastward has incredible sound design and a heartwarmming soundtrack. **Joel Corelitz**'s compositon is very *retro* but with a modern touch that I can't put to words, but only feel. The music fits every moment perfectly, from the exploration of ruins, an industrial complex, a busy town, a cold morning, or action sequences, there is no track missplaced in this game, especially during the story's most poigniant moments.
+
+Lastly I must mention the incredible use of lightning, time of day and weather, which accompany every scene and level perfectly.
+
+[scene[18]]
+[scene[20]]
+
+# Their story
+
+Our story begins with one of my favorite story telling tropes takes places "the story within the story" in this case a videogame that our female protagonist Sam is playing with her friends, a story that mirrors our protagonist's **journey**.
+
+We enter during the middle act of their story arc. We are dropped right in the middle of their lives, their past will unfold as we progress through the game. The narrative is very lossesly held together; There is an overarching story but most of the game has TV episode logic to it, lots of mundane tasks and some inflection points every now and then such as in Samurai Champloo or Space Dandy.
+
+Most of these episodes within the game’s chapters are there to give and breathe life into the world and the characters, if you are looking for a heavy plot narrative this is not a game for you. If you enjoy piecing together the story and  world by paying attention to dialogues, character animations and level design this game is for you.
+
 [scene[1]]
 
-## Their story
+## My story
 
-No need to go into detail with the story, but I absolutely adore it, more than plot-driven, I'd say it is a sequence of memorable moments (like Samurai Champloo or Space Dandy) that are barely threaded together by the plot, instead they are threaded by Sam and John, who travel eastward, trying to find her place in the world, learning aobut the neccesity of friendship, community, food, art, and love. 
+I got to play this while lockdowns were still active, but I missed family relatives and my friends (fortune allowed me to spend lockdown with my family), not sharing the space with people that I loved was wearing me down, until I booted up this game.
 
-The story ends with a bitter ending, memories are lost, and yet, the behavior, the character, the very esccense of a person and what's imprinted by loved ones remain.
+In 2018 I went abroad to study film-making in Argentina (eventually dropped out), coincidentally I travelled eastward (from Chile). The day before I accidentally bumped into many important people in my life, and I got plenty of messages as well. That very night, the landlord of the place I would rent in Buenos Aires realized he had sold my spot, and so I realized I would have to find something by myself. For a secluded guy it was a bit scary but I had to get my wits about me and manage it, I would be on my own. 
+
+For a whole month I walked through Buenos Aires looking for a place to stay while also attending classes. Searching for a place to stay was a fight against time as I had very limited cash. During this month whenever I was in trouble or faced with a difficult situation I would recall loved ones, I’d think of how they would react, I’d recall their advice, they kept me safe and sane. At the same time I was fortunate enough to meet many people that accepted me into their home, that offered me food, medicine, a warm bed, asking for nothing in return, with some we were passengers of each other’s lives, with others I still keep touch, and yes, there were mean and xenophobic people but I can’t remember their faces or recall their actions.
+
+And so I finished this game when I missed those I loved the most, and seeing myself in John and Sam’s journey who are looking for a home in the world hit me hard, specially when they shared so many moments such as arriving at a cold train station in the early hours of the morning, cooking with new friends to bond and heartfelt goodbyes. 
+
+Eastward’s story ends with a bitter ending, memories are lost, and yet, the behavior, the character, the very esccense of a person and what's imprinted by loved ones remain, such is life if you ask me!.
+
+[scene[24]]
+
+Pixpil released an expansion called **Octopia** which is farming sim, I haven't gotten around it yet, but I'm sure it won't dissapoint.
 
 Get Eastward by clicking the link's panel!
 
 [scene[15]]
+
+
