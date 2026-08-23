@@ -38,6 +38,9 @@ cards:
       - image: "twitter"
         href: "https://x.com/pixpilgames/status/1702211534544683133?s=20"
         text: "Pixpil's post on their engine"
+      - image: "design-works"
+        href: "https://www.lostincult.co.uk/eastward"
+        text: "Lost in Cult book"
 scenes:
   - image: "images/blog/eastward/image (0).webp" #0
   - image: "images/blog/eastward/image (1).webp" #1
@@ -66,6 +69,8 @@ scenes:
   - image: "images/blog/eastward/image (24).webp" #24
   - image: "images/blog/eastward/image (25).webp" #25
   - image: "images/blog/eastward/image (26).webp" #25
+  - image: "images/blog/eastward/image (27).webp" #25
+  - image: "images/blog/eastward/image (28).webp" #25
 ---
 
 Once in a while you get to play a game that just "clicks" with you, it is just what you need at a given time, for me that game was...
@@ -162,7 +167,12 @@ Eastward’s story ends with a bitter ending, memories are lost, and yet, the be
 
 Pixpil released an expansion called **Octopia** which is farming sim, I haven't gotten around it yet, but I'm sure it won't dissapoint.
 
-Get Eastward by clicking the link's panel!
+Last year I bought the behind the scenes book of the game, it is a great read, full of inspiration, specially for game devs, highly recommended
+
+[scene[27]]
+[scene[28]]
+
+Check the link's panel for different Eastward related info!
 
 [scene[15]]
 
