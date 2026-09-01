@@ -6,6 +6,7 @@ interface SceneItem {
   image: string;
   align?: "left" | "right" | "center";
   size?: "auto" | "16:9" | "4:3";
+  caption?: string;
 }
 
 interface Props {
@@ -30,15 +31,42 @@ const getAspectClass = (size?: SceneItem["size"]) => {
   }
 };
 
-const renderScene = (sceneIndex: number, alignOverride?: string) => {
+const getCaptionAlignmentClass = (align?: string) => {
+  switch (align) {
+    case "left":
+      return "text-left";
+    case "right":
+      return "text-right";
+    default:
+      return "text-center";
+  }
+};
+
+const getSceneSizeClass = (size?: string) => {
+  switch (size) {
+    case "wide":
+      return "max-w-[980px]";
+    case "large":
+      return "max-w-[1160px]";
+    case "full":
+      return "max-w-[1400px]";
+    default:
+      return "max-w-[720px]";
+  }
+};
+
+const renderScene = (sceneIndex: number, alignOverride?: string, captionOverride?: string, sizeOverride?: string) => {
   const scene = scenes[sceneIndex];
   if (!scene?.image) return "";
 
   const align = (alignOverride ?? scene.align ?? "center").toLowerCase();
   const aspectClass = getAspectClass(scene.size ?? "auto");
+  const captionAlignClass = getCaptionAlignmentClass(align);
+  const captionText = captionOverride ?? scene.caption ?? "";
+  const sizeClass = getSceneSizeClass(sizeOverride || "default");
 
   let figureClass =
-    "my-8 overflow-hidden rounded-none border border-zinc-800 bg-black w-full max-w-[720px] mx-auto";
+    `my-8 overflow-hidden rounded-none border border-zinc-800 bg-black w-full ${sizeClass} mx-auto`;
 
   let imgClass = "block w-full h-auto";
 
@@ -61,6 +89,17 @@ const renderScene = (sceneIndex: number, alignOverride?: string) => {
       break;
   }
 
+  const caption = captionText
+    ? `
+      <figcaption
+        class="mt-2 px-1 text-md tracking-wide text-zinc-400 text-center"
+        style="font-family: var(--font-body); font-style: italic; font-weight: 300; letter-spacing: 0.02em;"
+      >
+        ${captionText}
+      </figcaption>
+    `
+    : "";
+
   return `
     <figure class="${figureClass}">
       <img
@@ -69,33 +108,92 @@ const renderScene = (sceneIndex: number, alignOverride?: string) => {
         class="${imgClass}"
       />
     </figure>
+    ${caption}
   `;
+};
+
+const decodeSceneCaption = (value?: string) =>
+  (value ?? "")
+    .replace(/&quot;/g, '"')
+    .replace(/&ldquo;/g, '"')
+    .replace(/&rdquo;/g, '"')
+    .replace(/&apos;/g, "'")
+    .replace(/&lsquo;/g, "'")
+    .replace(/&rsquo;/g, "'")
+    .replace(/&amp;/g, "&")
+    .replace(/[“”]/g, '"')
+    .replace(/[‘’]/g, "'")
+    .trim();
+
+const parseSceneMarker = (match: string) => {
+  const result = match.match(
+    /^\[scene\[((?:\d+\s*(?:,\s*\d+)*)?)(?:\s*,\s*(wide|large|full))?\](?:\s*(?:,\s*)?(?:"([^"]*)"|'([^']*)'|“([^”]*)”|‘([^’]*)’|&quot;([^&]+)&quot;|&apos;([^&]+)&apos;|&ldquo;([^&]+)&rdquo;|&lsquo;([^&]+)&rsquo;))?\]$/,
+  );
+
+  if (!result) return null;
+
+  const [
+    ,
+    rawIndexes = "",
+    sizeToken = "",
+    doubleQuotedCaption = "",
+    singleQuotedCaption = "",
+    curlyDoubleCaption = "",
+    curlySingleCaption = "",
+    htmlQuotedCaption = "",
+    htmlAposCaption = "",
+    htmlCurlyDoubleCaption = "",
+    htmlCurlySingleCaption = "",
+  ] = result;
+
+  const caption = decodeSceneCaption(
+    doubleQuotedCaption ||
+      singleQuotedCaption ||
+      curlyDoubleCaption ||
+      curlySingleCaption ||
+      htmlQuotedCaption ||
+      htmlAposCaption ||
+      htmlCurlyDoubleCaption ||
+      htmlCurlySingleCaption,
+  );
+
+  const indexes = (rawIndexes || "")
+    .split(",")
+    .map((value) => Number.parseInt(value.trim(), 10))
+    .filter((value): value is number => Number.isInteger(value) && value >= 0);
+
+  return { indexes, caption, size: sizeToken || undefined };
 };
 
 const sceneHtml =
   Array.isArray(scenes) && scenes.length > 0
-    ? bodyHtml.replace(/\[scene\[((?:\d+\s*(?:,\s*\d+)*)?)\]\]/g, (match: string, rawIndexes: string) => {
-        const indexes = (rawIndexes ?? "")
-          .split(",")
-          .map((value: string) => Number.parseInt(value.trim(), 10))
-          .filter((value: number): value is number => Number.isInteger(value) && value >= 0);
+    ? bodyHtml.replace(/\[scene\[((?:\d+\s*(?:,\s*\d+)*)?)(?:\s*,\s*(wide|large|full))?\](?:\s*(?:,\s*)?(?:"[^"]*"|'[^']*'|“[^”]*”|‘[^’]*’|&quot;[^&]+&quot;|&apos;[^&]+&apos;|&ldquo;[^&]+&rdquo;|&lsquo;[^&]+&rsquo;))?\]/g, (match: string) => {
+        const parsed = parseSceneMarker(match);
+        if (!parsed) return match;
 
+        const { indexes, caption, size } = parsed;
         if (indexes.length === 0) return match;
 
         if (indexes.length === 1) {
-          return renderScene(indexes[0]) || match;
+          return renderScene(indexes[0], undefined, caption, size) || match;
         }
 
-        const groupClass =
-          indexes.length === 2
-            ? "my-8 grid gap-4 sm:grid-cols-2"
-            : "my-8 grid gap-4 sm:grid-cols-2";
+        const groupSizeClass = size === "wide"
+          ? "max-w-[980px] mx-auto"
+          : size === "large"
+            ? "max-w-[1160px] mx-auto"
+            : size === "full"
+              ? "max-w-[1400px] mx-auto"
+              : "max-w-[1200px] mx-auto";
+        const groupClass = `my-8 grid gap-4 sm:grid-cols-2 ${groupSizeClass}`.trim();
+        const groupCaptionText = decodeSceneCaption(caption || scenes[indexes[0]]?.caption || "");
 
         const groupedScenes = indexes
           .map((sceneIndex: number) => {
             const scene = scenes[sceneIndex];
             if (!scene?.image) return "";
 
+            const align = (scene.align ?? "center").toLowerCase();
             const aspectClass = getAspectClass(scene.size ?? "auto");
             const figureClass = `my-0 overflow-hidden rounded-none border border-zinc-800 bg-black w-full ${aspectClass ? aspectClass : ""}`.trim();
             const imgClass = aspectClass
@@ -115,7 +213,18 @@ const sceneHtml =
           .filter(Boolean)
           .join("\n");
 
-        return `<div class="${groupClass}">${groupedScenes}</div>`;
+        const groupCaptionMarkup = groupCaptionText
+          ? `
+            <figcaption
+              class="mt-2 px-1 text-md tracking-wide text-zinc-400 text-center"
+              style="font-family: var(--font-body); font-style: italic; font-weight: 300; letter-spacing: 0.02em;"
+            >
+              ${groupCaptionText}
+            </figcaption>
+          `
+          : "";
+
+        return `<div class="${groupClass}">${groupedScenes}</div>${groupCaptionMarkup}`;
       })
     : bodyHtml;
 ---

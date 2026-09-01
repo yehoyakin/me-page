@@ -9,8 +9,10 @@ backgrounds:
     image: "images/blog/eastward/eastwardbc.webp"
   - percent: 0.50
     image: "images/blog/eastward/eastwardbc1.webp"
-  - percent: 1.00
+  - percent: 0.75
     image: "images/blog/eastward/eastwardbc2.webp"
+  - percent: 1
+    image: "images/blog/eastward/eastwardbc.webp"
 
 backgroundBlur: 0.2
 backgroundOpacity: 0.5
@@ -89,8 +91,8 @@ Developed by **Pixpil** and published by **Chucklefish**, the first trailer of t
 
 When booting the game we are presented with a hand-drawn cinematic. In it, characters are introduced in a quick succession of clips, the tone is set from the very beginning of the experience, this is a game about adventure, friendship, loss, love and **trains!**
 
-[scene[0]]
-[scene[26]]
+[scene[0], "One of many train stations, love the Ghibli-eske look of this one."]
+[scene[26], "Intro cinematic animated by Souviens Ten-Zan Studio."]
 
 ## Gameplay
  
@@ -106,16 +108,16 @@ The game's main mechanic is the control of our two protagonists, the ever happy 
 
 The game’s structure is that of chapters, which is required, given the storyline, this may upset completionists but to me it was a breath of fresh air given the boom of open world games at that time.
 
-[scene[6]]
-[scene[21]]
-[scene[10]]
+[scene[6],"John and Sam will have plenty of city life and roaming."]
+[scene[21],"Incredible detail on escenary, such as signs, billboards, every building is unique."]
+[scene[10],"The flamethrowers is always handy against miasma enemies."]
 
 ### Cooking
 There is a cooking mechanic in which 3 ingredients of different types are combined to create a food, which will restore health or even have special benefits. This mechanic shows just how much care went into every detail, as all recipes have a quirky funny description.
 
 Cooking is a big part of the narrative, as it is an activity that brings people together, it is a way to show love and fill the belly of course!
 
-[scene[7,8]]
+[scene[7,8], "Some food in the game is only attainable at certain stores."]
 
 ### Earthborn
 
@@ -125,7 +127,7 @@ A pachinko-like mechanic allows to buy objects that yeild unique advantages whil
 
 An incredible detail to me is that this "mini-game" its completely recontextualized once the game finishes, its our story, but with a happier ending.
 
-[scene[14,3,5,2]]
+[scene[14,3,5,2], "Earthborn comes with its own hand-drawn manual."]
 
 # The juice
 
@@ -135,13 +137,13 @@ Other aspects that are many times disregarded by some videogames such as the use
 
 The game even has an optional diegetic manual save system where a refrigerator holds our save-state while delivering a philosophical question.
 
-[scene[13,12]]
+[scene[13,12], "From optional levels and upgrades, to stylish UI, there is care in every detail."]
 
 Eastward has incredible sound design and a heartwarmming soundtrack. **Joel Corelitz**'s compositon is very *retro* but with a modern touch that I can't put to words, but only feel. The music fits every moment perfectly, from the exploration of ruins, an industrial complex, a busy town, a cold morning, or action sequences, there is no track missplaced in this game, especially during the story's most poigniant moments.
 
 Lastly I must mention the incredible use of lightning, time of day and weather, which accompany every scene and level perfectly.
 
-[scene[18,20]]
+[scene[18,20], "Lightning is used to its full extent, to bring memorable scenes to life all thanks to pixpil's engine."]
 
 # Their story
 
@@ -151,7 +153,7 @@ The plot is very lossesly held together; There is an overarching story but most 
 
 Most of these *"episodes"* within the game’s chapters are there to give and breathe life into the world and the characters, if you are looking for a heavy plot and straight narrative you'll bounce off this game HARD. If you enjoy piecing together the story and world by paying attention to dialogues, character animations and level design this game is for you.
 
-[scene[1]]
+[scene[1], "The in-game sunset give me a nostalgic mood that's hard to achieve in most games."]
 
 ## My story
 
@@ -165,16 +167,19 @@ And so I finished this game when I missed those I loved the most, and seeing mys
 
 Eastward’s story ends with a bitter ending, memories are lost, and yet, the behavior, the character, the very essence of a person and what's imprinted by loved ones remain, such is life if you ask me!
 
-[scene[24]]
+[scene[24], "Sun light, clouds and good-byes."]
 
 Pixpil released an expansion called **Octopia** which is farming sim, I haven't gotten around it yet, but I'm sure it won't dissapoint.
 
 Last year I bought the behind the scenes book of the game, it is a great read, full of inspiration, specially for game devs, highly recommended.
 
-[scene[27,28]]
+[scene[27,28], "Me with my super happy expression (no expression)"]
 
 Check the link's panel for different Eastward related info!
 
-[scene[15]]
+
+
+
+
 
 
