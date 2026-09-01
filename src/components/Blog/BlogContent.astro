@@ -5,6 +5,7 @@ import { asset } from "../../utils/asset";
 interface SceneItem {
   image: string;
   align?: "left" | "right" | "center";
+  size?: "auto" | "16:9" | "4:3";
 }
 
 interface Props {
@@ -15,48 +16,106 @@ interface Props {
 const { bodyHtml, scenes = [] } = Astro.props as Props;
 
 /**
- * Replace [scene[x]] markers with images
- * SAFE for BOTH raw paths and asset() resolved paths
+ * Replace [scene[x]] and [scene[x,y,z]] markers with image blocks.
+ * SAFE for BOTH raw paths and asset() resolved paths.
  */
+const getAspectClass = (size?: SceneItem["size"]) => {
+  switch (size) {
+    case "16:9":
+      return "aspect-video";
+    case "4:3":
+      return "aspect-[4/3]";
+    default:
+      return "";
+  }
+};
+
+const renderScene = (sceneIndex: number, alignOverride?: string) => {
+  const scene = scenes[sceneIndex];
+  if (!scene?.image) return "";
+
+  const align = (alignOverride ?? scene.align ?? "center").toLowerCase();
+  const aspectClass = getAspectClass(scene.size ?? "auto");
+
+  let figureClass =
+    "my-8 overflow-hidden rounded-none border border-zinc-800 bg-black w-full max-w-[720px] mx-auto";
+
+  let imgClass = "block w-full h-auto";
+
+  if (aspectClass) {
+    figureClass += ` ${aspectClass}`;
+    imgClass = "block h-full w-full object-cover object-center";
+  }
+
+  switch (align) {
+    case "left":
+      figureClass += " float-left max-w-[45%] mr-6 mb-4";
+      break;
+
+    case "right":
+      figureClass += " float-right max-w-[45%] ml-6 mb-4";
+      break;
+
+    default:
+      figureClass += " mb-6";
+      break;
+  }
+
+  return `
+    <figure class="${figureClass}">
+      <img
+        src="${scene.image}"
+        alt="Scene ${sceneIndex}"
+        class="${imgClass}"
+      />
+    </figure>
+  `;
+};
+
 const sceneHtml =
   Array.isArray(scenes) && scenes.length > 0
-    ? bodyHtml.replace(/\[scene\[(\d+)\]\]/g, (match, index) => {
-        const sceneIndex = parseInt(index, 10);
-        const scene = scenes[sceneIndex];
+    ? bodyHtml.replace(/\[scene\[((?:\d+\s*(?:,\s*\d+)*)?)\]\]/g, (match: string, rawIndexes: string) => {
+        const indexes = (rawIndexes ?? "")
+          .split(",")
+          .map((value: string) => Number.parseInt(value.trim(), 10))
+          .filter((value: number): value is number => Number.isInteger(value) && value >= 0);
 
-        if (!scene?.image) return match;
+        if (indexes.length === 0) return match;
 
-        const align = (scene.align || "center").toLowerCase();
-
-        // Present each scene as a full-width media block.
-        let figureClass =
-          "my-8 overflow-hidden rounded-none border border-zinc-800";
-
-        let imgClass = "w-full h-auto";
-
-        switch (align) {
-          case "left":
-            figureClass += " float-left max-w-[45%] mr-6 mb-4";
-            break;
-
-          case "right":
-            figureClass += " float-right max-w-[45%] ml-6 mb-4";
-            break;
-
-          default:
-            figureClass += " mx-auto w-full mb-6";
-            break;
+        if (indexes.length === 1) {
+          return renderScene(indexes[0]) || match;
         }
 
-        return `
-          <figure class="${figureClass}">
-            <img
-              src="${scene.image}"
-              alt="Scene ${sceneIndex}"
-              class="${imgClass}"
-            />
-          </figure>
-        `;
+        const groupClass =
+          indexes.length === 2
+            ? "my-8 grid gap-4 sm:grid-cols-2"
+            : "my-8 grid gap-4 sm:grid-cols-2";
+
+        const groupedScenes = indexes
+          .map((sceneIndex: number) => {
+            const scene = scenes[sceneIndex];
+            if (!scene?.image) return "";
+
+            const aspectClass = getAspectClass(scene.size ?? "auto");
+            const figureClass = `my-0 overflow-hidden rounded-none border border-zinc-800 bg-black w-full ${aspectClass ? aspectClass : ""}`.trim();
+            const imgClass = aspectClass
+              ? "block h-full w-full object-cover object-center"
+              : "block w-full h-auto";
+
+            return `
+              <figure class="${figureClass}">
+                <img
+                  src="${scene.image}"
+                  alt="Scene ${sceneIndex}"
+                  class="${imgClass}"
+                />
+              </figure>
+            `;
+          })
+          .filter(Boolean)
+          .join("\n");
+
+        return `<div class="${groupClass}">${groupedScenes}</div>`;
       })
     : bodyHtml;
 ---

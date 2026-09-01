@@ -49,12 +49,12 @@ const isExternal = (url?: string) =>
 
 {
   links.length > 0 ? (
-    <div
-      class={`group block rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-950/60 transition ${extraClass}`}
-    >
+<div
+  class={`group block overflow-hidden transition backdrop-blur-[24px] ${extraClass}`}
+>
       <div class="p-4">
         {backgroundImage && (
-          <div class="w-full h-36 mb-4 overflow-hidden rounded-md">
+          <div class="w-full h-36 mb-4 overflow-hidden">
             <img
               src={resolve(backgroundImage)}
               class="w-full h-full object-cover"
@@ -69,9 +69,9 @@ const isExternal = (url?: string) =>
           </div>
         )}
 
-        <Title level={4} class="mt-1">
+        <Body class="mt-2 text-lg font-semibold text-ui-primary">
           {title}
-        </Title>
+        </Body>
 
         {description && <Body class="mt-2 text-sm">{description}</Body>}
 
@@ -91,7 +91,7 @@ const isExternal = (url?: string) =>
       href={resolve(href)}
       target={isExternal(href) ? "_blank" : undefined}
       rel={isExternal(href) ? "noopener noreferrer" : undefined}
-      class={`group block rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-950/60 transition hover:scale-[1.01] ${extraClass}`}
+      class={` overflow-hidden border border-zinc-800 bg-zinc-950/60 transition hover:scale-[1.01] ${extraClass}` }
     >
       <div class="flex items-center gap-4 p-4">
         {backgroundImage && (

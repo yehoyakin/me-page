@@ -27,6 +27,7 @@ const blog = defineCollection(
         z.object({
         image: z.string(),
         align: z.enum(["left", "right", "center"]).optional(),
+        size: z.enum(["auto", "16:9", "4:3"]).optional(),
         })
     )
     .optional(),

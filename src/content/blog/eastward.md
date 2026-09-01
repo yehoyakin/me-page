@@ -17,11 +17,11 @@ backgroundOpacity: 0.5
 backgroundParallax: 0.15
 
 cards:
-  - tag: "Recommended"
+  - tag: ""
     title: "Buy it here!"
     description: ""
     actionText: "Open store"
-    backgroundImage: "images/blog/eastward/eastward_link.webp"
+    backgroundImage: ""
     links:
       - image: "steam"
         href: "https://store.steampowered.com/app/977880/Eastward"
@@ -35,12 +35,20 @@ cards:
       - image: "xbox"
         href: "https://www.xbox.com/es-ES/games/store/eastward"
         text: "Xbox"
+
+  - tag: ""
+    title: "More on Pixpil"
+    description: ""
+    actionText: "Find more info"
+    backgroundImage: ""
+    links:
       - image: "twitter"
         href: "https://x.com/pixpilgames/status/1702211534544683133?s=20"
         text: "Pixpil's post on their engine"
       - image: "design-works"
         href: "https://www.lostincult.co.uk/eastward"
         text: "Lost in Cult book"
+
 scenes:
   - image: "images/blog/eastward/image (0).webp" #0
   - image: "images/blog/eastward/image (1).webp" #1
@@ -107,8 +115,7 @@ There is a cooking mechanic in which 3 ingredients of different types are combin
 
 Cooking is a big part of the narrative, as it is an activity that brings people together, it is a way to show love and fill the belly of course!
 
-[scene[7]]
-[scene[8]]
+[scene[7,8]]
 
 ### Earthborn
 
@@ -118,10 +125,7 @@ A pachinko-like mechanic allows to buy objects that yeild unique advantages whil
 
 An incredible detail to me is that this "mini-game" its completely recontextualized once the game finishes, its our story, but with a happier ending.
 
-[scene[14]]
-[scene[3]]
-[scene[5]]
-[scene[2]]
+[scene[14,3,5,2]]
 
 # The juice
 
@@ -131,15 +135,13 @@ Other aspects that are many times disregarded by some videogames such as the use
 
 The game even has an optional diegetic manual save system where a refrigerator holds our save-state while delivering a philosophical question.
 
-[scene[13]]
-[scene[12]]
+[scene[13,12]]
 
 Eastward has incredible sound design and a heartwarmming soundtrack. **Joel Corelitz**'s compositon is very *retro* but with a modern touch that I can't put to words, but only feel. The music fits every moment perfectly, from the exploration of ruins, an industrial complex, a busy town, a cold morning, or action sequences, there is no track missplaced in this game, especially during the story's most poigniant moments.
 
 Lastly I must mention the incredible use of lightning, time of day and weather, which accompany every scene and level perfectly.
 
-[scene[18]]
-[scene[20]]
+[scene[18,20]]
 
 # Their story
 
@@ -167,10 +169,9 @@ Eastward’s story ends with a bitter ending, memories are lost, and yet, the be
 
 Pixpil released an expansion called **Octopia** which is farming sim, I haven't gotten around it yet, but I'm sure it won't dissapoint.
 
-Last year I bought the behind the scenes book of the game, it is a great read, full of inspiration, specially for game devs, highly recommended
+Last year I bought the behind the scenes book of the game, it is a great read, full of inspiration, specially for game devs, highly recommended.
 
-[scene[27]]
-[scene[28]]
+[scene[27,28]]
 
 Check the link's panel for different Eastward related info!
 
