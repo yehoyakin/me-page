@@ -16,6 +16,7 @@
 @import "base/rules.css";
 @import "components/animations.css";
 @import "components/projectGallery.css";
+@import "components/projectCard.css";
 @import "components/callCard.css";
 @import "components/callCardImage.css";
 @import "components/linkButton.css";

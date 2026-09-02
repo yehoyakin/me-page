@@ -1,106 +1,150 @@
 /* Purpose: Styles - src/styles/components/projectGallery.css (Project gallery grid styles) */
 
+:root {
+  --gallery-thumb-size: 12rem;
+}
+
 .project-gallery {
   width: 100%;
 }
 
 .gallery-top {
   display: flex;
-
   justify-content: space-between;
-
   align-items: center;
-
   margin-bottom: 0.75rem;
 }
 
 .gallery-dots {
   display: flex;
-
-  gap: 0.35rem;
-
+  gap: 1rem;
   align-items: center;
-
   flex-wrap: wrap;
 }
 
-.gallery-dot {
-  min-width: 1.8rem;
-
-  height: 1.8rem;
-
-  display: flex;
-
+/* Thumbnail mini-cards */
+.gallery-thumb {
+  width: var(--gallery-thumb-size) !important;
+  height: var(--gallery-thumb-size) !important;
+  max-width: var(--gallery-thumb-size) !important;
+  max-height: var(--gallery-thumb-size) !important;
+  padding: 0;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: transparent;
+  display: inline-flex;
   align-items: center;
-
   justify-content: center;
-
-  font-family: inherit;
-
-  font-size: 0.65rem;
-
-  color: white;
-
-  background: #09090b;
-
-  border: 1px solid rgba(255, 255, 255, 0.35);
-
+  overflow: hidden;
+  position: relative;
+  border-radius: 8px !important;
   cursor: pointer;
-
-  transition:
-    background-color 0.1s steps(4),
-    color 0.1s steps(4),
-    transform 0.1s steps(4);
+  flex: 0 0 auto;
+  box-sizing: border-box;
+  transition: box-shadow .26s cubic-bezier(.2,.9,.2,1), transform .32s cubic-bezier(.2,.9,.2,1), filter .32s ease, opacity .32s ease;
+  filter: grayscale(18%) contrast(0.98) saturate(0.98);
 }
 
-.gallery-dot:hover {
+.gallery-thumb img {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: cover;
+  display: block;
+  transition: transform .45s cubic-bezier(.2,.9,.2,1);
+  will-change: transform;
+}
+
+/* Zoom + shine effect on hover/focus */
+.gallery-thumb::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 40%;
+  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0) 100%);
+  transform: translateX(-120%) skewX(-15deg);
+  transition: transform .6s cubic-bezier(.2,.9,.2,1);
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+.gallery-thumb:hover img,
+.gallery-thumb:focus img {
+  transform: scale(1.12);
+}
+
+.gallery-thumb:hover::after,
+.gallery-thumb:focus::after {
+  transform: translateX(120%) skewX(-15deg);
+}
+
+/* Title overlay using button title attribute */
+.gallery-thumb::before {
+  content: attr(title);
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0.5rem 0.6rem;
+  font-size: 0.85rem;
+  color: #ffffff;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 60%);
+  text-align: center;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .28s ease, transform .28s cubic-bezier(.2,.9,.2,1);
+  pointer-events: none;
+}
+
+.gallery-thumb:hover::before,
+.gallery-thumb:focus::before,
+.gallery-thumb.active::before {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.gallery-thumb.active {
+  box-shadow: 0 10px 30px rgba(2,6,23,0.45);
+  border-color: rgba(255,255,255,0.12);
+  filter: none;
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.gallery-thumb:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.12), 0 8px 20px rgba(2,6,23,0.35);
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .gallery-thumb img,
+  .gallery-thumb::after,
+  .gallery-thumb::before {
+    transition: none !important;
+  }
+}
+
+.gallery-thumb.active {
+  box-shadow: 0 6px 18px rgba(0,0,0,0.6);
   border-color: white;
-
-  transform: translateY(-2px);
 }
 
-.gallery-dot.active {
-  background: white;
-
-  color: #09090b;
-
-  border-color: white;
-}
-
-.gallery-counter {
-  font-family: inherit;
-
-  color: white;
-
-  letter-spacing: 0.2em;
-
-  font-size: 0.8rem;
-}
-
-/* ===============================
-   PROGRESS BAR
-================================ */
-
+/* Progress bar */
 .gallery-progress {
   width: 100%;
-
   height: 3px;
-
   margin-bottom: 0.75rem;
-
   background: rgba(255, 255, 255, 0.2);
-
   overflow: hidden;
 }
 
 .gallery-progress-fill {
   width: 100%;
-
   height: 100%;
-
   background: white;
-
   transform-origin: left center;
-
   transform: scaleX(0);
 }

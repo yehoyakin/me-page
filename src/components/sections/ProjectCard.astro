@@ -1,0 +1,109 @@
+---
+import { asset } from "../../utils/asset";
+import Title from "../UI/Title.astro";
+import Body from "../UI/Body.astro";
+
+interface Props {
+  project: any;
+}
+
+const { project } = Astro.props;
+const bg = project?.data?.backgroundImage ? asset(project.data.backgroundImage) : null;
+const fullHtml = project?.rendered ?? "";
+---
+
+<article class="project-card" tabindex="0" aria-label={project.data.title} data-expanded="false">
+  <svg class="shader-filters" width="0" height="0" aria-hidden="true">
+    <defs>
+      <filter id="wavy-shader">
+        <feTurbulence type="fractalNoise" baseFrequency="0.02 0.02" numOctaves="2" stitchTiles="stitch" result="noise">
+          <animate attributeName="baseFrequency" dur="8s" values="0.02 0.02;0.04 0.02;0.02 0.02" repeatCount="indefinite" />
+        </feTurbulence>
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="8" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+    </defs>
+  </svg>
+  {
+    bg && (
+      <div class="project-card-image-wrap">
+        <img src={bg} alt={project.data.title} class="project-card-image" loading="lazy" decoding="async" />
+
+        <div class="project-card-overlay">
+          <div class="project-card-overlay-inner">
+            <div class="project-card-overlay-tag">{project.data.tag}</div>
+            <Title class="project-card-overlay-title" level={3}>{project.data.title}</Title>
+            <Body class="project-card-overlay-desc">{project.data.shortDescription}</Body>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  <div class="project-card-body">
+    <div class="project-card-actions">
+      <button
+        class="project-card-more"
+        aria-expanded="false"
+      >
+        MORE
+      </button>
+    </div>
+    {project.data.roles && project.data.roles.length > 0 && (
+      <div class="project-card-roles">
+        {project.data.roles.map((r: string) => (
+          <span class="project-role">{r.replace(/_/g, " ")}</span>
+        ))}
+      </div>
+    )}
+
+    {project.data.links && project.data.links.length > 0 && (
+      <div class="project-card-links">
+        {project.data.links.map((link: any) => (
+          <a class="project-link" href={link.href} target="_blank" rel="noopener noreferrer">{link.text ?? link.href}</a>
+        ))}
+      </div>
+    )}
+  </div>
+
+  <div class="project-card-drawer" aria-hidden="true">
+    {fullHtml && (
+      <div class="project-card-drawer-inner-wrapper">
+        <div class="shader-bg" aria-hidden="true"></div>
+        <div class="project-card-drawer-inner" set:html={fullHtml}></div>
+      </div>
+    )}
+  </div>
+</article>
+
+<script is:inline>
+  (function () {
+    const script = document.currentScript;
+    if (!script) return;
+    const card = script.closest('.project-card');
+    if (!card) return;
+    const drawerInner = card.querySelector('.project-card-drawer-inner');
+    const shader = card.querySelector('.shader-bg');
+    if (!drawerInner) return;
+
+    const animate = () => {
+      card.classList.add('panel-update');
+      if (shader) shader.classList.add('shader-pulse');
+      setTimeout(() => {
+        card.classList.remove('panel-update');
+        if (shader) shader.classList.remove('shader-pulse');
+      }, 900);
+    };
+
+    const mo = new MutationObserver((mutations) => {
+      const relevant = mutations.some(m => m.type === 'childList' || m.type === 'characterData');
+      if (relevant) animate();
+    });
+
+    mo.observe(drawerInner, { childList: true, subtree: true, characterData: true });
+    card._panelMo = mo;
+
+    document.addEventListener('astro:before-swap', () => {
+      if (card._panelMo) { card._panelMo.disconnect(); card._panelMo = null; }
+    });
+  })();
+</script>

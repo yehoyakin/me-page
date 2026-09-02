@@ -1,0 +1,82 @@
+---
+import ProjectCard from "./ProjectCard.astro";
+
+interface Props {
+  projects: any[];
+}
+
+const { projects } = Astro.props;
+---
+
+<div class="project-grid">
+  {projects.map((project) => (
+    <ProjectCard project={project} />
+  ))}
+</div>
+
+<script is:inline>
+  // Delegated toggle handler for the MORE button: toggle only the clicked card
+  function initCardMoreToggle() {
+    const grid = document.querySelector('.project-grid');
+    if (!grid) return;
+    if (grid._projectCardToggleAttached) return;
+
+    function closeAllCards() {
+      grid.querySelectorAll('.project-card[data-expanded="true"]').forEach((other) => {
+        other.setAttribute('data-expanded', 'false');
+        const otherBtn = other.querySelector('.project-card-more');
+        if (otherBtn) otherBtn.setAttribute('aria-expanded', 'false');
+        const otherDrawer = other.querySelector('.project-card-drawer');
+        if (otherDrawer) otherDrawer.setAttribute('aria-hidden', 'true');
+      });
+    }
+
+    // Handle clicks inside the grid (toggle MORE buttons)
+    grid.addEventListener('click', (e) => {
+      const target = e.target;
+      if (!(target instanceof Element)) return;
+      const btn = target.closest('.project-card-more');
+      if (!btn) return;
+      e.stopPropagation();
+      const card = btn.closest('.project-card');
+      if (!card) return;
+      const wasExpanded = card.getAttribute('data-expanded') === 'true';
+      const willExpand = !wasExpanded;
+
+      if (willExpand) {
+        grid.querySelectorAll('.project-card[data-expanded="true"]').forEach((other) => {
+          if (other === card) return;
+          other.setAttribute('data-expanded', 'false');
+          const otherBtn = other.querySelector('.project-card-more');
+          if (otherBtn) otherBtn.setAttribute('aria-expanded', 'false');
+          const otherDrawer = other.querySelector('.project-card-drawer');
+          if (otherDrawer) otherDrawer.setAttribute('aria-hidden', 'true');
+        });
+      }
+
+      card.setAttribute('data-expanded', willExpand ? 'true' : 'false');
+      btn.setAttribute('aria-expanded', String(willExpand));
+      const drawer = card.querySelector('.project-card-drawer');
+      if (drawer) drawer.setAttribute('aria-hidden', String(!willExpand));
+    });
+
+    // Close cards when clicking outside the grid
+    function outsideHandler(e) {
+      const target = e.target;
+      if (!(target instanceof Element)) return;
+      if (!target.closest('.project-grid')) {
+        closeAllCards();
+      }
+    }
+
+    document.addEventListener('click', outsideHandler);
+
+    grid._projectCardToggleAttached = true;
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCardMoreToggle);
+  } else {
+    initCardMoreToggle();
+  }
+</script>

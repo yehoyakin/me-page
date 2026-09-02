@@ -18,17 +18,22 @@ const totalProjects = projects.length;
 <div id="project-gallery" class="project-gallery">
   <div class="gallery-top">
     <div class="gallery-dots retro-font">
-      {
-        projects.map((project, index) => (
-          <button
-            class="gallery-dot"
-            data-dot={index}
-            aria-label={`Select project ${index + 1}`}
-          >
-            {String(index + 1).padStart(2, "0")}
-          </button>
-        ))
-      }
+        {
+          projects.map((project, index) => (
+            <button
+              class="gallery-thumb"
+              data-dot={index}
+              aria-label={`Select project ${project.data.title ?? index + 1}`}
+              title={project.data.title}
+            >
+              {project.data.backgroundImage ? (
+                  <img src={asset(project.data.backgroundImage)} alt={project.data.title ?? `Project ${index + 1}`} loading="lazy" decoding="async" />
+                ) : (
+                <span class="thumb-fallback">{project.data.title ?? String(index + 1).padStart(2, "0")}</span>
+              )}
+            </button>
+          ))
+        }
     </div>
   </div>
 
