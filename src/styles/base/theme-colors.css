@@ -5,22 +5,26 @@
    Any container that sets `--project-tag-color` AND carries the `.theme-color`
    class will automatically colour its descendant <strong>/<b> and <em>/<i>:
    
-     <div class="theme-color" style="--project-tag-color: var(--retro-secondary)">
+     <div class="theme-color" style="--project-tag-color: var(--theme-secondary)">
        This is <strong>bold</strong> and <em>italic</em>.
      </div>
 
    Body.astro and Title.astro accept a `theme` prop that does this for you:
      <Body theme="secondary"> ... </Body>
      <Title theme="terminal"> ... </Title>
+
+   To add a new theme:
+   1. Add --theme-{name} in tokens.css
+   2. Use theme: "{name}" in any .md file
+   3. Done — no other files need to change.
 */
 
 /* ── Theme-aware bold / italic (works anywhere .theme-color is applied) ── */
 
 /* Recompute accent colors from the element's own --project-tag-color
    so they don't fall back to the :root value. */
-.theme-color {
-  --accent-bold: color-mix(in srgb, var(--project-tag-color, var(--retro-primary)) 90%, white 10%);
-  --accent-italic: color-mix(in srgb, var(--project-tag-color, var(--retro-primary)) 85%, white 15%);
+.theme-color {   --accent-bold: color-mix(in srgb, var(--project-tag-color, var(--theme-primary)) 90%, white 10%);
+  --accent-italic: color-mix(in srgb, var(--project-tag-color, var(--theme-primary)) 85%, white 15%);
 }
 
 .theme-color strong,
@@ -38,8 +42,8 @@
    Recompute accents here so they follow the post's theme, not :root. */
 
 #blog-content {
-  --accent-bold: color-mix(in srgb, var(--project-tag-color, var(--retro-primary)) 90%, white 10%);
-  --accent-italic: color-mix(in srgb, var(--project-tag-color, var(--retro-primary)) 85%, white 15%);
+  --accent-bold: color-mix(in srgb, var(--project-tag-color, var(--theme-primary)) 90%, white 10%);
+  --accent-italic: color-mix(in srgb, var(--project-tag-color, var(--theme-primary)) 85%, white 15%);
 }
 
 #blog-content strong,

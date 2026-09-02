@@ -59,7 +59,7 @@ const blog = defineCollection(
             title: z.string(),
             description: z.string(),
             actionText: z.string(),
-            variant: z.enum(["primary", "secondary"]).optional(),
+            theme: z.string().optional(),
             backgroundImage: z.string().optional(),
             links: z
               .array(
@@ -106,7 +106,7 @@ const projects = defineCollection({
       ])
     ),
 
-    variant: z.enum(["primary", "secondary"]),
+    theme: z.string().default("primary"),
 
     backgroundImage: z.string(),
 

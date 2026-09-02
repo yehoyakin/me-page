@@ -2,8 +2,8 @@
 // Purpose: Section - src/components/sections/CallCard.astro (Expandable project call card)
 import Title from "../UI/Title.astro";
 import Body from "../UI/Body.astro";
-import { uiDictionary, resolveThemeToken } from "../../config/uiDictionary";
-import type { ProjectRole, UiVariant } from "../../config/uiDictionary";
+import { getThemeConfig, resolveThemeToken, toThemeName } from "../../config/uiDictionary";
+import type { ProjectRole } from "../../config/uiDictionary";
 
 interface Props {
   tag: string;
@@ -11,7 +11,8 @@ interface Props {
   shortDescription: string;
   fullDescription?: string;
   roles?: ProjectRole[];
-  variant?: UiVariant;
+  /** Theme name — any string works. Controls font, color, and transition. */
+  theme?: string;
   class?: string;
   backgroundImage?: string;
 }
@@ -34,14 +35,14 @@ const {
   shortDescription,
   fullDescription = "",
   roles = [],
-  variant = "primary",
+  theme: rawTheme = "primary",
   class: extraClass = "",
   backgroundImage,
 } = Astro.props;
 
-const config = uiDictionary[variant];
-
-const dynamicToken = resolveThemeToken(config.theme);
+const themeName = toThemeName(rawTheme);
+const config = getThemeConfig(themeName);
+const dynamicToken = resolveThemeToken(themeName);
 
 // Use the per-card CSS variable so the color follows `--project-tag-color`.
 const themeColorClass = "text-[color:var(--project-tag-color)]";
@@ -65,11 +66,8 @@ const cardClasses = [
 <div
   class={cardClasses}
   data-theme={config.transition}
-  data-variant={config.theme}
-  data-debug-token={dynamicToken}
   data-active="false"
   style={`
-    --current-token: ${dynamicToken};
     --project-tag-color: ${dynamicToken};
     --expanded-card-border-width: ${EXPANDED_CARD_BORDER_THICKNESS};
     --drawer-offset: ${DRAWER_REVEAL_VERTICAL_OFFSET};
@@ -120,9 +118,7 @@ const cardClasses = [
           )
         }
 
-        
-
-        <Title theme={variant} class={`card-project-title text-white ${baseText}`}>
+        <Title theme={themeName} class={`card-project-title text-white ${baseText}`}>
           {title}
         </Title>
 
@@ -134,7 +130,7 @@ const cardClasses = [
           </div>
         )}
 
-        <Body theme={variant} class={`card-description ${baseText}`}>
+        <Body theme={themeName} class={`card-description ${baseText}`}>
           {shortDescription}
         </Body>
       </div>
@@ -145,7 +141,6 @@ const cardClasses = [
         </div>
 
         <div class={`project-description-hint ${baseText} ${themeColorClass}`}>
-         <!CLICK FOR MORE>
         </div>
       </div>
     </div>

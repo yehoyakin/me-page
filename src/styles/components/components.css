@@ -13,17 +13,30 @@
   color: var(--ui-invert);
 }
 
-/* RETRO COLORS */
+/* THEME COLORS */
+.text-theme-primary {
+  color: var(--theme-primary);
+}
+
+.text-theme-secondary {
+  color: var(--theme-secondary);
+}
+
+.text-theme-terminal {
+  color: var(--theme-terminal);
+}
+
+/* Backward-compatible aliases */
 .text-retro-primary {
-  color: var(--retro-primary);
+  color: var(--theme-primary);
 }
 
 .text-retro-secondary {
-  color: var(--retro-secondary);
+  color: var(--theme-secondary);
 }
 
 .text-retro-terminal {
-  color: var(--retro-terminal);
+  color: var(--theme-terminal);
 }
 
 /* Project tag utility: use the resolved `--project-tag-color` set on the component/page */
@@ -36,16 +49,29 @@
 }
 
 /* HOVER (FIXED — NO ESCAPES) */
+.group:hover .group-hover-theme-primary {
+  color: var(--theme-primary);
+}
+
+.group:hover .group-hover-theme-secondary {
+  color: var(--theme-secondary);
+}
+
+.group:hover .group-hover-theme-terminal {
+  color: var(--theme-terminal);
+}
+
+/* Backward-compatible aliases */
 .group:hover .group-hover-retro-primary {
-  color: var(--retro-primary);
+  color: var(--theme-primary);
 }
 
 .group:hover .group-hover-retro-secondary {
-  color: var(--retro-secondary);
+  color: var(--theme-secondary);
 }
 
 .group:hover .group-hover-retro-terminal {
-  color: var(--retro-terminal);
+  color: var(--theme-terminal);
 }
 
 /* RETRO OUTLINES */

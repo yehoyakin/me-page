@@ -1,15 +1,8 @@
-/* Purpose: Styles - src/styles/def/linkButton.css (Base link button tokens) */
+/* Purpose: Styles - src/styles/def/linkButton.css
+   Base link button tokens.
+   Animation and interactive styles live in components/linkButton.css.
+*/
 
 .retro-link {
   font-family: var(--retro-font);
-}
-
-.pixel-highlight {
-  display: none;
-}
-
-.retro-link:active {
-  transform: translate(2px, 2px);
-
-  box-shadow: none;
 }

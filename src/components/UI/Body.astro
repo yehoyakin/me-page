@@ -1,31 +1,29 @@
 ---
 // Purpose: Component - src/components/UI/Body.astro (UI Body / paragraph styling)
-import { uiDictionary, resolveThemeToken, type UiVariant } from "../../config/uiDictionary";
+import { getThemeConfig, resolveThemeToken, toThemeName } from "../../config/uiDictionary";
 
 interface Props {
   class?: string;
-  variant?: UiVariant;
-  /** When set, descendant <strong>/<b> and <em>/<i> inherit this theme's color. */
-  theme?: UiVariant;
+  /** Theme name — controls color and transition. Any string works. */
+  theme?: string;
 }
 
-const { class: customClass = "", variant = "primary", theme } = Astro.props;
-
-const config = uiDictionary[variant];
-const themeToken = theme ? resolveThemeToken(theme) : undefined;
+const { class: customClass = "", theme: rawTheme } = Astro.props;
+const themeName = toThemeName(rawTheme);
+const config = getThemeConfig(themeName);
+const themeToken = resolveThemeToken(themeName);
 ---
 
 <p
   class:list={[
-    config.font.body,
     config.text.base,
     config.text.hover,
     "transition-colors",
     "text-sm sm:text-base leading-relaxed break-words max-w-prose",
-    theme && "theme-color",
+    "theme-color",
     customClass,
   ]}
-  style={themeToken ? `--project-tag-color: ${themeToken}` : undefined}
+  style={`--project-tag-color: ${themeToken}`}
 >
   <slot />
 </p>

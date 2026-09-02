@@ -3,13 +3,13 @@
 import Title from "../UI/Title.astro";
 import Portrait from "../shared/MyImage.astro";
 import Body from "../UI/Body.astro";
-import { resolveThemeToken, type UiVariant } from "../../config/uiDictionary";
+import { resolveThemeToken } from "../../config/uiDictionary";
 
 interface Props {
   name: string;
   description: string;
   portraitSrc: string;
-  theme?: UiVariant;
+  theme?: string;
 }
 
 const { name, description, portraitSrc, theme = "primary" } = Astro.props;

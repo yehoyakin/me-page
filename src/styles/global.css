@@ -15,6 +15,7 @@
 @import "base/typography.css";
 @import "base/fonts.css";
 @import "base/rules.css";
+@import "base/transitions.css";
 @import "components/animations.css";
 @import "components/projectGallery.css";
 @import "components/projectCard.css";

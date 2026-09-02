@@ -2,7 +2,6 @@
 // Purpose: Section - src/components/sections/Card.astro (Generic content card)
 import Title from "../UI/Title.astro";
 import Body from "../UI/Body.astro";
-import { uiDictionary, type UiVariant } from "../../config/uiDictionary";
 
 interface Props {
   href: string;
@@ -10,8 +9,7 @@ interface Props {
   title: string;
   description: string;
   actionText: string;
-  variant?: UiVariant;
-  theme?: UiVariant;
+  theme?: string;
   backgroundImage?: string;
   class?: string;
 }
@@ -22,20 +20,17 @@ const {
   title,
   description,
   actionText,
-  variant = "primary",
-  theme,
+  theme = "primary",
   backgroundImage,
   class: extraClass = "",
 } = Astro.props;
 
-const config = uiDictionary[variant];
-
-const cardClasses = ["split-card", config.font, extraClass]
+const cardClasses = ["split-card", extraClass]
   .filter(Boolean)
   .join(" ");
 ---
 
-<a href={href} class={cardClasses} data-transition={config.transition}>
+<a href={href} class={cardClasses}>
   <!-- TEXTURE BACKGROUND -->
   {
     backgroundImage && (
@@ -62,18 +57,17 @@ const cardClasses = ["split-card", config.font, extraClass]
 
   <div class="split-card-content">
     <Body
-      variant={variant}
       theme={theme}
       class="text-[11px] sm:text-sm uppercase tracking-[0.25em]"
     >
       {tag}
     </Body>
 
-    <Title level={2} variant={variant} theme={theme} class="split-card-title">
+    <Title level={2} theme={theme} class="split-card-title">
       {title}
     </Title>
 
-    <Body variant={variant} theme={theme} class="split-card-description">
+    <Body theme={theme} class="split-card-description">
       {description}
     </Body>
 

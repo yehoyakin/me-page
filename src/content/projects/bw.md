@@ -12,7 +12,7 @@ roles:
   - ui
   - game_design
 
-variant: primary
+theme: primary
 
 backgroundImage: "images/projects/bw.webp"
 
@@ -23,7 +23,7 @@ links:
     href: "https://yehoyakin-98.itch.io/borrowed-wings"
 ---
 
-3D Collectathon, Grab objects to obtain effects, and pilot a hidroplane to explore an archipelago and be free of life threatening debt!
+3D *Collectathon*, Grab objects to obtain effects, and pilot a hidroplane to explore an archipelago and be free of life threatening debt!
 
 Borrowed Wings draws inspiration from the freeform exploration of *Super Mario 64* and the adventurous spirit of *Porco Rosso*.
 

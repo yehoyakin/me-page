@@ -8,7 +8,7 @@ import BlogContent from "../../components/Blog/BlogContent.astro";
 import BlogSidebar from "../../components/Blog/BlogSidebar.astro";
 import { getCollection } from "astro:content";
 import { asset } from "../../utils/asset";
-import { uiDictionary, resolveThemeToken, toUiVariant } from "../../config/uiDictionary";
+import { resolveThemeToken, toThemeName, getThemeConfig } from "../../config/uiDictionary";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
@@ -55,11 +55,10 @@ const backgroundParallax = post.data.backgroundParallax ?? 0.2;
 
 const rendered = post.rendered?.html ?? "";
 
-// Determine a CSS token for project/tag color based on post frontmatter `variant` or `theme`.
-const rawVariant = (post.data as any).variant ?? (post.data as any).theme ?? "primary";
-const postVariant = toUiVariant(rawVariant);
-const postConfig = uiDictionary[postVariant] ?? uiDictionary.primary;
-const postDynamicToken = resolveThemeToken(postConfig.theme);
+// Convention-based theme resolution: theme name → CSS var → font/transition config
+const themeName = toThemeName(post.data.theme);
+const postDynamicToken = resolveThemeToken(themeName);
+const themeConfig = getThemeConfig(themeName);
 
 // Resolve the base URL for internal links.
 const baseUrl = import.meta.env.BASE_URL.endsWith("/")
@@ -74,7 +73,7 @@ const imagesToPreload = [heroImage, ...backgrounds.map((b) => b.image)].filter(
 
 <MyLayout
   title={post.data.title}
-  animation={post.data.theme ?? "grid"}
+  animation={themeConfig.transition}
   preloadImages={imagesToPreload}
 >
   <div class="relative z-30">
@@ -97,6 +96,7 @@ const imagesToPreload = [heroImage, ...backgrounds.map((b) => b.image)].filter(
           title={post.data.title}
           description={post.data.description}
           date={post.data.date}
+          theme={themeName}
         />
         <BlogContent bodyHtml={rendered} scenes={scenes} />
       </div>

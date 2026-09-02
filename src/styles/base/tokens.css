@@ -1,10 +1,26 @@
-/* Purpose: Styles - src/styles/base/tokens.css (Design tokens: colors, spacing, sizes) */
+/* Purpose: Styles - src/styles/base/tokens.css (Design tokens: colors, spacing, sizes)
+   
+   THEME SYSTEM:
+   Add any new theme here with the --theme-{name} convention.
+   Then reference it in any .md file with theme: "{name}".
+   No other files need to change.
+
+   Examples:
+     --theme-primary: rgb(236, 251, 32);
+     --theme-forest: rgb(34, 197, 94);
+     --theme-sunset: rgb(251, 146, 60);
+*/
 
 :root {
-  /* retro colors */
-  --retro-primary: hwb(92 13% 0%);
-  --retro-secondary: rgb(165, 138, 255);
-  --retro-terminal: rgb(255, 213, 73);
+  /* ── Theme colors — add new themes here ── */
+  --theme-primary: hwb(92 13% 0%);
+  --theme-secondary: rgb(165, 138, 255);
+  --theme-terminal: rgb(255, 213, 73);
+
+  /* Backward-compatible aliases */
+  --retro-primary: var(--theme-primary);
+  --retro-secondary: var(--theme-secondary);
+  --retro-terminal: var(--theme-terminal);
 
   /* UI neutrals */
   --ui-base: rgb(228 228 231);
@@ -16,7 +32,7 @@
      - --accent-bold: tag color mixed with 10% white (90% tag + 10% white)
      - --accent-italic: tag color mixed with 15% white (85% tag + 15% white)
   */
-  --project-tag-color: var(--retro-primary);
+  --project-tag-color: var(--theme-primary);
   /* Provide safe fallbacks for browsers without `color-mix()` support: default to the raw tag color. */
   --accent-bold: var(--project-tag-color);
   --accent-italic: var(--project-tag-color);

@@ -26,7 +26,7 @@
 
 /* links */
 #blog-content a {
-  color: var(--retro-primary);
+  color: var(--theme-primary);
   text-decoration: underline;
   text-underline-offset: 0.2em;
 }
@@ -43,7 +43,7 @@
 
 /* blockquotes */
 #blog-content blockquote {
-  border-left: 4px solid var(--retro-primary);
+  border-left: 4px solid var(--theme-primary);
   background: rgba(255, 255, 255, 0.03);
   padding: 1rem 1.5rem;
 }

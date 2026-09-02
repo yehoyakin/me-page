@@ -13,7 +13,7 @@ roles:
   - ui
   - tools
 
-variant: secondary
+theme: secondary
 
 backgroundImage: "images/projects/playfield.webp"
 
@@ -24,9 +24,9 @@ links:
     href: "https://gitlab.com/joaquinignacio.herrerabriones/srpg-prototype/-/tree/main/UE_Project?ref_type=heads"
 ---
 
-**A Tactical JRPG** (Final Fantasy Tactics, Triangle Strategy), with different Algorithms for their combat AI. Optimized for 100.000+ simulations under a second.
+*A Tactical JRPG* (Final Fantasy Tactics, Triangle Strategy), with different Algorithms for their combat AI. Optimized for 100.000+ simulations under a second.
 
 Applied *search based algorithms* (Alpha-Beta, MonteCarlo Tree Search, and others) for *enemy AI*.
 Changing difficulty by modifying a single evaluation method instead of specific behavior.
 
-Game works in simulation - development in halt.
+Game works in simulation - **development in halt**.
