@@ -47,7 +47,12 @@
   }
 
   .retro-expandable-card[data-active="true"] .card-preview-frame {
-    aspect-ratio: 16 / 10;
+    aspect-ratio: auto;
+    min-height: 320px;
+  }
+
+  .retro-expandable-card[data-active="true"] .card-preview-image {
+    object-fit: contain;
   }
 }
 

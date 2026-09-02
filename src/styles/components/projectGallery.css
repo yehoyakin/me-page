@@ -65,7 +65,7 @@
   height: var(--gallery-thumb-size) !important;
   max-width: var(--gallery-thumb-size) !important;
   max-height: var(--gallery-thumb-size) !important;
-  padding: 0;
+  padding: 4px;
   border: 1px solid rgba(255,255,255,0.06);
   background: transparent;
   display: inline-flex;

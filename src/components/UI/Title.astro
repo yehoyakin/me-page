@@ -8,13 +8,16 @@ interface Props {
   outline?: boolean;
   /** Theme name — controls color and transition. Any string works. */
   theme?: string;
+  /** Add subtle text shadow for readability against blurred backgrounds. */
+  shadow?: boolean;
 }
 
 const {
   class: customClass = "",
   level = 2,
-  outline = true,
+  outline = false,
   theme: rawTheme,
+  shadow = false,
 } = Astro.props;
 
 const themeName = toThemeName(rawTheme);
@@ -36,11 +39,8 @@ const fluidSizing = {
 const defaultFluidClass =
   fluidSizing[level as keyof typeof fluidSizing] || "text-lg";
 
-// PowerPoint-style shadowed outline: solid black shadow offset down-right.
-// Works at all sizes without geometry collapse.
-const shadowStyle = outline
-  ? `text-shadow: 2px 2px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; --project-tag-color: ${themeToken}`
-  : `--project-tag-color: ${themeToken}`;
+// Outline class: thicker for h1, standard for others
+const outlineClass = outline ? (level === 1 ? "outline-3" : "outline-2") : "";
 ---
 
 <Tag
@@ -50,9 +50,11 @@ const shadowStyle = outline
     "transition-colors font-bold break-normal whitespace-normal tracking-wide",
     defaultFluidClass,
     "theme-color",
+    shadow && "readable-text",
+    outlineClass,
     customClass,
   ]}
-  style={shadowStyle}
+  style={`--project-tag-color: ${themeToken}`}
 >
   <slot />
 </Tag>

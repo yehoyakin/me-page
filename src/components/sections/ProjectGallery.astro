@@ -144,6 +144,8 @@ const totalProjects = projects.length;
         // Only advance if no card is expanded
         if (!isExpanded()) {
           show(current + 1);
+          // Restart progress bar for the new slide
+          startProgress();
         }
       }, INTERVAL);
     }

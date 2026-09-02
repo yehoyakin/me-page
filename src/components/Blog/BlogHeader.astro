@@ -15,11 +15,11 @@ const { title, description, date, theme = "primary" } = Astro.props as Props;
 
 <header class="space-y-6 rounded-none border border-zinc-800/60 bg-zinc-950/85 p-6 sm:p-8 backdrop-blur-md text-center relative overflow-hidden">
   
-  <Title level={1} theme={theme} class="text-4xl sm:text-5xl md:text-6xl mx-auto tracking-tight font-bold">
+  <Title level={1} theme={theme} class="text-4xl sm:text-5xl md:text-6xl mx-auto tracking-tight font-bold readable-text">
     {title}
   </Title>
   
-  <Body theme={theme} class="mx-auto max-w-3xl text-zinc-400 text-center text-sm sm:text-base">
+  <Body theme={theme} class="mx-auto max-w-3xl text-zinc-400 text-center text-sm sm:text-base readable-text">
     {description}
   </Body>
   

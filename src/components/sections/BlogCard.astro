@@ -58,7 +58,7 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
     <div class="space-y-4 flex-1">
       <Body
         theme={themeName}
-        class="blog-card-date text-xs sm:text-sm text-zinc-500 group-hover:text-[color:var(--project-tag-color)]"
+        class="blog-card-date text-xs sm:text-sm text-zinc-500 group-hover:text-[color:var(--project-tag-color)] readable-text"
       >
         {date.toDateString()}
       </Body>
@@ -66,14 +66,14 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
       <Title
         level={2}
         theme={themeName}
-        class="blog-card-title mt-2 text-2xl sm:text-3xl group-hover:text-[color:var(--project-tag-color)]"
+        class="blog-card-title mt-2 text-2xl sm:text-3xl group-hover:text-[color:var(--project-tag-color)] readable-text"
       >
         {post.data.title}
       </Title>
 
       <Body
         theme={themeName}
-        class="blog-card-desc mt-3 sm:mt-4 text-sm sm:text-base text-zinc-800 group-hover:text-zinc-300"
+        class="blog-card-desc mt-3 sm:mt-4 text-sm sm:text-base text-zinc-800 group-hover:text-zinc-300 readable-text"
       >
         {post.data.description}
       </Body>

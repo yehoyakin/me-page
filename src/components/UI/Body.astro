@@ -6,9 +6,11 @@ interface Props {
   class?: string;
   /** Theme name — controls color and transition. Any string works. */
   theme?: string;
+  /** Add subtle text shadow for readability against blurred backgrounds. */
+  shadow?: boolean;
 }
 
-const { class: customClass = "", theme: rawTheme } = Astro.props;
+const { class: customClass = "", theme: rawTheme, shadow = false } = Astro.props;
 const themeName = toThemeName(rawTheme);
 const config = getThemeConfig(themeName);
 const themeToken = resolveThemeToken(themeName);
@@ -21,6 +23,7 @@ const themeToken = resolveThemeToken(themeName);
     "transition-colors",
     "text-sm sm:text-base leading-relaxed break-words max-w-prose",
     "theme-color",
+    shadow && "readable-text",
     customClass,
   ]}
   style={`--project-tag-color: ${themeToken}`}

@@ -253,6 +253,8 @@
   min-height: 220px;
 
   overflow: hidden;
+
+  background: #000;
 }
 
 .card-preview-image {
@@ -263,6 +265,8 @@
   object-fit: cover;
 
   display: block;
+
+  background: #000;
 
   transform-origin: center;
   transform: scale(1.1); /* default: subtly zoomed-in */
@@ -287,7 +291,7 @@
 .retro-expandable-card:hover .card-preview-frame,
 .retro-expandable-card[data-active="true"] .card-preview-frame {
   order: 2;
-  min-height: 180px;
+  min-height: 240px;
 }
 
 /* ============================================================
@@ -300,11 +304,14 @@
 
 @media (min-width: 901px) {
   .retro-expandable-card[data-active="true"] .card-preview-frame {
-    aspect-ratio: 16 / 10;
+    aspect-ratio: auto;
+    min-height: 320px;
+    max-height: none;
   }
 
   .retro-expandable-card[data-active="true"] .card-preview-image {
-    transform: scale();
+    object-fit: contain;
+    transform: scale(1);
   }
 }
 
