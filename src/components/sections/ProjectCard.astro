@@ -8,7 +8,7 @@ interface Props {
 }
 
 const { project } = Astro.props;
-const bg = project?.data?.backgroundImage ? asset(project.data.backgroundImage) : null;
+const bg = project?.data?.images?.[0] ? asset(project.data.images[0]) : null;
 const fullHtml = project?.rendered ?? "";
 ---
 

@@ -14,7 +14,8 @@ roles:
 
 theme: primary
 
-backgroundImage: "images/projects/bw.webp"
+images:
+  - "images/projects/bw.webp"
 
 order: 2
 

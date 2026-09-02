@@ -108,7 +108,7 @@ const projects = defineCollection({
 
     theme: z.string().default("primary"),
 
-    backgroundImage: z.string(),
+    images: z.array(z.string()).min(1),
 
     order: z.number(),
 

@@ -15,7 +15,8 @@ roles:
 
 theme: secondary
 
-backgroundImage: "images/projects/playfield.webp"
+images:
+  - "images/projects/playfield.webp"
 
 order: 3
 

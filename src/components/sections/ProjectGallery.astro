@@ -1,7 +1,6 @@
 ---
 import CallCard from "./CallCard.astro";
 import SocialLink from "../shared/Link.astro";
-// Purpose: Section - src/components/sections/ProjectGallery.astro (Grid of project call cards)
 import { asset } from "../../utils/asset";
 
 interface Props {
@@ -15,29 +14,52 @@ const { projects } = Astro.props;
 const totalProjects = projects.length;
 ---
 
-  <div id="project-gallery" class="project-gallery">
-    <div id="gallery-bg" class="gallery-bg" aria-hidden="true">
-      <img id="gallery-bg-img" class="gallery-bg-img" src={projects[0] ? asset(projects[0].data.backgroundImage) : ""} alt="" />
-      <div class="gallery-bg-overlay"></div>
-    </div>
-  <div class="gallery-top">
-    <div class="gallery-dots retro-font">
-        {
-          projects.map((project, index) => (
+<div id="project-gallery" class="project-gallery">
+  <div id="gallery-bg" class="gallery-bg" aria-hidden="true">
+    <img id="gallery-bg-img" class="gallery-bg-img" src={projects[0] ? asset(projects[0].data.images[0]) : ""} alt="" />
+    <div class="gallery-bg-overlay"></div>
+  </div>
+
+  <!-- Horizontal scrollable thumbnail strip -->
+  <div class="gallery-thumbnails-wrapper">
+    <div class="gallery-thumbnails">
+      {
+        projects.map((project, index) => (
+          <div class="gallery-thumb-card" data-index={index}>
             <button
               class="gallery-thumb"
               data-dot={index}
               aria-label={`Select project ${project.data.title ?? index + 1}`}
               title={project.data.title}
             >
-              {project.data.backgroundImage ? (
-                  <img src={asset(project.data.backgroundImage)} alt={project.data.title ?? `Project ${index + 1}`} loading="lazy" decoding="async" />
-                ) : (
-                <span class="thumb-fallback">{project.data.title ?? String(index + 1).padStart(2, "0")}</span>
-              )}
+              <!-- Image carousel container -->
+              <div class="thumb-carousel" data-images={JSON.stringify(project.data.images.map(asset))}>
+                {project.data.images.map((img: string, imgIndex: number) => (
+                  <img
+                    src={asset(img)}
+                    alt={`${project.data.title ?? `Project ${index + 1}`} - Image ${imgIndex + 1}`}
+                    class={`thumb-carousel-img ${imgIndex === 0 ? 'active' : ''}`}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                ))}
+              </div>
+              <!-- Tag overlay -->
+              <div class="thumb-tag-overlay">
+                <span class="thumb-tag retro-font">{project.data.tag}</span>
+              </div>
             </button>
-          ))
-        }
+            <!-- Links below thumbnail -->
+            <div class="thumb-links">
+              {project.data.links?.map(
+                (link: { href: string; text: string | undefined }) => (
+                  <SocialLink href={link.href} text={link.text} external={true} />
+                ),
+              )}
+            </div>
+          </div>
+        ))
+      }
     </div>
   </div>
 
@@ -50,7 +72,7 @@ const totalProjects = projects.length;
       <div
         class="gallery-slide"
         data-slide={index}
-        data-bg={asset(project.data.backgroundImage)}
+        data-bg={asset(project.data.images[0])}
         style={index === 0 ? "" : "display:none;"}
       >
         <CallCard
@@ -60,7 +82,7 @@ const totalProjects = projects.length;
           fullDescription={project.rendered}
           roles={project.data.roles}
           theme={project.data.theme}
-          backgroundImage={asset(project.data.backgroundImage)}
+          backgroundImage={asset(project.data.images[0])}
         >
           <Fragment slot="links">
             {project.data.links?.map(
@@ -77,23 +99,26 @@ const totalProjects = projects.length;
 
 <script is:inline>
   const INTERVAL = 20000;
+  const CAROUSEL_INTERVAL = 3000;
 
   function initGallery() {
     const gallery = document.getElementById("project-gallery");
     if (!gallery) return;
 
-    // Prevent double init — but first clear any leftover timers from previous page
     if (gallery.dataset.galleryInitialized === "true") return;
     gallery.dataset.galleryInitialized = "true";
 
-    // Clear stale timers/RAF stored on the element from a previous page's init
     if (gallery._timer) clearInterval(gallery._timer);
     if (gallery._raf) cancelAnimationFrame(gallery._raf);
+    if (gallery._carouselTimers) {
+      gallery._carouselTimers.forEach(t => clearInterval(t));
+    }
     gallery._timer = null;
     gallery._raf = null;
+    gallery._carouselTimers = [];
 
     const slides = [...gallery.querySelectorAll("[data-slide]")];
-    const dots = [...gallery.querySelectorAll("[data-dot]")];
+    const thumbs = [...gallery.querySelectorAll("[data-dot]")];
     const progress = document.getElementById("gallery-progress-fill");
 
     let current = 0;
@@ -106,9 +131,12 @@ const totalProjects = projects.length;
       return currentCard()?.dataset.active === "true";
     }
 
-    function updateDots() {
-      dots.forEach((dot, index) => {
-        dot.classList.toggle("active", index === current);
+    function updateThumbs() {
+      thumbs.forEach((thumb, index) => {
+        const card = thumb.closest('.gallery-thumb-card');
+        if (card) {
+          card.classList.toggle("active", index === current);
+        }
       });
     }
 
@@ -116,7 +144,6 @@ const totalProjects = projects.length;
       if (index < 0) index = slides.length - 1;
       if (index >= slides.length) index = 0;
 
-      // Deselect any expanded card when advancing to another project
       document.querySelectorAll(".retro-expandable-card").forEach((card) => {
         card.setAttribute("data-active", "false");
       });
@@ -126,9 +153,8 @@ const totalProjects = projects.length;
       });
 
       current = index;
-      updateDots();
+      updateThumbs();
 
-      // Update the single shared gallery background to match the active slide
       const activeSlide = slides[current];
       const bg = activeSlide?.dataset.bg || "";
       const bgImg = document.getElementById("gallery-bg-img");
@@ -136,15 +162,19 @@ const totalProjects = projects.length;
         bgImg.src = bg;
         bgImg.style.opacity = bg ? "1" : "0";
       }
+
+      // Scroll the active thumbnail into view
+      const activeThumb = thumbs[current];
+      if (activeThumb) {
+        activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
     }
 
     function startTimer() {
       stopTimer();
       gallery._timer = setInterval(() => {
-        // Only advance if no card is expanded
         if (!isExpanded()) {
           show(current + 1);
-          // Restart progress bar for the new slide
           startProgress();
         }
       }, INTERVAL);
@@ -172,7 +202,6 @@ const totalProjects = projects.length;
     function pauseProgress() {
       if (!progress) return;
       if (gallery._raf) cancelAnimationFrame(gallery._raf);
-      // Freeze progress at current position
       const computed = getComputedStyle(progress);
       const matrix = new DOMMatrix(computed.transform);
       progress.style.transition = "none";
@@ -186,23 +215,38 @@ const totalProjects = projects.length;
     }
 
     function handleCardClick() {
-      // Let CallCard handle data-active first, then sync gallery
       requestAnimationFrame(() => {
         if (isExpanded()) {
-          // Card expanded — pause everything
           stopTimer();
           pauseProgress();
         } else {
-          // Card collapsed — resume auto-advance
           resetGalleryTimer();
         }
       });
     }
 
+    // Initialize carousels for all thumbnails
+    function initCarousels() {
+      const carousels = gallery.querySelectorAll('.thumb-carousel');
+      carousels.forEach((carousel, carouselIndex) => {
+        const images = carousel.querySelectorAll('.thumb-carousel-img');
+        if (images.length <= 1) return;
+
+        let imageIndex = 0;
+        const timer = setInterval(() => {
+          images[imageIndex].classList.remove('active');
+          imageIndex = (imageIndex + 1) % images.length;
+          images[imageIndex].classList.add('active');
+        }, CAROUSEL_INTERVAL);
+
+        gallery._carouselTimers.push(timer);
+      });
+    }
+
     // Dot click handlers
-    dots.forEach((dot) => {
-      dot.addEventListener("click", () => {
-        const index = Number(dot.dataset.dot);
+    thumbs.forEach((thumb) => {
+      thumb.addEventListener("click", () => {
+        const index = Number(thumb.dataset.dot);
         show(index);
         resetGalleryTimer();
       });
@@ -216,7 +260,6 @@ const totalProjects = projects.length;
       }
     });
 
-    // Listen for custom card-toggle events from CallCard
     gallery.addEventListener("card-toggle", () => {
       requestAnimationFrame(() => {
         if (isExpanded()) {
@@ -231,13 +274,13 @@ const totalProjects = projects.length;
     // START STATE
     show(0);
     resetGalleryTimer();
+    initCarousels();
   }
 
   function destroyGallery() {
     const gallery = document.getElementById("project-gallery");
     if (!gallery) return;
     gallery.dataset.galleryInitialized = "false";
-    // Clear timers stored on the element
     if (gallery._timer) {
       clearInterval(gallery._timer);
       gallery._timer = null;
@@ -246,16 +289,18 @@ const totalProjects = projects.length;
       cancelAnimationFrame(gallery._raf);
       gallery._raf = null;
     }
+    if (gallery._carouselTimers) {
+      gallery._carouselTimers.forEach(t => clearInterval(t));
+      gallery._carouselTimers = [];
+    }
   }
 
-  // Initial load
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initGallery);
   } else {
     initGallery();
   }
 
-  // Re-init after Astro client-side navigation
   document.addEventListener("astro:after-swap", () => {
     destroyGallery();
     initGallery();

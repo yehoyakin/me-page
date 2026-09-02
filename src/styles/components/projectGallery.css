@@ -1,4 +1,4 @@
-/* Purpose: Styles - src/styles/components/projectGallery.css (Project gallery grid styles) */
+/* Purpose: Styles - src/styles/components/projectGallery.css (Project gallery styles) */
 
 :root {
   --gallery-thumb-size: 12rem;
@@ -11,7 +11,7 @@
 /* Shared blurred background behind the gallery that reflects the currently selected project */
 .project-gallery {
   position: relative;
-  z-index: 2; /* content above the background */
+  z-index: 2;
 }
 
 .gallery-bg {
@@ -42,33 +42,55 @@
   pointer-events: none;
 }
 
-/* Full-bleed blurred background used behind the gallery */
-/* (gallery background removed — backgrounds are handled per-CallCard) */
+/* ============================================================
+   THUMBNAIL STRIP
+============================================================ */
 
-.gallery-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.75rem;
+.gallery-thumbnails-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 0.5rem 0 1rem 0;
+  position: relative;
+  z-index: 3;
 }
 
-.gallery-dots {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  flex-wrap: wrap;
+.gallery-thumbnails-wrapper::-webkit-scrollbar {
+  display: none;
 }
 
-/* Thumbnail mini-cards */
+.gallery-thumbnails {
+  display: flex;
+  gap: 1.25rem;
+  padding: 0 0.5rem;
+  align-items: flex-start;
+}
+
+/* Individual thumbnail card (image + links) */
+.gallery-thumb-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 0 0 auto;
+  transition: transform 0.3s cubic-bezier(.2,.9,.2,1);
+}
+
+.gallery-thumb-card.active {
+  transform: translateY(-4px);
+}
+
+/* Thumbnail button */
 .gallery-thumb {
   width: var(--gallery-thumb-size) !important;
   height: var(--gallery-thumb-size) !important;
   max-width: var(--gallery-thumb-size) !important;
   max-height: var(--gallery-thumb-size) !important;
-  padding: 4px;
-  border: 1px solid rgba(255,255,255,0.06);
+  padding: 0;
+  border: 2px solid rgba(255,255,255,0.08);
   background: transparent;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
@@ -77,99 +99,101 @@
   cursor: pointer;
   flex: 0 0 auto;
   box-sizing: border-box;
-  transition: box-shadow .26s cubic-bezier(.2,.9,.2,1), transform .32s cubic-bezier(.2,.9,.2,1), filter .32s ease, opacity .32s ease;
-  filter: grayscale(18%) contrast(0.98) saturate(0.98);
+  transition: box-shadow 0.3s cubic-bezier(.2,.9,.2,1), border-color 0.3s ease, transform 0.3s cubic-bezier(.2,.9,.2,1);
 }
 
-.gallery-thumb img {
+.gallery-thumb-card.active .gallery-thumb {
+  border-color: rgba(255,255,255,0.4);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+}
+
+.gallery-thumb:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.3), 0 8px 20px rgba(0,0,0,0.4);
+}
+
+/* ============================================================
+   CAROUSEL
+============================================================ */
+
+.thumb-carousel {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.thumb-carousel-img {
+  position: absolute;
+  inset: 0;
   width: 100% !important;
   height: 100% !important;
   max-width: 100% !important;
   max-height: 100% !important;
   object-fit: cover;
   display: block;
-  transition: transform .45s cubic-bezier(.2,.9,.2,1);
-  will-change: transform;
+  opacity: 0;
+  transition: opacity 0.5s ease;
 }
 
-/* Zoom + shine effect on hover/focus */
-.gallery-thumb::after {
-  content: "";
+.thumb-carousel-img.active {
+  opacity: 1;
+}
+
+/* Tag overlay */
+.thumb-tag-overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 40%;
-  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0) 100%);
-  transform: translateX(-120%) skewX(-15deg);
-  transition: transform .6s cubic-bezier(.2,.9,.2,1);
-  pointer-events: none;
-  mix-blend-mode: screen;
-}
-
-.gallery-thumb:hover img,
-.gallery-thumb:focus img {
-  transform: scale(1.12);
-}
-
-.gallery-thumb:hover::after,
-.gallery-thumb:focus::after {
-  transform: translateX(120%) skewX(-15deg);
-}
-
-/* Title overlay using button title attribute */
-.gallery-thumb::before {
-  content: attr(title);
-  position: absolute;
+  bottom: 0;
   left: 0;
   right: 0;
-  bottom: 0;
-  padding: 0.5rem 0.6rem;
-  font-size: 0.85rem;
-  color: #ffffff;
-  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 60%);
-  text-align: center;
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity .28s ease, transform .28s cubic-bezier(.2,.9,.2,1);
+  padding: 1.5rem 0.5rem 0.5rem;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%);
   pointer-events: none;
+  z-index: 2;
 }
 
-.gallery-thumb:hover::before,
-.gallery-thumb:focus::before,
-.gallery-thumb.active::before {
-  opacity: 1;
-  transform: translateY(0);
+.thumb-tag {
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: white;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.gallery-thumb.active {
-  box-shadow: 0 10px 30px rgba(2,6,23,0.45);
-  border-color: rgba(255,255,255,0.12);
-  filter: none;
-  transform: translateY(0);
-  opacity: 1;
+/* ============================================================
+   LINKS BELOW THUMBNAIL
+============================================================ */
+
+.thumb-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  justify-content: center;
+  max-width: var(--gallery-thumb-size);
 }
 
-.gallery-thumb:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(99,102,241,0.12), 0 8px 20px rgba(2,6,23,0.35);
+.thumb-links :global(.retro-link) {
+  font-size: 0.55rem !important;
+  padding: 0.15rem 0.35rem !important;
+  border-radius: 3px !important;
+  white-space: nowrap;
+  border-width: 1px !important;
+  letter-spacing: 0.1em !important;
 }
 
-/* Respect reduced motion preferences */
-@media (prefers-reduced-motion: reduce) {
-  .gallery-thumb img,
-  .gallery-thumb::after,
-  .gallery-thumb::before {
-    transition: none !important;
-  }
+.thumb-links :global(.retro-link:hover) {
+  transform: none !important;
+  box-shadow: none !important;
 }
 
-.gallery-thumb.active {
-  box-shadow: 0 6px 18px rgba(0,0,0,0.6);
-  border-color: white;
-}
+/* ============================================================
+   PROGRESS BAR
+============================================================ */
 
-/* Progress bar */
 .gallery-progress {
   width: 100%;
   height: 3px;
@@ -184,4 +208,41 @@
   background: white;
   transform-origin: left center;
   transform: scaleX(0);
+}
+
+/* ============================================================
+   MOBILE RESPONSIVE
+============================================================ */
+
+@media (max-width: 768px) {
+  :root {
+    --gallery-thumb-size: 6rem;
+  }
+
+  .gallery-thumbnails {
+    gap: 0.75rem;
+  }
+
+  .thumb-tag {
+    font-size: 0.45rem;
+  }
+
+  .thumb-tag-overlay {
+    padding: 1rem 0.35rem 0.35rem;
+  }
+
+  .thumb-links {
+    gap: 0.2rem;
+  }
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .thumb-carousel-img {
+    transition: none !important;
+  }
+
+  .gallery-thumb-card {
+    transition: none !important;
+  }
 }
