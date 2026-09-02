@@ -8,6 +8,43 @@
   width: 100%;
 }
 
+/* Shared blurred background behind the gallery that reflects the currently selected project */
+.project-gallery {
+  position: relative;
+  z-index: 2; /* content above the background */
+}
+
+.gallery-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.gallery-bg-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.45);
+  filter: blur(36px) saturate(0.8) contrast(0.9);
+  opacity: 0;
+  transition: opacity .6s ease, transform 1s cubic-bezier(.2,.9,.2,1);
+}
+
+.gallery-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(0,0,0,0.58), rgba(0,0,0,0.35));
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Full-bleed blurred background used behind the gallery */
+/* (gallery background removed — backgrounds are handled per-CallCard) */
+
 .gallery-top {
   display: flex;
   justify-content: space-between;

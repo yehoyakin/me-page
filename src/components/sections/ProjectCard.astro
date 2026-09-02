@@ -68,7 +68,11 @@ const fullHtml = project?.rendered ?? "";
   <div class="project-card-drawer" aria-hidden="true">
     {fullHtml && (
       <div class="project-card-drawer-inner-wrapper">
-        <div class="shader-bg" aria-hidden="true"></div>
+        <div class="shader-bg" aria-hidden="true">
+          {bg && (
+            <img src={bg} alt="" aria-hidden="true" class="panel-bg-img" />
+          )}
+        </div>
         <div class="project-card-drawer-inner" set:html={fullHtml}></div>
       </div>
     )}

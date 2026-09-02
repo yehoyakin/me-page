@@ -65,7 +65,7 @@ const baseText =
   "transition-colors duration-150 ease-[steps(200)] retro-outline drop-shadow-[0_2px_4px_rgba(0,0,0,1)]";
 
 const cardClasses = [
-  "group retro-expandable-card relative rounded-none border bg-zinc-950",
+  "group retro-expandable-card relative rounded-none border",
   "w-full overflow-hidden select-none",
   extraClass,
 ].join(" ");
@@ -77,11 +77,13 @@ const cardClasses = [
   data-active="false"
   style={`
     --current-token: ${dynamicToken};
+    --project-tag-color: ${dynamicToken};
     --expanded-card-border-width: ${EXPANDED_CARD_BORDER_THICKNESS};
     --drawer-offset: ${DRAWER_REVEAL_VERTICAL_OFFSET};
     --card-transition-duration: ${CARD_EXPANSION_DURATION_MS}ms;
     --drawer-transition-duration: ${DRAWER_REVEAL_DURATION_MS}ms;
     --pixel-transition-steps: ${PIXELATED_TRANSITION_STEPS};
+    ${backgroundImage ? `--card-bg-url: url('${backgroundImage}');` : ''}
   `}
   onclick="
     const state = this.getAttribute('data-active') === 'true';
@@ -92,10 +94,7 @@ const cardClasses = [
         card.setAttribute('data-active','false')
       );
 
-    this.setAttribute(
-      'data-active',
-      state ? 'false' : 'true'
-    );
+    this.setAttribute('data-active', state ? 'false' : 'true');
 
     // Notify the gallery that a card was toggled
     const gallery = this.closest('#project-gallery');
@@ -104,10 +103,23 @@ const cardClasses = [
     }
   "
 >
+  {backgroundImage && (
+    <div class="callcard-bg" aria-hidden="true">
+      <div class="callcard-bg-inner">
+        <img src={backgroundImage} alt="" class="callcard-bg-img" />
+      </div>
+      <div class="callcard-overlay"></div>
+    </div>
+  )}
   <div class="card-main-layout">
     <!-- LEFT INFORMATION AREA -->
 
     <div class="card-info-panel">
+      {backgroundImage && (
+        <div class="info-panel-bg" aria-hidden="true">
+          <img src={backgroundImage} alt="" class="info-panel-bg-img" />
+        </div>
+      )}
       <div class="card-title-area">
         {
           tag && (
@@ -115,9 +127,19 @@ const cardClasses = [
           )
         }
 
+        
+
         <Title class={`card-project-title text-white ${baseText}`}>
           {title}
         </Title>
+
+        {roles.length > 0 && (
+          <div class="project-role-list">
+            {roles.map((role) => (
+              <span class="project-role">{roleLabels[role]}</span>
+            ))}
+          </div>
+        )}
 
         <Body class={`card-description ${baseText}`}>
           {shortDescription}
@@ -130,7 +152,7 @@ const cardClasses = [
         </div>
 
         <div class={`project-description-hint ${baseText} ${themeColorClass}`}>
-          CLICK FOR MORE
+         <!CLICK FOR MORE>
         </div>
       </div>
     </div>
@@ -170,14 +192,7 @@ const cardClasses = [
               class="prose prose-invert max-w-none text-sm sm:text-base text-zinc-200"
               set:html={fullDescription}
             />
-
-            {roles.length > 0 && (
-              <div class="project-role-list">
-                {roles.map((role) => (
-                  <span class="project-role">{roleLabels[role]}</span>
-                ))}
-              </div>
-            )}
+          
           </div>
         </div>
       )

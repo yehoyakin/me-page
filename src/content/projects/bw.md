@@ -12,7 +12,7 @@ roles:
   - ui
   - game_design
 
-variant: secondary
+variant: primary
 
 backgroundImage: "images/projects/bw.webp"
 

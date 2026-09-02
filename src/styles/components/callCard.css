@@ -11,7 +11,8 @@
 
   min-height: 220px;
 
-  background: #09090b;
+  /* keep card background transparent so internal blurred images show through */
+  background: transparent;
 
   overflow: hidden;
 
@@ -48,6 +49,77 @@
   align-items: center;
 }
 
+/* Ensure visible content layers sit above the blurred background */
+.card-main-layout,
+.card-expanded-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Use root card CSS variable as a blurred background layer (not part of layout) */
+/* Split-card style background layer (image + overlay) placed as a child, not part of layout */
+.callcard-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.callcard-bg-inner {
+  position: absolute;
+  inset: -12%;
+  transform: rotate(-2deg);
+}
+
+.callcard-bg-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(var(--callcard-bg-scale, 1.6));
+  filter: blur(var(--callcard-bg-blur, 36px)) saturate(var(--callcard-bg-saturate, 0.75)) contrast(var(--callcard-bg-contrast, 0.95));
+  opacity: var(--callcard-bg-opacity, 0.14);
+  transition: opacity .36s ease, transform .6s cubic-bezier(.2,.9,.2,1), filter .6s ease;
+}
+
+/* Allow switching the blurred background image purely via CSS variable `--card-bg-url`.
+   The variable should include the url(...) wrapper, e.g. `--card-bg-url: url('/images/foo.jpg')`.
+   The pseudo-element is used so the image can be controlled from styles without touching DOM attributes. */
+.callcard-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--card-bg-url, none);
+  background-size: cover;
+  background-position: center center;
+  transform: scale(var(--callcard-bg-scale, 1.6));
+  filter: blur(var(--callcard-bg-blur, 36px)) saturate(var(--callcard-bg-saturate, 0.75)) contrast(var(--callcard-bg-contrast, 0.95));
+  opacity: 0;
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity .36s ease, transform .6s cubic-bezier(.2,.9,.2,1), filter .6s ease;
+}
+
+.retro-expandable-card[data-active="true"] .callcard-bg::before {
+  opacity: var(--callcard-bg-active-opacity, 0.22);
+  transform: scale(var(--callcard-bg-active-scale, 1.64)) rotate(-2deg);
+}
+
+.callcard-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(0,0,0,0.6), rgba(0,0,0,0.45));
+  z-index: 1;
+}
+
+/* Make the full-card blurred background more visible when the card is active */
+.retro-expandable-card[data-active="true"] .callcard-bg-img {
+  opacity: var(--callcard-bg-active-opacity, 0.22);
+  transform: scale(calc(var(--callcard-bg-active-scale, 1.64) * 1.25)) rotate(-2deg);
+}
+
 /* ============================================================
    TEXT SIDE
 ============================================================ */
@@ -60,6 +132,38 @@
   justify-content: space-between;
 
   min-height: 220px;
+  position: relative;
+}
+
+/* Blurred, scaled background image inside the info panel */
+.info-panel-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.info-panel-bg-img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 160%;
+  height: 160%;
+  transform: translate(-50%, -50%) scale(1.6);
+  object-fit: cover;
+  filter: blur(26px) saturate(0.8) contrast(0.95);
+  opacity: 0.18;
+  will-change: transform, filter, opacity;
+}
+
+.card-info-panel > * {
+  position: relative;
+  z-index: 2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .info-panel-bg-img { transition: none !important; }
 }
 
 .card-title-area {
@@ -77,7 +181,8 @@
 
   text-transform: uppercase;
 
-  color: white;
+  /* Allow customizing the tag color via CSS variable `--project-tag-color` */
+  color: var(--project-tag-color, white);
 }
 
 .card-project-title {
@@ -194,7 +299,7 @@
   }
 
   .retro-expandable-card[data-active="true"] .card-preview-image {
-    transform: scale(1);
+    transform: scale();
   }
 }
 
@@ -251,7 +356,22 @@
 .project-drawer-inner {
   padding: 1.5rem;
 
-  background: #09090b;
+  /* semi-opaque black background to ensure text remains readable over blurred image */
+  background: rgba(0,0,0,0.58);
+  backdrop-filter: blur(6px) saturate(0.95);
+}
+
+/* Improve readability: more breathing room for paragraphs and sentences */
+.project-drawer-inner .prose p {
+  margin-bottom: 1rem; /* increase paragraph gap */
+  line-height: 1.7; /* slightly more leading for easier reading */
+}
+
+/* Add a bit more spacing after sentence-ending punctuation inside paragraphs */
+.project-drawer-inner .prose p::after {
+  content: "";
+  display: block;
+  height: 0.25rem;
 }
 
 /* ============================================================
@@ -260,33 +380,63 @@
 
 .project-role-list {
   display: flex;
-
+  gap: 0.5rem;
+  align-items: center;
   flex-wrap: wrap;
+  margin: 0.6rem 0 0.75rem 0;
+}
 
-  gap: 0.75rem 1.25rem;
-
-  margin-top: 1.25rem;
+.project-role-items {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
 }
 
 .project-role {
-  padding: 0.4rem 0.8rem;
-
-  font-family: var(--retro-font);
-
+  display: inline-block;
+  padding: 0.22rem 0.5rem;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.03);
+  color: #e6e6e6;
   font-size: 0.75rem;
-
   font-weight: 700;
-
-  font-style: italic;
-
-  letter-spacing: 0.15em;
-
+  letter-spacing: 0.12em;
   text-transform: uppercase;
+}
 
-  color: white;
+/* Retro contribution block styling for improved readability */
+.retro-contribution {
+  margin: 0.6rem 0 0.15rem 0;
+  padding: 0.5rem 0.75rem;
+  background: rgba(255,255,255,0.004);
+  border-left: 2px solid rgba(255,255,255,0.02);
+  border-radius: 4px;
+  line-height: 1.48;
+  color: #cfcfd6;
+  font-weight: 400;
+  font-size: 0.92rem;
+  opacity: 0.95;
+}
 
-  pointer-events: none;
-  user-select: none;
+.retro-contribution h3,
+.retro-contribution h2 {
+  margin-top: 0;
+  margin-bottom: 0.35rem;
+  font-size: 0.86rem;
+  letter-spacing: 0.03em;
+  text-transform: none;
+  font-weight: 500;
+  color: #d6d6db;
+}
+
+.retro-contribution ul {
+  margin: 0.35rem 0 0 1rem;
+}
+
+.retro-contribution li {
+  margin-bottom: 0.45rem;
+  color: #d0d0d6;
 }
 
 .project-role-title {

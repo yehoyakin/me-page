@@ -15,7 +15,11 @@ const { projects } = Astro.props;
 const totalProjects = projects.length;
 ---
 
-<div id="project-gallery" class="project-gallery">
+  <div id="project-gallery" class="project-gallery">
+    <div id="gallery-bg" class="gallery-bg" aria-hidden="true">
+      <img id="gallery-bg-img" class="gallery-bg-img" src={projects[0] ? asset(projects[0].data.backgroundImage) : ""} alt="" />
+      <div class="gallery-bg-overlay"></div>
+    </div>
   <div class="gallery-top">
     <div class="gallery-dots retro-font">
         {
@@ -46,6 +50,7 @@ const totalProjects = projects.length;
       <div
         class="gallery-slide"
         data-slide={index}
+        data-bg={asset(project.data.backgroundImage)}
         style={index === 0 ? "" : "display:none;"}
       >
         <CallCard
@@ -126,6 +131,17 @@ const totalProjects = projects.length;
 
       current = index;
       updateDots();
+
+      // Update the single shared gallery background to match the active slide
+      const activeSlide = slides[current];
+      const bg = activeSlide?.dataset.bg || "";
+      const bgImg = document.getElementById("gallery-bg-img");
+      if (bgImg) {
+        bgImg.src = bg;
+        // fade in
+        bgImg.style.opacity = bg ? "1" : "0";
+      }
+
       restartProgress();
     }
 

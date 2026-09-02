@@ -123,7 +123,9 @@
   overflow: hidden;
   transition: max-height 280ms ease, opacity 220ms ease;
   opacity: 0;
-  background: linear-gradient(180deg, rgba(10,10,10,0.0), rgba(7,7,7,0.95));
+  /* readable semi-opaque black overlay to ensure text contrast while letting blur show through */
+  background: rgba(0,0,0,0.58);
+  backdrop-filter: blur(6px) saturate(0.9);
 }
 
 .project-card[data-expanded="true"] .project-card-drawer {
@@ -145,11 +147,12 @@
 .shader-bg {
   position: absolute;
   inset: 0;
-  background: linear-gradient(120deg, rgba(45,55,72,0.06), rgba(99,102,241,0.06));
-  opacity: 0.95;
+  background: rgba(0,0,0,0.10);
+  /* keep shader filter but don't overlay the image with a dark blend */
+  opacity: 1;
   pointer-events: none;
   transform-origin: center;
-  mix-blend-mode: overlay;
+  mix-blend-mode: normal;
   filter: url(#wavy-shader);
   transition: opacity 260ms ease, transform 560ms cubic-bezier(.2,.9,.2,1);
 }
@@ -162,6 +165,26 @@
 .project-card-drawer-inner {
   position: relative;
   z-index: 2;
+}
+
+/* Background image for the project panel: large, centered, blurred */
+.shader-bg .panel-bg-img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 160%;
+  height: 160%;
+  transform: translate(-50%, -50%) scale(1.75);
+  object-fit: cover;
+  filter: blur(28px) saturate(0.7) contrast(0.95);
+  opacity: 0.22;
+  will-change: transform, filter, opacity;
+  pointer-events: none;
+}
+
+.project-card.panel-update .shader-bg .panel-bg-img {
+  transform: translate(-50%, -50%) scale(1.78);
+  opacity: 0.26;
 }
 
 /* Panel update animation when drawer content changes */
