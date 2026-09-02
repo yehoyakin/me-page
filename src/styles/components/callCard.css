@@ -21,6 +21,9 @@
   transition: transform 200ms ease;
 
   touch-action: manipulation;
+  /* Accent colors: bold uses exact tag color; italic uses a lerp with 25% white */
+  --callcard-accent: var(--project-tag-color, white);
+  --callcard-italic-accent: color-mix(in srgb, var(--project-tag-color, white) 25%, white);
 }
 
 .retro-expandable-card:hover {
@@ -54,6 +57,22 @@
 .card-expanded-content {
   position: relative;
   z-index: 2;
+}
+
+/* Bold text uses the exact tag color */
+.retro-expandable-card .prose strong,
+.retro-expandable-card .prose b,
+.retro-expandable-card .retro-contribution strong,
+.retro-expandable-card .retro-contribution b {
+  color: var(--callcard-accent, var(--project-tag-color, white));
+}
+
+/* Italic text uses a subtler lerp (25% white) */
+.retro-expandable-card .prose em,
+.retro-expandable-card .prose i,
+.retro-expandable-card .retro-contribution em,
+.retro-expandable-card .retro-contribution i {
+  color: var(--callcard-italic-accent, color-mix(in srgb, var(--project-tag-color, white) 25%, white));
 }
 
 /* Use root card CSS variable as a blurred background layer (not part of layout) */

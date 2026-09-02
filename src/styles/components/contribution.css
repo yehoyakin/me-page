@@ -7,15 +7,13 @@
 .retro-contribution {
   margin-top: 2rem;
 
-  padding: 1rem 3.25rem;
+  padding: 1rem 1rem;
 
   width: 100%;
 
   box-sizing: border-box;
 
-  background: #09090b00;
-
-  border-left: 4px solid white;
+  border-left: 1px solid white;
 }
 
 /* =========================
@@ -25,13 +23,7 @@
 .retro-contribution h3 {
   margin: 0 0 1rem;
 
-  color: white;
-
   font-family: var(--retro-font);
-
-  font-weight: 100;
-
-  text-transform: uppercase;
 
   opacity: 1;
 }
@@ -43,31 +35,17 @@
 .retro-contribution ul {
   list-style: none;
 
-  padding: 0;
-
-  margin: 0;
-
   display: flex;
 
   flex-wrap: wrap;
-
-  gap: 0.5rem;
 }
 
 .retro-contribution li {
   padding: 0.45rem 0.8rem;
 
-  background: #ffffffb1;
-
-  color: rgb(0, 0, 0);
-
   font-family: var(--retro-font);
 
-  font-size: 0.5rem;
-
   font-weight: normal;
-
-
 }
 
 .retro-contribution li::marker {

@@ -25,6 +25,6 @@ links:
 
 3D Collectathon, Grab objects to obtain effects, and pilot a hidroplane to explore an archipelago and be free of life threatening debt!
 
-Borrowed Wings draws inspiration from the freeform exploration of **Super Mario 64** and the adventurous spirit of **Porco Rosso**.
+Borrowed Wings draws inspiration from the freeform exploration of *Super Mario 64* and the adventurous spirit of *Porco Rosso*.
 
 Estimated playtime: **approximately 2 hours**.
