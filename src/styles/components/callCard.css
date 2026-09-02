@@ -21,8 +21,8 @@
   transition: transform 200ms ease;
 
   touch-action: manipulation;
-  /* Accent colors: bold uses exact tag color; italic uses a lerp with 25% white */
-  --callcard-accent: var(--project-tag-color, white);
+  /* Accent colors: bold uses tag color mixed with 10% white; italic uses a lerp with 25% white */
+  --callcard-accent: color-mix(in srgb, var(--project-tag-color, white) 90%, white 10%);
   --callcard-italic-accent: color-mix(in srgb, var(--project-tag-color, white) 25%, white);
 }
 

@@ -10,6 +10,24 @@
   margin: 1.5rem 0;
 }
 
+/* Bold/italic coloring consistent with call card accents */
+#blog-content {
+  /* default tag color for blog content falls back to site primary */
+  --project-tag-color: var(--retro-primary);
+  --callcard-accent: color-mix(in srgb, var(--project-tag-color, white) 90%, white 10%);
+  --callcard-italic-accent: color-mix(in srgb, var(--project-tag-color, white) 25%, white);
+}
+
+#blog-content strong,
+#blog-content b {
+  color: var(--callcard-accent, var(--retro-primary));
+}
+
+#blog-content em,
+#blog-content i {
+  color: var(--callcard-italic-accent, color-mix(in srgb, var(--retro-primary, white) 10%, white));
+}
+
 #blog-content h1,
 #blog-content h2,
 #blog-content h3,
