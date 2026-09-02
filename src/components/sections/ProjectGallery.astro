@@ -98,10 +98,6 @@ const totalProjects = projects.length;
 
     let current = 0;
 
-    // Store timers on the gallery element so they survive across navigations
-    gallery._timer = null;
-    gallery._raf = null;
-
     function currentCard() {
       return slides[current]?.querySelector(".retro-expandable-card");
     }
@@ -138,22 +134,17 @@ const totalProjects = projects.length;
       const bgImg = document.getElementById("gallery-bg-img");
       if (bgImg) {
         bgImg.src = bg;
-        // fade in
         bgImg.style.opacity = bg ? "1" : "0";
       }
-
-      restartProgress();
-    }
-
-    function next() {
-      if (isExpanded()) return;
-      show(current + 1);
     }
 
     function startTimer() {
       stopTimer();
       gallery._timer = setInterval(() => {
-        next();
+        // Only advance if no card is expanded
+        if (!isExpanded()) {
+          show(current + 1);
+        }
       }, INTERVAL);
     }
 
@@ -164,22 +155,31 @@ const totalProjects = projects.length;
       }
     }
 
-    function restartProgress() {
+    function startProgress() {
       if (!progress) return;
       if (gallery._raf) cancelAnimationFrame(gallery._raf);
       progress.style.transition = "none";
       progress.style.transform = "scaleX(0)";
       void progress.offsetWidth;
-      if (isExpanded()) return;
       gallery._raf = requestAnimationFrame(() => {
         progress.style.transition = `transform ${INTERVAL}ms linear`;
         progress.style.transform = "scaleX(1)";
       });
     }
 
+    function pauseProgress() {
+      if (!progress) return;
+      if (gallery._raf) cancelAnimationFrame(gallery._raf);
+      // Freeze progress at current position
+      const computed = getComputedStyle(progress);
+      const matrix = new DOMMatrix(computed.transform);
+      progress.style.transition = "none";
+      progress.style.transform = `scaleX(${matrix.m11})`;
+    }
+
     function resetGalleryTimer() {
       stopTimer();
-      restartProgress();
+      startProgress();
       startTimer();
     }
 
@@ -187,9 +187,11 @@ const totalProjects = projects.length;
       // Let CallCard handle data-active first, then sync gallery
       requestAnimationFrame(() => {
         if (isExpanded()) {
+          // Card expanded — pause everything
           stopTimer();
-          restartProgress();
+          pauseProgress();
         } else {
+          // Card collapsed — resume auto-advance
           resetGalleryTimer();
         }
       });
@@ -217,7 +219,7 @@ const totalProjects = projects.length;
       requestAnimationFrame(() => {
         if (isExpanded()) {
           stopTimer();
-          restartProgress();
+          pauseProgress();
         } else {
           resetGalleryTimer();
         }
