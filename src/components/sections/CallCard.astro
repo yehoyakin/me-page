@@ -2,7 +2,7 @@
 // Purpose: Section - src/components/sections/CallCard.astro (Expandable project call card)
 import Title from "../UI/Title.astro";
 import Body from "../UI/Body.astro";
-import { uiDictionary } from "../../config/uiDictionary";
+import { uiDictionary, resolveThemeToken } from "../../config/uiDictionary";
 import type { ProjectRole, UiVariant } from "../../config/uiDictionary";
 
 interface Props {
@@ -41,19 +41,10 @@ const {
 
 const config = uiDictionary[variant];
 
-const dynamicToken =
-  config.theme === "primary"
-    ? "var(--retro-primary)"
-    : config.theme === "secondary"
-      ? "var(--retro-secondary)"
-      : "var(--retro-terminal)";
+const dynamicToken = resolveThemeToken(config.theme);
 
-const themeColorClass =
-  config.theme === "primary"
-    ? "text-[color:var(--retro-primary)]"
-    : config.theme === "secondary"
-      ? "text-[color:var(--retro-secondary)]"
-      : "text-[color:var(--retro-terminal)]";
+// Use the per-card CSS variable so the color follows `--project-tag-color`.
+const themeColorClass = "text-[color:var(--project-tag-color)]";
 
 const EXPANDED_CARD_BORDER_THICKNESS = "8px";
 const CARD_EXPANSION_DURATION_MS = 200;
@@ -74,6 +65,8 @@ const cardClasses = [
 <div
   class={cardClasses}
   data-theme={config.transition}
+  data-variant={config.theme}
+  data-debug-token={dynamicToken}
   data-active="false"
   style={`
     --current-token: ${dynamicToken};
@@ -129,7 +122,7 @@ const cardClasses = [
 
         
 
-        <Title class={`card-project-title text-white ${baseText}`}>
+        <Title theme={variant} class={`card-project-title text-white ${baseText}`}>
           {title}
         </Title>
 
@@ -141,7 +134,7 @@ const cardClasses = [
           </div>
         )}
 
-        <Body class={`card-description ${baseText}`}>
+        <Body theme={variant} class={`card-description ${baseText}`}>
           {shortDescription}
         </Body>
       </div>
@@ -176,7 +169,8 @@ const cardClasses = [
         <div class="project-preview">
           <div class="project-description-preview">
             <div
-              class="prose prose-invert max-w-none text-sm sm:text-base text-zinc-300 drop-shadow-[0_1px_3px_rgba(0,0,0,1)]"
+              class="prose prose-invert max-w-none text-sm sm:text-base text-zinc-300 drop-shadow-[0_1px_3px_rgba(0,0,0,1)] theme-color"
+              style={`--project-tag-color: ${dynamicToken}`}
               set:html={fullDescription}
             />
           </div>
@@ -189,10 +183,10 @@ const cardClasses = [
         <div class="project-drawer">
           <div class="project-drawer-inner">
             <div
-              class="prose prose-invert max-w-none text-sm sm:text-base text-zinc-200"
+              class="prose prose-invert max-w-none text-sm sm:text-base text-zinc-200 theme-color"
+              style={`--project-tag-color: ${dynamicToken}`}
               set:html={fullDescription}
             />
-          
           </div>
         </div>
       )

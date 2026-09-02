@@ -26,6 +26,7 @@
   font-family: var(--retro-font);
 
   opacity: 1;
+  font-size: var(--contribution-heading-size, 0.95rem);
 }
 
 /* =========================
@@ -46,6 +47,7 @@
   font-family: var(--retro-font);
 
   font-weight: normal;
+  font-size: var(--contribution-font-size, 1.5rem);
 }
 
 .retro-contribution li::marker {
@@ -61,7 +63,7 @@
 
   font-family: var(--retro-font);
 
-  font-size: 0.65rem;
+  font-size: var(--contribution-badge-font-size, 0.78rem);
 
   font-weight: 700;
 

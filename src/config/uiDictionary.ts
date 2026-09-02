@@ -17,6 +17,32 @@ export type UiConfig = {
   };
 };
 
+/**
+ * Resolve a UiVariant to its CSS custom-property reference.
+ * This is the SINGLE source of truth for mapping variant → color token.
+ * Use this anywhere you need the inline-style value for `--project-tag-color`.
+ */
+export function resolveThemeToken(variant: UiVariant): string {
+  switch (variant) {
+    case "secondary":
+      return "var(--retro-secondary)";
+    case "terminal":
+      return "var(--retro-terminal)";
+    case "primary":
+    default:
+      return "var(--retro-primary)";
+  }
+}
+
+/**
+ * Normalize an arbitrary string into a valid UiVariant.
+ */
+export function toUiVariant(value: unknown): UiVariant {
+  if (value === "secondary") return "secondary";
+  if (value === "terminal") return "terminal";
+  return "primary";
+}
+
 export const uiDictionary: Record<UiVariant, UiConfig> = {
   primary: {
     transition: "crt",
@@ -28,7 +54,7 @@ export const uiDictionary: Record<UiVariant, UiConfig> = {
     },
     text: {
       base: "text-ui-invert",
-      hover: "hover:text-retro-primary"
+      hover: "hover:text-project-tag"
     }
   },
 
@@ -42,7 +68,7 @@ export const uiDictionary: Record<UiVariant, UiConfig> = {
     },
     text: {
       base: "text-ui-invert",
-      hover: "hover:text-retro-secondary"
+      hover: "hover:text-project-tag"
     }
   },
 
@@ -56,7 +82,7 @@ export const uiDictionary: Record<UiVariant, UiConfig> = {
     },
     text: {
       base: "text-ui-base",
-      hover: "hover:text-retro-terminal"
+      hover: "hover:text-project-tag"
     }
   }
 }

@@ -1,15 +1,18 @@
 ---
 // Purpose: Component - src/components/UI/Body.astro (UI Body / paragraph styling)
-import { uiDictionary, type UiVariant } from "../../config/uiDictionary";
+import { uiDictionary, resolveThemeToken, type UiVariant } from "../../config/uiDictionary";
 
 interface Props {
   class?: string;
   variant?: UiVariant;
+  /** When set, descendant <strong>/<b> and <em>/<i> inherit this theme's color. */
+  theme?: UiVariant;
 }
 
-const { class: customClass = "", variant = "primary" } = Astro.props;
+const { class: customClass = "", variant = "primary", theme } = Astro.props;
 
 const config = uiDictionary[variant];
+const themeToken = theme ? resolveThemeToken(theme) : undefined;
 ---
 
 <p
@@ -19,8 +22,10 @@ const config = uiDictionary[variant];
     config.text.hover,
     "transition-colors",
     "text-sm sm:text-base leading-relaxed break-words max-w-prose",
+    theme && "theme-color",
     customClass,
   ]}
+  style={themeToken ? `--project-tag-color: ${themeToken}` : undefined}
 >
   <slot />
 </p>

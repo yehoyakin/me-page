@@ -1,6 +1,6 @@
 ---
 title: "My favorite videogame"
-theme: "crt"
+theme: "terminal"
 description: "Warmth | Coziness | Fun"
 date: 2026-04-01
 cardBackground: "images/blog/eastward/image (16).webp"

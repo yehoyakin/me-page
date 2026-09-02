@@ -2,12 +2,34 @@
 
 :root {
   /* retro colors */
-  --retro-primary: rgb(236, 251, 32);
-  --retro-secondary: rgb(4, 255, 251);
-  --retro-terminal: rgb(255, 52, 252);
+  --retro-primary: hwb(92 13% 0%);
+  --retro-secondary: rgb(165, 138, 255);
+  --retro-terminal: rgb(255, 213, 73);
 
   /* UI neutrals */
   --ui-base: rgb(228 228 231);
   --ui-muted: rgb(161 161 170);
   --ui-invert: rgb(255 255 255);
+
+  /* Project tag / accent color system
+     - --project-tag-color: per-component or per-page token to choose the base hue
+     - --accent-bold: tag color mixed with 10% white (90% tag + 10% white)
+     - --accent-italic: tag color mixed with 15% white (85% tag + 15% white)
+  */
+  --project-tag-color: var(--retro-primary);
+  /* Provide safe fallbacks for browsers without `color-mix()` support: default to the raw tag color. */
+  --accent-bold: var(--project-tag-color);
+  --accent-italic: var(--project-tag-color);
+
+  /* If the user agent supports `color-mix()`, override the accents with softer mixes. */
+  @supports (color: color-mix(in srgb, red 10%, white)) {
+    :root {
+      --accent-bold: color-mix(in srgb, var(--project-tag-color, white) 90%, white 10%);
+      --accent-italic: color-mix(in srgb, var(--project-tag-color, white) 85%, white 15%);
+    }
+  }
+  /* Contribution font sizing (centralized) */
+  --contribution-font-size: 1rem;
+  --contribution-heading-size: 0.95rem;
+  --contribution-badge-font-size: 0.78rem;
 }

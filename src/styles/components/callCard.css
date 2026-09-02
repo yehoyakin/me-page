@@ -21,9 +21,9 @@
   transition: transform 200ms ease;
 
   touch-action: manipulation;
-  /* Accent colors: bold uses tag color mixed with 10% white; italic uses a lerp with 25% white */
-  --callcard-accent: color-mix(in srgb, var(--project-tag-color, white) 90%, white 10%);
-  --callcard-italic-accent: color-mix(in srgb, var(--project-tag-color, white) 25%, white);
+  /* Accent colors delegate to global accents so mixing percentages are centralized */
+  --callcard-accent: var(--accent-bold, color-mix(in srgb, var(--project-tag-color, white) 50%, white 50%));
+  --callcard-italic-accent: var(--accent-italic, color-mix(in srgb, var(--project-tag-color, white) 50%, white 50%));
 }
 
 .retro-expandable-card:hover {
@@ -59,21 +59,7 @@
   z-index: 2;
 }
 
-/* Bold text uses the exact tag color */
-.retro-expandable-card .prose strong,
-.retro-expandable-card .prose b,
-.retro-expandable-card .retro-contribution strong,
-.retro-expandable-card .retro-contribution b {
-  color: var(--callcard-accent, var(--project-tag-color, white));
-}
-
-/* Italic text uses a subtler lerp (25% white) */
-.retro-expandable-card .prose em,
-.retro-expandable-card .prose i,
-.retro-expandable-card .retro-contribution em,
-.retro-expandable-card .retro-contribution i {
-  color: var(--callcard-italic-accent, color-mix(in srgb, var(--project-tag-color, white) 25%, white));
-}
+/* Bold / italic colour rules moved to theme-colors.css for project-wide reuse */
 
 /* Use root card CSS variable as a blurred background layer (not part of layout) */
 /* Split-card style background layer (image + overlay) placed as a child, not part of layout */
@@ -418,7 +404,7 @@
   border-radius: 6px;
   background: rgba(255,255,255,0.03);
   color: #e6e6e6;
-  font-size: 0.75rem;
+  font-size: var(--contribution-badge-font-size, 0.78rem);
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -434,7 +420,7 @@
   line-height: 1.48;
   color: #cfcfd6;
   font-weight: 400;
-  font-size: 0.92rem;
+  font-size: var(--contribution-font-size, 1rem);
   opacity: 0.95;
 }
 
@@ -442,7 +428,7 @@
 .retro-contribution h2 {
   margin-top: 0;
   margin-bottom: 0.35rem;
-  font-size: 0.86rem;
+  font-size: var(--contribution-heading-size, 0.95rem);
   letter-spacing: 0.03em;
   text-transform: none;
   font-weight: 500;
@@ -456,6 +442,7 @@
 .retro-contribution li {
   margin-bottom: 0.45rem;
   color: #d0d0d6;
+  font-size: var(--contribution-font-size, 1rem);
 }
 
 .project-role-title {

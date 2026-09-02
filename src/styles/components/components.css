@@ -26,6 +26,15 @@
   color: var(--retro-terminal);
 }
 
+/* Project tag utility: use the resolved `--project-tag-color` set on the component/page */
+.text-project-tag {
+  color: var(--project-tag-color);
+}
+
+.group:hover .group-hover-project-tag {
+  color: var(--project-tag-color);
+}
+
 /* HOVER (FIXED — NO ESCAPES) */
 .group:hover .group-hover-retro-primary {
   color: var(--retro-primary);

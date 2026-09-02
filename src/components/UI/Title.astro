@@ -1,12 +1,14 @@
 ---
 // Purpose: Component - src/components/UI/Title.astro (UI Title component)
-import { uiDictionary, type UiVariant } from "../../config/uiDictionary";
+import { uiDictionary, resolveThemeToken, type UiVariant } from "../../config/uiDictionary";
 
 interface Props {
   class?: string;
   level?: 1 | 2 | 3 | 4 | 5 | 6;
   variant?: UiVariant;
   outline?: boolean;
+  /** When set, descendant <strong>/<b> and <em>/<i> inherit this theme's color. */
+  theme?: UiVariant;
 }
 
 const {
@@ -14,9 +16,11 @@ const {
   level = 2,
   variant = "primary",
   outline = true,
+  theme,
 } = Astro.props;
 
 const config = uiDictionary[variant];
+const themeToken = theme ? resolveThemeToken(theme) : undefined;
 
 const Tag = `h${level}` as any;
 
@@ -42,8 +46,10 @@ const defaultFluidClass =
     "transition-colors font-bold break-normal whitespace-normal tracking-wide",
     defaultFluidClass,
     outline && "[-webkit-text-stroke:1px_#000]",
+    theme && "theme-color",
     customClass,
   ]}
+  style={themeToken ? `--project-tag-color: ${themeToken}` : undefined}
 >
   <slot />
 </Tag>
