@@ -12,10 +12,19 @@
 */
 
 :root {
-  /* ── Theme colors — add new themes here ── */
+
+    /* Old colors
   --theme-primary: hwb(92 13% 0%);
   --theme-secondary: rgb(165, 138, 255);
   --theme-terminal: rgb(255, 213, 73);
+  */
+
+  /* ── Theme colors — add new themes here ── */
+  --theme-primary: rgb(255, 155, 105);
+  --theme-secondary: rgb(163, 101, 255);
+  --theme-terminal: rgb(255, 227, 117);
+  --theme-forest: rgb(215, 255, 96);
+  --theme-sunset: rgb(248, 98, 190);
 
   /* Backward-compatible aliases */
   --retro-primary: var(--theme-primary);
