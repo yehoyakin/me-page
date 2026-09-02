@@ -37,22 +37,18 @@
 ============================================================ */
 
 @media (min-width: 901px) {
-  .retro-expandable-card:hover .card-main-layout {
-    grid-template-columns: minmax(0, 1.25fr) minmax(320px, 1fr);
-    transition: grid-template-columns 0.25s ease;
-  }
-
   .retro-expandable-card[data-active="true"] .card-main-layout {
-    grid-template-columns: minmax(0, 1fr) minmax(480px, 1fr);
+    grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
   }
 
   .retro-expandable-card[data-active="true"] .card-preview-frame {
-    aspect-ratio: auto;
-    min-height: 320px;
+    aspect-ratio: 16 / 9;
+    min-height: 220px;
+    max-height: 280px;
   }
 
   .retro-expandable-card[data-active="true"] .card-preview-image {
-    object-fit: contain;
+    object-fit: cover;
   }
 }
 
