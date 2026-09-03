@@ -11,6 +11,11 @@ import { asset } from "../utils/asset";
 
 const posts = (await getCollection("blog")) as BlogPost[];
 const bgGif = asset("images/kbg1.gif");
+
+// Sort posts: newest first (left), oldest last (right)
+const sortedPosts = posts.sort((a, b) => 
+  new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+);
 ---
 
 <MyLayout title="Blog" animation="traversal" preloadImages={[bgGif]}>
@@ -36,23 +41,84 @@ const bgGif = asset("images/kbg1.gif");
 
     {/* Main content layer. */}
     <section
-      class="relative z-20 py-24 px-4 sm:px-6 md:px-8 max-w-7xl mx-auto w-full"
+      class="relative z-20 py-24 px-4 sm:px-6 md:px-8 w-full"
     >
-      <BackLink />
+      <div class="text-center">
+        <BackLink />
 
-      <Title class="mt-3 text-5xl md:text-6xl" level={1} theme="primary">
-        Blog
-      </Title>
+        <Title class="mt-3 text-5xl md:text-6xl" level={1} theme="primary">
+          Blog
+        </Title>
 
-      <Body theme="secondary" shadow={true}>
-        Thoughts on my favorite art.
-      </Body>
+        <Body theme="secondary" class="mt-4 max-w-2xl mx-auto" shadow={true}>
+          Thoughts on my favorite art.
+        </Body>
+      </div>
 
-      <div class="mt-24"></div>
+      <div class="mt-16"></div>
 
-      <div class="space-y-10">
-        {posts.map((post) => <BlogCard post={post} />)}
+      {/* Horizontal scrollable blog cards */}
+      <div class="blog-cards-wrapper">
+        <div class="blog-cards-scroll">
+          {sortedPosts.map((post) => (
+            <div class="blog-card-item">
+              <BlogCard post={post} />
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   </div>
 </MyLayout>
+
+<style>
+  .blog-cards-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.3) transparent;
+    padding: 1rem 0 2rem 0;
+  }
+
+  .blog-cards-wrapper::-webkit-scrollbar {
+    height: 10px;
+  }
+
+  .blog-cards-wrapper::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .blog-cards-wrapper::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.3);
+    border-radius: 3px;
+  }
+
+  .blog-cards-scroll {
+    display: flex;
+    gap: 1.5rem;
+    padding: 0 1rem;
+    align-items: stretch;
+    min-width: min-content;
+  }
+
+  .blog-card-item {
+    flex: 0 0 auto;
+    width: 400px;
+  }
+
+  @media (max-width: 768px) {
+    .blog-card-item {
+      width: 75vw;
+      max-width: 360px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .blog-card-item {
+      width: 85vw;
+      max-width: 320px;
+    }
+  }
+</style>

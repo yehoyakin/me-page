@@ -2,6 +2,7 @@
 import CallCard from "./CallCard.astro";
 import SocialLink from "../shared/Link.astro";
 import { asset } from "../../utils/asset";
+import { resolveThemeToken, toThemeName } from "../../config/uiDictionary";
 
 interface Props {
   projects: {
@@ -11,7 +12,6 @@ interface Props {
 }
 
 const { projects } = Astro.props;
-const totalProjects = projects.length;
 ---
 
 <div id="project-gallery" class="project-gallery">
@@ -20,85 +20,86 @@ const totalProjects = projects.length;
     <div class="gallery-bg-overlay"></div>
   </div>
 
-  <!-- Horizontal scrollable thumbnail strip -->
+  <!-- Scrollable thumbnail grid -->
   <div class="gallery-thumbnails-wrapper">
     <div class="gallery-thumbnails">
       {
-        projects.map((project, index) => (
-          <div class="gallery-thumb-card" data-index={index}>
-            <button
-              class="gallery-thumb"
-              data-dot={index}
-              aria-label={`Select project ${project.data.title ?? index + 1}`}
-              title={project.data.title}
-            >
-              <!-- Image carousel container -->
-              <div class="thumb-carousel" data-images={JSON.stringify(project.data.images.map(asset))}>
-                {project.data.images.map((img: string, imgIndex: number) => (
-                  <img
-                    src={asset(img)}
-                    alt={`${project.data.title ?? `Project ${index + 1}`} - Image ${imgIndex + 1}`}
-                    class={`thumb-carousel-img ${imgIndex === 0 ? 'active' : ''}`}
-                    loading="lazy"
-                    decoding="async"
-                  />
-                ))}
+        projects.map((project, index) => {
+          const themeName = toThemeName(project.data.theme);
+          const themeToken = resolveThemeToken(themeName);
+          return (
+            <div class="gallery-project-item" data-project-index={index}>
+              <!-- Thumbnail Button -->
+              <button
+                class="gallery-thumb"
+                aria-label={`Expand project ${project.data.title ?? index + 1}`}
+                title={project.data.title}
+                data-thumb-index={index}
+                style={`--thumb-theme-color: ${themeToken}`}
+              >
+                <!-- Image carousel container -->
+                <div class="thumb-carousel" data-images={JSON.stringify(project.data.images.map(asset))}>
+                  {project.data.images.map((img: string, imgIndex: number) => (
+                    <img
+                      src={asset(img)}
+                      alt={`${project.data.title ?? `Project ${index + 1}`} - Image ${imgIndex + 1}`}
+                      class={`thumb-carousel-img ${imgIndex === 0 ? 'active' : ''}`}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  ))}
+                </div>
+                <!-- Dark overlay -->
+                <div class="thumb-overlay"></div>
+                <!-- Shine sweep -->
+                <span class="thumb-sweep" aria-hidden="true"></span>
+              <!-- Bottom info bar - title + tag -->
+              <div class="thumb-info-bar">
+                <span class="thumb-title">{project.data.title}</span>
+                <span class="thumb-tag retro-font" style={`color: ${themeToken}`}>{project.data.tag}</span>
               </div>
-              <!-- Tag overlay -->
-              <div class="thumb-tag-overlay">
-                <span class="thumb-tag retro-font">{project.data.tag}</span>
+              </button>
+              <!-- Links below thumbnail - always visible -->
+              <div class="thumb-links">
+                {project.data.links?.map(
+                  (link: { href: string; text: string | undefined }) => (
+                    <SocialLink href={link.href} text={link.text} external={true} />
+                  ),
+                )}
               </div>
-            </button>
-            <!-- Links below thumbnail -->
-            <div class="thumb-links">
-              {project.data.links?.map(
-                (link: { href: string; text: string | undefined }) => (
-                  <SocialLink href={link.href} text={link.text} external={true} />
-                ),
-              )}
             </div>
-          </div>
-        ))
+          );
+        })
       }
     </div>
   </div>
 
-  <div class="gallery-progress">
-    <div id="gallery-progress-fill" class="gallery-progress-fill"></div>
+  <!-- CallCard Panels - positioned outside the scroll container for full width -->
+  <div class="gallery-panels-container">
+    {
+      projects.map((project, index) => (
+        <div class="gallery-card-panel" data-panel={index} style="display: none;">
+          <button class="collapse-btn" aria-label="Collapse project" data-collapse={index}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="18 15 12 9 6 15"></polyline>
+            </svg>
+          </button>
+          <CallCard
+            tag={project.data.tag}
+            title={project.data.title}
+            shortDescription={project.data.shortDescription}
+            fullDescription={project.rendered}
+            roles={project.data.roles}
+            theme={project.data.theme}
+            backgroundImage={asset(project.data.images[0])}
+          />
+        </div>
+      ))
+    }
   </div>
-
-  {
-    projects.map((project, index) => (
-      <div
-        class="gallery-slide"
-        data-slide={index}
-        data-bg={asset(project.data.images[0])}
-        style={index === 0 ? "" : "display:none;"}
-      >
-        <CallCard
-          tag={project.data.tag}
-          title={project.data.title}
-          shortDescription={project.data.shortDescription}
-          fullDescription={project.rendered}
-          roles={project.data.roles}
-          theme={project.data.theme}
-          backgroundImage={asset(project.data.images[0])}
-        >
-          <Fragment slot="links">
-            {project.data.links?.map(
-              (link: { href: string; text: string | undefined }) => (
-                <SocialLink href={link.href} text={link.text} external={true} />
-              ),
-            )}
-          </Fragment>
-        </CallCard>
-      </div>
-    ))
-  }
 </div>
 
 <script is:inline>
-  const INTERVAL = 20000;
   const CAROUSEL_INTERVAL = 3000;
 
   function initGallery() {
@@ -108,127 +109,102 @@ const totalProjects = projects.length;
     if (gallery.dataset.galleryInitialized === "true") return;
     gallery.dataset.galleryInitialized = "true";
 
-    if (gallery._timer) clearInterval(gallery._timer);
-    if (gallery._raf) cancelAnimationFrame(gallery._raf);
     if (gallery._carouselTimers) {
       gallery._carouselTimers.forEach(t => clearInterval(t));
     }
-    gallery._timer = null;
-    gallery._raf = null;
     gallery._carouselTimers = [];
 
-    const slides = [...gallery.querySelectorAll("[data-slide]")];
-    const thumbs = [...gallery.querySelectorAll("[data-dot]")];
-    const progress = document.getElementById("gallery-progress-fill");
+    const thumbs = [...gallery.querySelectorAll("[data-thumb-index]")];
+    const panels = [...gallery.querySelectorAll("[data-panel]")];
+    const collapseBtns = [...gallery.querySelectorAll("[data-collapse]")];
 
-    let current = 0;
+    let activeProject = null;
 
-    function currentCard() {
-      return slides[current]?.querySelector(".retro-expandable-card");
-    }
-
-    function isExpanded() {
-      return currentCard()?.dataset.active === "true";
-    }
-
-    function updateThumbs() {
-      thumbs.forEach((thumb, index) => {
-        const card = thumb.closest('.gallery-thumb-card');
+    function expandProject(index) {
+      // Hide all panels and deactivate all cards
+      panels.forEach(p => {
+        p.style.display = "none";
+        const card = p.querySelector('.retro-expandable-card');
         if (card) {
-          card.classList.toggle("active", index === current);
+          card.setAttribute('data-active', 'false');
+          card.removeAttribute('onclick');
         }
       });
+
+      const panel = panels.find(p => p.dataset.panel === String(index));
+      if (panel) {
+        panel.style.display = "block";
+        activeProject = index;
+
+        const card = panel.querySelector('.retro-expandable-card');
+        if (card) {
+          card.setAttribute('data-active', 'true');
+          card.removeAttribute('onclick');
+        }
+
+        // Update background
+        const bgImg = document.getElementById("gallery-bg-img");
+        const thumb = thumbs[index];
+        if (bgImg && thumb) {
+          const firstImg = thumb.querySelector('.thumb-carousel-img');
+          if (firstImg) {
+            bgImg.src = firstImg.src;
+            bgImg.style.opacity = "1";
+          }
+        }
+
+        // Scroll thumbnail into view within the horizontal scroller
+        const projectItem = thumb?.closest('.gallery-project-item');
+        if (projectItem) {
+          projectItem.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }
+
+        // Scroll panel into view below
+        panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     }
 
-    function show(index) {
-      if (index < 0) index = slides.length - 1;
-      if (index >= slides.length) index = 0;
-
-      document.querySelectorAll(".retro-expandable-card").forEach((card) => {
-        card.setAttribute("data-active", "false");
+    function collapseProject() {
+      panels.forEach(p => {
+        p.style.display = "none";
+        const card = p.querySelector('.retro-expandable-card');
+        if (card) {
+          card.setAttribute('data-active', 'false');
+          card.removeAttribute('onclick');
+        }
       });
+      activeProject = null;
 
-      slides.forEach((slide, i) => {
-        slide.style.display = i === index ? "block" : "none";
-      });
-
-      current = index;
-      updateThumbs();
-
-      const activeSlide = slides[current];
-      const bg = activeSlide?.dataset.bg || "";
       const bgImg = document.getElementById("gallery-bg-img");
       if (bgImg) {
-        bgImg.src = bg;
-        bgImg.style.opacity = bg ? "1" : "0";
-      }
-
-      // Scroll the active thumbnail into view
-      const activeThumb = thumbs[current];
-      if (activeThumb) {
-        activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        bgImg.style.opacity = "0";
       }
     }
 
-    function startTimer() {
-      stopTimer();
-      gallery._timer = setInterval(() => {
-        if (!isExpanded()) {
-          show(current + 1);
-          startProgress();
-        }
-      }, INTERVAL);
-    }
-
-    function stopTimer() {
-      if (gallery._timer) {
-        clearInterval(gallery._timer);
-        gallery._timer = null;
-      }
-    }
-
-    function startProgress() {
-      if (!progress) return;
-      if (gallery._raf) cancelAnimationFrame(gallery._raf);
-      progress.style.transition = "none";
-      progress.style.transform = "scaleX(0)";
-      void progress.offsetWidth;
-      gallery._raf = requestAnimationFrame(() => {
-        progress.style.transition = `transform ${INTERVAL}ms linear`;
-        progress.style.transform = "scaleX(1)";
-      });
-    }
-
-    function pauseProgress() {
-      if (!progress) return;
-      if (gallery._raf) cancelAnimationFrame(gallery._raf);
-      const computed = getComputedStyle(progress);
-      const matrix = new DOMMatrix(computed.transform);
-      progress.style.transition = "none";
-      progress.style.transform = `scaleX(${matrix.m11})`;
-    }
-
-    function resetGalleryTimer() {
-      stopTimer();
-      startProgress();
-      startTimer();
-    }
-
-    function handleCardClick() {
-      requestAnimationFrame(() => {
-        if (isExpanded()) {
-          stopTimer();
-          pauseProgress();
+    // Thumbnail click handlers
+    thumbs.forEach((thumb) => {
+      thumb.addEventListener("click", () => {
+        const index = Number(thumb.dataset.thumbIndex);
+        if (activeProject === index) {
+          collapseProject();
         } else {
-          resetGalleryTimer();
+          expandProject(index);
         }
       });
-    }
+    });
+
+    // Collapse button handlers
+    collapseBtns.forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        collapseProject();
+      });
+    });
 
     // Initialize carousels for all thumbnails
     function initCarousels() {
       const carousels = gallery.querySelectorAll('.thumb-carousel');
-      carousels.forEach((carousel, carouselIndex) => {
+      carousels.forEach((carousel) => {
         const images = carousel.querySelectorAll('.thumb-carousel-img');
         if (images.length <= 1) return;
 
@@ -243,37 +219,6 @@ const totalProjects = projects.length;
       });
     }
 
-    // Dot click handlers
-    thumbs.forEach((thumb) => {
-      thumb.addEventListener("click", () => {
-        const index = Number(thumb.dataset.dot);
-        show(index);
-        resetGalleryTimer();
-      });
-    });
-
-    // Card click handlers
-    slides.forEach((slide) => {
-      const card = slide.querySelector(".retro-expandable-card");
-      if (card) {
-        card.addEventListener("click", handleCardClick);
-      }
-    });
-
-    gallery.addEventListener("card-toggle", () => {
-      requestAnimationFrame(() => {
-        if (isExpanded()) {
-          stopTimer();
-          pauseProgress();
-        } else {
-          resetGalleryTimer();
-        }
-      });
-    });
-
-    // START STATE
-    show(0);
-    resetGalleryTimer();
     initCarousels();
   }
 
@@ -281,14 +226,6 @@ const totalProjects = projects.length;
     const gallery = document.getElementById("project-gallery");
     if (!gallery) return;
     gallery.dataset.galleryInitialized = "false";
-    if (gallery._timer) {
-      clearInterval(gallery._timer);
-      gallery._timer = null;
-    }
-    if (gallery._raf) {
-      cancelAnimationFrame(gallery._raf);
-      gallery._raf = null;
-    }
     if (gallery._carouselTimers) {
       gallery._carouselTimers.forEach(t => clearInterval(t));
       gallery._carouselTimers = [];

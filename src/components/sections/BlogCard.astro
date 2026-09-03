@@ -1,7 +1,6 @@
 ---
 import type { BlogPost } from "../../types/blog";
 import Title from "../UI/Title.astro";
-// Purpose: Section - src/components/sections/BlogCard.astro (Compact blog summary card)
 import Body from "../UI/Body.astro";
 import { resolveThemeToken, toThemeName } from "../../config/uiDictionary";
 import { asset } from "../../utils/asset";
@@ -17,7 +16,6 @@ const date = new Date(post.data.date);
 const themeName = toThemeName(post.data.theme);
 const dynamicToken = resolveThemeToken(themeName);
 
-// whether it evaluates to "/" in dev or "/me-page/" in production.
 const baseUrl = import.meta.env.BASE_URL.endsWith("/")
   ? import.meta.env.BASE_URL
   : `${import.meta.env.BASE_URL}/`;
@@ -25,58 +23,209 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
 
 <a
   href={`${baseUrl}blog/${post.id}/`}
-  class="group blog-card relative block overflow-hidden rounded-xl border border-zinc-800 bg-zinc-950/40 p-4 sm:p-6 md:p-8"
+  class="blog-card group"
   style={`--project-tag-color: ${dynamicToken}`}
 >
-  {/* BACKGROUND IMAGE */}
+  {/* TOP BAR - Date */}
+  <div class="blog-card-bar blog-card-date-bar">
+    <Body
+      theme={themeName}
+      class="blog-card-date text-xs sm:text-sm text-zinc-400 group-hover:text-[color:var(--project-tag-color)] readable-text"
+    >
+      {date.toDateString()}
+    </Body>
+  </div>
+
+  {/* IMAGE */}
   {
     post.data.cardBackground && (
-      <div class="absolute inset-0 overflow-hidden">
+      <div class="blog-card-image-wrap">
         <div
-          class="blog-card-bg absolute inset-0 scale-100 group-hover:scale-105"
+          class="blog-card-bg"
           style={`
-          background-image: url('${asset(post.data.cardBackground)}');
-          background-size: cover;
-          background-position: center center;
-        `}
+            background-image: url('${asset(post.data.cardBackground)}');
+            background-size: cover;
+            background-position: center center;
+          `}
         />
-
-        {/* OVERLAY */}
-        <div
-          class="blog-card-overlay absolute inset-0
-               bg-gradient-to-r from-zinc-950/85 via-zinc-900/50 to-zinc-950/30
-               group-hover:from-zinc-950/70
-               group-hover:via-zinc-900/30
-               group-hover:to-zinc-950/15"
-        />
+        <div class="blog-card-overlay" />
+        {/* Shine sweep */}
+        <span class="blog-card-sweep" aria-hidden="true" />
       </div>
     )
   }
 
-  {/* CONTENT */}
-  <div class="relative z-10 flex items-start justify-between gap-4">
-    <div class="space-y-4 flex-1">
-      <Body
-        theme={themeName}
-        class="blog-card-date text-xs sm:text-sm text-zinc-500 group-hover:text-[color:var(--project-tag-color)] readable-text"
-      >
-        {date.toDateString()}
-      </Body>
+  {/* BOTTOM BAR - Title + Description */}
+  <div class="blog-card-bar blog-card-info-bar">
+    <Title
+      level={3}
+      theme={themeName}
+      class="blog-card-title group-hover:text-[color:var(--project-tag-color)] readable-text"
+    >
+      {post.data.title}
+    </Title>
 
-      <Title
-        level={2}
-        theme={themeName}
-        class="blog-card-title mt-2 text-2xl sm:text-3xl group-hover:text-[color:var(--project-tag-color)] readable-text"
-      >
-        {post.data.title}
-      </Title>
-
-      <Body
-        theme={themeName}
-        class="blog-card-desc mt-3 sm:mt-4 text-sm sm:text-base text-zinc-800 group-hover:text-zinc-300 readable-text"
-      >
-        {post.data.description}
-      </Body>
-    </div>
+    <Body
+      theme={themeName}
+      class="blog-card-desc mt-2 text-sm sm:text-base text-zinc-400 group-hover:text-zinc-300 readable-text"
+    >
+      {post.data.description}
+    </Body>
   </div>
 </a>
+
+<style>
+  .blog-card {
+    display: block;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+  }
+
+  .blog-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--project-tag-color, rgba(255, 255, 255, 0.2));
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 20px color-mix(in srgb, var(--project-tag-color, white) 15%, transparent);
+  }
+
+  .blog-card-bar {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 0.75rem 1.25rem;
+    backdrop-filter: blur(4px);
+    transition: background 0.35s ease;
+  }
+
+  .blog-card:hover .blog-card-bar {
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  .blog-card-info-bar {
+    padding: 1rem 1.25rem 1.25rem;
+  }
+
+  .blog-card-image-wrap {
+    width: 100%;
+    height: 280px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .blog-card-bg {
+    width: 100%;
+    height: 100%;
+    transform: scale(1);
+    opacity: 0.8;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+  }
+
+  .blog-card:hover .blog-card-bg {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+
+  /* Dark overlay like split card */
+  .blog-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.4) 100%);
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .blog-card:hover .blog-card-overlay {
+    opacity: 0.4;
+  }
+
+  /* Shine sweep like Link.astro */
+  .blog-card-sweep {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+    background: linear-gradient(
+      105deg,
+      transparent 0%,
+      transparent 30%,
+      rgba(255, 255, 255, 0.15) 42%,
+      rgba(255, 255, 255, 0.3) 50%,
+      rgba(255, 255, 255, 0.15) 58%,
+      transparent 70%,
+      transparent 100%
+    );
+    background-size: 250% 100%;
+    animation: blogSweep 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+
+  .blog-card:hover .blog-card-sweep {
+    animation-duration: 1.2s;
+  }
+
+  @keyframes blogSweep {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -50% 0;
+    }
+  }
+
+  .blog-card-title {
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    line-height: 1.2;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    transition: color 0.35s ease;
+  }
+
+  .blog-card-date {
+    transition: color 0.35s ease;
+  }
+
+  .blog-card-desc {
+    transition: color 0.35s ease;
+  }
+
+  @media (max-width: 768px) {
+    .blog-card-image-wrap {
+      height: 56vw;
+      max-height: 220px;
+    }
+
+    .blog-card-title {
+      font-size: clamp(1.1rem, 4vw, 1.5rem);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .blog-card-image-wrap {
+      height: 60vw;
+      max-height: 180px;
+    }
+
+    .blog-card-bar {
+      padding: 0.6rem 0.85rem;
+    }
+
+    .blog-card-info-bar {
+      padding: 0.75rem 0.85rem 1rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .blog-card,
+    .blog-card-sweep,
+    .blog-card-bg,
+    .blog-card-bar,
+    .blog-card-overlay,
+    .blog-card-title,
+    .blog-card-date,
+    .blog-card-desc {
+      transition: none !important;
+      animation: none !important;
+    }
+  }
+</style>

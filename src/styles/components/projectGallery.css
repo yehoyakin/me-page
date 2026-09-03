@@ -1,18 +1,14 @@
 /* Purpose: Styles - src/styles/components/projectGallery.css (Project gallery styles) */
 
-:root {
-  --gallery-thumb-size: 12rem;
-}
-
 .project-gallery {
   width: 100%;
-}
-
-/* Shared blurred background behind the gallery that reflects the currently selected project */
-.project-gallery {
   position: relative;
   z-index: 2;
 }
+
+/* ============================================================
+   SHARED BACKGROUND
+============================================================ */
 
 .gallery-bg {
   position: absolute;
@@ -43,73 +39,86 @@
 }
 
 /* ============================================================
-   THUMBNAIL STRIP
+   THUMBNAIL GRID - Horizontal scrollable
 ============================================================ */
 
 .gallery-thumbnails-wrapper {
   width: 100%;
   overflow-x: auto;
-  overflow-y: hidden;
+  overflow-y: visible;
   -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  padding: 0.5rem 0 1rem 0;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.3) transparent;
+  padding: 1rem 0 2rem 0;
   position: relative;
   z-index: 3;
 }
 
 .gallery-thumbnails-wrapper::-webkit-scrollbar {
-  display: none;
+  height: 10px;
+}
+
+.gallery-thumbnails-wrapper::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.gallery-thumbnails-wrapper::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.3);
+  border-radius: 3px;
 }
 
 .gallery-thumbnails {
   display: flex;
-  gap: 1.25rem;
-  padding: 0 0.5rem;
+  gap: 1.5rem;
+  padding: 0 1rem;
   align-items: flex-start;
+  min-width: min-content;
 }
 
-/* Individual thumbnail card (image + links) */
-.gallery-thumb-card {
+/* ============================================================
+   PROJECT ITEM - Contains thumbnail + links (NOT panel)
+============================================================ */
+
+.gallery-project-item {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.75rem;
   flex: 0 0 auto;
   transition: transform 0.3s cubic-bezier(.2,.9,.2,1);
 }
 
-.gallery-thumb-card.active {
-  transform: translateY(-4px);
-}
+/* ============================================================
+   THUMBNAIL BUTTON - Big and prominent
+============================================================ */
 
-/* Thumbnail button */
 .gallery-thumb {
-  width: var(--gallery-thumb-size) !important;
-  height: var(--gallery-thumb-size) !important;
-  max-width: var(--gallery-thumb-size) !important;
-  max-height: var(--gallery-thumb-size) !important;
+  width: 480px !important;
+  height: 300px !important;
   padding: 0;
-  border: 2px solid rgba(255,255,255,0.08);
-  background: transparent;
+  border: 2px solid rgba(255,255,255,0.1);
+  background: rgba(0,0,0,0.4);
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
   position: relative;
-  border-radius: 8px !important;
+  border-radius: 0 !important;
   cursor: pointer;
   flex: 0 0 auto;
   box-sizing: border-box;
-  transition: box-shadow 0.3s cubic-bezier(.2,.9,.2,1), border-color 0.3s ease, transform 0.3s cubic-bezier(.2,.9,.2,1);
+  transition: transform 0.25s ease, box-shadow 0.35s ease, border-color 0.35s ease;
 }
 
-.gallery-thumb-card.active .gallery-thumb {
-  border-color: rgba(255,255,255,0.4);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+.gallery-thumb:hover {
+  border-color: var(--thumb-theme-color, rgba(255,255,255,0.3));
+  box-shadow: 0 16px 40px rgba(0,0,0,0.5), 0 0 20px color-mix(in srgb, var(--thumb-theme-color, white) 15%, transparent);
+  transform: translateY(-6px);
 }
 
 .gallery-thumb:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(99,102,241,0.3), 0 8px 20px rgba(0,0,0,0.4);
+  border-color: white;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2), 0 12px 32px rgba(0,0,0,0.5);
 }
 
 /* ============================================================
@@ -128,36 +137,106 @@
   inset: 0;
   width: 100% !important;
   height: 100% !important;
-  max-width: 100% !important;
-  max-height: 100% !important;
   object-fit: cover;
   display: block;
   opacity: 0;
-  transition: opacity 0.5s ease;
+  transform: scale(1);
+  transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
 .thumb-carousel-img.active {
   opacity: 1;
 }
 
-/* Tag overlay */
-.thumb-tag-overlay {
+/* Image scales up on hover */
+.gallery-thumb:hover .thumb-carousel-img.active {
+  transform: scale(1.05);
+}
+
+/* Dark overlay like split card */
+.thumb-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.4) 100%);
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.gallery-thumb:hover .thumb-overlay {
+  opacity: 0.4;
+}
+
+/* Shine sweep like Link.astro */
+.thumb-sweep {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    transparent 30%,
+    rgba(255, 255, 255, 0.15) 42%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0.15) 58%,
+    transparent 70%,
+    transparent 100%
+  );
+  background-size: 250% 100%;
+  animation: thumbSweep 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.gallery-thumb:hover .thumb-sweep {
+  animation-duration: 1.2s;
+}
+
+@keyframes thumbSweep {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -50% 0;
+  }
+}
+
+/* ============================================================
+   BOTTOM INFO BAR - Title + Tag on solid black bar
+============================================================ */
+
+.thumb-info-bar {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 1.5rem 0.5rem 0.5rem;
-  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%);
+  padding: 0.6rem 0.75rem;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
   pointer-events: none;
-  z-index: 2;
+  z-index: 4;
+  transition: background 0.35s ease;
+}
+
+.gallery-thumb:hover .thumb-info-bar {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.thumb-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: white;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .thumb-tag {
-  font-size: 0.55rem;
+  font-size: 0.7rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: white;
-  text-shadow: 0 1px 3px rgba(0,0,0,0.8);
   display: block;
   white-space: nowrap;
   overflow: hidden;
@@ -165,21 +244,21 @@
 }
 
 /* ============================================================
-   LINKS BELOW THUMBNAIL
+   LINKS BELOW THUMBNAIL - Always visible
 ============================================================ */
 
 .thumb-links {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.35rem;
+  gap: 0.4rem;
   justify-content: center;
-  max-width: var(--gallery-thumb-size);
+  max-width: 480px;
 }
 
 .thumb-links :global(.retro-link) {
-  font-size: 0.55rem !important;
-  padding: 0.15rem 0.35rem !important;
-  border-radius: 3px !important;
+  font-size: 0.75rem !important;
+  padding: 0.3rem 0.6rem !important;
+  border-radius: 4px !important;
   white-space: nowrap;
   border-width: 1px !important;
   letter-spacing: 0.1em !important;
@@ -191,23 +270,59 @@
 }
 
 /* ============================================================
-   PROGRESS BAR
+   PANELS CONTAINER - Full width, breaks out of scroll
 ============================================================ */
 
-.gallery-progress {
+.gallery-panels-container {
   width: 100%;
-  height: 3px;
-  margin-bottom: 0.75rem;
-  background: rgba(255, 255, 255, 0.2);
-  overflow: hidden;
+  position: relative;
+  z-index: 10;
 }
 
-.gallery-progress-fill {
-  width: 100%;
-  height: 100%;
-  background: white;
-  transform-origin: left center;
-  transform: scaleX(0);
+/* ============================================================
+   COLLAPSE BUTTON - Forest theme arrow up
+============================================================ */
+
+.gallery-card-panel {
+  position: relative;
+  margin-top: 0.5rem;
+}
+
+.collapse-btn {
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid var(--theme-forest, rgb(34, 197, 94));
+  background: rgba(0,0,0,0.8);
+  color: var(--theme-forest, rgb(34, 197, 94));
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(4px);
+}
+
+.collapse-btn:hover {
+  background: var(--theme-forest, rgb(34, 197, 94));
+  color: white;
+  transform: translateX(-50%) translateY(-2px);
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);
+}
+
+.collapse-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.3);
+}
+
+.collapse-btn svg {
+  width: 24px;
+  height: 24px;
 }
 
 /* ============================================================
@@ -215,24 +330,83 @@
 ============================================================ */
 
 @media (max-width: 768px) {
-  :root {
-    --gallery-thumb-size: 6rem;
-  }
-
   .gallery-thumbnails {
-    gap: 0.75rem;
+    gap: 1rem;
+    padding: 0 0.75rem;
   }
 
-  .thumb-tag {
-    font-size: 0.45rem;
-  }
-
-  .thumb-tag-overlay {
-    padding: 1rem 0.35rem 0.35rem;
+  .gallery-thumb {
+    width: 70vw !important;
+    height: calc(70vw * 0.625) !important;
+    max-width: 400px;
+    max-height: 250px;
   }
 
   .thumb-links {
-    gap: 0.2rem;
+    max-width: 70vw;
+  }
+
+  .thumb-title {
+    font-size: 0.85rem;
+  }
+
+  .thumb-tag {
+    font-size: 0.6rem;
+  }
+
+  .collapse-btn {
+    width: 48px;
+    height: 48px;
+  }
+
+  .collapse-btn svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .gallery-thumb {
+    width: 80vw !important;
+    height: calc(80vw * 0.625) !important;
+    max-width: 320px;
+    max-height: 200px;
+  }
+
+  .thumb-links {
+    max-width: 80vw;
+  }
+
+  .thumb-title {
+    font-size: 0.8rem;
+  }
+
+  .thumb-tag {
+    font-size: 0.55rem;
+  }
+
+  .collapse-btn {
+    width: 52px;
+    height: 52px;
+    top: -20px;
+  }
+
+  .collapse-btn svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  .thumb-info-bar {
+    padding: 0.5rem 0.6rem;
+  }
+
+  .thumb-links {
+    gap: 0.3rem;
+  }
+
+  .thumb-links :global(.retro-link) {
+    font-size: 0.65rem !important;
+    padding: 0.25rem 0.5rem !important;
   }
 }
 
@@ -242,7 +416,11 @@
     transition: none !important;
   }
 
-  .gallery-thumb-card {
+  .gallery-thumb {
+    transition: none !important;
+  }
+
+  .gallery-project-item {
     transition: none !important;
   }
 }

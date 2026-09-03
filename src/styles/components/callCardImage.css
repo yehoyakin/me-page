@@ -9,19 +9,14 @@
 
 .card-preview-frame {
   width: 100%;
-  aspect-ratio: 16 / 9;
   overflow: hidden;
   position: relative;
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  transition:
-    aspect-ratio 0.25s ease,
-    border-color 0.15s ease;
+  border-left: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: none;
+  border-bottom: none;
+  border-right: none;
 }
-
-/* ============================================================
-   IMAGE ITSELF
-============================================================ */
 
 .card-preview-image {
   width: 100%;
@@ -30,34 +25,57 @@
   object-fit: cover;
   object-position: center;
   display: block;
+  transform: scale(1.15);
+  transition: transform 0.4s ease;
 }
 
 /* ============================================================
-   DESKTOP GRID BEHAVIORS (MIN-WIDTH: 901PX)
+   DESKTOP — 50/50 grid
 ============================================================ */
 
 @media (min-width: 901px) {
-   .retro-expandable-card[data-active="true"] .card-main-layout {
-    grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
+  .retro-expandable-card .card-main-layout {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* Preview mode: image matches text column height, zoomed in */
+  .retro-expandable-card:not([data-active="true"]) .card-preview-frame {
+    height: 100%;
+  }
+
+  .retro-expandable-card:not([data-active="true"]) .card-preview-image {
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.15);
+  }
+
+  /* Hover on preview: zoom out to reveal more */
+  .retro-expandable-card:not([data-active="true"]):hover .card-preview-image {
+    transform: scale(1);
+  }
+
+  /* Expanded mode: full image, no zoom */
+  .retro-expandable-card[data-active="true"] .card-main-layout {
+    grid-template-columns: 1fr 1fr;
   }
 
   .retro-expandable-card[data-active="true"] .card-preview-frame {
-    aspect-ratio: 16 / 9;
-    min-height: 220px;
-    max-height: 280px;
+    height: auto;
+    min-height: 340px;
   }
 
   .retro-expandable-card[data-active="true"] .card-preview-image {
+    height: 100%;
     object-fit: cover;
+    transform: scale(1);
   }
 }
 
 /* ============================================================
-   MOBILE OVERRIDES (MAX-WIDTH: 900PX)
+   MOBILE — single column, image uses aspect ratio
 ============================================================ */
 
 @media (max-width: 900px) {
-  /* Strictly force single column so minmax(480px) never triggers */
   .retro-expandable-card .card-main-layout,
   .retro-expandable-card:hover .card-main-layout,
   .retro-expandable-card[data-active="true"] .card-main-layout {
@@ -69,5 +87,10 @@
     width: 100%;
     height: auto;
     aspect-ratio: 16 / 9;
+    align-self: auto;
+    border-left: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    border-right: none;
+    border-bottom: none;
   }
 }

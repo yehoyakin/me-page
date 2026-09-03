@@ -7,7 +7,8 @@
 .retro-expandable-card {
   position: relative;
 
-  margin: 1rem 0;
+  margin: 1rem auto;
+  max-width: 75vw;
 
   min-height: 220px;
 
@@ -41,15 +42,13 @@
 .card-main-layout {
   display: grid;
 
-  grid-template-columns:
-    minmax(0, 1.2fr)
-    minmax(260px, 0.8fr);
+  grid-template-columns: 1fr 1fr;
 
-  gap: 1rem;
+  gap: 0;
 
-  padding: 1rem;
+  padding: 0;
 
-  align-items: center;
+  align-items: stretch;
 }
 
 /* Ensure visible content layers sit above the blurred background */
@@ -134,9 +133,10 @@
 
   flex-direction: column;
 
-  justify-content: space-between;
+  justify-content: flex-start;
 
-  min-height: 220px;
+  align-items: flex-start;
+
   position: relative;
 }
 
@@ -245,17 +245,7 @@
    IMAGE AREA
 ============================================================ */
 
-.card-preview-frame {
-  width: 100%;
-
-  height: 100%;
-
-  min-height: 220px;
-
-  overflow: hidden;
-
-  background: #000;
-}
+/* Image frame sizing is controlled by callCardImage.css */
 
 .card-preview-image {
   width: 100%;
@@ -273,10 +263,7 @@
   transition: transform 300ms ease;
 }
 
-/* Hover: image zooms out to reveal more and moves under the text */
-.retro-expandable-card:hover .card-preview-image {
-  transform: scale(1);
-}
+/* Hover zoom handled by callCardImage.css */
 
 .retro-expandable-card:hover .card-info-panel,
 .retro-expandable-card[data-active="true"] .card-info-panel {
@@ -288,6 +275,10 @@
   order: 2;
 }
 
+.card-info-panel {
+  padding: 2rem 1.5rem;
+}
+
 /* ============================================================
    EXPANDED STATE
 ============================================================ */
@@ -296,29 +287,14 @@
   z-index: 40;
 }
 
-@media (min-width: 901px) {
-  .retro-expandable-card[data-active="true"] .card-main-layout {
-    grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
-  }
-
-  .retro-expandable-card[data-active="true"] .card-preview-frame {
-    aspect-ratio: 16 / 9;
-    min-height: 220px;
-    max-height: 280px;
-  }
-
-  .retro-expandable-card[data-active="true"] .card-preview-image {
-    object-fit: cover;
-    transform: scale(1);
-  }
-}
+/* Desktop grid handled by callCardImage.css */
 
 /* ============================================================
-   DRAWER
+   DRAWER (inside left info panel)
 ============================================================ */
 
 .card-expanded-content {
-  padding: 0 1.5rem 1.5rem;
+  padding: 0;
 }
 
 .project-preview {
@@ -364,7 +340,7 @@
 }
 
 .project-drawer-inner {
-  padding: 1.5rem;
+  padding: 1rem;
 
   /* semi-opaque black background to ensure text remains readable over blurred image */
   background: rgba(0,0,0,0.58);
@@ -477,7 +453,8 @@
 @media (max-width: 900px) {
   .retro-expandable-card {
     min-height: auto;
-    margin: 0.75rem 0;
+    margin: 0.75rem auto;
+    max-width: 95vw;
   }
 
   .card-main-layout {
