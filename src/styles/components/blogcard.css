@@ -1,0 +1,154 @@
+
+  .blog-card {
+    display: block;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+  }
+
+  .blog-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--project-tag-color, rgba(255, 255, 255, 0.2));
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 20px color-mix(in srgb, var(--project-tag-color, white) 15%, transparent);
+  }
+
+  .blog-card-bar {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 0.75rem 1.25rem;
+    backdrop-filter: blur(4px);
+    transition: background 0.35s ease;
+  }
+
+  .blog-card:hover .blog-card-bar {
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  .blog-card-info-bar {
+    padding: 1rem 1.25rem 1.25rem;
+  }
+
+  .blog-card-image-wrap {
+    width: 100%;
+    height: 320px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .blog-card-bg {
+    width: 100%;
+    height: 100%;
+    transform: scale(1);
+    opacity: 0.8;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+  }
+
+  .blog-card:hover .blog-card-bg {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+
+  /* Dark overlay like split card */
+  .blog-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.4) 100%);
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .blog-card:hover .blog-card-overlay {
+    opacity: 0.4;
+  }
+
+  /* Shine sweep like Link.astro */
+  .blog-card-sweep {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+    background: linear-gradient(
+      105deg,
+      transparent 0%,
+      transparent 30%,
+      rgba(255, 255, 255, 0.15) 42%,
+      rgba(255, 255, 255, 0.3) 50%,
+      rgba(255, 255, 255, 0.15) 58%,
+      transparent 70%,
+      transparent 100%
+    );
+    background-size: 250% 100%;
+    animation: blogSweep 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+
+  .blog-card:hover .blog-card-sweep {
+    animation-duration: 1.2s;
+  }
+
+  @keyframes blogSweep {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -50% 0;
+    }
+  }
+
+  .blog-card-title {
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    line-height: 1.2;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    transition: color 0.35s ease;
+  }
+
+  .blog-card-date {
+    transition: color 0.35s ease;
+  }
+
+  .blog-card-desc {
+    transition: color 0.35s ease;
+  }
+
+  @media (max-width: 768px) {
+    .blog-card-image-wrap {
+      height: 56vw;
+      max-height: 220px;
+    }
+
+    .blog-card-title {
+      font-size: clamp(1.1rem, 4vw, 1.5rem);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .blog-card-image-wrap {
+      height: 60vw;
+      max-height: 180px;
+    }
+
+    .blog-card-bar {
+      padding: 0.6rem 0.85rem;
+    }
+
+    .blog-card-info-bar {
+      padding: 0.75rem 0.85rem 1rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .blog-card,
+    .blog-card-sweep,
+    .blog-card-bg,
+    .blog-card-bar,
+    .blog-card-overlay,
+    .blog-card-title,
+    .blog-card-date,
+    .blog-card-desc {
+      transition: none !important;
+      animation: none !important;
+    }
+  }

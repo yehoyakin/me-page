@@ -25,10 +25,10 @@
   height: 0%;
   object-fit: contain;
 
-  /*
+  
   transform: scale(1.45);
   filter: blur(36px) saturate(0.8) contrast(0.9);
-  */
+  
   
   opacity: 0;
   transition: opacity .6s ease, transform 1s cubic-bezier(.2,.9,.2,1);
