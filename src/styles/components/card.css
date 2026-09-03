@@ -182,7 +182,8 @@
 
   transition:
     background 0.15s steps(4),
-    color 0.15s steps(4);
+    color 0.15s steps(4),
+    transform 0.15s ease;
 }
 
 .split-card:hover .split-card-action {
