@@ -41,6 +41,7 @@
   /* Preview mode: image matches text column height, zoomed in */
   .retro-expandable-card:not([data-active="true"]) .card-preview-frame {
     height: 100%;
+    max-height: 100%;
   }
 
   .retro-expandable-card:not([data-active="true"]) .card-preview-image {
@@ -61,7 +62,7 @@
 
   .retro-expandable-card[data-active="true"] .card-preview-frame {
     height: auto;
-    min-height: 340px;
+    max-height: 100%;
   }
 
   .retro-expandable-card[data-active="true"] .card-preview-image {

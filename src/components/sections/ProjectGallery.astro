@@ -53,11 +53,11 @@ const { projects } = Astro.props;
                 <div class="thumb-overlay"></div>
                 <!-- Shine sweep -->
                 <span class="thumb-sweep" aria-hidden="true"></span>
-              <!-- Bottom info bar - title + tag -->
-              <div class="thumb-info-bar">
-                <span class="thumb-title">{project.data.title}</span>
-                <span class="thumb-tag retro-font" style={`color: ${themeToken}`}>{project.data.tag}</span>
-              </div>
+                <!-- Bottom info bar - title + tag -->
+                <div class="thumb-info-bar">
+                  <span class="thumb-title">{project.data.title}</span>
+                  <span class="thumb-tag retro-font" style={`color: ${themeToken}`}>{project.data.tag}</span>
+                </div>
               </button>
               <!-- Links below thumbnail - always visible -->
               <div class="thumb-links">
@@ -124,6 +124,7 @@ const { projects } = Astro.props;
       // Hide all panels and deactivate all cards
       panels.forEach(p => {
         p.style.display = "none";
+        p.classList.remove("panel-hover-preview");
         const card = p.querySelector('.retro-expandable-card');
         if (card) {
           card.setAttribute('data-active', 'false');
@@ -167,6 +168,7 @@ const { projects } = Astro.props;
     function collapseProject() {
       panels.forEach(p => {
         p.style.display = "none";
+        p.classList.remove("panel-hover-preview");
         const card = p.querySelector('.retro-expandable-card');
         if (card) {
           card.setAttribute('data-active', 'false');
@@ -181,10 +183,39 @@ const { projects } = Astro.props;
       }
     }
 
-    // Thumbnail click handlers
+    // Hover preview: show CallCard semi-visible on thumbnail hover
     thumbs.forEach((thumb) => {
+      const index = Number(thumb.dataset.thumbIndex);
+
+      thumb.addEventListener("mouseenter", () => {
+        // Don't show hover preview if a panel is already expanded
+        if (activeProject !== null) return;
+
+        const panel = panels.find(p => p.dataset.panel === String(index));
+        if (panel) {
+          panel.style.display = "block";
+          panel.classList.add("panel-hover-preview");
+        }
+      });
+
+      thumb.addEventListener("mouseleave", () => {
+        // Don't hide if a panel is actively expanded
+        if (activeProject !== null) return;
+
+        const panel = panels.find(p => p.dataset.panel === String(index));
+        if (panel) {
+          panel.classList.remove("panel-hover-preview");
+          // Wait for transition then hide
+          setTimeout(() => {
+            if (!panel.classList.contains("panel-hover-preview") && activeProject === null) {
+              panel.style.display = "none";
+            }
+          }, 350);
+        }
+      });
+
+      // Click handler
       thumb.addEventListener("click", () => {
-        const index = Number(thumb.dataset.thumbIndex);
         if (activeProject === index) {
           collapseProject();
         } else {

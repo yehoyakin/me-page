@@ -205,6 +205,8 @@
   font-size: 0.9rem;
 
   line-height: 1.5;
+
+  text-align: justify;
 }
 
 /* ============================================================
@@ -247,6 +249,15 @@
 
 /* Image frame sizing is controlled by callCardImage.css */
 
+.card-preview-frame {
+  width: 100%;
+
+  height: 100%;
+
+  overflow: hidden;
+
+  background: #000;
+}
 .card-preview-image {
   width: 100%;
 
@@ -307,6 +318,12 @@
   overflow: hidden;
 
   opacity: 0.45;
+  text-align: justify;
+}
+
+/* All prose text across the card gets justified */
+.retro-expandable-card .prose {
+  text-align: justify;
 }
 
 .retro-expandable-card[data-active="true"] .project-preview {
@@ -351,6 +368,7 @@
 .project-drawer-inner .prose p {
   margin-bottom: 1rem; /* increase paragraph gap */
   line-height: 1.7; /* slightly more leading for easier reading */
+  text-align: justify;
 }
 
 /* Add a bit more spacing after sentence-ending punctuation inside paragraphs */
