@@ -24,7 +24,7 @@ export type ThemeConfig = {
  */
 const themeConfigs: Record<string, ThemeConfig> = {
   primary: {
-    transition: "crt",
+    transition: "glitch",
     text: {
       base: "text-ui-invert",
       hover: "hover:text-project-tag",
@@ -32,7 +32,7 @@ const themeConfigs: Record<string, ThemeConfig> = {
   },
 
   secondary: {
-    transition: "grid",
+    transition: "pixel",
     text: {
       base: "text-ui-invert",
       hover: "hover:text-project-tag",
@@ -40,7 +40,7 @@ const themeConfigs: Record<string, ThemeConfig> = {
   },
 
   terminal: {
-    transition: "crash",
+    transition: "wipe",
     text: {
       base: "text-ui-base",
       hover: "hover:text-project-tag",
@@ -50,7 +50,7 @@ const themeConfigs: Record<string, ThemeConfig> = {
 
 /** Default config used when a theme name has no entry in themeConfigs. */
 const defaultThemeConfig: ThemeConfig = {
-  transition: "grid",
+  transition: "pixel",
   text: {
     base: "text-ui-invert",
     hover: "hover:text-project-tag",

@@ -125,6 +125,7 @@ const { projects } = Astro.props;
       panels.forEach(p => {
         p.style.display = "none";
         p.classList.remove("panel-hover-preview");
+        p.classList.remove("panel-hover-fadeout");
         const card = p.querySelector('.retro-expandable-card');
         if (card) {
           card.setAttribute('data-active', 'false');
@@ -169,6 +170,7 @@ const { projects } = Astro.props;
       panels.forEach(p => {
         p.style.display = "none";
         p.classList.remove("panel-hover-preview");
+        p.classList.remove("panel-hover-fadeout");
         const card = p.querySelector('.retro-expandable-card');
         if (card) {
           card.setAttribute('data-active', 'false');
@@ -193,6 +195,8 @@ const { projects } = Astro.props;
 
         const panel = panels.find(p => p.dataset.panel === String(index));
         if (panel) {
+          // Clean up any pending fadeout and show preview
+          panel.classList.remove("panel-hover-fadeout");
           panel.style.display = "block";
           panel.classList.add("panel-hover-preview");
         }
@@ -205,12 +209,8 @@ const { projects } = Astro.props;
         const panel = panels.find(p => p.dataset.panel === String(index));
         if (panel) {
           panel.classList.remove("panel-hover-preview");
-          // Wait for transition then hide
-          setTimeout(() => {
-            if (!panel.classList.contains("panel-hover-preview") && activeProject === null) {
-              panel.style.display = "none";
-            }
-          }, 350);
+          panel.classList.remove("panel-hover-fadeout");
+          panel.style.display = "none";
         }
       });
 

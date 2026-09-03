@@ -1,34 +1,38 @@
-import { pixelChunkTransition } from "../utils/pixelTransition";
+import { runTransition } from "../utils/transitions";
 
 /**
- * This runs on every Astro navigation event
- * and wraps the page change inside your pixel effect.
+ * Reads the current animation name from <html data-theme="..."> and
+ * runs the matching page transition on every Astro navigation event.
  */
+
+function getAnimationName() {
+  return document.documentElement.getAttribute("data-theme") || "pixel";
+}
 
 document.addEventListener("astro:before-preparation", async (event) => {
   const to = event?.detail?.to;
-  console.debug("transitionHook: astro:before-preparation", { to, detail: event?.detail });
   if (!to) return;
 
-  // stop Astro from instantly swapping DOM
+  // Stop Astro from instantly swapping DOM
   try {
     event.preventDefault?.();
   } catch (err) {
     console.error("transitionHook: error preventing default", err);
   }
 
+  const animation = getAnimationName();
+
   try {
-    await pixelChunkTransition(async () => {
-      // trigger navigation manually
+    await runTransition(animation, async () => {
       try {
         window.location.assign(to);
       } catch (err) {
-        console.error("transitionHook: error during navigation assign", err, to);
+        console.error("transitionHook: navigation error", err);
         window.location.href = to;
       }
     });
   } catch (err) {
-    console.error("transitionHook: pixelChunkTransition failed, navigating directly", err);
+    console.error("transitionHook: transition failed, navigating directly", err);
     window.location.href = to;
   }
 });
