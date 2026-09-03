@@ -101,7 +101,15 @@ const imagesToPreload = [heroImage, ...backgrounds.map((b) => b.image)].filter(
         <BlogContent bodyHtml={rendered} scenes={scenes} />
       </div>
     </div>
+
+    {/* End-of-article sentinel for the "That's all" message */}
+    <div id="blog-end-sentinel" class="w-full h-1"></div>
   </section>
+
+  {/* That's all for today folks! */}
+  <div id="thats-all-msg" class="thats-all-overlay">
+    <span class="thats-all-text">That's all for today folks!</span>
+  </div>
 
   {/* Floating sidebar for related articles and cards. */}
   <div
@@ -141,7 +149,46 @@ const imagesToPreload = [heroImage, ...backgrounds.map((b) => b.image)].filter(
 
   </div>
 
-  {/* 4. MOTION PARALLAX & SIDEBAR CONTROLLER */}
+  {/* 4. THAT'S ALL MESSAGE STYLES */}
+  <style is:global>
+    .thats-all-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding-left: 5%;
+      z-index: 9999;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .thats-all-overlay.visible {
+      opacity: 1;
+    }
+
+    .thats-all-text {
+      font-size: clamp(2rem, 5vw, 4rem);
+      font-weight: 700;
+      color: white;
+      text-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.8),
+        0 0 40px rgba(255, 155, 105, 0.3);
+      letter-spacing: 0.05em;
+      transform: translateY(1rem);
+      transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .thats-all-overlay.visible .thats-all-text {
+      transform: translateY(0);
+    }
+  </style>
+
+  {/* 5. MOTION PARALLAX & SIDEBAR CONTROLLER */}
   <script
     define:vars={{
       backgrounds,
@@ -225,5 +272,38 @@ const imagesToPreload = [heroImage, ...backgrounds.map((b) => b.image)].filter(
     document.addEventListener("astro:page-load", initSidebar);
     document.addEventListener("DOMContentLoaded", initSidebar);
     initSidebar();
+
+    // --- THAT'S ALL FOLKS MESSAGE ---
+    const initThatsAll = () => {
+      const sentinel = document.getElementById("blog-end-sentinel");
+      const msg = document.getElementById("thats-all-msg");
+      if (!sentinel || !msg) return;
+      if (sentinel.dataset.bound === "true") return;
+
+      let hasShown = false;
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting && !hasShown) {
+              hasShown = true;
+              msg.classList.add("visible");
+              setTimeout(() => {
+                msg.classList.remove("visible");
+              }, 2500);
+              observer.unobserve(sentinel);
+            }
+          });
+        },
+        { threshold: 0.5 }
+      );
+
+      observer.observe(sentinel);
+      sentinel.dataset.bound = "true";
+    };
+
+    document.addEventListener("astro:page-load", initThatsAll);
+    document.addEventListener("DOMContentLoaded", initThatsAll);
+    initThatsAll();
   </script>
 </MyLayout>

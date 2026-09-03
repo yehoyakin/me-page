@@ -63,38 +63,7 @@
     opacity: 0.4;
   }
 
-  /* Shine sweep like Link.astro */
-  .blog-card-sweep {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 2;
-    background: linear-gradient(
-      105deg,
-      transparent 0%,
-      transparent 30%,
-      rgba(255, 255, 255, 0.15) 42%,
-      rgba(255, 255, 255, 0.3) 50%,
-      rgba(255, 255, 255, 0.15) 58%,
-      transparent 70%,
-      transparent 100%
-    );
-    background-size: 250% 100%;
-    animation: blogSweep 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-  }
 
-  .blog-card:hover .blog-card-sweep {
-    animation-duration: 1.2s;
-  }
-
-  @keyframes blogSweep {
-    0% {
-      background-position: 200% 0;
-    }
-    100% {
-      background-position: -50% 0;
-    }
-  }
 
   .blog-card-title {
     font-size: clamp(1.25rem, 3vw, 1.75rem);
@@ -140,7 +109,6 @@
 
   @media (prefers-reduced-motion: reduce) {
     .blog-card,
-    .blog-card-sweep,
     .blog-card-bg,
     .blog-card-bar,
     .blog-card-overlay,

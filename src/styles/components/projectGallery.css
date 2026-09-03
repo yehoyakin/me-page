@@ -170,38 +170,7 @@
   opacity: 0.4;
 }
 
-/* Shine sweep like Link.astro */
-.thumb-sweep {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 3;
-  background: linear-gradient(
-    105deg,
-    transparent 0%,
-    transparent 30%,
-    rgba(255, 255, 255, 0.15) 42%,
-    rgba(255, 255, 255, 0.3) 50%,
-    rgba(255, 255, 255, 0.15) 58%,
-    transparent 70%,
-    transparent 100%
-  );
-  background-size: 250% 100%;
-  animation: thumbSweep 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-}
 
-.gallery-thumb:hover .thumb-sweep {
-  animation-duration: 1.2s;
-}
-
-@keyframes thumbSweep {
-  0% {
-    background-position: 200% 0;
-  }
-  100% {
-    background-position: -50% 0;
-  }
-}
 
 /* ============================================================
    BOTTOM INFO BAR - Title + Tag on solid black bar
