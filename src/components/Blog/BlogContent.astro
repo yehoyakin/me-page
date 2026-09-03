@@ -45,13 +45,13 @@ const getCaptionAlignmentClass = (align?: string) => {
 const getSceneSizeClass = (size?: string) => {
   switch (size) {
     case "wide":
-      return "max-w-[980px]";
+      return "max-w-[80vw]";
     case "large":
-      return "max-w-[1160px]";
+      return "max-w-[90vw]";
     case "full":
-      return "max-w-[1400px]";
+      return "max-w-[95vw]";
     default:
-      return "max-w-[720px]";
+      return "max-w-[60vw]";
   }
 };
 
@@ -179,12 +179,12 @@ const sceneHtml =
         }
 
         const groupSizeClass = size === "wide"
-          ? "max-w-[980px] mx-auto"
+          ? "max-w-[80vw] mx-auto"
           : size === "large"
-            ? "max-w-[1160px] mx-auto"
+            ? "max-w-[90vw] mx-auto"
             : size === "full"
-              ? "max-w-[1400px] mx-auto"
-              : "max-w-[1200px] mx-auto";
+              ? "max-w-[95vw] mx-auto"
+              : "max-w-[85vw] mx-auto";
         const groupClass = `my-8 grid gap-4 sm:grid-cols-2 ${groupSizeClass}`.trim();
         const groupCaptionText = decodeSceneCaption(caption || scenes[indexes[0]]?.caption || "");
 

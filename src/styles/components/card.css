@@ -56,7 +56,7 @@
       Smaller = denser pattern.
     */
 
-  background-size: 256px 256px;
+  background-size: 16rem 16rem;
 
   animation: textureScroll 18s linear infinite;
 
@@ -67,11 +67,11 @@
 
 @keyframes textureScroll {
   from {
-    background-position: 0px 0px;
+    background-position: 0 0;
   }
 
   to {
-    background-position: 256px 256px;
+    background-position: 16rem 16rem;
   }
 }
 
@@ -134,7 +134,7 @@
 
   z-index: 3;
 
-  max-width: 520px;
+  max-width: clamp(20rem, 45vw, 32.5rem);
 
   padding: 1.25rem;
 
@@ -227,7 +227,7 @@
   }
 
   .split-card-background {
-    background-size: 120px 120px;
+    background-size: 7.5rem 7.5rem;
   }
 
   .split-card:hover .split-card-content {

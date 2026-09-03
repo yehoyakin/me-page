@@ -10,7 +10,7 @@
   margin: 1rem auto;
   max-width: 75vw;
 
-  min-height: 220px;
+  min-height: clamp(14rem, 20vw, 22rem);
 
   /* keep card background transparent so internal blurred images show through */
   background: transparent;
@@ -400,7 +400,7 @@
 .project-role {
   display: inline-block;
   padding: 0.22rem 0.5rem;
-  border-radius: 6px;
+  border-radius: 0.375rem;
   background: rgba(255,255,255,0.03);
   color: #e6e6e6;
   font-size: var(--contribution-badge-font-size, 0.78rem);
@@ -415,7 +415,7 @@
   padding: 0.5rem 0.75rem;
   background: rgba(255,255,255,0.004);
   border-left: 2px solid rgba(255,255,255,0.02);
-  border-radius: 4px;
+  border-radius: 0.25rem;
   line-height: 1.48;
   color: #cfcfd6;
   font-weight: 400;

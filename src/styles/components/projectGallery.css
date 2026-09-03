@@ -57,7 +57,7 @@
 }
 
 .gallery-thumbnails-wrapper::-webkit-scrollbar {
-  height: 10px;
+  height: 0.65rem;
 }
 
 .gallery-thumbnails-wrapper::-webkit-scrollbar-track {
@@ -66,12 +66,12 @@
 
 .gallery-thumbnails-wrapper::-webkit-scrollbar-thumb {
   background: rgba(255,255,255,0.3);
-  border-radius: 3px;
+  border-radius: 0.2rem;
 }
 
 .gallery-thumbnails {
   display: flex;
-  gap: 1.5rem;
+  gap: clamp(1rem, 2vw, 1.5rem);
   padding: 0 1rem;
   align-items: flex-start;
   justify-content: center;
@@ -91,12 +91,12 @@
 }
 
 /* ============================================================
-   THUMBNAIL BUTTON - Big and prominent
+   THUMBNAIL BUTTON - Responsive with aspect-ratio
 ============================================================ */
 
 .gallery-thumb {
-  width: 480px !important;
-  height: 300px !important;
+  width: clamp(260px, 40vw, 480px) !important;
+  aspect-ratio: 16 / 10;
   padding: 0;
   border: 2px solid rgba(255,255,255,0.1);
   background: rgba(0,0,0,0.4);
@@ -255,13 +255,13 @@
   flex-wrap: wrap;
   gap: 0.4rem;
   justify-content: center;
-  max-width: 480px;
+  max-width: clamp(260px, 40vw, 480px);
 }
 
 .thumb-links :global(.retro-link) {
   font-size: 0.75rem !important;
   padding: 0.3rem 0.6rem !important;
-  border-radius: 4px !important;
+  border-radius: 0.25rem !important;
   white-space: nowrap;
   border-width: 1px !important;
   letter-spacing: 0.1em !important;
@@ -293,12 +293,12 @@
 
 .collapse-btn {
   position: absolute;
-  top: -16px;
+  top: -1rem;
   left: 50%;
   transform: translateX(-50%);
   z-index: 100;
-  width: 48px;
-  height: 48px;
+  width: 3rem;
+  height: 3rem;
   border-radius: 50%;
   border: 2px solid var(--theme-forest, rgb(34, 197, 94));
   background: rgba(0,0,0,0.8);
@@ -324,8 +324,8 @@
 }
 
 .collapse-btn svg {
-  width: 24px;
-  height: 24px;
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 /* ============================================================
@@ -357,9 +357,6 @@
 
   .gallery-thumb {
     width: 70vw !important;
-    height: calc(70vw * 0.625) !important;
-    max-width: 400px;
-    max-height: 250px;
   }
 
   .thumb-links {
@@ -375,26 +372,23 @@
   }
 
   .collapse-btn {
-    width: 48px;
-    height: 48px;
+    width: 3rem;
+    height: 3rem;
   }
 
   .collapse-btn svg {
-    width: 24px;
-    height: 24px;
+    width: 1.5rem;
+    height: 1.5rem;
   }
 }
 
 @media (max-width: 480px) {
   .gallery-thumb {
-    width: 80vw !important;
-    height: calc(80vw * 0.625) !important;
-    max-width: 320px;
-    max-height: 200px;
+    width: 85vw !important;
   }
 
   .thumb-links {
-    max-width: 80vw;
+    max-width: 85vw;
   }
 
   .thumb-title {
@@ -406,14 +400,14 @@
   }
 
   .collapse-btn {
-    width: 52px;
-    height: 52px;
-    top: -20px;
+    width: 3.25rem;
+    height: 3.25rem;
+    top: -1.25rem;
   }
 
   .collapse-btn svg {
-    width: 26px;
-    height: 26px;
+    width: 1.625rem;
+    height: 1.625rem;
   }
 
   .thumb-info-bar {

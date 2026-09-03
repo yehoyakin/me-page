@@ -47,14 +47,14 @@ const dynamicToken = resolveThemeToken(themeName);
 // Use the per-card CSS variable so the color follows `--project-tag-color`.
 const themeColorClass = "text-[color:var(--project-tag-color)]";
 
-const EXPANDED_CARD_BORDER_THICKNESS = "8px";
+const EXPANDED_CARD_BORDER_THICKNESS = "0.5rem";
 const CARD_EXPANSION_DURATION_MS = 200;
 const DRAWER_REVEAL_DURATION_MS = 200;
-const DRAWER_REVEAL_VERTICAL_OFFSET = "20px";
+const DRAWER_REVEAL_VERTICAL_OFFSET = "1.25rem";
 const PIXELATED_TRANSITION_STEPS = 200;
 
 const baseText =
-  "transition-colors duration-150 ease-[steps(200)] drop-shadow-[0_2px_4px_rgba(0,0,0,1)] readable-text";
+  "transition-colors duration-150 ease-[steps(200)] drop-shadow-[0_0.125rem_0.25rem_rgba(0,0,0,1)] readable-text";
 
 const cardClasses = [
   "group retro-expandable-card relative rounded-none border",

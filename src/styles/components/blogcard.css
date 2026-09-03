@@ -1,4 +1,3 @@
-
   .blog-card {
     display: block;
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -32,7 +31,7 @@
 
   .blog-card-image-wrap {
     width: 100%;
-    height: 320px;
+    height: clamp(12rem, 25vw, 20rem);
     overflow: hidden;
     position: relative;
   }
@@ -116,7 +115,7 @@
   @media (max-width: 768px) {
     .blog-card-image-wrap {
       height: 56vw;
-      max-height: 220px;
+      max-height: 14rem;
     }
 
     .blog-card-title {
@@ -127,7 +126,7 @@
   @media (max-width: 480px) {
     .blog-card-image-wrap {
       height: 60vw;
-      max-height: 180px;
+      max-height: 11rem;
     }
 
     .blog-card-bar {
