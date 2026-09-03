@@ -1,0 +1,25 @@
+/* Purpose: Styles - src/styles/components/linkSweep.css (Link sweep animation) */
+
+.link-sweep {
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    transparent 30%,
+    rgba(255, 255, 255, 0.25) 42%,
+    rgba(255, 255, 255, 0.5) 50%,
+    rgba(255, 255, 255, 0.25) 58%,
+    transparent 70%,
+    transparent 100%
+  );
+  background-size: 250% 100%;
+  animation: linkSweep 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes linkSweep {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -50% 0;
+  }
+}

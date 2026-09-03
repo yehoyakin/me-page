@@ -19,7 +19,7 @@ const { href, text = "", icon, external } = Astro.props;
     overflow-hidden
     flex
     items-center
-    justify-center
+    justify-content-center
     gap-2
     rounded-none
     px-4
@@ -37,8 +37,8 @@ const { href, text = "", icon, external } = Astro.props;
     hover:bg-white
     hover:text-zinc-950
     hover:border-white
-    hover:translate-x-[-2px]
-    hover:translate-y-[-2px]
+    hover:translate-x-[-0.125rem]
+    hover:translate-y-[-0.125rem]
     hover:shadow-[0.25rem_0.25rem_0px_0px_white]"
 >
   {/* Light sweep — scrolls across button every 4s when idle */}
@@ -63,29 +63,3 @@ const { href, text = "", icon, external } = Astro.props;
 
   <span class="pixel-highlight"></span>
 </a>
-
-<style>
-  .link-sweep {
-    background: linear-gradient(
-      105deg,
-      transparent 0%,
-      transparent 30%,
-      rgba(255, 255, 255, 0.25) 42%,
-      rgba(255, 255, 255, 0.5) 50%,
-      rgba(255, 255, 255, 0.25) 58%,
-      transparent 70%,
-      transparent 100%
-    );
-    background-size: 250% 100%;
-    animation: linkSweep 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-  }
-
-  @keyframes linkSweep {
-    0% {
-      background-position: 200% 0;
-    }
-    100% {
-      background-position: -50% 0;
-    }
-  }
-</style>

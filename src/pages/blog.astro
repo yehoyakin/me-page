@@ -26,7 +26,7 @@ const sortedPosts = posts.sort((a, b) =>
     {/* Background image layer with soft blur. */}
     <div
       class="fixed inset-0 z-0 pointer-events-none style3d"
-      style="filter: blur(10px); transform: scale(1.05);"
+      style="filter: blur(0.625rem); transform: scale(1.05);"
     >
       <img
         src={bgGif}
@@ -70,55 +70,3 @@ const sortedPosts = posts.sort((a, b) =>
     </section>
   </div>
 </MyLayout>
-
-<style>
-  .blog-cards-wrapper {
-    width: 100%;
-    overflow-x: auto;
-    overflow-y: visible;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255,255,255,0.3) transparent;
-    padding: 1rem 0 2rem 0;
-  }
-
-  .blog-cards-wrapper::-webkit-scrollbar {
-    height: 10px;
-  }
-
-  .blog-cards-wrapper::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  .blog-cards-wrapper::-webkit-scrollbar-thumb {
-    background: rgba(255,255,255,0.3);
-    border-radius: 3px;
-  }
-
-  .blog-cards-scroll {
-    display: flex;
-    gap: 1.5rem;
-    padding: 0 1rem;
-    align-items: stretch;
-    min-width: min-content;
-  }
-
-  .blog-card-item {
-    flex: 0 0 auto;
-    width: 400px;
-  }
-
-  @media (max-width: 768px) {
-    .blog-card-item {
-      width: 75vw;
-      max-width: 360px;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .blog-card-item {
-      width: 85vw;
-      max-width: 320px;
-    }
-  }
-</style>

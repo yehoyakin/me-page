@@ -55,18 +55,37 @@ const getSceneSizeClass = (size?: string) => {
   }
 };
 
+/**
+ * Clean up a caption string: strip quotes (straight or curly), HTML entities, trim.
+ */
+const cleanCaption = (raw: string): string => {
+  return raw
+    .replace(/^[\s,]*/, "")
+    .replace(/&quot;/g, '"')
+    .replace(/&ldquo;/g, '"')
+    .replace(/&rdquo;/g, '"')
+    .replace(/&apos;/g, "'")
+    .replace(/&lsquo;/g, "'")
+    .replace(/&rsquo;/g, "'")
+    .replace(/&amp;/g, "&")
+    .replace(/^["""\u201c\u201d]/, "")
+    .replace(/["""\u201c\u201d]$/, "")
+    .replace(/^['''\u2018\u2019]/, "")
+    .replace(/['''\u2018\u2019]$/, "")
+    .trim();
+};
+
 const renderScene = (sceneIndex: number, alignOverride?: string, captionOverride?: string, sizeOverride?: string) => {
   const scene = scenes[sceneIndex];
   if (!scene?.image) return "";
 
   const align = (alignOverride ?? scene.align ?? "center").toLowerCase();
   const aspectClass = getAspectClass(scene.size ?? "auto");
-  const captionAlignClass = getCaptionAlignmentClass(align);
   const captionText = captionOverride ?? scene.caption ?? "";
   const sizeClass = getSceneSizeClass(sizeOverride || "default");
 
   let figureClass =
-    `my-8 overflow-hidden rounded-none border border-zinc-800 bg-black w-full ${sizeClass} mx-auto`;
+    `scene-reveal my-8 overflow-hidden rounded-none border border-zinc-800 bg-black w-full ${sizeClass} mx-auto`;
 
   let imgClass = "block w-full h-auto";
 
@@ -112,62 +131,37 @@ const renderScene = (sceneIndex: number, alignOverride?: string, captionOverride
   `;
 };
 
-const decodeSceneCaption = (value?: string) =>
-  (value ?? "")
-    .replace(/&quot;/g, '"')
-    .replace(/&ldquo;/g, '"')
-    .replace(/&rdquo;/g, '"')
-    .replace(/&apos;/g, "'")
-    .replace(/&lsquo;/g, "'")
-    .replace(/&rsquo;/g, "'")
-    .replace(/&amp;/g, "&")
-    .replace(/[“”]/g, '"')
-    .replace(/[‘’]/g, "'")
-    .trim();
+/**
+ * Match scene markers in rendered HTML.
+ * Handles: [scene[0]], [scene[0,1,2]], [scene[0, wide]], [scene[0], "caption"]
+ * Works regardless of quote type (straight, curly, HTML entities).
+ *
+ * Pattern: [scene[indexes, optional_size], optional_caption_text]
+ * We capture everything after the inner ] as the raw caption text.
+ */
+const SCENE_MARKER_RE = /\[scene\[([0-9,\s]+)(?:,\s*(wide|large|full))?\](?:,\s*([^\]]*))?\]/g;
 
 const parseSceneMarker = (match: string) => {
-  const result = match.match(
-    /^\[scene\[((?:\d+\s*(?:,\s*\d+)*)?)(?:\s*,\s*(wide|large|full))?\](?:\s*(?:,\s*)?(?:"([^"]*)"|'([^']*)'|“([^”]*)”|‘([^’]*)’|&quot;([^&]+)&quot;|&apos;([^&]+)&apos;|&ldquo;([^&]+)&rdquo;|&lsquo;([^&]+)&rsquo;))?\]$/,
-  );
-
+  const result = SCENE_MARKER_RE.exec(match);
   if (!result) return null;
 
-  const [
-    ,
-    rawIndexes = "",
-    sizeToken = "",
-    doubleQuotedCaption = "",
-    singleQuotedCaption = "",
-    curlyDoubleCaption = "",
-    curlySingleCaption = "",
-    htmlQuotedCaption = "",
-    htmlAposCaption = "",
-    htmlCurlyDoubleCaption = "",
-    htmlCurlySingleCaption = "",
-  ] = result;
+  const [, rawIndexes = "", sizeToken = "", rawCaption = ""] = result;
 
-  const caption = decodeSceneCaption(
-    doubleQuotedCaption ||
-      singleQuotedCaption ||
-      curlyDoubleCaption ||
-      curlySingleCaption ||
-      htmlQuotedCaption ||
-      htmlAposCaption ||
-      htmlCurlyDoubleCaption ||
-      htmlCurlySingleCaption,
-  );
-
-  const indexes = (rawIndexes || "")
+  const indexes = rawIndexes
     .split(",")
-    .map((value) => Number.parseInt(value.trim(), 10))
-    .filter((value): value is number => Number.isInteger(value) && value >= 0);
+    .map((v) => Number.parseInt(v.trim(), 10))
+    .filter((v): v is number => Number.isInteger(v) && v >= 0);
+
+  const caption = cleanCaption(rawCaption);
 
   return { indexes, caption, size: sizeToken || undefined };
 };
 
 const sceneHtml =
   Array.isArray(scenes) && scenes.length > 0
-    ? bodyHtml.replace(/\[scene\[((?:\d+\s*(?:,\s*\d+)*)?)(?:\s*,\s*(wide|large|full))?\](?:\s*(?:,\s*)?(?:"[^"]*"|'[^']*'|“[^”]*”|‘[^’]*’|&quot;[^&]+&quot;|&apos;[^&]+&apos;|&ldquo;[^&]+&rdquo;|&lsquo;[^&]+&rsquo;))?\]/g, (match: string) => {
+    ? bodyHtml.replace(SCENE_MARKER_RE, (match: string) => {
+        // Reset lastIndex since we're using a global regex
+        SCENE_MARKER_RE.lastIndex = 0;
         const parsed = parseSceneMarker(match);
         if (!parsed) return match;
 
@@ -185,15 +179,14 @@ const sceneHtml =
             : size === "full"
               ? "max-w-[95vw] mx-auto"
               : "max-w-[85vw] mx-auto";
-        const groupClass = `my-8 grid gap-4 sm:grid-cols-2 ${groupSizeClass}`.trim();
-        const groupCaptionText = decodeSceneCaption(caption || scenes[indexes[0]]?.caption || "");
+        const groupClass = `scene-reveal my-8 grid gap-4 sm:grid-cols-2 ${groupSizeClass}`.trim();
+        const groupCaptionText = cleanCaption(caption || scenes[indexes[0]]?.caption || "");
 
         const groupedScenes = indexes
           .map((sceneIndex: number) => {
             const scene = scenes[sceneIndex];
             if (!scene?.image) return "";
 
-            const align = (scene.align ?? "center").toLowerCase();
             const aspectClass = getAspectClass(scene.size ?? "auto");
             const figureClass = `my-0 overflow-hidden rounded-none border border-zinc-800 bg-black w-full ${aspectClass ? aspectClass : ""}`.trim();
             const imgClass = aspectClass
@@ -232,9 +225,66 @@ const sceneHtml =
 {/* Article content container. */}
 <div
   class="prose prose-invert max-w-none rounded-none
-         border border-zinc-800/50 bg-zinc-950/70
-         p-5 sm:p-8 backdrop-blur-md"
+         border border-zinc-800/50 bg-black/60
+         p-6 sm:p-10 md:p-12 backdrop-blur-2xl
+         shadow-[inset_0_0_80px_rgba(0,0,0,0.4)]"
   id="blog-content"
 >
   <div set:html={sceneHtml} />
 </div>
+
+<style is:global>
+  /* Scroll-reveal: figures start hidden, fade in on scroll */
+  .scene-reveal {
+    opacity: 0;
+    transform: translateY(2rem);
+    transition: opacity 0.7s cubic-bezier(0.2, 0.8, 0.2, 1),
+                transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .scene-reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Stagger children in grouped scene grids */
+  .scene-reveal.revealed > *:nth-child(1) { transition-delay: 0ms; }
+  .scene-reveal.revealed > *:nth-child(2) { transition-delay: 100ms; }
+  .scene-reveal.revealed > *:nth-child(3) { transition-delay: 200ms; }
+  .scene-reveal.revealed > *:nth-child(4) { transition-delay: 300ms; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scene-reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    const initReveal = () => {
+      const figures = document.querySelectorAll(".scene-reveal");
+      if (!figures.length) return;
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("revealed");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.15, rootMargin: "0px 0px -50px 0px" }
+      );
+
+      figures.forEach((fig) => observer.observe(fig));
+    };
+
+    document.addEventListener("astro:page-load", initReveal);
+    document.addEventListener("DOMContentLoaded", initReveal);
+    initReveal();
+  })();
+</script>

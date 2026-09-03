@@ -61,10 +61,22 @@
   color: var(--ui-base);
   font-size: 1.1rem;
   line-height: 1.9;
+  text-align: justify;
 }
 
 #blog-content p {
   margin: 1.5rem 0;
+  text-align: justify;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+#blog-content h1,
+#blog-content h2,
+#blog-content h3 {
+  color: #f4f4f5;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
 }
 
 /* Bold / italic coloring moved to theme-colors.css for project-wide reuse */

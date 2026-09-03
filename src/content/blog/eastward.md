@@ -52,35 +52,64 @@ cards:
         text: "Lost in Cult book"
 
 scenes:
-  - image: "images/blog/eastward/image (0).webp" #0
-  - image: "images/blog/eastward/image (1).webp" #1
-  - image: "images/blog/eastward/image (2).webp" #2
-  - image: "images/blog/eastward/image (3).webp" #3
-  - image: "images/blog/eastward/image (4).webp" #4
-  - image: "images/blog/eastward/image (5).webp" #5
-  - image: "images/blog/eastward/image (6).webp" #6
-  - image: "images/blog/eastward/image (7).webp" #7
-  - image: "images/blog/eastward/image (8).webp" #8
-  - image: "images/blog/eastward/image (9).webp" #9
-  - image: "images/blog/eastward/image (10).webp" #10
-  - image: "images/blog/eastward/image (11).webp" #11
-  - image: "images/blog/eastward/image (12).webp" #12
-  - image: "images/blog/eastward/image (13).webp" #13
-  - image: "images/blog/eastward/image (14).webp" #14
-  - image: "images/blog/eastward/image (15).webp" #15
-  - image: "images/blog/eastward/image (16).webp" #16
-  - image: "images/blog/eastward/image (17).webp" #17
-  - image: "images/blog/eastward/image (18).webp" #18
-  - image: "images/blog/eastward/image (19).webp" #19
-  - image: "images/blog/eastward/image (20).webp" #20
-  - image: "images/blog/eastward/image (21).webp" #21
-  - image: "images/blog/eastward/image (22).webp" #22
-  - image: "images/blog/eastward/image (23).webp" #23
-  - image: "images/blog/eastward/image (24).webp" #24
-  - image: "images/blog/eastward/image (25).webp" #25
-  - image: "images/blog/eastward/image (26).webp" #25
-  - image: "images/blog/eastward/image (27).webp" #25
-  - image: "images/blog/eastward/image (28).webp" #25
+  - image: "images/blog/eastward/image (0).webp"
+    align: "left"
+  - image: "images/blog/eastward/image (1).webp"
+    align: "right"
+  - image: "images/blog/eastward/image (2).webp"
+    align: "center"
+  - image: "images/blog/eastward/image (3).webp"
+    align: "center"
+  - image: "images/blog/eastward/image (4).webp"
+    align: "center"
+  - image: "images/blog/eastward/image (5).webp"
+    align: "center"
+  - image: "images/blog/eastward/image (6).webp"
+    align: "left"
+  - image: "images/blog/eastward/image (7).webp"
+    align: "center"
+  - image: "images/blog/eastward/image (8).webp"
+    align: "center"
+  - image: "images/blog/eastward/image (9).webp"
+    align: "center"
+  - image: "images/blog/eastward/image (10).webp"
+    align: "left"
+  - image: "images/blog/eastward/image (11).webp"
+    align: "center"
+  - image: "images/blog/eastward/image (12).webp"
+    align: "center"
+  - image: "images/blog/eastward/image (13).webp"
+    align: "center"
+  - image: "images/blog/eastward/image (14).webp"
+    align: "center"
+  - image: "images/blog/eastward/image (15).webp"
+    align: "center"
+  - image: "images/blog/eastward/image (16).webp"
+    align: "center"
+  - image: "images/blog/eastward/image (17).webp"
+    align: "center"
+  - image: "images/blog/eastward/image (18).webp"
+    align: "center"
+  - image: "images/blog/eastward/image (19).webp"
+    align: "center"
+  - image: "images/blog/eastward/image (20).webp"
+    align: "center"
+  - image: "images/blog/eastward/image (21).webp"
+    align: "right"
+  - image: "images/blog/eastward/image (22).webp"
+    align: "center"
+  - image: "images/blog/eastward/image (23).webp"
+    align: "center"
+  - image: "images/blog/eastward/image (24).webp"
+    align: "left"
+  - image: "images/blog/eastward/image (25).webp"
+    align: "center"
+  - image: "images/blog/eastward/image (26).webp"
+    align: "right"
+  - image: "images/blog/eastward/image (27).webp"
+    align: "center"
+  - image: "images/blog/eastward/image (28).webp"
+    align: "center"
 ---
 
 Once in a while you get to play a game that just "clicks" with you, it is just what you need at a given time, for me that game was...
@@ -106,7 +135,7 @@ The gameplay loop consists of the following chain of 3 events:
 
 The game's main mechanic is the control of our two protagonists, the ever happy *Sam* and *John* our silent gruffy father figure(GREAT GEORGE MICHAEL SONG). During gameplay John will deliver brute force, while Sam will be handy whenever we want to avoid conflict and danger. They can be controlled together or separately which opens up lots of fun and interesting level design, puzzles and combat.
 
-The game’s structure is that of chapters, which is required, given the storyline, this may upset completionists but to me it was a breath of fresh air given the boom of open world games at that time.
+The game's structure is that of chapters, which is required, given the storyline, this may upset completionists but to me it was a breath of fresh air given the boom of open world games at that time.
 
 [scene[6],"John and Sam will have plenty of city life and roaming."]
 [scene[21],"Incredible detail on escenary, such as signs, billboards, every building is unique."]
@@ -151,7 +180,7 @@ The game's narrative begins with one of my favorite story-telling devices, *"the
 
 The plot is very lossesly held together; There is an overarching story but most of the game has TV episode logic to it, lots of self contained stories and some inflection points every now that connect the dots, such as in Samurai Champloo or Space Dandy.
 
-Most of these *"episodes"* within the game’s chapters are there to give and breathe life into the world and the characters, if you are looking for a heavy plot and straight narrative you'll bounce off this game HARD. If you enjoy piecing together the story and world by paying attention to dialogues, character animations and level design this game is for you.
+Most of these *"episodes"* within the game's chapters are there to give and breathe life into the world and the characters, if you are looking for a heavy plot and straight narrative you'll bounce off this game HARD. If you enjoy piecing together the story and world by paying attention to dialogues, character animations and level design this game is for you.
 
 [scene[1], "The in-game sunset give me a nostalgic mood that's hard to achieve in most games."]
 
@@ -161,11 +190,11 @@ I got to play this while lockdowns were still active, but I missed family relati
 
 3 years before the game's release, in 2018 I went abroad to study film-making in Argentina (eventually dropped out), coincidentally I travelled eastward (from Chile). The day before travelling I accidentally bumped into many important people in my life, and got plenty of encouraging texts as well. That very night, the landlord of the place I would rent in Buenos Aires realized he had sold my spot, and so, I would have to find a new place. For a secluded guy like me it was a bit scary but I had to get my wits about me and manage it, I would be on my own. 
 
-For a whole month I walked through Buenos Aires looking for a place to stay while also attending classes. Searching for a place to stay was a fight against time as I had very limited cash. During this month whenever I was in trouble or faced with a difficult situation I would recall loved ones, I’d think of how they would react, I’d recall their advice, they kept me safe and sane. At the same time I was fortunate enough to meet many people that accepted me into their home, that offered me food, medicine, a warm bed, asking for nothing in return, with some we were passengers of each other’s lives, with others I still keep touch, and yes, there were mean and xenophobic people but I can’t remember their faces or recall their actions.
+For a whole month I walked through Buenos Aires looking for a place to stay while also attending classes. Searching for a place to stay was a fight against time as I had very limited cash. During this month whenever I was in trouble or faced with a difficult situation I would recall loved ones, I'd think of how they would react, I'd recall their advice, they kept me safe and sane. At the same time I was fortunate enough to meet many people that accepted me into their home, that offered me food, medicine, a warm bed, asking for nothing in return, with some we were passengers of each other's lives, with others I still keep touch, and yes, there were mean and xenophobic people but I can't remember their faces or recall their actions.
 
 And so I finished this game when I missed those I loved the most, and seeing myself in John and Sam, looking for a home in the world hit me hard, specially when seeing myself in so many moments of their journey such as arriving at a cold train stations in the early hours of the morning, cooking with new friends to bond and many heartfelt goodbyes. 
 
-Eastward’s story ends with a bitter ending, memories are lost, and yet, the behavior, the character, the very essence of a person and what's imprinted by loved ones remain, such is life if you ask me!
+Eastward's story ends with a bitter ending, memories are lost, and yet, the behavior, the character, the very essence of a person and what's imprinted by loved ones remain, such is life if you ask me!
 
 [scene[24], "Sun light, clouds and good-byes."]
 
@@ -176,10 +205,6 @@ Last year I bought the behind the scenes book of the game, it is a great read, f
 [scene[27,28], "Me with my super happy expression (no expression)"]
 
 Check the link's panel for different Eastward related info!
-
-
-
-
 
 
 
