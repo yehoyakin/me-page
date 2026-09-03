@@ -180,6 +180,7 @@
   opacity: 0.22;
   will-change: transform, filter, opacity;
   pointer-events: none;
+  overflow: hidden;
 }
 
 .project-card.panel-update .shader-bg .panel-bg-img {
