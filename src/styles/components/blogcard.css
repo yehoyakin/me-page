@@ -31,14 +31,14 @@
 
   .blog-card-image-wrap {
     width: 100%;
-    height: clamp(12rem, 25vw, 20rem);
     overflow: hidden;
     position: relative;
   }
 
   .blog-card-bg {
+    display: block;
     width: 100%;
-    height: 100%;
+    height: auto;
     transform: scale(1);
     opacity: 0.8;
     transition: transform 0.5s ease, opacity 0.5s ease;
@@ -82,22 +82,12 @@
   }
 
   @media (max-width: 768px) {
-    .blog-card-image-wrap {
-      height: 56vw;
-      max-height: 14rem;
-    }
-
     .blog-card-title {
       font-size: clamp(1.1rem, 4vw, 1.5rem);
     }
   }
 
   @media (max-width: 480px) {
-    .blog-card-image-wrap {
-      height: 60vw;
-      max-height: 11rem;
-    }
-
     .blog-card-bar {
       padding: 0.6rem 0.85rem;
     }

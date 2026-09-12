@@ -10,9 +10,9 @@ backgrounds:
   - image: "images/blog/eastward/eastwardbc2.webp"
   - image: "images/blog/eastward/eastwardbc.webp"
 
-backgroundBlur: 0.2
-backgroundOpacity: 0.5
-backgroundParallax: 0.15
+backgroundBlur: 0.3
+backgroundOpacity: 1
+backgroundParallax: 0.45
 
 cards:
   - tag: ""
