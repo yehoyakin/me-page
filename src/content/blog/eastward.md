@@ -2,17 +2,13 @@
 title: "My favorite videogame"
 theme: "terminal"
 description: "Warmth | Coziness | Fun"
-date: 01/04/2026
+date: 04/01/2026
 cardBackground: "images/blog/eastward/image (16).webp"
 backgrounds:
-  - percent: 0.25
-    image: "images/blog/eastward/eastwardbc.webp"
-  - percent: 0.50
-    image: "images/blog/eastward/eastwardbc1.webp"
-  - percent: 0.75
-    image: "images/blog/eastward/eastwardbc2.webp"
-  - percent: 1
-    image: "images/blog/eastward/eastwardbc.webp"
+  - image: "images/blog/eastward/eastwardbc.webp"
+  - image: "images/blog/eastward/eastwardbc1.webp"
+  - image: "images/blog/eastward/eastwardbc2.webp"
+  - image: "images/blog/eastward/eastwardbc.webp"
 
 backgroundBlur: 0.2
 backgroundOpacity: 0.5
@@ -114,6 +110,8 @@ scenes:
 
 Once in a while you get to play a game that just "clicks" with you, it is just what you need at a given time, for me that game was...
 
+[background[0]]
+
 [scene[16]]
 
 Developed by **Pixpil** and published by **Chucklefish**, the first trailer of this adventure game looked like it was ready to entertain me, feast my eyes, ears and pull at my heartstrings. 
@@ -124,6 +122,8 @@ When booting the game we are presented with a hand-drawn cinematic. In it, chara
 [scene[26], "Intro cinematic animated by Souviens Ten-Zan Studio."]
 
 ## Gameplay
+
+[background[1]]
  
 The gameplay loop consists of the following chain of 3 events:
 
@@ -160,6 +160,8 @@ An incredible detail to me is that this "mini-game" its completely recontextuali
 
 # The juice
 
+[background[2]]
+
 While simple, the game's mechanics are polished, every input in the game feels impactful, all animations across the board(characters and enviroment), the damage types effects such when John or Sam are electrocuted and their skeletons flash a-la looney toons. 
 
 Other aspects that are many times disregarded by some videogames such as the user interface's style, here are full of *the juice, a feel of polish and confidence*. Panels, menus, font, sound navigation, icons, everything is full style, a style that fits the aesthetic perfectly. 
@@ -175,6 +177,8 @@ Lastly I must mention the incredible use of lightning, time of day and weather, 
 [scene[18,20], "Lightning is used to its full extent, to bring memorable scenes to life all thanks to pixpil's engine."]
 
 # Their story
+
+[background[3]]
 
 The game's narrative begins with one of my favorite story-telling devices, *the story within the story*, in this case represented by a videogame (Earthborn) that our protagonist Sam is playing. Later on we realize that Earthborn's story mirrors our protagonist's journey. Afterwards we are dropped right in the middle of their lives, their past will unfold as we progress through the game. 
 

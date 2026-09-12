@@ -36,8 +36,8 @@ const blog = defineCollection(
     backgrounds: z
       .array(
         z.object({
-          percent: z.number(),
           image: z.string(),
+          percent: z.number().optional(), // deprecated: placement now comes from [background[x]] markers in the body
         })
       )
       .optional(),

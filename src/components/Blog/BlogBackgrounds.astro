@@ -1,8 +1,9 @@
 ---
 // Purpose: Component - src/components/Blog/BlogBackgrounds.astro (Dynamic layered backgrounds for posts)
 interface BackgroundLayer {
-  percent: number;
   image: string;
+  /** Deprecated: placement now comes from [background[x]] markers in the body. */
+  percent?: number;
 }
 
 interface Props {

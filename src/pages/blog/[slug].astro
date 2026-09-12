@@ -38,13 +38,26 @@ const scenes = Array.isArray(post.data.scenes)
 /* ✅ Normalize layers through asset */
 const rawBackgrounds = post.data.backgrounds ?? [];
 const backgrounds = Array.isArray(rawBackgrounds)
-  ? rawBackgrounds
-      .map((b) => ({
-        percent: b.percent <= 1 ? b.percent * 100 : b.percent,
-        image: asset(b.image),
-      }))
-      .sort((a, b) => a.percent - b.percent)
+  ? rawBackgrounds.map((b) => ({
+      image: asset(b.image),
+    }))
   : [];
+
+/* ✅ Replace [background[x]] markers in the body with invisible anchors.
+   The runtime script reads each anchor's offsetTop to decide when to
+   activate background number x. Markers pointing at missing entries
+   are stripped. */
+const backgroundMarkerRe = /\[background\[(\d+)\]\]/g;
+const bodyHtml = (post.rendered?.html ?? "").replace(
+  backgroundMarkerRe,
+  (_match, indexStr: string) => {
+    const index = Number.parseInt(indexStr, 10);
+    if (!Number.isInteger(index) || index < 0 || index >= backgrounds.length) {
+      return "";
+    }
+    return `<span class="bg-marker" data-bg-index="${index}"></span>`;
+  }
+);
 
 /* ✅ Normalize single cover through asset */
 const heroImage = post.data.background ? asset(post.data.background) : "";
@@ -53,7 +66,7 @@ const backgroundBlur = post.data.backgroundBlur ?? 0;
 const backgroundOpacity = post.data.backgroundOpacity ?? 1;
 const backgroundParallax = post.data.backgroundParallax ?? 0.2;
 
-const rendered = post.rendered?.html ?? "";
+
 
 // Convention-based theme resolution: theme name → CSS var → font/transition config
 const themeName = toThemeName(post.data.theme);
@@ -98,7 +111,7 @@ const imagesToPreload = [heroImage, ...backgrounds.map((b) => b.image)].filter(
           date={post.data.date}
           theme={themeName}
         />
-        <BlogContent bodyHtml={rendered} scenes={scenes} />
+        <BlogContent bodyHtml={bodyHtml} scenes={scenes} />
       </div>
     </div>
 
@@ -203,16 +216,43 @@ const imagesToPreload = [heroImage, ...backgrounds.map((b) => b.image)].filter(
 
     window.__backgrounds = backgrounds;
 
+    // Where in the document each [background[x]] marker sits.
+    // offsetTop is relative to the offsetParent chain, so convert to
+    // absolute document coordinates.
+    const getMarkerTops = () => {
+      const markers = document.querySelectorAll(".bg-marker");
+      if (!markers.length) return [];
+      return Array.from(markers)
+        .map((el) => {
+          let top = 0;
+          let node = el;
+          while (node) {
+            top += node.offsetTop;
+            node = node.offsetParent;
+          }
+          const index = Number.parseInt(el.dataset.bgIndex ?? "0", 10);
+          return { top, index };
+        })
+        .sort((a, b) => a.top - b.top);
+    };
+
+    let markerTops = getMarkerTops();
+
     const updateBackgrounds = () => {
       const scrollPosition = window.scrollY;
-      const height = document.body.scrollHeight - window.innerHeight;
-      const progress = height > 0 ? (scrollPosition / height) * 100 : 0;
 
       const bgs = window.__backgrounds || [];
       if (!bgs.length) return;
 
-      const selectedIndex = bgs.findIndex((b) => progress <= b.percent);
-      const activeIndex = selectedIndex !== -1 ? selectedIndex : bgs.length - 1;
+      // Active = the last [background[x]] marker we've scrolled past.
+      // Before any marker, background 0 is shown.
+      const threshold = scrollPosition + window.innerHeight * 0.5;
+      let activeIndex = 0;
+      for (let i = 0; i < markerTops.length; i++) {
+        if (markerTops[i].top <= threshold) activeIndex = markerTops[i].index;
+        else break;
+      }
+      activeIndex = Math.min(activeIndex, bgs.length - 1);
 
       const maxOffset = window.innerHeight * 0.20;
       const offset = Math.max(
@@ -234,6 +274,15 @@ const imagesToPreload = [heroImage, ...backgrounds.map((b) => b.image)].filter(
 
     updateBackgrounds();
     window.addEventListener("scroll", updateBackgrounds, { passive: true });
+    window.addEventListener("resize", () => {
+      markerTops = getMarkerTops();
+      updateBackgrounds();
+    });
+    // Layout can shift after fonts/images settle, so re-measure then too.
+    window.addEventListener("load", () => {
+      markerTops = getMarkerTops();
+      updateBackgrounds();
+    });
 
     // --- SIDEBAR DYNAMIC DEVICE SCRIPTS ---
     const initSidebar = () => {
