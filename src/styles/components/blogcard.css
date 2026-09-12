@@ -1,5 +1,7 @@
   .blog-card {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     border: 1px solid rgba(255, 255, 255, 0.08);
     text-decoration: none;
     color: inherit;
@@ -29,16 +31,26 @@
     padding: 1rem 1.25rem 1.25rem;
   }
 
+  /* Fixed-size image area: every card renders the same height. The image
+     is absolutely positioned and contained (never cropped), so its
+     intrinsic size can never grow the card — oversized images just
+     letterbox. Desktop area height was halved per design request. */
   .blog-card-image-wrap {
+    flex: 1 1 auto;
     width: 100%;
+    min-height: clamp(5rem, 12vw, 8rem);
     overflow: hidden;
     position: relative;
+    background: rgba(0, 0, 0, 0.35);
   }
 
   .blog-card-bg {
+    position: absolute;
+    inset: 0;
     display: block;
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: contain;
     transform: scale(1);
     opacity: 0.8;
     transition: transform 0.5s ease, opacity 0.5s ease;
@@ -82,12 +94,20 @@
   }
 
   @media (max-width: 768px) {
+    .blog-card-image-wrap {
+      min-height: 10rem;
+    }
+
     .blog-card-title {
       font-size: clamp(1.1rem, 4vw, 1.5rem);
     }
   }
 
   @media (max-width: 480px) {
+    .blog-card-image-wrap {
+      min-height: 8.5rem;
+    }
+
     .blog-card-bar {
       padding: 0.6rem 0.85rem;
     }

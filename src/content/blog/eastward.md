@@ -10,9 +10,9 @@ backgrounds:
   - image: "images/blog/eastward/eastwardbc2.webp"
   - image: "images/blog/eastward/eastwardbc.webp"
 
-backgroundBlur: 0.3
-backgroundOpacity: 1
-backgroundParallax: 0.45
+backgroundBlur: 0.33
+backgroundOpacity: 0.9
+backgroundParallax: 1
 
 cards:
   - tag: ""
@@ -187,6 +187,8 @@ The plot is very lossesly held together; There is an overarching story but most 
 Most of these episodes within the game's chapters are there to give and breathe life into the world and the characters, if you are looking for a heavy plot and straight narrative you'll bounce off this game HARD. If you enjoy piecing together the story and world by paying attention to dialogues, character animations and level design this game is for you.
 
 [scene[1], "The in-game sunset give me a nostalgic mood that's hard to achieve in most games."]
+
+[background[3]]
 
 ## My story
 

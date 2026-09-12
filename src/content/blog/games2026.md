@@ -14,11 +14,11 @@ backgrounds:
   - image: "images/blog/games2026/ddd(0).webp"
   - image: "images/blog/games2026/afu(0).webp"
   - image: "images/blog/games2026/gstring(0).webp"
-  - image: "images/blog/games2026/reco(0).webp"
+  - image: "images/blog/games2026/vaproxy(0).webp"
 
-backgroundBlur: 0.5
-backgroundOpacity: 1
-backgroundParallax: 0.15
+backgroundBlur: 0.33
+backgroundOpacity: 0.9
+backgroundParallax: 1
 
 cards:
   - tag: ""
@@ -112,13 +112,13 @@ cards:
         text: "Steam"
 
   - tag: ""
-    title: "Reconfigure"
+    title: "V.A Proxy"
     description: ""
     actionText: "Open store"
     backgroundImage: ""
     links:
       - image: "steam"
-        href: "https://store.steampowered.com/app/3989530/Reconfigure/"
+        href: "https://store.steampowered.com/app/2063390/VA_Proxy/"
         text: "Steam"
 
 
@@ -159,10 +159,11 @@ scenes:
   - image: "images/blog/games2026/gstring(2).webp"
   - image: "images/blog/games2026/gstring(3).webp"
 
-  - image: "images/blog/games2026/reco(1).webp"
-  - image: "images/blog/games2026/reco(2).webp"
-  - image: "images/blog/games2026/reco(3).webp"
+  - image: "images/blog/games2026/vaproxy(1).webp"
+  - image: "images/blog/games2026/vaproxy(2).webp"
+  - image: "images/blog/games2026/vaproxy(3).webp"
 
+  - image: "images/blog/games2026/games2026.webp"
 ---
 
 I constantly find myself having a harder time enjoying most popular videogames and not for a lack of trying, *Vampire Survivors*, *Clair Obscure 33*, *Balatro*, *Peak*, I tried but they are just not for me at all, same with most AAA productions. Thankfully **diversity is a strenght in the videogame industry**, so here are games the have caught my attention and why...
@@ -283,8 +284,27 @@ Not refering to the sexy g string to wear but instead to another *cyberpunk fps*
 
 By the time of this blog being written the game has come out, to some recent mixed reviews... but I'll play it anyways, it's a feat that few game devs manage to do, and just because of that I'll give it the benefit of the doubt. This is someone's vision, in the screenshots and trailer I see lot of style, a world I want to explore and gameplay to get proficient at.
 
-[scene[24], "semi-apocaliptic sunsets."]
-[scene[25], "Horror robots, always black and red!"]
+[scene[24], "Semi-apocaliptic sunsets."]
+[scene[25], "Cool narrative sequences."]
 [scene[26], "Once again a massive sci-fi city, pollution, and neon nights."]
 
-## PENDING 10th entry
+## V.A Proxy
+
+[background[9]]
+
+A fast paced game *third person action* game, with some of the most unique ideas I've seen in a game such as: 
+<ol>
+  <li>Mimic colossal.</li>
+  <li>Parrying nukes.</li>
+  <li>Cities built on giant robots.</li>
+</ol>
+
+It's been quite some time in development, but good things take time.
+
+[scene[27], "Flashy responsive combat."]
+[scene[28], "Melee and ranged combat."]
+[scene[29], "A massive world to explore."]
+
+## And so...
+
+All of the games that caught my interest are either indie or very, very close to AA. That's the beauty of games: there are all kinds of flavors for different palates. Thankfully, I found a whole course meal; the bad part is the chefs are still cooking, the good part is the time and love I see through the kitchen window is strong, and the smell is so fierce it's ingrained in my brain.

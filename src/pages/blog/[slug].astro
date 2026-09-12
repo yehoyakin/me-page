@@ -239,26 +239,40 @@ const imagesToPreload = [heroImage, ...backgrounds.map((b) => b.image)].filter(
     let markerTops = getMarkerTops();
 
     const updateBackgrounds = () => {
-      const scrollPosition = window.scrollY;
-
       const bgs = window.__backgrounds || [];
       if (!bgs.length) return;
 
       // Active = the last [background[x]] marker we've scrolled past.
       // Before any marker, background 0 is shown.
-      const threshold = scrollPosition + window.innerHeight * 0.5;
+      const focus = window.scrollY + window.innerHeight * 0.5;
       let activeIndex = 0;
+      let segStart = 0;
+      let segEnd = document.body.scrollHeight;
       for (let i = 0; i < markerTops.length; i++) {
-        if (markerTops[i].top <= threshold) activeIndex = markerTops[i].index;
-        else break;
+        if (markerTops[i].top <= focus) {
+          activeIndex = markerTops[i].index;
+          segStart = markerTops[i].top;
+        } else {
+          segEnd = markerTops[i].top;
+          break;
+        }
       }
       activeIndex = Math.min(activeIndex, bgs.length - 1);
 
-      const maxOffset = window.innerHeight * 0.20;
-      const offset = Math.max(
-        -maxOffset,
-        -window.scrollY * parallaxFactor
+      // Continuous parallax: the active background drifts from +A to -A
+      // across its own segment (previous marker -> next marker). The old
+      // `-scrollY * factor` formula clamped after a short distance, which
+      // froze the background for the rest of the page (no parallax).
+      // Layers bleed 20vh past the viewport on each side, so cap the
+      // drift amplitude inside that to avoid exposing edges.
+      const amplitude =
+        Math.min(Math.max(parallaxFactor, 0), 0.19) * window.innerHeight;
+      const segLength = Math.max(1, segEnd - segStart);
+      const progress = Math.min(
+        1,
+        Math.max(0, (focus - segStart) / segLength)
       );
+      const offset = amplitude * (1 - 2 * progress);
 
       bgs.forEach((_, index) => {
         const bgEl = document.getElementById(`dynamic-bg-${index}`);
