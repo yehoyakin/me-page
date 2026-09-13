@@ -21,7 +21,7 @@
 
 /* Soft blurred background image layer — used on blog listing, home, portfolio. */
 .blurred-bg-layer {
-  filter: blur(0.625rem);
+  filter: blur(0.325rem);
   transform: scale(1.05);
   opacity: 1;
 }

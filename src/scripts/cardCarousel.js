@@ -10,6 +10,10 @@
  * Runs at every screen width. On wide screens the CSS caps the slide width so
  * a card cannot stretch to the whole viewport (see `--carousel-slide`).
  *
+ * The controls wrap: prev from the first slide moves to the last one and next
+ * from the last moves back to the first, so neither arrow ever runs out of
+ * places to go and neither is ever disabled.
+ *
  * Markup contract (all optional except `data-carousel` + the track):
  *   <div data-carousel data-carousel-item=".slide" data-carousel-label="Projects">
  *     <div data-carousel-track>
@@ -121,7 +125,10 @@ function initStrip(scroller) {
 
   function goTo(index) {
     const count = getItems().length;
-    const target = Math.max(0, Math.min(count - 1, index));
+    if (!count) return;
+
+    // Wrap around, in both directions: -1 -> last, count -> 0.
+    const target = ((index % count) + count) % count;
 
     scroller.scrollTo({ left: offsetFor(target), behavior: "smooth" });
   }
@@ -149,9 +156,6 @@ function initStrip(scroller) {
     dots.forEach((dot, index) => {
       dot.setAttribute("aria-current", index === current ? "true" : "false");
     });
-
-    prev.disabled = current === 0;
-    next.disabled = current === items.length - 1;
   }
 
   prev.addEventListener("click", () => goTo(current - 1));
@@ -200,3 +204,16 @@ function initStrip(scroller) {
 export function initCardCarousels(root = document) {
   root.querySelectorAll("[data-carousel]").forEach(initStrip);
 }
+
+/* -------------------------------------------------------------------------
+ * Re-init after every Astro navigation
+ * -------------------------------------------------------------------------
+ * Page scripts run once per document, so the second time a listing is shown
+ * (back/forward, or any client-side navigation) the router swaps in the
+ * server markup — which has no controls — and nothing rebuilds them. The
+ * listener is registered as soon as this module loads and stays for the life
+ * of the document, so whichever page imported it can rebuild the controls of
+ * every carousel that comes into view afterwards. `initStrip` sets
+ * `data-carousel-ready`, so the pages' own load-time call is not repeated. */
+
+document.addEventListener("astro:page-load", () => initCardCarousels());

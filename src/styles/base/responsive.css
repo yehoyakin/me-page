@@ -172,13 +172,23 @@
 
 /* Spacers let the first and last slide centre like the middle ones (a scroller
    cannot scroll past its own ends), so the peek stays the same size on every
-   slide. Width is half the leftover space minus the gap. */
+   slide. Width is half the leftover space minus the gap.
+
+   `align-self: stretch` is not cosmetic. A box with no height contributes
+   nothing to a scroll container's scrollable overflow, so on the gallery strip
+   (`align-items: flex-start`) the *trailing* spacer was dropped from the scroll
+   range entirely: the last slides could never be centred, and past a certain
+   width the carousel refused to move beyond the second card no matter how many
+   cards were added. `min-height` covers the case where a strip's slides are
+   themselves zero-height. */
 .blog-cards-scroll::before,
 .blog-cards-scroll::after,
 .gallery-thumbnails::before,
 .gallery-thumbnails::after {
   content: "";
   flex: 0 0 calc((100% - var(--carousel-slide)) / 2 - 0.5rem);
+  align-self: stretch;
+  min-height: 1px;
 }
 
 .blog-card-item,
@@ -234,14 +244,11 @@
   height: 1.15rem;
 }
 
-.card-carousel-arrow:hover:not(:disabled) {
+/* The arrows wrap, so they are never disabled — hover is the only state that
+   needs styling. */
+.card-carousel-arrow:hover {
   background: rgba(255, 255, 255, 0.14);
   border-color: rgba(255, 255, 255, 0.5);
-}
-
-.card-carousel-arrow:disabled {
-  opacity: 0.3;
-  cursor: default;
 }
 
 .card-carousel-dots {
