@@ -47,7 +47,7 @@
 
 [data-theme="--theme-terminal"] {
   --font-title: "Bebas Neue", sans-serif;
-  --font-ui: "Barlow Condensed", sans-serif;
+  --font-ui: "Space Mono", sans-serif;
   --font-body: "Manrope", sans-serif;
   --font-terminal: "Roboto Mono", monospace;
 }
@@ -57,7 +57,7 @@
   --font-title: "Manrope", sans-serif;
   --font-ui: "Space Mono", monospace;
   --font-body: "DM Sans", sans-serif;
-  --font-terminal: "JetBrains Mono", monospace;
+  --font-terminal: "Roboto Mono", monospace;
 }
 
 /* UNREAL RETRO */
@@ -65,13 +65,13 @@
   --font-title: "Manrope", sans-serif;
   --font-ui: "Space Mono", monospace;
   --font-body: "DM Sans", sans-serif;
-  --font-terminal: "JetBrains Mono", monospace;
+  --font-terminal: "Roboto Mono", monospace;
 }
 
 /* CINEMATIC */
 [data-theme="--theme-sunset"] {
   --font-title: "Bebas Neue", sans-serif;
-  --font-ui: "Barlow Condensed", sans-serif;
+  --font-ui: "Space Mono", monospace;
   --font-body: "Manrope", sans-serif;
   --font-terminal: "Roboto Mono", monospace;
 }
