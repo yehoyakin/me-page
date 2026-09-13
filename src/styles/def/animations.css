@@ -1,14 +1,5 @@
 /* Purpose: Styles - src/styles/def/animations.css (Reusable animation keyframes and helpers) */
 
-#pixel-transition-canvas {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 999999;
-  pointer-events: none;
-}
-
 .link {
   position: relative;
 }

@@ -7,15 +7,10 @@
    KEYFRAME ANIMATIONS
    ═══════════════════════════════════════════════════════════════ */
 
-/* Pixel transition canvas (page transitions) */
-#pixel-transition-canvas {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 999999;
-  pointer-events: none;
-}
+/* NOTE: the page transition is a view transition, so its styles live in
+   base/viewTransitions.css and the pixelation grids in MyLayout.astro. The old
+   full-screen `#pixel-transition-canvas` overlay (and its CSS) is gone with
+   the screenshot-based transitions it existed for. */
 
 /* Link border pulse */
 @keyframes borderPulse {
@@ -79,25 +74,28 @@
    TRANSITION UTILITIES — reusable timing presets
    ═══════════════════════════════════════════════════════════════ */
 
+/* Timing tokens live in base/tokens.css (--ease-settle / --ease-soft /
+   --ease-press and the --duration-* scale). These presets just bundle them. */
+
 /* Smooth hover: gentle ease-out */
 .transition-smooth {
   transition-property: color, background-color, border-color, box-shadow, opacity, transform;
-  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
-  transition-duration: 400ms;
+  transition-timing-function: var(--ease-settle);
+  transition-duration: var(--duration-slow);
 }
 
 /* Slow reveal: for background images and large surfaces */
 .transition-slow {
   transition-property: opacity, transform, filter;
-  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
-  transition-duration: 800ms;
+  transition-timing-function: var(--ease-settle);
+  transition-duration: 700ms;
 }
 
 /* Fast snap: for small UI feedback */
 .transition-fast {
   transition-property: color, background-color, border-color, opacity, transform;
-  transition-timing-function: ease;
-  transition-duration: 150ms;
+  transition-timing-function: var(--ease-press);
+  transition-duration: var(--duration-press);
 }
 
 /* Staggered children — applies delay based on child index */
@@ -192,4 +190,17 @@
 /* CRT glow on hover */
 .group:hover svg {
   filter: drop-shadow(0 0 6px rgba(251, 191, 36, 0.75));
+}
+
+/* ── Reduced motion ──
+   The decorative loops above never stop on their own, and unlike the hover
+   transitions they are pure ornament, so drop the animation and leave the
+   static state. (`components/linkSweep.css` covers the idle shake.) */
+@media (prefers-reduced-motion: reduce) {
+  .link::before,
+  .link .pulse,
+  .scanline,
+  .split-card-background {
+    animation: none;
+  }
 }

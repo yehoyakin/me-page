@@ -21,7 +21,6 @@ import { asset } from "../../utils/asset";
 import {
   resolveThemeToken,
   toThemeName,
-  getThemeConfig,
 } from "../../config/uiDictionary";
 
 
@@ -121,8 +120,6 @@ const themeName = toThemeName(post.data.theme);
 
 const postDynamicToken = resolveThemeToken(themeName);
 
-const themeConfig = getThemeConfig(themeName);
-
 
 /* ---------------------------------------------------------
  * Base URL
@@ -148,7 +145,6 @@ const imagesToPreload = [
 <MyLayout
   title={post.data.title}
   theme={themeName}
-  animation={themeConfig.transition}
   preloadImages={imagesToPreload}
 >
 

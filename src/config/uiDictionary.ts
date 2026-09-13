@@ -7,13 +7,13 @@
  * 3. Use theme: "{name}" in any .md file (blog or project)
  * 4. Done — no TypeScript changes needed.
  *
- * A theme drives three things: colour (tokens.css), fonts (fonts.css) and
- * the page transition (the config below). A theme without a font set in
- * fonts.css falls back to the :root fonts.
+ * A theme drives two things: colour (tokens.css) and fonts (fonts.css). A
+ * theme without a font set in fonts.css falls back to the :root fonts. The
+ * page transition is the same pixel dissolve everywhere — see
+ * styles/base/viewTransitions.css.
  */
 
 export type ThemeConfig = {
-  transition: string;
   text: {
     base: string;
     hover: string;
@@ -27,7 +27,6 @@ export type ThemeConfig = {
  */
 const themeConfigs: Record<string, ThemeConfig> = {
   primary: {
-    transition: "glitch",
     text: {
       base: "text-ui-invert",
       hover: "hover:text-project-tag",
@@ -35,7 +34,6 @@ const themeConfigs: Record<string, ThemeConfig> = {
   },
 
   secondary: {
-    transition: "pixel",
     text: {
       base: "text-ui-invert",
       hover: "hover:text-project-tag",
@@ -43,7 +41,6 @@ const themeConfigs: Record<string, ThemeConfig> = {
   },
 
   terminal: {
-    transition: "wipe",
     text: {
       base: "text-ui-base",
       hover: "hover:text-project-tag",
@@ -53,7 +50,6 @@ const themeConfigs: Record<string, ThemeConfig> = {
 
 /** Default config used when a theme name has no entry in themeConfigs. */
 const defaultThemeConfig: ThemeConfig = {
-  transition: "pixel",
   text: {
     base: "text-ui-invert",
     hover: "hover:text-project-tag",
@@ -61,7 +57,7 @@ const defaultThemeConfig: ThemeConfig = {
 };
 
 /**
- * Get the full config (transition, text classes) for a theme name.
+ * Get the full config (text classes) for a theme name.
  * Falls back to defaults for unknown themes.
  */
 export function getThemeConfig(themeName: string): ThemeConfig {

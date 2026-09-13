@@ -46,4 +46,28 @@
   --contribution-font-size: 1rem;
   --contribution-heading-size: 0.95rem;
   --contribution-badge-font-size: 0.78rem;
+
+  /* ── Motion ──
+     One set of curves and durations for every hover / reveal transition, so
+     things move at the same tempo site-wide.
+
+     Why not the CSS `ease` keyword: it barely leaves the start of the curve and
+     then snaps at the end, which makes short transitions (a 6px card lift, a
+     colour swap) read as jumpy. These curves leave quickly and settle slowly,
+     which is what reads as "smooth".
+
+       --ease-settle  movement that arrives and stops: lifts, zooms, reveals
+       --ease-soft    symmetrical in-out: fades, colour and background changes
+       --ease-press   snappy in, for tap / press feedback
+
+     Stepped easings (`steps(4)`) are intentional in this project — the pixel
+     themes use them for retro colour flips. Leave those alone. */
+  --ease-settle: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-press: cubic-bezier(0.3, 0, 0.2, 1);
+
+  --duration-press: 120ms;
+  --duration-fast: 180ms;
+  --duration-base: 240ms;
+  --duration-slow: 360ms;
 }

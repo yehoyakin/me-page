@@ -26,7 +26,7 @@
 
   isolation: isolate;
 
-  transition: transform 0.25s ease;
+  transition: transform 280ms var(--ease-settle);
 
   touch-action: manipulation;
 }
@@ -92,7 +92,7 @@
     rgba(9, 9, 11, 0.35)
   );
 
-  transition: opacity 0.35s ease;
+  transition: opacity 320ms var(--ease-soft);
 }
 
 .split-card:hover .split-card-overlay {
@@ -115,8 +115,8 @@
   pointer-events: none;
 
   transition:
-    transform 0.5s ease,
-    opacity 0.5s ease;
+    transform 480ms var(--ease-settle),
+    opacity 480ms var(--ease-soft);
 }
 
 .split-card:hover .split-card-extra {
@@ -140,7 +140,7 @@
 
   text-align: center;
 
-  transition: transform 0.3s ease;
+  transition: transform 320ms var(--ease-settle);
 }
 
 .split-card:hover .split-card-content {
@@ -183,7 +183,7 @@
   transition:
     background 0.15s steps(4),
     color 0.15s steps(4),
-    transform 0.15s ease;
+    transform var(--duration-press) var(--ease-press);
 }
 
 .split-card:hover .split-card-action {

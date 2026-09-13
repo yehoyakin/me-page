@@ -152,6 +152,16 @@
   height: 0;
 }
 
+/* Set by scripts/cardCarousel.js while an arrow-driven scroll is running.
+   Scroll snapping has to stand down for the duration: with `mandatory` snapping
+   plus `scroll-snap-stop: always`, the browser drags a programmatic scroll back
+   to the slide it started from, which is what made the arrows stutter. The
+   animation lands exactly on a snap point, so switching it back on afterwards
+   moves nothing. */
+.is-carousel-animating {
+  scroll-snap-type: none;
+}
+
 .blog-cards-scroll,
 .gallery-thumbnails {
   min-width: 0;

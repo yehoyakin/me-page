@@ -27,7 +27,7 @@
   transform: scale(1.45);
   filter: blur(36px) saturate(0.8) contrast(0.9);
   opacity: 0;
-  transition: opacity .6s ease, transform 1s cubic-bezier(.2,.9,.2,1);
+  transition: opacity 600ms var(--ease-soft), transform 900ms var(--ease-settle);
 }
 
 .gallery-bg-overlay {
@@ -87,7 +87,7 @@
   flex-direction: column;
   gap: 0.75rem;
   flex: 0 0 auto;
-  transition: transform 0.3s cubic-bezier(.2,.9,.2,1);
+  transition: transform 320ms var(--ease-settle);
 }
 
 /* ============================================================
@@ -109,7 +109,10 @@
   cursor: pointer;
   flex: 0 0 auto;
   box-sizing: border-box;
-  transition: transform 0.25s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+  transition:
+    transform 260ms var(--ease-settle),
+    box-shadow 340ms var(--ease-soft),
+    border-color 340ms var(--ease-soft);
 }
 
 .gallery-thumb:hover {
@@ -144,7 +147,9 @@
   display: block;
   opacity: 0;
   transform: scale(1);
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition:
+    opacity 480ms var(--ease-soft),
+    transform 480ms var(--ease-settle);
 }
 
 .thumb-carousel-img.active {
@@ -161,7 +166,7 @@
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.4) 100%);
-  transition: opacity 0.35s ease;
+  transition: opacity 320ms var(--ease-soft);
   pointer-events: none;
   z-index: 1;
 }
@@ -188,7 +193,7 @@
   gap: 0.15rem;
   pointer-events: none;
   z-index: 4;
-  transition: background 0.35s ease;
+  transition: background-color 340ms var(--ease-soft);
 }
 
 .gallery-thumb:hover .thumb-info-bar {
@@ -276,7 +281,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition:
+    background-color 200ms var(--ease-soft),
+    color 200ms var(--ease-soft),
+    transform 200ms var(--ease-settle),
+    box-shadow 200ms var(--ease-soft);
   backdrop-filter: blur(4px);
 }
 
@@ -304,7 +313,7 @@
 .gallery-card-panel.panel-hover-preview {
   opacity: 1;
   transform: translateY(8px);
-  transition: opacity 0.35s cubic-bezier(.2,.9,.2,1), transform 0.35s cubic-bezier(.2,.9,.2,1);
+  transition: opacity 360ms var(--ease-soft), transform 360ms var(--ease-settle);
   pointer-events: none;
   mask-image: linear-gradient(to top, rgba(0,0,0,1) 30%, rgba(0,0,0,0.75) 60%, rgba(0,0,0,0) 100%);
   -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 30%, rgba(0,0,0,0.75) 60%, rgba(0,0,0,0) 100%);
@@ -312,7 +321,7 @@
 
 .gallery-card-panel.panel-hover-preview .collapse-btn {
   opacity: 0;
-  transition: opacity 0.25s ease;
+  transition: opacity 220ms var(--ease-soft);
 }
 
 /* Fade-out state: keeps panel visible but transitions opacity to 0 */

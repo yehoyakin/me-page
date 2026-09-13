@@ -19,7 +19,7 @@
 
   cursor: pointer;
 
-  transition: transform 200ms ease;
+  transition: transform 220ms var(--ease-settle);
 
   touch-action: manipulation;
   /* Accent colors delegate to global accents so mixing percentages are centralized */
@@ -85,7 +85,7 @@
   transform: scale(var(--callcard-bg-scale, 1.6));
   filter: blur(var(--callcard-bg-blur, 36px)) saturate(var(--callcard-bg-saturate, 0.75)) contrast(var(--callcard-bg-contrast, 0.95));
   opacity: var(--callcard-bg-opacity, 0.14);
-  transition: opacity .36s ease, transform .6s cubic-bezier(.2,.9,.2,1), filter .6s ease;
+  transition: opacity 360ms var(--ease-soft), transform 600ms var(--ease-settle), filter 600ms var(--ease-soft);
 }
 
 /* Allow switching the blurred background image purely via CSS variable `--card-bg-url`.
@@ -103,7 +103,7 @@
   opacity: 0;
   pointer-events: none;
   z-index: 0;
-  transition: opacity .36s ease, transform .6s cubic-bezier(.2,.9,.2,1), filter .6s ease;
+  transition: opacity 360ms var(--ease-soft), transform 600ms var(--ease-settle), filter 600ms var(--ease-soft);
 }
 
 .retro-expandable-card[data-active="true"] .callcard-bg::before {
@@ -271,7 +271,7 @@
 
   transform-origin: center;
   transform: scale(1.1); /* default: subtly zoomed-in */
-  transition: transform 300ms ease;
+  transition: transform 320ms var(--ease-settle);
 }
 
 /* Hover zoom handled by callCardImage.css */

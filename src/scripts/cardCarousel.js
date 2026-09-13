@@ -22,6 +22,18 @@
  *   </div>
  */
 
+/* Motion settings. `SCROLL_DURATION` is deliberately in the same range as the
+   site's other transitions — native `behavior: "smooth"` picks its own,
+   browser-defined duration, which is what made the arrows feel sluggish. */
+const SCROLL_DURATION_MS = 360;
+const MEASURE_DEBOUNCE_MS = 120;
+
+/** A slide is a fraction of the strip's width, so geometry is stable between
+ *  resizes; remeasuring is only needed when the strip itself changes size. */
+function prefersReducedMotion() {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
 function initStrip(scroller) {
   if (scroller.dataset.carouselReady === "true") return;
 
@@ -34,8 +46,10 @@ function initStrip(scroller) {
       ? Array.from(track.querySelectorAll(`:scope > ${itemSelector}`))
       : Array.from(track.children);
 
+  const items = getItems();
+
   // A single card has nothing to rotate through.
-  if (getItems().length <= 1) return;
+  if (items.length <= 1) return;
 
   scroller.dataset.carouselReady = "true";
 
@@ -79,9 +93,11 @@ function initStrip(scroller) {
   const dotsWrap = document.createElement("div");
   dotsWrap.className = "card-carousel-dots";
 
-  let current = 0;
+  // -1 rather than 0: it makes the first `sync()` write the initial dot state
+  // instead of early-returning as if nothing had changed.
+  let current = -1;
 
-  const dots = getItems().map((_item, index) => {
+  const dots = items.map((_item, index) => {
     const dot = document.createElement("button");
     dot.type = "button";
     dot.className = "card-carousel-dot";
@@ -99,12 +115,21 @@ function initStrip(scroller) {
   /* ---------------------------------------------------------
    * Geometry — measured from rects so it does not depend on
    * which ancestor happens to be each item's offsetParent.
+   *
+   * Measured on demand instead of per scroll frame: offsets are relative to
+   * the scrolling content, so they do not change as the strip scrolls. The
+   * old per-frame version read a rect per card on every frame, which forced a
+   * layout each time the user dragged the strip.
    * --------------------------------------------------------- */
 
-  const positions = () => {
-    const scrollRect = scroller.getBoundingClientRect();
+  let metrics = [];
+  let viewportWidth = 0;
 
-    return getItems().map((item) => {
+  function measure() {
+    const scrollRect = scroller.getBoundingClientRect();
+    viewportWidth = scroller.clientWidth;
+
+    metrics = items.map((item) => {
       const rect = item.getBoundingClientRect();
       const left = rect.left - scrollRect.left + scroller.scrollLeft;
 
@@ -114,36 +139,87 @@ function initStrip(scroller) {
         center: left + rect.width / 2,
       };
     });
-  };
+  }
 
   const offsetFor = (index) => {
-    const position = positions()[index];
+    const position = metrics[index];
     if (!position) return 0;
 
-    return position.left - (scroller.clientWidth - position.width) / 2;
+    return position.left - (viewportWidth - position.width) / 2;
   };
 
+  /* ---------------------------------------------------------
+   * Movement — rAF with a cubic ease-out
+   * --------------------------------------------------------- */
+
+  let scrollFrame = 0;
+
+  function stopScrollAnimation() {
+    if (scrollFrame) cancelAnimationFrame(scrollFrame);
+    scrollFrame = 0;
+    scroller.classList.remove("is-carousel-animating");
+  }
+
+  function animateScrollTo(target, duration = SCROLL_DURATION_MS) {
+    // Also drops `is-carousel-animating`, so an interrupted run can never
+    // leave scroll snapping switched off.
+    stopScrollAnimation();
+
+    const start = scroller.scrollLeft;
+    const distance = target - start;
+
+    if (!distance || prefersReducedMotion()) {
+      scroller.scrollLeft = target;
+      return;
+    }
+
+    /* `scroll-snap-stop: always` + a mandatory snap axis makes the browser
+       pull a programmatic scroll back to the slide it started on, so snapping
+       is suspended for the duration of the animation. The animation lands
+       exactly on a snap point, which makes turning it back on a no-op. */
+    scroller.classList.add("is-carousel-animating");
+
+    const startedAt = performance.now();
+
+    const step = (now) => {
+      const progress = Math.min(1, (now - startedAt) / duration);
+      // easeOutCubic — fast start, long settle. Same feel as the site's
+      // hover/reveal easing, and it covers the distance in 360ms instead of
+      // however long the browser's built-in smooth scroll decides to take.
+      const eased = 1 - Math.pow(1 - progress, 3);
+
+      scroller.scrollLeft = start + distance * eased;
+
+      if (progress < 1) {
+        scrollFrame = requestAnimationFrame(step);
+      } else {
+        stopScrollAnimation();
+      }
+    };
+
+    scrollFrame = requestAnimationFrame(step);
+  }
+
   function goTo(index) {
-    const count = getItems().length;
+    const count = items.length;
     if (!count) return;
 
     // Wrap around, in both directions: -1 -> last, count -> 0.
     const target = ((index % count) + count) % count;
 
-    scroller.scrollTo({ left: offsetFor(target), behavior: "smooth" });
+    animateScrollTo(offsetFor(target));
   }
 
   function sync() {
-    const items = positions();
-    if (!items.length) return;
+    if (!metrics.length) return;
 
-    const viewCenter = scroller.scrollLeft + scroller.clientWidth / 2;
+    const viewCenter = scroller.scrollLeft + viewportWidth / 2;
 
     let best = 0;
     let bestDistance = Infinity;
 
-    for (let i = 0; i < items.length; i++) {
-      const distance = Math.abs(items[i].center - viewCenter);
+    for (let i = 0; i < metrics.length; i++) {
+      const distance = Math.abs(metrics[i].center - viewCenter);
 
       if (distance < bestDistance) {
         bestDistance = distance;
@@ -151,6 +227,7 @@ function initStrip(scroller) {
       }
     }
 
+    if (best === current) return;
     current = best;
 
     dots.forEach((dot, index) => {
@@ -180,22 +257,51 @@ function initStrip(scroller) {
     { passive: true },
   );
 
-  /* ---------------------------------------------------------
-   * Re-align after the slide width changes (rotation, resize)
-   * --------------------------------------------------------- */
-
-  let resizeTimer = 0;
-
-  window.addEventListener("resize", () => {
-    window.clearTimeout(resizeTimer);
-
-    resizeTimer = window.setTimeout(() => {
-      // Keep the active slide centred after the slide width changes.
-      scroller.scrollTo({ left: offsetFor(current) });
-      sync();
-    }, 150);
+  // A drag or a wheel gesture means the user is driving: drop any in-flight
+  // arrow animation instead of letting the two fight over scrollLeft.
+  ["pointerdown", "touchstart", "wheel"].forEach((type) => {
+    scroller.addEventListener(type, stopScrollAnimation, { passive: true });
   });
 
+  /* ---------------------------------------------------------
+   * Re-measure when the strip changes size (rotation, resize,
+   * layout shifts) and re-centre the active slide
+   * --------------------------------------------------------- */
+
+  let measureTimer = 0;
+
+  function refresh({ realign = true } = {}) {
+    stopScrollAnimation();
+    measure();
+    if (realign) scroller.scrollLeft = offsetFor(current < 0 ? 0 : current);
+    sync();
+  }
+
+  function scheduleRefresh() {
+    window.clearTimeout(measureTimer);
+
+    measureTimer = window.setTimeout(() => {
+      refresh({ realign: false });
+    }, MEASURE_DEBOUNCE_MS);
+  }
+
+  window.addEventListener("resize", () => {
+    window.clearTimeout(measureTimer);
+
+    measureTimer = window.setTimeout(() => {
+      // Keep the active slide centred after the slide width changes.
+      refresh();
+    }, MEASURE_DEBOUNCE_MS);
+  });
+
+  if ("ResizeObserver" in window) {
+    new ResizeObserver(scheduleRefresh).observe(track);
+  }
+
+  // No forced scroll here: on a back/forward navigation the browser restores
+  // the strip's previous position, and `sync()` reads that position to set the
+  // active dot.
+  measure();
   sync();
 
   return { sync, goTo };

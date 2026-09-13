@@ -1,23 +1,22 @@
 /* Purpose: Styles - src/styles/components/linkSweep.css
    Generic idle shake for all interactive clickable elements.
-   Starts immediately on load, then: 5s rest → 1s quick wobble → repeat.
-   Hover/focus: shake stops, classic lift effect applies.
+
+   Timing: the wobble sits at the very start of the 6s cycle, and the
+   animation is delayed 2s — so the first quirk lands 2 seconds after page
+   load, then repeats every 6 seconds. Hover/focus stops the shake and the
+   classic lift effect applies instead.
 */
 
 /* ── All clickable elements get the idle shake ── */
 .retro-link,
 .blog-card,
-.gallery-thumb {
-  animation: idleShake 6s ease-in-out infinite;
-  /* Negative delay starts the cycle 5s in — right at the wobble */
-  animation-delay: -5s;
-}
-
-/* ── Split card action button gets the idle shake ── */
+.gallery-thumb,
 .split-card-action {
   animation: idleShake 6s ease-in-out infinite;
-  animation-delay: -5s;
+  /* First wobble 2s after load, then once per 6s cycle. */
+  animation-delay: 2s;
   transform-origin: center center;
+  will-change: transform;
 }
 
 /* ── Hover / focus stops the shake and applies the lift ── */
@@ -41,19 +40,38 @@
   transform: translateY(-0.125rem);
 }
 
-/* ── The shake keyframe — 0-83% idle, 83-100% quick wobble ── */
+/* ── The shake keyframe — quick wobble in the first ~17% (≈1s), rest after ── */
 @keyframes idleShake {
-  /* Rest: 0% to 83% (5 seconds of the 6s cycle) */
-  0%, 83% { transform: rotate(0deg); }
-  /* Quick wobble: 83% to 100% (last 1 second) */
-  85% { transform: rotate(1deg); }
-  87% { transform: rotate(-1deg); }
-  89% { transform: rotate(0.7deg); }
-  91% { transform: rotate(-0.7deg); }
-  93% { transform: rotate(0.4deg); }
-  95% { transform: rotate(-0.4deg); }
-  97% { transform: rotate(0.2deg); }
-  99% { transform: rotate(0deg); }
+  /* Quick wobble: 0% to 17% (first ~1 second of the 6s cycle) */
+  0% {
+    transform: rotate(0deg);
+  }
+  2% {
+    transform: rotate(1deg);
+  }
+  4% {
+    transform: rotate(-1deg);
+  }
+  6% {
+    transform: rotate(0.7deg);
+  }
+  8% {
+    transform: rotate(-0.7deg);
+  }
+  10% {
+    transform: rotate(0.4deg);
+  }
+  12% {
+    transform: rotate(-0.4deg);
+  }
+  14% {
+    transform: rotate(0.2deg);
+  }
+  /* Rest: 17% to 100% (the remaining 5 seconds) */
+  17%,
+  100% {
+    transform: rotate(0deg);
+  }
 }
 
 /* ── Respect reduced motion ── */
