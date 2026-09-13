@@ -1,23 +1,81 @@
+/* ================================================================
+   FONT TOKENS — one declaration block per theme, keyed off
+   <html data-theme="...">.  The [data-theme] attribute is set by
+   MyLayout.astro from the page's `animation` prop (which is the
+   theme name).  Each theme gets its own --font-body / --font-title
+   / --font-ui / --font-terminal so the correct typeface is always
+   used for bodies and titles.
+   ================================================================ */
+
+/* DEFAULT (fallback when no data-theme matches) 
 :root {
-  --font-title: "IBM Plex Sans", sans-serif;
-
+  --font-title: "Syne", sans-serif;
   --font-ui: "IBM Plex Mono", monospace;
+  --font-body: "Plus Jakarta Sans", sans-serif;
+  --font-terminal: "Fira Code", monospace;
+}
+*/
 
+/* EASY READ 
+html[data-theme="easy-read"],
+html[data-theme="glitch"] {
+  --font-title: "IBM Plex Sans", sans-serif;
+  --font-ui: "IBM Plex Mono", monospace;
   --font-body: "Inter", sans-serif;
-
   --font-terminal: "JetBrains Mono", monospace;
 }
+*/
 
-/* PIXEL ART
-:root {
-
+/* PIXEL ART 
+html[data-theme="pixel"],
+html[data-theme="wipe"] {
   --font-title: "Jersey 15", monospace;
   --font-ui: "Silkscreen", monospace;
   --font-body: "Pixelify Sans", monospace;
   --font-terminal: "JetBrains Mono", monospace;
-
 }
 */
+
+/* RETRO-FUTURISTIC 
+html[data-theme="retro-futuristic"],
+html[data-theme="grid"] {
+  --font-title: "Space Grotesk", sans-serif;
+  --font-ui: "Space Mono", monospace;
+  --font-body: "DM Sans", sans-serif;
+  --font-terminal: "JetBrains Mono", monospace;
+}
+*/
+
+/* UNREAL RETRO */
+:root {
+  --font-title: "Oxanium", sans-serif;
+  --font-ui: "Roboto Mono", monospace;
+  --font-body: "Roboto", sans-serif;
+  --font-terminal: "JetBrains Mono", monospace;
+}
+
+/* CINEMATIC 
+html[data-theme="cinematic"] {
+  --font-title: "Bebas Neue", sans-serif;
+  --font-ui: "Barlow Condensed", sans-serif;
+  --font-body: "Manrope", sans-serif;
+  --font-terminal: "Roboto Mono", monospace;
+}
+*/
+
+/* CREATIVE TECH 
+html[data-theme="creative-tech"] {
+  --font-title: "Syne", sans-serif;
+  --font-ui: "IBM Plex Mono", monospace;
+  --font-body: "Plus Jakarta Sans", sans-serif;
+  --font-terminal: "Fira Code", monospace;
+}
+*/
+
+/* ================================================================
+   UTILITY CLASSES — apply a specific font family regardless of theme.
+   Use !important so they win over any theme's --font-* resolution.
+   ================================================================ */
 
 .font-ui {
   font-family: var(--font-ui) !important;
@@ -35,7 +93,13 @@
   font-family: var(--font-terminal) !important;
 }
 
-/* Purpose: Styles - src/styles/base/fonts.css (Font-face declarations and font utilities) */
+/* ================================================================
+   BASE APPLICATION — set the document's font family from the
+   resolved --font-body / --font-title tokens.  These rules live
+   HERE (not in global.css) so they are guaranteed to be declared
+   AFTER the theme blocks above and therefore see the correct
+   per-theme token values.
+   ================================================================ */
 
 html {
   font-family: var(--font-body) !important;
@@ -50,8 +114,25 @@ span,
 a,
 button,
 input,
-textarea {
+textarea,
+li,
+blockquote,
+figure,
+figcaption {
   font-family: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.header,
+.title,
+.post-title,
+.blog-title {
+  font-family: var(--font-title);
 }
 
 body {

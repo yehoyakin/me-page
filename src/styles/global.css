@@ -7,13 +7,19 @@
 @import url("https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Press+Start+2P&family=Pixelify+Sans:wght@400;500;600;700&family=VT323&family=Tiny5&family=DotGothic16&family=Jersey+10&family=Jersey+15&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400;500;600;700&family=Share+Tech+Mono&family=Major+Mono+Display&family=Nova+Mono&display=swap");
 
+/*
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+*/
+@import "tailwindcss";
+
 @import "base/layout.css";
 @import "base/tokens.css";
 @import "base/themes.css";
 @import "base/theme-colors.css";
 @import "components/components.css";
 @import "base/typography.css";
-@import "base/fonts.css";
 @import "base/rules.css";
 @import "base/transitions.css";
 @import "components/animations.css";
@@ -30,13 +36,10 @@
 @import "components/linkSweep.css";
 @import "components/blogCards.css";
 @import "components/welcome.css";
-
-/*
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-*/
-@import "tailwindcss";
+@import "components/thatsAll.css";
+@import "components/retroScrollbar.css";
+@import "components/blogProse.css";
+@import "base/fonts.css";
 
 /* =========================================================
    FLUID TYPOGRAPHY MATRIX (from MyLayout.astro)
@@ -58,27 +61,27 @@ html, body {
 }
 
 h1, .text-6xl, .text-5xl {
-  font-size: var(--font-size-4xl) !important;
-  line-height: 1.1 !important;
+  font-size: var(--font-size-4xl);
+  line-height: 1.1;
 }
 
 h2, .text-4xl, .text-3xl {
-  font-size: var(--font-size-3xl) !important;
-  line-height: 1.2 !important;
+  font-size: var(--font-size-3xl);
+  line-height: 1.2;
 }
 
 h3, .text-2xl {
-  font-size: var(--font-size-2xl) !important;
-  line-height: 1.3 !important;
+  font-size: var(--font-size-2xl);
+  line-height: 1.3;
 }
 
 p, .text-base {
-  font-size: var(--font-size-base) !important;
-  line-height: 1.6 !important;
+  font-size: var(--font-size-base);
+  line-height: 1.6;
 }
 
 span, time, .text-sm {
-  font-size: var(--font-size-sm) !important;
+  font-size: var(--font-size-sm);
 }
 
 @font-face {

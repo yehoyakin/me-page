@@ -31,6 +31,11 @@
   --retro-secondary: var(--theme-secondary);
   --retro-terminal: var(--theme-terminal);
 
+  /* Retro component font — used by cards, link buttons, contributions.
+     Falls back to the page's --font-ui token so it never resolves to
+     an invalid value (which would drop the whole font-family decl). */
+  --retro-font: var(--font-ui);
+
   /* UI neutrals */
   --ui-base: rgb(228 228 231);
   --ui-muted: rgb(161 161 170);

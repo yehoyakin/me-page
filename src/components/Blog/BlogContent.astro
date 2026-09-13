@@ -85,7 +85,7 @@ const renderScene = (sceneIndex: number, alignOverride?: string, captionOverride
   const sizeClass = getSceneSizeClass(sizeOverride || "default");
 
   let figureClass =
-    `scene-reveal my-8 overflow-hidden rounded-none border border-zinc-800 bg-black w-full ${sizeClass} mx-auto`;
+    `scene-reveal my-6 overflow-hidden rounded-none border border-zinc-800 bg-black w-full ${sizeClass} mx-auto`;
 
   let imgClass = "block w-full h-auto";
 
@@ -104,15 +104,14 @@ const renderScene = (sceneIndex: number, alignOverride?: string, captionOverride
       break;
 
     default:
-      figureClass += " mb-6";
+      figureClass += " mb-5";
       break;
   }
 
   const caption = captionText
     ? `
       <figcaption
-        class="mt-2 px-1 text-md tracking-wide text-zinc-400 text-center"
-        style="font-family: var(--font-body); font-style: italic; font-weight: 300; letter-spacing: 0.02em;"
+        class="blog-figcaption"
       >
         ${captionText}
       </figcaption>
@@ -209,8 +208,7 @@ const sceneHtml =
         const groupCaptionMarkup = groupCaptionText
           ? `
             <figcaption
-              class="mt-2 px-1 text-md tracking-wide text-zinc-400 text-center"
-              style="font-family: var(--font-body); font-style: italic; font-weight: 300; letter-spacing: 0.02em;"
+              class="blog-figcaption"
             >
               ${groupCaptionText}
             </figcaption>
@@ -226,41 +224,14 @@ const sceneHtml =
 <div
   class="prose prose-invert max-w-none rounded-none
          border border-zinc-800/50 bg-black/60
-         p-6 sm:p-10 md:p-12 backdrop-blur-2xl
+         p-4 sm:p-6 md:p-8 backdrop-blur-2xl
          shadow-[inset_0_0_80px_rgba(0,0,0,0.4)]"
   id="blog-content"
 >
   <div set:html={sceneHtml} />
 </div>
 
-<style is:global>
-  /* Scroll-reveal: figures start hidden, fade in on scroll */
-  .scene-reveal {
-    opacity: 0;
-    transform: translateY(2rem);
-    transition: opacity 0.7s cubic-bezier(0.2, 0.8, 0.2, 1),
-                transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
-  }
 
-  .scene-reveal.revealed {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* Stagger children in grouped scene grids */
-  .scene-reveal.revealed > *:nth-child(1) { transition-delay: 0ms; }
-  .scene-reveal.revealed > *:nth-child(2) { transition-delay: 100ms; }
-  .scene-reveal.revealed > *:nth-child(3) { transition-delay: 200ms; }
-  .scene-reveal.revealed > *:nth-child(4) { transition-delay: 300ms; }
-
-  @media (prefers-reduced-motion: reduce) {
-    .scene-reveal {
-      opacity: 1;
-      transform: none;
-      transition: none;
-    }
-  }
-</style>
 
 <script is:inline>
   (function () {

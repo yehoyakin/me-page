@@ -1,0 +1,123 @@
+/* Purpose: Styles - src/styles/components/blogProse.css (Blog post prose: compact spacing, heading indents, scene reveal) */
+
+/* Duplicate definitions from other component CSS files are intentional —
+   each file is self-contained and imported independently. */
+
+/* Figure captions — italic, muted, tracked, body font. */
+.blog-figcaption {
+  margin-top: 0.5rem;
+  padding-left: 0.25rem;
+  font-size: 0.875rem;
+  letter-spacing: 0.02em;
+  color: var(--ui-muted, rgb(161 161 170));
+  text-align: center;
+  font-family: var(--font-body);
+  font-style: italic;
+  font-weight: 300;
+}
+
+/* Soft blurred background image layer — used on blog listing, home, portfolio. */
+.blurred-bg-layer {
+  filter: blur(0.625rem);
+  transform: scale(1.05);
+  opacity: 1;
+}
+
+/* Figure captions — italic, muted, tracked, body font. */
+.blog-figcaption {
+  margin-top: 0.5rem;
+  padding-left: 0.25rem;
+  font-size: 0.875rem;
+  letter-spacing: 0.02em;
+  color: var(--ui-muted, rgb(161 161 170));
+  text-align: center;
+  font-family: var(--font-body);
+  font-style: italic;
+  font-weight: 300;
+}
+
+/* --- Compact prose overrides (Gmail-style tight reading) --- */
+#blog-content :where(li, blockquote) {
+  line-height: 1.4;
+}
+
+#blog-content p {
+  margin-top: 0;
+  margin-bottom: 0.6rem;
+  line-height: 2;
+}
+
+#blog-content li {
+  margin-bottom: 0.15rem;
+}
+
+/* Progressive indent: h1 flush, each deeper level nudged in. */
+#blog-content h1 {
+  margin-left: 0;
+}
+
+#blog-content h2 {
+  margin-left: 1rem;
+}
+
+#blog-content h3 {
+  margin-left: 2rem;
+}
+
+#blog-content h4 {
+  margin-left: 3rem;
+}
+
+#blog-content h5 {
+  margin-left: 4rem;
+}
+
+#blog-content h6 {
+  margin-left: 5rem;
+}
+
+#blog-content :where(h1, h2, h3, h4, h5, h6) {
+  line-height: 1.2;
+  margin-top: 0.9rem;
+  margin-bottom: 0.3rem;
+}
+
+#blog-content blockquote {
+  margin-top: 0.6rem;
+  margin-bottom: 0.6rem;
+  padding: 0.3rem 0.8rem;
+  border-left: 3px solid var(--project-tag-color, white);
+}
+
+#blog-content :where(ul, ol) {
+  margin-top: 0.3rem;
+  margin-bottom: 0.6rem;
+  padding-left: 1.4rem;
+}
+
+/* Scroll-reveal: figures start hidden, fade in on scroll */
+.scene-reveal {
+  opacity: 0;
+  transform: translateY(2rem);
+  transition: opacity 0.7s cubic-bezier(0.2, 0.8, 0.2, 1),
+              transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.scene-reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger children in grouped scene grids */
+.scene-reveal.revealed > *:nth-child(1) { transition-delay: 0ms; }
+.scene-reveal.revealed > *:nth-child(2) { transition-delay: 100ms; }
+.scene-reveal.revealed > *:nth-child(3) { transition-delay: 200ms; }
+.scene-reveal.revealed > *:nth-child(4) { transition-delay: 300ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .scene-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

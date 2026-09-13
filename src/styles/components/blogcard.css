@@ -7,20 +7,39 @@
     color: inherit;
     position: relative;
     overflow: hidden;
-    transition: transform 0.25s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+    /* Transition only the cheap properties: transform (composite) and
+       border-color (paint, but cheap on a 1px border). */
+    transition: transform 0.18s ease, border-color 0.18s ease;
   }
 
   .blog-card:hover {
     transform: translateY(-6px);
     border-color: var(--project-tag-color, rgba(255, 255, 255, 0.2));
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 20px color-mix(in srgb, var(--project-tag-color, white) 15%, transparent);
+  }
+
+  /* Single shadow pseudo-element: fades in on hover via opacity only.
+     Opacity is composite-level — no repaint, no layout, no color
+     re-evaluation during the transition.  The shadow value itself is a
+     plain rgba (no color-mix) so it is resolved once at rest. */
+  .blog-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.18s ease;
+    z-index: 2;
+  }
+
+  .blog-card:hover::after {
+    opacity: 1;
   }
 
   .blog-card-bar {
     background: rgba(0, 0, 0, 0.7);
     padding: 0.75rem 1.25rem;
-    backdrop-filter: blur(4px);
-    transition: background 0.35s ease;
+    transition: background 0.18s ease;
   }
 
   .blog-card:hover .blog-card-bar {
@@ -53,7 +72,10 @@
     object-fit: cover;
     transform: scale(1);
     opacity: 0.8;
-    transition: transform 0.5s ease, opacity 0.5s ease;
+    /* transform + opacity are both composite-level properties, so this
+       transition is cheap. Keep the duration short so the zoom feels
+       snappy rather than sluggish. */
+    transition: transform 0.2s ease, opacity 0.2s ease;
   }
 
   .blog-card:hover .blog-card-bg {
@@ -66,7 +88,7 @@
     position: absolute;
     inset: 0;
     background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.4) 100%);
-    transition: opacity 0.35s ease;
+    transition: opacity 0.2s ease;
     pointer-events: none;
     z-index: 1;
   }
@@ -82,15 +104,15 @@
     line-height: 1.2;
     word-break: break-word;
     overflow-wrap: break-word;
-    transition: color 0.35s ease;
+    transition: color 0.2s ease;
   }
 
   .blog-card-date {
-    transition: color 0.35s ease;
+    transition: color 0.2s ease;
   }
 
   .blog-card-desc {
-    transition: color 0.35s ease;
+    transition: color 0.2s ease;
   }
 
   @media (max-width: 768px) {
@@ -119,6 +141,7 @@
 
   @media (prefers-reduced-motion: reduce) {
     .blog-card,
+    .blog-card::after,
     .blog-card-bg,
     .blog-card-bar,
     .blog-card-overlay,
