@@ -1,154 +1,159 @@
-  .blog-card {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    text-decoration: none;
-    color: inherit;
-    position: relative;
-    overflow: hidden;
-    /* Transition only the cheap properties: transform (composite) and
-       border-color (paint, but cheap on a 1px border). */
-    transition: transform 0.18s ease, border-color 0.18s ease;
+/* Purpose: Styles - src/styles/components/blogcard.css (Blog card styles)
+
+   HOVER PERFORMANCE
+   -----------------
+   Hovering a card must not repaint the bitmap inside it. Card backgrounds are
+   very large (up to 8192x8192) for a card that is at most ~400px wide, so any
+   hover effect that re-rasterises the image makes the whole listing stutter
+   while the portfolio cards — which use much smaller images — stay smooth.
+
+   Rules kept here so that stays true:
+   - only transform / opacity move on hover (compositor work, no layout);
+   - .blog-card-bg sits on its own composited layer, so the 1.05 zoom is a GPU
+     scale of an existing raster instead of a fresh decode + raster of the
+     source image;
+   - everything else that animates is a colour over a small area (1px border,
+     bar background, glyphs).
+   Timings here are the single source of truth for the card — do not redeclare
+   them in base/transitions.css with a higher-specificity selector.
+*/
+
+.blog-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  overflow: hidden;
+  /* box-shadow lives on the card itself, never on an inset pseudo-element: an
+     inset child is clipped by `overflow: hidden` and, because the card has a
+     transparent background, its blur painted *over* the title and description. */
+  transition:
+    transform 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.blog-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--project-tag-color, rgba(255, 255, 255, 0.2));
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+}
+
+.blog-card-bar {
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 0.75rem 1.25rem;
+  transition: background-color 0.18s ease;
+}
+
+.blog-card:hover .blog-card-bar {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.blog-card-info-bar {
+  padding: 1rem 1.25rem 1.25rem;
+}
+
+/* Fixed-size image area: every card renders the same height. The image is
+   absolutely positioned and contained (never cropped by the layout), so its
+   intrinsic size can never grow the card — oversized images just letterbox. */
+.blog-card-image-wrap {
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: clamp(4rem, 24vw, 18rem);
+  overflow: hidden;
+  position: relative;
+  background: rgb(0, 0, 0);
+}
+
+.blog-card-bg {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.8;
+  /* Own layer: the hover zoom + fade are composited, so the bitmap is rastered
+     once and never re-decoded while the pointer travels over the card. */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.blog-card:hover .blog-card-bg {
+  transform: translateZ(0) scale(1.05);
+  opacity: 1;
+}
+
+/* Dark overlay like split card */
+.blog-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%);
+  opacity: 1;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.blog-card:hover .blog-card-overlay {
+  opacity: 0.4;
+}
+
+.blog-card-title {
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  line-height: 1.2;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  transition: color 0.2s ease;
+}
+
+.blog-card-date {
+  transition: color 0.2s ease;
+}
+
+.blog-card-desc {
+  transition: color 0.2s ease;
+}
+
+@media (max-width: 768px) {
+  .blog-card-image-wrap {
+    min-height: 10rem;
   }
 
-  .blog-card:hover {
-    transform: translateY(-6px);
-    border-color: var(--project-tag-color, rgba(255, 255, 255, 0.2));
+  .blog-card-title {
+    font-size: clamp(1.1rem, 4vw, 1.5rem);
   }
+}
 
-  /* Single shadow pseudo-element: fades in on hover via opacity only.
-     Opacity is composite-level — no repaint, no layout, no color
-     re-evaluation during the transition.  The shadow value itself is a
-     plain rgba (no color-mix) so it is resolved once at rest. */
-  .blog-card::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.18s ease;
-    z-index: 2;
-  }
-
-  .blog-card:hover::after {
-    opacity: 1;
+@media (max-width: 480px) {
+  .blog-card-image-wrap {
+    min-height: 8.5rem;
   }
 
   .blog-card-bar {
-    background: rgba(0, 0, 0, 0.7);
-    padding: 0.75rem 1.25rem;
-    transition: background 0.18s ease;
-  }
-
-  .blog-card:hover .blog-card-bar {
-    background: rgba(0, 0, 0, 0.5);
+    padding: 0.6rem 0.85rem;
   }
 
   .blog-card-info-bar {
-    padding: 1rem 1.25rem 1.25rem;
+    padding: 0.75rem 0.85rem 1rem;
   }
+}
 
-  /* Fixed-size image area: every card renders the same height. The image
-     is absolutely positioned and contained (never cropped), so its
-     intrinsic size can never grow the card — oversized images just
-     letterbox. Desktop area height was halved per design request. */
-  .blog-card-image-wrap {
-    flex: 1 1 auto;
-    width: 100%;
-    min-height: clamp(4rem, 24vw, 18rem);
-    overflow: hidden;
-    position: relative;
-    background: rgb(0, 0, 0);
-  }
-
-  .blog-card-bg {
-    position: absolute;
-    inset: 0;
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transform: scale(1);
-    opacity: 0.8;
-    /* transform + opacity are both composite-level properties, so this
-       transition is cheap. Keep the duration short so the zoom feels
-       snappy rather than sluggish. */
-    transition: transform 0.2s ease, opacity 0.2s ease;
-  }
-
-  .blog-card:hover .blog-card-bg {
-    transform: scale(1.05);
-    opacity: 1;
-  }
-
-  /* Dark overlay like split card */
-  .blog-card-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.4) 100%);
-    transition: opacity 0.2s ease;
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  .blog-card:hover .blog-card-overlay {
-    opacity: 0.4;
-  }
-
-
-
-  .blog-card-title {
-    font-size: clamp(1.25rem, 3vw, 1.75rem);
-    line-height: 1.2;
-    word-break: break-word;
-    overflow-wrap: break-word;
-    transition: color 0.2s ease;
-  }
-
-  .blog-card-date {
-    transition: color 0.2s ease;
-  }
-
+@media (prefers-reduced-motion: reduce) {
+  .blog-card,
+  .blog-card-bg,
+  .blog-card-bar,
+  .blog-card-overlay,
+  .blog-card-title,
+  .blog-card-date,
   .blog-card-desc {
-    transition: color 0.2s ease;
+    transition: none !important;
+    animation: none !important;
   }
-
-  @media (max-width: 768px) {
-    .blog-card-image-wrap {
-      min-height: 10rem;
-    }
-
-    .blog-card-title {
-      font-size: clamp(1.1rem, 4vw, 1.5rem);
-    }
-  }
-
-  @media (max-width: 480px) {
-    .blog-card-image-wrap {
-      min-height: 8.5rem;
-    }
-
-    .blog-card-bar {
-      padding: 0.6rem 0.85rem;
-    }
-
-    .blog-card-info-bar {
-      padding: 0.75rem 0.85rem 1rem;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .blog-card,
-    .blog-card::after,
-    .blog-card-bg,
-    .blog-card-bar,
-    .blog-card-overlay,
-    .blog-card-title,
-    .blog-card-date,
-    .blog-card-desc {
-      transition: none !important;
-      animation: none !important;
-    }
-  }
+}

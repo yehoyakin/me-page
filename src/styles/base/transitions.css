@@ -107,41 +107,9 @@
 .transition-stagger > *:nth-child(4) { transition-delay: 180ms; }
 .transition-stagger > *:nth-child(5) { transition-delay: 240ms; }
 
-/* ═══════════════════════════════════════════════════════════════
-   BLOG CARD TRANSITIONS — matches split-card style
-   Timing: 0.25s lift, 0.35s overlay, 0.5s background
-   ═══════════════════════════════════════════════════════════════ */
-
-.blog-card {
-  transition: none;
-}
-
-/* Background image: subtle scale like split-card extra slot */
-.blog-card .blog-card-bg {
-  transition: transform 0.5s ease, opacity 0.5s ease;
-}
-
-.blog-card:hover .blog-card-bg {
-  transform: scale(1.05);
-}
-
-/* Overlay: opacity fade like split-card overlay */
-.blog-card .blog-card-overlay {
-  transition: opacity 0.35s ease;
-}
-
-/* Text color transitions */
-.blog-card .blog-card-date {
-  transition: color 0.35s ease;
-}
-
-.blog-card .blog-card-title {
-  transition: color 0.35s ease;
-}
-
-.blog-card .blog-card-desc {
-  transition: color 0.35s ease;
-}
+/* NOTE: blog-card hover transitions live in components/blogcard.css. They used
+   to be declared here as `.blog-card .blog-card-bg` / `.blog-card .blog-card-*`
+   rules, whose higher specificity silently overrode the card's own timings. */
 
 /* ═══════════════════════════════════════════════════════════════
    LINK TRANSITIONS
