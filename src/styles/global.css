@@ -42,6 +42,7 @@
 @import "components/thatsAll.css";
 @import "components/retroScrollbar.css";
 @import "components/blogProse.css";
+@import "base/font-faces.css";
 @import "base/fonts.css";
 
 /* =========================================================
@@ -87,26 +88,7 @@ span, time, .text-sm {
   font-size: var(--font-size-sm);
 }
 
-@font-face {
-  font-family: "PixelFlag";
-  src: url("../fonts/(PixelFlag).ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "PixelBit-Free";
-  src: url("../fonts/PixelBit-Free.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Pixeled";
-  src: url("../fonts/Pixeled.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
+/* Local @font-face declarations now live in base/font-faces.css, imported
+   above. The three that used to sit here referenced files that no longer
+   exist in src/fonts/ ((PixelFlag).ttf, PixelBit-Free.ttf, Pixeled.ttf), so
+   the browser dropped the declaration entirely at parse time. */

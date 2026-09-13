@@ -13,10 +13,10 @@
 
 /* DEFAULT (fallback when no theme is assigned) */
 :root {
-  --font-title: "Space Grotesk", sans-serif;
-  --font-ui: "Manrope", monospace;
+  --font-title: "Manrope", sans-serif;
+  --font-ui: "Barlow Condensed", sans-serif;
   --font-body: "Manrope", sans-serif;
-  --font-terminal: "Manrope", monospace;
+  --font-terminal: "JetBrains Mono", monospace;
 }
 
 /* Retro components (cards, link buttons, contributions) ask for --retro-font.
@@ -30,23 +30,30 @@
 
 /* EASY READ */
 [data-theme="--theme-forest"] {
-  --font-title: "IBM Plex Sans", sans-serif;
+  --font-title: " ", sans-serif;
   --font-ui: "IBM Plex Mono", monospace;
   --font-body: "Inter", sans-serif;
   --font-terminal: "JetBrains Mono", monospace;
 }
-
-/* PIXEL ART (Pixeled), (PixelBit-Free), (PixelFlag) */
+/* GBA / PIXEL RPG — local pixel fonts.
+   The @font-face declarations live in base/font-faces.css (imported just
+   before this file). Families available there:
+     "Pixel Operator"     — regular 400 + bold 700
+     "Pixel Operator Mono"— regular 400 + bold 700
+     "Pixel Operator HB"  — 400
+     "Pixel Operator HB SC" — 400 (small caps)
+     "Pixeloid Sans"      — regular 400 + bold 700
+   Swap any --font-* value below for another family name to restyle. */
 [data-theme="--theme-terminal"] {
-  --font-title: "Pixel Operator", monospace;
-  --font-ui: "04b03", monospace;
-  --font-body: "Pixeloid";
-  --font-terminal: "JetBrains Mono", monospace;
+  --font-title: "Pixel Operator HB", sans-serif;
+  --font-ui: "Pixel Operator", sans-serif;
+  --font-body: "Pixeloid Sans", sans-serif;
+  --font-terminal: "Pixel Operator HB", sans-serif;
 }
 
 /* RETRO-FUTURISTIC */
 [data-theme="--theme-secondary"] {
-  --font-title: "Space Grotesk", sans-serif;
+  --font-title: "Manrope", sans-serif;
   --font-ui: "Space Mono", monospace;
   --font-body: "DM Sans", sans-serif;
   --font-terminal: "JetBrains Mono", monospace;
@@ -54,7 +61,7 @@
 
 /* UNREAL RETRO */
 [data-theme="--theme-primary"] {
-  --font-title: "Space Grotesk", sans-serif;
+  --font-title: "Manrope", sans-serif;
   --font-ui: "Space Mono", monospace;
   --font-body: "DM Sans", sans-serif;
   --font-terminal: "JetBrains Mono", monospace;
