@@ -20,7 +20,7 @@
 
 .blog-cards-wrapper::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.3);
-  border-radius: 0.2rem;
+  border-radius: 0;
 }
 
 .blog-cards-scroll {

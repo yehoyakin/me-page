@@ -20,9 +20,15 @@ const { projects } = Astro.props;
     <div class="gallery-bg-overlay"></div>
   </div>
 
-  <!-- Scrollable thumbnail grid -->
-  <div class="gallery-thumbnails-wrapper">
-    <div class="gallery-thumbnails">
+  <!-- Scrollable thumbnail grid. On phones this becomes a one-card-at-a-time
+       carousel (see styles/base/responsive.css + scripts/cardCarousel.js). -->
+  <div
+    class="gallery-thumbnails-wrapper"
+    data-carousel
+    data-carousel-item=".gallery-project-item"
+    data-carousel-label="Projects"
+  >
+    <div class="gallery-thumbnails" data-carousel-track>
       {
         projects.map((project, index) => {
           const themeName = toThemeName(project.data.theme);
@@ -284,4 +290,10 @@ const { projects } = Astro.props;
     destroyGallery();
     initGallery();
   });
+</script>
+
+<script>
+  import { initCardCarousels } from "../../scripts/cardCarousel";
+
+  initCardCarousels();
 </script>

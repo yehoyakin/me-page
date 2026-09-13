@@ -21,10 +21,13 @@ const {
 const baseClasses =
   "relative overflow-hidden bg-zinc-950 isolate box-border";
 
+// Corners are square across the site — no element uses a border radius, so
+// every shape resolves to the same square frame. The prop is kept so callers
+// keep working and a shape can be reintroduced in one place if ever wanted.
 const shapeMap = {
-  circle: "rounded-full",
+  circle: "rounded-none",
   square: "rounded-none",
-  squircle: "rounded-[2rem] md:rounded-[3.5rem]",
+  squircle: "rounded-none",
 };
 
 const sizeMap = {

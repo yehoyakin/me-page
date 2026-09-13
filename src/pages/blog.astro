@@ -56,9 +56,15 @@ const sortedPosts = posts.sort((a, b) =>
 
       <div class="mt-16"></div>
 
-      {/* Horizontal scrollable blog cards */}
-      <div class="blog-cards-wrapper">
-        <div class="blog-cards-scroll">
+      {/* On phones this becomes a one-card-at-a-time carousel (see
+          styles/base/responsive.css + scripts/cardCarousel.js). */}
+      <div
+        class="blog-cards-wrapper"
+        data-carousel
+        data-carousel-item=".blog-card-item"
+        data-carousel-label="Blog posts"
+      >
+        <div class="blog-cards-scroll" data-carousel-track>
           {sortedPosts.map((post) => (
             <div class="blog-card-item">
               <BlogCard post={post} />
@@ -68,4 +74,10 @@ const sortedPosts = posts.sort((a, b) =>
       </div>
     </section>
   </div>
+
+  <script>
+    import { initCardCarousels } from "../scripts/cardCarousel";
+
+    initCardCarousels();
+  </script>
 </MyLayout>

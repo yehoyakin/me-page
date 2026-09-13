@@ -11,7 +11,7 @@ import SocialLink from "../shared/Link.astro";
   {/* The clickable/hoverable chainlink tab handle */}
   <button
     id="socials-toggle"
-    class="bg-black text-white p-3 rounded-l-xl shadow-lg cursor-pointer select-none border border-r-0 border-white/20 group-[.socials-open]:opacity-0 transition-opacity duration-200 flex items-center justify-center focus:outline-none"
+    class="bg-black text-white p-3 rounded-none shadow-lg cursor-pointer select-none border border-r-0 border-white/20 group-[.socials-open]:opacity-0 transition-opacity duration-200 flex items-center justify-center focus:outline-none"
     aria-label="Toggle Social Links"
   >
     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -22,7 +22,7 @@ import SocialLink from "../shared/Link.astro";
   <!-- Hidden Panel Content Container (moved inside the socials container) -->
   <div
     id="socials-panel"
-    class="bg-zinc-900/95 backdrop-blur-md p-6 rounded-l-xl border border-white/10 shadow-2xl w-64 max-h-[70vh] overflow-y-auto"
+    class="bg-zinc-900/95 backdrop-blur-md p-6 rounded-none border border-white/10 shadow-2xl w-64 max-h-[70vh] overflow-y-auto"
   >
     <div class="space-y-3">
       <SocialLink
