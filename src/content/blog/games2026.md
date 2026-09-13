@@ -248,7 +248,7 @@ While I haven’t tried LSD yet, this game might be a close or similar experienc
 
 [background[5]]
 
-A **co-op tank game** with diagetic controls, this game looks filled with dread, hopelessness, sadness, grief, sorrow, [insert sad syniminus], fitting to the war subject, which CoD could learn a thing or two from(not what their audience wants, I know I know...). The fact that there is a narrative, with 3 written characters the players control, each with their own stories and personalities, makes me want to try this even more. 
+A **co-op tank game** with diagetic controls, this game looks filled with dread, hopelessness, sadness, grief, sorrow, [insert any sad synonyms!], fitting to the war subject, which CoD could learn a thing or two from(not what their audience wants, I know I know...). The fact that there is a narrative, with 3 written characters the players control, each with their own stories and personalities, makes me want to try this even more. 
 
 From *the developers of Mouthwashing*, I wouldn’t be surprised if the game comes with slim and effective dialogue, good cinematography, crazy plot twists, evil characters, hell… I mean the game might take place in hell for all I know. 
 
