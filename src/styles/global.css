@@ -43,6 +43,8 @@
 @import "components/blogProse.css";
 @import "base/font-faces.css";
 @import "base/fonts.css";
+/* Mobile / touch pass. Imported last so it can override the files above. */
+@import "base/responsive.css";
 
 /* =========================================================
    FLUID TYPOGRAPHY MATRIX (from MyLayout.astro)

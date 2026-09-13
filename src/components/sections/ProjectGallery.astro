@@ -119,6 +119,16 @@ const { projects } = Astro.props;
 
     let activeProject = null;
 
+    /*
+     * Hover previews are a pointer-only affordance. On a touch screen a tap
+     * fires `mouseenter` before `click`, which flashed a semi-visible panel
+     * right before the real panel opened. Only wire the preview on devices
+     * with a real pointer.
+     */
+    const canHover = window.matchMedia
+      ? window.matchMedia("(hover: hover) and (pointer: fine)").matches
+      : false;
+
     function expandProject(index) {
       // Hide all panels and deactivate all cards
       panels.forEach(p => {
@@ -184,34 +194,36 @@ const { projects } = Astro.props;
       }
     }
 
-    // Hover preview: show CallCard semi-visible on thumbnail hover
     thumbs.forEach((thumb) => {
       const index = Number(thumb.dataset.thumbIndex);
 
-      thumb.addEventListener("mouseenter", () => {
-        // Don't show hover preview if a panel is already expanded
-        if (activeProject !== null) return;
+      // Hover preview: show CallCard semi-visible on thumbnail hover
+      if (canHover) {
+        thumb.addEventListener("mouseenter", () => {
+          // Don't show hover preview if a panel is already expanded
+          if (activeProject !== null) return;
 
-        const panel = panels.find(p => p.dataset.panel === String(index));
-        if (panel) {
-          // Clean up any pending fadeout and show preview
-          panel.classList.remove("panel-hover-fadeout");
-          panel.style.display = "block";
-          panel.classList.add("panel-hover-preview");
-        }
-      });
+          const panel = panels.find(p => p.dataset.panel === String(index));
+          if (panel) {
+            // Clean up any pending fadeout and show preview
+            panel.classList.remove("panel-hover-fadeout");
+            panel.style.display = "block";
+            panel.classList.add("panel-hover-preview");
+          }
+        });
 
-      thumb.addEventListener("mouseleave", () => {
-        // Don't hide if a panel is actively expanded
-        if (activeProject !== null) return;
+        thumb.addEventListener("mouseleave", () => {
+          // Don't hide if a panel is actively expanded
+          if (activeProject !== null) return;
 
-        const panel = panels.find(p => p.dataset.panel === String(index));
-        if (panel) {
-          panel.classList.remove("panel-hover-preview");
-          panel.classList.remove("panel-hover-fadeout");
-          panel.style.display = "none";
-        }
-      });
+          const panel = panels.find(p => p.dataset.panel === String(index));
+          if (panel) {
+            panel.classList.remove("panel-hover-preview");
+            panel.classList.remove("panel-hover-fadeout");
+            panel.style.display = "none";
+          }
+        });
+      }
 
       // Click handler
       thumb.addEventListener("click", () => {

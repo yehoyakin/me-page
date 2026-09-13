@@ -10,6 +10,7 @@ import { asset } from "../utils/asset";
 <MyLayout title="Home" animation="loading">
   {/* Full-screen backdrop for the landing experience. */}
   <div
+    id="landing-viewport"
     class="fixed inset-0 w-full h-screen overflow-y-auto md:overflow-hidden bg-zinc-950"
   >
     {/* Background image layer with a soft blur effect. */}
@@ -28,6 +29,7 @@ import { asset } from "../utils/asset";
 
     {/* Split layout for the hero and supporting content. */}
     <div
+      id="landing-content"
       class="relative z-20 flex flex-col h-auto md:h-screen md:max-h-screen w-full overflow-hidden min-h-screen pb-20 md:pb-0"
     >
       <header class="absolute top-0 right-0 px-8 py-6 z-50">

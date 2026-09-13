@@ -169,6 +169,7 @@ const imagesToPreload = [
        ----------------------------------------------------- -->
 
   <section
+    id="blog-article-section"
     class="relative py-12 md:py-16 px-4 max-w-4xl mx-auto w-full"
     style={`--project-tag-color: ${postDynamicToken}`}
   >
@@ -272,7 +273,10 @@ const imagesToPreload = [
 
     <!-- Sidebar content -->
 
-    <div class="w-80 max-h-[70vh] overflow-y-auto">
+    <div
+      id="sidebar-panel"
+      class="w-80 max-h-[70vh] overflow-y-auto"
+    >
 
       <BlogSidebar cards={cards} />
 
@@ -1114,16 +1118,31 @@ const imagesToPreload = [
       );
 
 
-      sidebarContainer.addEventListener(
-        "mouseenter",
-        onSidebarMouseEnter,
-      );
+      /*
+       * Hover-to-open is pointer-only. On touch screens a tap fires
+       * `mouseenter` and then `click`, so the click toggle closed the
+       * panel the hover had just opened — the sidebar needed two taps.
+       */
+      const canHover =
+        window.matchMedia?.(
+          "(hover: hover) and (pointer: fine)",
+        ).matches ?? false;
 
 
-      sidebarContainer.addEventListener(
-        "mouseleave",
-        onSidebarMouseLeave,
-      );
+      if (canHover) {
+
+        sidebarContainer.addEventListener(
+          "mouseenter",
+          onSidebarMouseEnter,
+        );
+
+
+        sidebarContainer.addEventListener(
+          "mouseleave",
+          onSidebarMouseLeave,
+        );
+
+      }
 
 
       document.addEventListener(

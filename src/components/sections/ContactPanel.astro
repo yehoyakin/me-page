@@ -20,7 +20,10 @@ import SocialLink from "../shared/Link.astro";
   </button>
 
   <!-- Hidden Panel Content Container (moved inside the socials container) -->
-  <div class="bg-zinc-900/95 backdrop-blur-md p-6 rounded-l-xl border border-white/10 shadow-2xl w-64 max-h-[70vh] overflow-y-auto">
+  <div
+    id="socials-panel"
+    class="bg-zinc-900/95 backdrop-blur-md p-6 rounded-l-xl border border-white/10 shadow-2xl w-64 max-h-[70vh] overflow-y-auto"
+  >
     <div class="space-y-3">
       <SocialLink
         href="mailto:joaquinignacio.herrerabriones@email.com"
@@ -56,13 +59,25 @@ import SocialLink from "../shared/Link.astro";
         container.classList.toggle("socials-open");
       });
 
-      container.addEventListener("mouseenter", function () {
-        container.classList.add("socials-open");
-      });
+      /*
+       * Hover-to-open only makes sense for real pointers.
+       * On touch screens a tap fires `mouseenter` first and then `click`,
+       * so the click's toggle instantly undid the hover and the panel
+       * needed two taps to open. Gate the hover handlers on hover support.
+       */
+      var canHover =
+        window.matchMedia &&
+        window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
-      container.addEventListener("mouseleave", function () {
-        container.classList.remove("socials-open");
-      });
+      if (canHover) {
+        container.addEventListener("mouseenter", function () {
+          container.classList.add("socials-open");
+        });
+
+        container.addEventListener("mouseleave", function () {
+          container.classList.remove("socials-open");
+        });
+      }
 
       document.addEventListener("click", function (e) {
         if (container && !container.contains(e.target)) {
