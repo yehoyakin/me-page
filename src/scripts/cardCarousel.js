@@ -1,14 +1,14 @@
 /**
- * Card carousel for phones.
+ * Card carousel.
  *
  * Turns a horizontally scrolling strip into a one-card-at-a-time carousel.
- * Swiping stays native (the strip keeps its `overflow-x` and gains CSS
- * scroll-snap in `styles/base/responsive.css`); this script only adds and
+ * Swiping/dragging stays native (the strip keeps its `overflow-x` and gains
+ * CSS scroll-snap in `styles/base/responsive.css`); this script only adds and
  * syncs the controls — prev/next arrows plus position dots — because the
- * browser scrollbar is hidden on phones.
+ * browser scrollbar is hidden.
  *
- * Desktop is untouched: the controls are hidden above the phone breakpoint
- * and the strip scrolls freely.
+ * Runs at every screen width. On wide screens the CSS caps the slide width so
+ * a card cannot stretch to the whole viewport (see `--carousel-slide`).
  *
  * Markup contract (all optional except `data-carousel` + the track):
  *   <div data-carousel data-carousel-item=".slide" data-carousel-label="Projects">
@@ -17,11 +17,6 @@
  *     </div>
  *   </div>
  */
-
-const PHONE_QUERY = "(max-width: 767px)";
-
-const isPhone = () =>
-  typeof window !== "undefined" && window.matchMedia(PHONE_QUERY).matches;
 
 function initStrip(scroller) {
   if (scroller.dataset.carouselReady === "true") return;
@@ -52,17 +47,30 @@ function initStrip(scroller) {
     scroller.dataset.carouselLabel || "Carousel navigation",
   );
 
-  const makeArrow = (label, glyph) => {
+  // Crisp SVG chevrons rather than text glyphs. Text arrows render with
+  // whatever font ends up applied, which the pixel themes turn into odd or
+  // missing shapes; the SVG is the same on every platform. Square caps keep
+  // the corners sharp, matching the site's no-border-radius look.
+  const ARROW_PATHS = {
+    prev: "M15 6 9 12 15 18",
+    next: "M9 6 15 12 9 18",
+  };
+
+  const makeArrow = (label, direction) => {
     const button = document.createElement("button");
     button.type = "button";
     button.className = "card-carousel-arrow";
     button.setAttribute("aria-label", label);
-    button.innerHTML = `<span aria-hidden="true">${glyph}</span>`;
+    button.innerHTML =
+      `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" ` +
+      `stroke-width="2.5" stroke-linecap="square" stroke-linejoin="miter" ` +
+      `aria-hidden="true" focusable="false">` +
+      `<path d="${ARROW_PATHS[direction]}" /></svg>`;
     return button;
   };
 
-  const prev = makeArrow("Previous slide", "\u25C0");
-  const next = makeArrow("Next slide", "\u25B6");
+  const prev = makeArrow("Previous slide", "prev");
+  const next = makeArrow("Next slide", "next");
 
   const dotsWrap = document.createElement("div");
   dotsWrap.className = "card-carousel-dots";
@@ -158,7 +166,7 @@ function initStrip(scroller) {
   scroller.addEventListener(
     "scroll",
     () => {
-      if (!isPhone() || frame) return;
+      if (frame) return;
 
       frame = requestAnimationFrame(() => {
         frame = 0;
@@ -178,8 +186,7 @@ function initStrip(scroller) {
     window.clearTimeout(resizeTimer);
 
     resizeTimer = window.setTimeout(() => {
-      if (!isPhone()) return;
-
+      // Keep the active slide centred after the slide width changes.
       scroller.scrollTo({ left: offsetFor(current) });
       sync();
     }, 150);

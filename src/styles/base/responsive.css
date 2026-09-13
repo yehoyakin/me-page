@@ -1,13 +1,10 @@
-/* Purpose: Styles - src/styles/base/responsive.css (Mobile / touch pass)
+/* Purpose: Styles - src/styles/base/responsive.css (Responsive / touch pass)
 
    Imported LAST in global.css so it can override the component styles above
-   it. Everything here is scoped either to phones (`max-width: 767px`, i.e.
-   below Tailwind's `md`) or to pointer-less devices (`hover: none`), so the
-   desktop layout is untouched.
-
-   Why a dedicated file: the mobile fixes are cross-cutting (prose, cards,
-   fixed rails, tap targets) and reading them in one place is far easier than
-   hunting scattered media queries. */
+   it. This file holds the cross-cutting responsive rules: phone readability,
+   touch ergonomics, and the card carousels (which run on every screen size).
+   Rules that must only apply to phones are scoped to `max-width: 767px` (i.e.
+   below Tailwind's `md`); pointer-only behaviour is scoped to `hover: none`. */
 
 /* ============================================================
    PHONES — touch ergonomics
@@ -127,158 +124,161 @@
 }
 
 /* ============================================================
-   PHONES — card carousels (blog listing + portfolio gallery)
+   CARD CAROUSELS (blog listing + portfolio gallery)
    ============================================================
-   The strips keep their native horizontal scrolling, so swiping is free,
-   but on a phone they show one card at a time. The track snaps slide to
-   slide and a controller (prev/next + dots, built by scripts/cardCarousel.js)
-   makes the position obvious. The browser scrollbar is hidden because the
-   dots replace it — the strip still scrolls, it just reports itself through
-   the controls instead. Desktop is untouched: it keeps the free-scrolling
-   strip because the controls are only shown below the phone breakpoint. */
+   Both strips are carousels on every screen size. The track keeps its native
+   horizontal scrolling, so swipe/drag is free, but it shows one card at a
+   time: it snaps slide to slide and a controller (prev/next + dots, built by
+   scripts/cardCarousel.js) makes the position obvious. The browser scrollbar
+   is hidden because the dots replace it.
 
-@media (max-width: 767px) {
-  .blog-cards-wrapper,
-  .gallery-thumbnails-wrapper {
-    padding: 0;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
+   A slide is 3rem narrower than the scrollport so the neighbouring cards peek
+   in at both edges — that is what makes it read as a rotating display rather
+   than a single static card. On wider screens the slide is also capped so it
+   cannot stretch into one enormous card; the cap lives in `--carousel-slide`
+   per strip, so raising/removing it is a one-line change. */
 
-  .blog-cards-wrapper::-webkit-scrollbar,
-  .gallery-thumbnails-wrapper::-webkit-scrollbar {
-    display: none;
-    height: 0;
-  }
-
-  .blog-cards-scroll,
-  .gallery-thumbnails {
-    min-width: 0;
-    gap: 0.5rem;
-    padding: 0;
-    justify-content: flex-start;
-  }
-
-  /* One card per view, but narrower than the scrollport so the neighbouring
-     cards peek in at both edges — that is what makes the strip read as a
-     rotating display rather than a single static card.
-
-     The peek budget is 3rem, split by `align: center` below, so each edge
-     shows 1.5rem minus the 0.5rem gap = 1rem of the adjacent card. The
-     spacers exist because a scroller cannot scroll past its ends: without
-     them the first and last cards sit flush and their peek would be much
-     larger than the middle cards'. Spacer width is half the peek budget
-     minus the gap, which lets every card centre the same way. */
-  .blog-cards-scroll::before,
-  .blog-cards-scroll::after,
-  .gallery-thumbnails::before,
-  .gallery-thumbnails::after {
-    content: "";
-    flex: 0 0 1rem;
-  }
-
-  .blog-card-item,
-  .gallery-project-item {
-    flex: 0 0 calc(100% - 3rem);
-    width: calc(100% - 3rem);
-    max-width: none;
-    scroll-snap-align: center;
-    scroll-snap-stop: always;
-  }
-
-  /* The gallery thumbnail sets its own vw width, so this one needs !important. */
-  .gallery-thumb {
-    width: 100% !important;
-  }
-
-  .thumb-links {
-    max-width: 100%;
-  }
+.blog-cards-wrapper,
+.gallery-thumbnails-wrapper {
+  padding: 0;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-/* Carousel controls — markup built by scripts/cardCarousel.js. */
+.blog-cards-wrapper::-webkit-scrollbar,
+.gallery-thumbnails-wrapper::-webkit-scrollbar {
+  display: none;
+  height: 0;
+}
+
+.blog-cards-scroll,
+.gallery-thumbnails {
+  min-width: 0;
+  gap: 0.5rem;
+  padding: 0;
+  justify-content: flex-start;
+}
+
+/* Slide width: the whole strip minus the peek, capped once the screen is wide
+   enough that a single card would otherwise become unwieldy. */
+.blog-cards-scroll {
+  --carousel-slide: min(100% - 3rem, 36rem);
+}
+
+.gallery-thumbnails {
+  --carousel-slide: min(100% - 3rem, 44rem);
+}
+
+/* Spacers let the first and last slide centre like the middle ones (a scroller
+   cannot scroll past its own ends), so the peek stays the same size on every
+   slide. Width is half the leftover space minus the gap. */
+.blog-cards-scroll::before,
+.blog-cards-scroll::after,
+.gallery-thumbnails::before,
+.gallery-thumbnails::after {
+  content: "";
+  flex: 0 0 calc((100% - var(--carousel-slide)) / 2 - 0.5rem);
+}
+
+.blog-card-item,
+.gallery-project-item {
+  flex: 0 0 var(--carousel-slide);
+  width: var(--carousel-slide);
+  max-width: none;
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+}
+
+/* The gallery thumbnail sets its own vw width, so this one needs !important. */
+.gallery-thumb {
+  width: 100% !important;
+}
+
+.thumb-links {
+  max-width: 100%;
+}
+
+/* ---------- Controls (markup built by scripts/cardCarousel.js) ---------- */
 
 .card-carousel-controls {
-  display: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: 0.75rem 0 0.25rem;
 }
 
-@media (max-width: 767px) {
-  .card-carousel-controls {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
-    margin: 0.75rem 0 0.25rem;
-  }
+.card-carousel-arrow {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  line-height: 1;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
 
-  .card-carousel-arrow {
-    flex: 0 0 auto;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 2.75rem;
-    height: 2.75rem;
-    padding: 0;
-    border: 1px solid rgba(255, 255, 255, 0.28);
-    background: rgba(0, 0, 0, 0.6);
-    color: #fff;
-    font-family: var(--retro-font);
-    font-size: 0.75rem;
-    line-height: 1;
-    cursor: pointer;
-    touch-action: manipulation;
-    transition:
-      background-color 0.15s ease,
-      border-color 0.15s ease;
-  }
+.card-carousel-arrow svg {
+  display: block;
+  width: 1.15rem;
+  height: 1.15rem;
+}
 
-  .card-carousel-arrow:hover:not(:disabled) {
-    background: rgba(255, 255, 255, 0.14);
-    border-color: rgba(255, 255, 255, 0.5);
-  }
+.card-carousel-arrow:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.5);
+}
 
-  .card-carousel-arrow:disabled {
-    opacity: 0.3;
-    cursor: default;
-  }
+.card-carousel-arrow:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
 
-  .card-carousel-dots {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.25rem;
-  }
+.card-carousel-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+}
 
-  /* 2rem square button = a real tap target; the dot itself is the ::before. */
-  .card-carousel-dot {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 2rem;
-    height: 2rem;
-    padding: 0;
-    border: 0;
-    background: none;
-    cursor: pointer;
-    touch-action: manipulation;
-  }
+/* 2rem square button = a real tap target; the dot itself is the ::before. */
+.card-carousel-dot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  touch-action: manipulation;
+}
 
-  .card-carousel-dot::before {
-    content: "";
-    width: 0.6rem;
-    height: 0.6rem;
-    border: 1px solid rgba(255, 255, 255, 0.55);
-    background: transparent;
-    transition:
-      background-color 0.15s ease,
-      border-color 0.15s ease;
-  }
+.card-carousel-dot::before {
+  content: "";
+  width: 0.6rem;
+  height: 0.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  background: transparent;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
 
-  .card-carousel-dot[aria-current="true"]::before {
-    background: var(--theme-primary, #fff);
-    border-color: var(--theme-primary, #fff);
-  }
+.card-carousel-dot[aria-current="true"]::before {
+  background: var(--theme-primary, #fff);
+  border-color: var(--theme-primary, #fff);
 }
 
 /* ============================================================
