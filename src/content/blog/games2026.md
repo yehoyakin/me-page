@@ -316,6 +316,6 @@ It’s been quite some time in development, but good things take time.
 [scene[28], "Melee and ranged combat."]
 [scene[29], "A massive world to explore."]
 
-And so…
+## And so…
 
 All of the games that caught my interest are either indie or very, very close to AA, in big part thanks to engines and the democratization of game development. That’s the beauty of games: there are all kinds of flavors for different palates. Thankfully, I found a whole course meal; the bad part is the chefs are still halfway through the process. The good part is the time and love I see when I get a peek of the ingredients through the kitchen window is strong, and the smell is so fierce it’s ingrained in my brain. So I say let them cook!
