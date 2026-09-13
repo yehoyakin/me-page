@@ -41,6 +41,42 @@
   margin-bottom: 0.15rem;
 }
 
+/* --- List markers ---
+   Tailwind's preflight resets `list-style` on ul/ol and this project loads no
+   typography plugin, so post lists collapsed into bare indented text with no
+   bullet or number. Re-establish real markers and tint them with the post's
+   accent colour so they read as deliberate punctuation, not lost whitespace. */
+#blog-content :where(ul, ol) {
+  list-style-position: outside;
+}
+
+#blog-content ul {
+  list-style-type: square;
+}
+
+#blog-content ol {
+  list-style-type: decimal;
+}
+
+/* Nested unordered levels step down in marker shape so depth stays legible. */
+#blog-content ul ul {
+  list-style-type: circle;
+}
+
+#blog-content ul ul ul {
+  list-style-type: disc;
+}
+
+#blog-content li::marker {
+  color: var(--project-tag-color, var(--theme-primary));
+  font-weight: 700;
+}
+
+/* Numbers sit a touch larger so ordinals stay visually distinct from body copy. */
+#blog-content ol > li::marker {
+  font-size: 1.05em;
+}
+
 /* Progressive indent: h1 flush, each deeper level nudged in. */
 #blog-content h1 {
   margin-left: 0;

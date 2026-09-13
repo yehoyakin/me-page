@@ -158,7 +158,7 @@ I constantly find myself having a harder time enjoying most popular video games,
 
 Based on the trailer alone, there is a lot that I appreciate from the game:
 
-<ol>
+<ul>
 
   <li>First, the PSX graphics with a gorgeous color palette and special effects (see the raindrop texture on the camera).</li>
 
@@ -166,7 +166,7 @@ Based on the trailer alone, there is a lot that I appreciate from the game:
 
   <li>The music transmits a darkness and fast-pace action, urgency, 2000's vibes.</li>
 
-</ol>
+</ul>
 
 Most of my attention was drawn by the cinematic flair of the game; In just a few scenes, I can tell the author or whoever is in charge of the cinematics/cutscenes has a good understanding and employment of cinematic language. There is excellent blocking, camera angles, use of lighting, and perspective- far, far better than most AAA games I’ve played lately. Fixed camera angles allow for what in my opinion is a greater sense of scale and gameplay, both for puzzles and combat as it is an extra layer of constraint that the player has to work around.
 
@@ -196,7 +196,7 @@ I must admit a *strong dislike for the term Dark Fantasy and everything related 
 
 And *somehow, even though Sword Hero screams of Dark Fantasy, I can’t help but be attracted to it*. The game’s trailer and its description make it clear this is a Gothic inspired game. *Forestware’s solo dev project* has been in development for some 7 years, and it truly looks like an author’s unique and untouched work in the medium. Its scale, full of many complex systems it’s a commendable feat for a solo dev; even before early access, the game already includes:
 
-<ol>
+<ul>
 
   <li>Lock-picking mini-game.</li>
 
@@ -214,7 +214,7 @@ And *somehow, even though Sword Hero screams of Dark Fantasy, I can’t help but
 
   <li>Equipment | Inventort |Trading system</li>
 
-</ol>
+</ul>
 
 This will surely be a monumental love letter to **old-school role-playing games** that I hope gets released eventually. The developer uploads blogs on development, plans, and details. I say let him cook!
 
@@ -300,7 +300,7 @@ By the time this blog is being written, the game has come out, to some recent mi
 
 A fast paced game **third person action** game, with some of the most unique ideas I’ve seen in a game, such as:
 
-<ol>
+<ul>
 
   <li>Mimic colossal.</li>
 
@@ -308,7 +308,7 @@ A fast paced game **third person action** game, with some of the most unique ide
 
   <li>Cities built on giant robots.</li>
 
-</ol>
+</ul>
 
 It’s been quite some time in development, but good things take time.
 
