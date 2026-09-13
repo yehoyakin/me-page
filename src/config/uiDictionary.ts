@@ -9,8 +9,7 @@
  *
  * A theme drives two things: colour (tokens.css) and fonts (fonts.css). A
  * theme without a font set in fonts.css falls back to the :root fonts. The
- * page transition is the same pixel dissolve everywhere — see
- * styles/base/viewTransitions.css.
+ * page transition is the same everywhere — see styles/base/viewTransitions.css.
  */
 
 export type ThemeConfig = {
@@ -21,25 +20,11 @@ export type ThemeConfig = {
 };
 
 /**
- * Known theme configurations.
- * Add entries here to customize text classes for specific themes.
- * Themes NOT listed here still work — they use the defaults below.
+ * Known theme configurations. Only themes that differ from the default need
+ * an entry — every other theme name falls through to `defaultThemeConfig`,
+ * so `theme: "forest"` works without a TypeScript change.
  */
 const themeConfigs: Record<string, ThemeConfig> = {
-  primary: {
-    text: {
-      base: "text-ui-invert",
-      hover: "hover:text-project-tag",
-    },
-  },
-
-  secondary: {
-    text: {
-      base: "text-ui-invert",
-      hover: "hover:text-project-tag",
-    },
-  },
-
   terminal: {
     text: {
       base: "text-ui-base",
@@ -100,26 +85,8 @@ export function toThemeName(value: unknown): string {
   return "primary";
 }
 
-// ── Backward-compatible aliases ──────────────────────────────────────────
-
-/** @deprecated Use ThemeConfig directly */
-export type UiConfig = ThemeConfig;
-
-/** @deprecated Use getThemeConfig() instead */
-export const uiDictionary: Record<string, ThemeConfig> = themeConfigs;
-
-/** @deprecated Use string directly */
-export type UiVariant = string;
-
-/** @deprecated Use resolveThemeToken() directly */
-export function resolveThemeToken_legacy(variant: UiVariant): string {
-  return resolveThemeToken(variant);
-}
-
-/** @deprecated Use toThemeName() */
-export function toUiVariant(value: unknown): UiVariant {
-  return toThemeName(value);
-}
+// ── Project roles ───────────────────────────────────────────────────────
+// Kept in sync with the `roles` enum in content.config.ts.
 
 export type ProjectRole =
   | "lead_programmer"

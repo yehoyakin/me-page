@@ -25,9 +25,7 @@ const {
   class: extraClass = "",
 } = Astro.props;
 
-const cardClasses = ["split-card", extraClass]
-  .filter(Boolean)
-  .join(" ");
+const cardClasses = ["split-card", extraClass].filter(Boolean).join(" ");
 ---
 
 <a href={href} class={cardClasses}>

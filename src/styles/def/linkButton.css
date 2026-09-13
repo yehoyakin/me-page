@@ -1,8 +1,0 @@
-/* Purpose: Styles - src/styles/def/linkButton.css
-   Base link button tokens.
-   Animation and interactive styles live in components/linkButton.css.
-*/
-
-.retro-link {
-  font-family: var(--retro-font);
-}

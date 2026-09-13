@@ -23,8 +23,14 @@
 
   touch-action: manipulation;
   /* Accent colors delegate to global accents so mixing percentages are centralized */
-  --callcard-accent: var(--accent-bold, color-mix(in srgb, var(--project-tag-color, white) 50%, white 50%));
-  --callcard-italic-accent: var(--accent-italic, color-mix(in srgb, var(--project-tag-color, white) 50%, white 50%));
+  --callcard-accent: var(
+    --accent-bold,
+    color-mix(in srgb, var(--project-tag-color, white) 50%, white 50%)
+  );
+  --callcard-italic-accent: var(
+    --accent-italic,
+    color-mix(in srgb, var(--project-tag-color, white) 50%, white 50%)
+  );
 }
 
 .retro-expandable-card:hover {
@@ -83,9 +89,14 @@
   height: 100%;
   object-fit: cover;
   transform: scale(var(--callcard-bg-scale, 1.6));
-  filter: blur(var(--callcard-bg-blur, 36px)) saturate(var(--callcard-bg-saturate, 0.75)) contrast(var(--callcard-bg-contrast, 0.95));
+  filter: blur(var(--callcard-bg-blur, 36px))
+    saturate(var(--callcard-bg-saturate, 0.75))
+    contrast(var(--callcard-bg-contrast, 0.95));
   opacity: var(--callcard-bg-opacity, 0.14);
-  transition: opacity 360ms var(--ease-soft), transform 600ms var(--ease-settle), filter 600ms var(--ease-soft);
+  transition:
+    opacity 360ms var(--ease-soft),
+    transform 600ms var(--ease-settle),
+    filter 600ms var(--ease-soft);
 }
 
 /* Allow switching the blurred background image purely via CSS variable `--card-bg-url`.
@@ -99,11 +110,16 @@
   background-size: cover;
   background-position: center center;
   transform: scale(var(--callcard-bg-scale, 1.6));
-  filter: blur(var(--callcard-bg-blur, 36px)) saturate(var(--callcard-bg-saturate, 0.75)) contrast(var(--callcard-bg-contrast, 0.95));
+  filter: blur(var(--callcard-bg-blur, 36px))
+    saturate(var(--callcard-bg-saturate, 0.75))
+    contrast(var(--callcard-bg-contrast, 0.95));
   opacity: 0;
   pointer-events: none;
   z-index: 0;
-  transition: opacity 360ms var(--ease-soft), transform 600ms var(--ease-settle), filter 600ms var(--ease-soft);
+  transition:
+    opacity 360ms var(--ease-soft),
+    transform 600ms var(--ease-settle),
+    filter 600ms var(--ease-soft);
 }
 
 .retro-expandable-card[data-active="true"] .callcard-bg::before {
@@ -114,14 +130,15 @@
 .callcard-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, rgba(0,0,0,0.6), rgba(0,0,0,0.45));
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.45));
   z-index: 1;
 }
 
 /* Make the full-card blurred background more visible when the card is active */
 .retro-expandable-card[data-active="true"] .callcard-bg-img {
   opacity: var(--callcard-bg-active-opacity, 0.22);
-  transform: scale(calc(var(--callcard-bg-active-scale, 1.64) * 1.25)) rotate(-2deg);
+  transform: scale(calc(var(--callcard-bg-active-scale, 1.64) * 1.25))
+    rotate(-2deg);
 }
 
 /* ============================================================
@@ -168,7 +185,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .info-panel-bg-img { transition: none !important; }
+  .info-panel-bg-img {
+    transition: none !important;
+  }
 }
 
 .card-title-area {
@@ -360,7 +379,7 @@
   padding: 1rem;
 
   /* semi-opaque black background to ensure text remains readable over blurred image */
-  background: rgba(0,0,0,0.58);
+  background: rgba(0, 0, 0, 0.58);
   backdrop-filter: blur(6px) saturate(0.95);
 }
 
@@ -390,18 +409,11 @@
   margin: 0.6rem 0 0.75rem 0;
 }
 
-.project-role-items {
-  display: flex;
-  gap: 0.6rem;
-  flex-wrap: wrap;
-  margin-top: 0.5rem;
-}
-
 .project-role {
   display: inline-block;
   padding: 0.22rem 0.5rem;
   border-radius: 0;
-  background: rgba(255,255,255,0.03);
+  background: rgba(255, 255, 255, 0.03);
   color: #e6e6e6;
   font-size: var(--contribution-badge-font-size, 0.78rem);
   font-weight: 700;
@@ -413,8 +425,8 @@
 .retro-contribution {
   margin: 0.6rem 0 0.15rem 0;
   padding: 0.5rem 0.75rem;
-  background: rgba(255,255,255,0.004);
-  border-left: 2px solid rgba(255,255,255,0.02);
+  background: rgba(255, 255, 255, 0.004);
+  border-left: 2px solid rgba(255, 255, 255, 0.02);
   border-radius: 0;
   line-height: 1.48;
   color: #cfcfd6;
@@ -442,26 +454,6 @@
   margin-bottom: 0.45rem;
   color: #d0d0d6;
   font-size: var(--contribution-font-size, 1rem);
-}
-
-.project-role-title {
-  margin-top: 1.5rem;
-
-  margin-bottom: 0.75rem;
-
-  font-family: var(--retro-font);
-
-  font-size: 0.7rem;
-
-  font-weight: 700;
-
-  letter-spacing: 0.35em;
-
-  text-transform: uppercase;
-
-  color: white;
-
-  opacity: 0.7;
 }
 
 /* ============================================================

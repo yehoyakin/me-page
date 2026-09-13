@@ -13,16 +13,24 @@ interface Props {
 const { title, description, date, theme = "primary" } = Astro.props as Props;
 ---
 
-<header class="space-y-6 rounded-none border border-zinc-800/60 bg-black/60 p-8 sm:p-10 md:p-12 backdrop-blur-2xl shadow-[inset_0_0_80px_rgba(0,0,0,0.4)] text-center relative overflow-hidden">
-  
-  <Title level={1} theme={theme} class="text-4xl sm:text-5xl md:text-6xl mx-auto tracking-tight font-bold readable-text">
+<header
+  class="space-y-6 rounded-none border border-zinc-800/60 bg-black/60 p-8 sm:p-10 md:p-12 backdrop-blur-2xl shadow-[inset_0_0_80px_rgba(0,0,0,0.4)] text-center relative overflow-hidden"
+>
+  <Title
+    level={1}
+    theme={theme}
+    class="text-4xl sm:text-5xl md:text-6xl mx-auto tracking-tight font-bold readable-text"
+  >
     {title}
   </Title>
-  
-  <Body theme={theme} class="mx-auto max-w-3xl text-zinc-400 text-center text-sm sm:text-base readable-text">
+
+  <Body
+    theme={theme}
+    class="mx-auto max-w-3xl text-zinc-400 text-center text-sm sm:text-base readable-text"
+  >
     {description}
   </Body>
-  
+
   <time class="tracking-wider" datetime={date.toISOString()}>
     ⏱️ {date.toLocaleDateString()}
   </time>

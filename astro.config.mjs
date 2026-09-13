@@ -4,9 +4,7 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   output: "static",
   site: "https://yehoyakin.github.io",
- base: process.env.NODE_ENV === "production"
-    ? "/me-page/"
-    : "/",
+  base: process.env.NODE_ENV === "production" ? "/me-page/" : "/",
   vite: {
     plugins: [tailwindcss()],
   },

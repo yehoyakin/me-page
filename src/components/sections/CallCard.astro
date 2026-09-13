@@ -2,7 +2,11 @@
 // Purpose: Section - src/components/sections/CallCard.astro (Expandable project call card)
 import Title from "../UI/Title.astro";
 import Body from "../UI/Body.astro";
-import { resolveThemeToken, toThemeName, toThemeToken } from "../../config/uiDictionary";
+import {
+  resolveThemeToken,
+  toThemeName,
+  toThemeToken,
+} from "../../config/uiDictionary";
 import type { ProjectRole } from "../../config/uiDictionary";
 
 interface Props {
@@ -49,11 +53,14 @@ const dynamicToken = resolveThemeToken(themeName);
 // Use the per-card CSS variable so the color follows `--project-tag-color`.
 const themeColorClass = "text-[color:var(--project-tag-color)]";
 
-const EXPANDED_CARD_BORDER_THICKNESS = "0.5rem";
-const CARD_EXPANSION_DURATION_MS = 200;
-const DRAWER_REVEAL_DURATION_MS = 200;
-const DRAWER_REVEAL_VERTICAL_OFFSET = "1.25rem";
-const PIXELATED_TRANSITION_STEPS = 200;
+// Only the values that change per card are written inline; every other
+// custom property the card needs is declared in styles/components/callCard.css.
+const cardVars = [
+  `--project-tag-color: ${dynamicToken}`,
+  backgroundImage ? `--card-bg-url: url('${backgroundImage}')` : "",
+]
+  .filter(Boolean)
+  .join("; ");
 
 const baseText =
   "transition-colors duration-150 ease-[steps(200)] drop-shadow-[0_0.125rem_0.25rem_rgba(0,0,0,1)] readable-text";
@@ -69,50 +76,29 @@ const cardClasses = [
   class={cardClasses}
   data-theme={toThemeToken(themeName)}
   data-active="false"
-  style={`
-    --project-tag-color: ${dynamicToken};
-    --expanded-card-border-width: ${EXPANDED_CARD_BORDER_THICKNESS};
-    --drawer-offset: ${DRAWER_REVEAL_VERTICAL_OFFSET};
-    --card-transition-duration: ${CARD_EXPANSION_DURATION_MS}ms;
-    --drawer-transition-duration: ${DRAWER_REVEAL_DURATION_MS}ms;
-    --pixel-transition-steps: ${PIXELATED_TRANSITION_STEPS};
-    ${backgroundImage ? `--card-bg-url: url('${backgroundImage}');` : ''}
-  `}
-  onclick="
-    const state = this.getAttribute('data-active') === 'true';
-
-    document
-      .querySelectorAll('.retro-expandable-card')
-      .forEach(card =>
-        card.setAttribute('data-active','false')
-      );
-
-    this.setAttribute('data-active', state ? 'false' : 'true');
-
-    // Notify the gallery that a card was toggled
-    const gallery = this.closest('#project-gallery');
-    if (gallery) {
-      gallery.dispatchEvent(new CustomEvent('card-toggle'));
-    }
-  "
+  style={cardVars}
 >
-  {backgroundImage && (
-    <div class="callcard-bg" aria-hidden="true">
-      <div class="callcard-bg-inner">
-        <img src={backgroundImage} alt="" class="callcard-bg-img" />
+  {
+    backgroundImage && (
+      <div class="callcard-bg" aria-hidden="true">
+        <div class="callcard-bg-inner">
+          <img src={backgroundImage} alt="" class="callcard-bg-img" />
+        </div>
+        <div class="callcard-overlay" />
       </div>
-      <div class="callcard-overlay"></div>
-    </div>
-  )}
+    )
+  }
   <div class="card-main-layout">
     <!-- LEFT INFORMATION AREA (text + expanded content) -->
 
     <div class="card-info-panel">
-      {backgroundImage && (
-        <div class="info-panel-bg" aria-hidden="true">
-          <img src={backgroundImage} alt="" class="info-panel-bg-img" />
-        </div>
-      )}
+      {
+        backgroundImage && (
+          <div class="info-panel-bg" aria-hidden="true">
+            <img src={backgroundImage} alt="" class="info-panel-bg-img" />
+          </div>
+        )
+      }
       <div class="card-title-area">
         {
           tag && (
@@ -120,17 +106,22 @@ const cardClasses = [
           )
         }
 
-        <Title theme={themeName} class={`card-project-title text-white ${baseText}`}>
+        <Title
+          theme={themeName}
+          class={`card-project-title text-white ${baseText}`}
+        >
           {title}
         </Title>
 
-        {roles.length > 0 && (
-          <div class="project-role-list">
-            {roles.map((role) => (
-              <span class="project-role">{roleLabels[role]}</span>
-            ))}
-          </div>
-        )}
+        {
+          roles.length > 0 && (
+            <div class="project-role-list">
+              {roles.map((role) => (
+                <span class="project-role">{roleLabels[role]}</span>
+              ))}
+            </div>
+          )
+        }
 
         <Body theme={themeName} class={`card-description ${baseText}`}>
           {shortDescription}

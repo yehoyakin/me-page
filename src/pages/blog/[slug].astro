@@ -1,5 +1,4 @@
 ---
-
 // Purpose: Page - src/pages/blog/[slug].astro (Blog post template)
 
 import MyLayout from "../../layouts/MyLayout.astro";
@@ -18,11 +17,7 @@ import { getCollection } from "astro:content";
 
 import { asset } from "../../utils/asset";
 
-import {
-  resolveThemeToken,
-  toThemeName,
-} from "../../config/uiDictionary";
-
+import { resolveThemeToken, toThemeName } from "../../config/uiDictionary";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
@@ -31,7 +26,6 @@ export async function getStaticPaths() {
     params: { slug: post.id },
   }));
 }
-
 
 const slug = Astro.params.slug;
 
@@ -43,9 +37,7 @@ if (!post) {
   throw new Response("Post not found", { status: 404 });
 }
 
-
 const cards = post.data.cards ?? [];
-
 
 /* ---------------------------------------------------------
  * Normalize content scenes through asset()
@@ -57,7 +49,6 @@ const scenes = Array.isArray(post.data.scenes)
       align: s.align ?? "center",
     }))
   : [];
-
 
 /* ---------------------------------------------------------
  * Normalize backgrounds through asset()
@@ -71,7 +62,6 @@ const backgrounds = Array.isArray(rawBackgrounds)
     }))
   : [];
 
-
 /* ---------------------------------------------------------
  * Replace [background[x]] markers in rendered body HTML
  * with invisible runtime anchors.
@@ -84,11 +74,7 @@ const bodyHtml = (post.rendered?.html ?? "").replace(
   (_match, indexStr: string) => {
     const index = Number.parseInt(indexStr, 10);
 
-    if (
-      !Number.isInteger(index) ||
-      index < 0 ||
-      index >= backgrounds.length
-    ) {
+    if (!Number.isInteger(index) || index < 0 || index >= backgrounds.length) {
       return "";
     }
 
@@ -96,21 +82,17 @@ const bodyHtml = (post.rendered?.html ?? "").replace(
   },
 );
 
-
 /* ---------------------------------------------------------
  * Hero / background settings
  * --------------------------------------------------------- */
 
-const heroImage = post.data.background
-  ? asset(post.data.background)
-  : "";
+const heroImage = post.data.background ? asset(post.data.background) : "";
 
 const backgroundBlur = post.data.backgroundBlur ?? 0;
 
 const backgroundOpacity = post.data.backgroundOpacity ?? 1;
 
 const backgroundParallax = post.data.backgroundParallax ?? 0.2;
-
 
 /* ---------------------------------------------------------
  * Theme resolution
@@ -120,7 +102,6 @@ const themeName = toThemeName(post.data.theme);
 
 const postDynamicToken = resolveThemeToken(themeName);
 
-
 /* ---------------------------------------------------------
  * Base URL
  * --------------------------------------------------------- */
@@ -129,36 +110,27 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
   ? import.meta.env.BASE_URL
   : `${import.meta.env.BASE_URL}/`;
 
-
 /* ---------------------------------------------------------
  * Preload hero + article backgrounds
  * --------------------------------------------------------- */
 
-const imagesToPreload = [
-  heroImage,
-  ...backgrounds.map((b) => b.image),
-].filter(Boolean);
-
+const imagesToPreload = [heroImage, ...backgrounds.map((b) => b.image)].filter(
+  Boolean,
+);
 ---
-
 
 <MyLayout
   title={post.data.title}
   theme={themeName}
   preloadImages={imagesToPreload}
 >
-
   <!-- -----------------------------------------------------
        BACK LINK
        ----------------------------------------------------- -->
 
   <div class="relative z-30">
-    <BackLink
-      href={`${baseUrl}blog/`}
-      text="← Back to blog"
-    />
+    <BackLink href={`${baseUrl}blog/`} text="← Back to blog" />
   </div>
-
 
   <!-- -----------------------------------------------------
        BLOG CONTENT
@@ -169,7 +141,6 @@ const imagesToPreload = [
     class="relative py-12 md:py-16 px-4 max-w-4xl mx-auto w-full"
     style={`--project-tag-color: ${postDynamicToken}`}
   >
-
     <!-- Background rendering layer -->
 
     <BlogBackgrounds
@@ -179,13 +150,10 @@ const imagesToPreload = [
       backgroundOpacity={backgroundOpacity}
     />
 
-
     <!-- Article -->
 
     <div class="mt-12 w-full min-w-0">
-
       <div class="flex flex-col gap-6 sm:gap-8 w-full min-w-0">
-
         <BlogHeader
           title={post.data.title}
           description={post.data.description}
@@ -193,41 +161,24 @@ const imagesToPreload = [
           theme={themeName}
         />
 
-        <BlogContent
-          bodyHtml={bodyHtml}
-          scenes={scenes}
-        />
-
+        <BlogContent bodyHtml={bodyHtml} scenes={scenes} />
       </div>
-
     </div>
-
 
     <!-- ---------------------------------------------------
          End-of-article sentinel
          --------------------------------------------------- -->
 
-    <div
-      id="blog-end-sentinel"
-      class="w-full h-1"
-    ></div>
-
+    <div id="blog-end-sentinel" class="w-full h-1"></div>
   </section>
-
 
   <!-- -----------------------------------------------------
        THAT'S ALL MESSAGE
        ----------------------------------------------------- -->
 
-  <div
-    id="thats-all-msg"
-    class="thats-all-overlay"
-  >
-    <span class="thats-all-text">
-      That's all for today folks!
-    </span>
+  <div id="thats-all-msg" class="thats-all-overlay">
+    <span class="thats-all-text"> That's all for today folks! </span>
   </div>
-
 
   <!-- -----------------------------------------------------
        FLOATING SIDEBAR
@@ -237,14 +188,12 @@ const imagesToPreload = [
     id="sidebar-container"
     class="group fixed top-1/4 right-0 z-50 flex items-start transition-transform duration-300 translate-x-[calc(100%-2.75rem)] [&.sidebar-open]:translate-x-0"
   >
-
     <button
       id="sidebar-toggle"
       class="bg-black text-white p-3 rounded-none shadow-lg cursor-pointer select-none border border-r-0 border-white/20 group-[.sidebar-open]:opacity-0 transition-opacity duration-200 flex items-center justify-center focus:outline-none"
       aria-label="Toggle Sidebar"
       type="button"
     >
-
       <!-- Chainlink Icon -->
 
       <svg
@@ -255,93 +204,22 @@ const imagesToPreload = [
         stroke="currentColor"
         class="w-5 h-5"
       >
-
         <path
           stroke-linecap="round"
           stroke-linejoin="round"
           d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244"
-        />
-
+        ></path>
       </svg>
-
     </button>
-
 
     <!-- Sidebar content -->
 
-    <div
-      id="sidebar-panel"
-      class="w-80 max-h-[70vh] overflow-y-auto"
-    >
-
+    <div id="sidebar-panel" class="w-80 max-h-[70vh] overflow-y-auto">
       <BlogSidebar cards={cards} />
-
     </div>
-
   </div>
 
-
-  <!-- -----------------------------------------------------
-       THAT'S ALL MESSAGE STYLES
-       ----------------------------------------------------- -->
-
-  <style is:global>
-
-    .thats-all-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-
-      padding-left: 5%;
-
-      z-index: 9999;
-
-      pointer-events: none;
-
-      opacity: 0;
-
-      transition:
-        opacity 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
-    }
-
-
-    .thats-all-overlay.visible {
-      opacity: 1;
-    }
-
-
-    .thats-all-text {
-      font-size: clamp(2rem, 5vw, 4rem);
-
-      font-weight: 700;
-
-      color: white;
-
-      text-shadow:
-        0 2px 8px rgba(0, 0, 0, 0.8),
-        0 0 40px rgba(255, 155, 105, 0.3);
-
-      letter-spacing: 0.05em;
-
-      transform: translateY(1rem);
-
-      transition:
-        transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
-    }
-
-
-    .thats-all-overlay.visible .thats-all-text {
-      transform: translateY(0);
-    }
-
-  </style>
-
+  <!-- The overlay's styles live in styles/components/thatsAll.css -->
 
   <!-- -----------------------------------------------------
        BLOG PAGE CONTROLLERS
@@ -369,131 +247,76 @@ const imagesToPreload = [
     }}
     data-astro-rerun
   >
-
     /* =====================================================
        CLEAN UP PREVIOUS BLOG PAGE
        ===================================================== */
-
     if (window.__blogPageCleanup) {
       try {
         window.__blogPageCleanup();
       } catch (error) {
-        console.warn(
-          "[Blog] Failed to clean previous page:",
-          error,
-        );
+        console.warn("[Blog] Failed to clean previous page:", error);
       }
     }
-
 
     /* =====================================================
        BACKGROUND CONFIGURATION
        ===================================================== */
-
     const currentBackgrounds = Array.isArray(backgrounds)
       ? backgrounds.map((background) => ({
           image: background.image,
         }))
       : [];
-
-
-    const bgOpacity =
-      Number(backgroundOpacity ?? 1);
-
-
-    const bgBlur =
-      Number(backgroundBlur ?? 0);
-
-
-    const parallaxFactor =
-      Number(backgroundParallax ?? 0.2);
-
+    const bgOpacity = Number(backgroundOpacity ?? 1);
+    const bgBlur = Number(backgroundBlur ?? 0);
+    const parallaxFactor = Number(backgroundParallax ?? 0.2);
 
     /* =====================================================
        BACKGROUND STATE
        ===================================================== */
-
     let markerTops = [];
-
     let layerRanges = [];
-
     let resizeFrame = 0;
-
     let destroyed = false;
-
 
     /* =====================================================
        HELPERS
        ===================================================== */
-
     const clamp = (value, min, max) => {
-      return Math.min(
-        max,
-        Math.max(min, value),
-      );
+      return Math.min(max, Math.max(min, value));
     };
-
 
     /* =====================================================
        FIND MARKERS
        =====================================================
-
        Each marker is converted into an absolute document
        position.
-
        Example:
-
        [background[0]]
        [background[1]]
        [background[2]]
-
        becomes:
-
        marker 0 -> document Y
        marker 1 -> document Y
        marker 2 -> document Y
        ===================================================== */
-
     const getMarkerTops = () => {
-
-      const markers =
-        document.querySelectorAll(".bg-marker");
-
-
+      const markers = document.querySelectorAll(".bg-marker");
       if (!markers.length) {
         return [];
       }
-
-
       return Array.from(markers)
         .map((element) => {
-
           let top = 0;
-
           let node = element;
-
-
           while (node) {
-
             top += node.offsetTop;
-
             node = node.offsetParent;
-
           }
-
-
-          const index =
-            Number.parseInt(
-              element.dataset.bgIndex ?? "0",
-              10,
-            );
-
-
+          const index = Number.parseInt(element.dataset.bgIndex ?? "0", 10);
           return {
             top,
             index,
           };
-
         })
         .filter((marker) => {
           return (
@@ -505,52 +328,34 @@ const imagesToPreload = [
         .sort((a, b) => {
           return a.top - b.top;
         });
-
     };
-
 
     /* =====================================================
        CALCULATE EACH BACKGROUND'S PARALLAX RANGE
        ===================================================== */
-
     const computeLayerRanges = () => {
-
-      const total =
-        currentBackgrounds.length;
-
-
-      layerRanges =
-        new Array(total).fill(null);
-
-
+      const total = currentBackgrounds.length;
+      layerRanges = new Array(total).fill(null);
       if (!total) {
         return;
       }
-
-
-      const documentHeight =
-        Math.max(
-          document.body?.scrollHeight ?? 0,
-          document.documentElement?.scrollHeight ?? 0,
-        );
-
+      const documentHeight = Math.max(
+        document.body?.scrollHeight ?? 0,
+        document.documentElement?.scrollHeight ?? 0,
+      );
 
       /*
        * No markers:
        *
        * Background 0 is used for the whole article.
        */
-
       if (!markerTops.length) {
-
         layerRanges[0] = {
           start: 0,
           end: Math.max(1, documentHeight),
         };
-
         return;
       }
-
 
       /*
        * Each background gets its own segment.
@@ -561,86 +366,40 @@ const imagesToPreload = [
        * The next marker belonging to another background
        * determines where it ends.
        */
-
-      for (
-        let i = 0;
-        i < markerTops.length;
-        i++
-      ) {
-
-        const {
-          index,
-          top,
-        } = markerTops[i];
-
+      for (let i = 0; i < markerTops.length; i++) {
+        const { index, top } = markerTops[i];
 
         /*
          * Duplicate markers for the same background
          * don't reset its range.
          */
-
         if (layerRanges[index]) {
           continue;
         }
-
-
-        let end =
-          Math.max(1, documentHeight);
-
-
-        for (
-          let j = i + 1;
-          j < markerTops.length;
-          j++
-        ) {
-
-          if (
-            markerTops[j].index !== index
-          ) {
-
-            end =
-              markerTops[j].top;
-
+        let end = Math.max(1, documentHeight);
+        for (let j = i + 1; j < markerTops.length; j++) {
+          if (markerTops[j].index !== index) {
+            end = markerTops[j].top;
             break;
-
           }
-
         }
-
-
         layerRanges[index] = {
-          start:
-            index === 0
-              ? 0
-              : top,
-
-          end:
-            Math.max(
-              top + 1,
-              end,
-            ),
+          start: index === 0 ? 0 : top,
+          end: Math.max(top + 1, end),
         };
-
       }
-
     };
-
 
     /* =====================================================
        UPDATE BACKGROUNDS
        ===================================================== */
-
     const updateBackgrounds = () => {
-
       if (destroyed) {
         return;
       }
-
-
       if (!currentBackgrounds.length) {
         return;
       }
-
 
       /*
        * The viewport center is used as the focus point.
@@ -648,318 +407,161 @@ const imagesToPreload = [
        * This replaces the old "focus" variable issue and
        * gives us one consistent coordinate system.
        */
-
-      const centerLine =
-        window.scrollY +
-        window.innerHeight * 0.5;
-
+      const centerLine = window.scrollY + window.innerHeight * 0.5;
 
       /* ---------------------------------------------------
          Determine active background
          --------------------------------------------------- */
-
       let activeIndex = 0;
-
-
-      for (
-        let i = 0;
-        i < markerTops.length;
-        i++
-      ) {
-
-        if (
-          markerTops[i].top <= centerLine
-        ) {
-
-          activeIndex =
-            markerTops[i].index;
-
+      for (let i = 0; i < markerTops.length; i++) {
+        if (markerTops[i].top <= centerLine) {
+          activeIndex = markerTops[i].index;
         } else {
-
           break;
-
         }
-
       }
-
-
-      activeIndex =
-        clamp(
-          activeIndex,
-          0,
-          currentBackgrounds.length - 1,
-        );
-
+      activeIndex = clamp(activeIndex, 0, currentBackgrounds.length - 1);
 
       /* ---------------------------------------------------
          Parallax amplitude
          --------------------------------------------------- */
-
-      const amplitude =
-        clamp(
-          parallaxFactor,
-          0,
-          0.19,
-        ) * window.innerHeight;
-
+      const amplitude = clamp(parallaxFactor, 0, 0.19) * window.innerHeight;
 
       /* ---------------------------------------------------
          Calculate offset for one background
          --------------------------------------------------- */
-
       const offsetForLayer = (index) => {
-
-        const range =
-          layerRanges[index];
-
+        const range = layerRanges[index];
 
         /*
          * A background without a valid range keeps the
          * maximum positive offset.
          */
-
         if (!range) {
           return amplitude;
         }
-
-
-        const segmentLength =
-          Math.max(
-            1,
-            range.end - range.start,
-          );
-
-
-        const progress =
-          clamp(
-            (
-              centerLine -
-              range.start
-            ) / segmentLength,
-
-            0,
-            1,
-          );
-
+        const segmentLength = Math.max(1, range.end - range.start);
+        const progress = clamp(
+          (centerLine - range.start) / segmentLength,
+          0,
+          1,
+        );
 
         /*
          * +A at beginning
          *  0 in middle
          * -A at end
          */
-
-        return (
-          amplitude *
-          (1 - 2 * progress)
-        );
-
+        return amplitude * (1 - 2 * progress);
       };
-
 
       /* ---------------------------------------------------
          Apply state to current background elements
          --------------------------------------------------- */
+      currentBackgrounds.forEach((background, index) => {
+        const backgroundElement = document.getElementById(
+          `dynamic-bg-${index}`,
+        );
+        if (!backgroundElement) {
+          return;
+        }
 
-      currentBackgrounds.forEach(
-        (background, index) => {
-
-          const backgroundElement =
-            document.getElementById(
-              `dynamic-bg-${index}`,
-            );
-
-
-          if (!backgroundElement) {
-            return;
-          }
-
-
-          /*
-           * Set image every update so the element always
-           * belongs to the current page's background data.
-           */
-
-          backgroundElement.style.backgroundImage =
-            `url("${background.image}")`;
-
-
-          backgroundElement.style.filter =
-            `blur(${bgBlur * 24}px)`;
-
-
-          backgroundElement.style.transform =
-            `translate3d(0, ${offsetForLayer(index)}px, 0)`;
-
-
-          const isActive =
-            index === activeIndex;
-
-
-          backgroundElement.style.opacity =
-            isActive
-              ? String(bgOpacity)
-              : "0";
-
-
-          backgroundElement.dataset.active =
-            isActive
-              ? "1"
-              : "0";
-
-        },
-      );
-
+        /*
+         * Set image every update so the element always
+         * belongs to the current page's background data.
+         */
+        backgroundElement.style.backgroundImage = `url("${background.image}")`;
+        backgroundElement.style.filter = `blur(${bgBlur * 24}px)`;
+        backgroundElement.style.transform = `translate3d(0, ${offsetForLayer(index)}px, 0)`;
+        const isActive = index === activeIndex;
+        backgroundElement.style.opacity = isActive ? String(bgOpacity) : "0";
+        backgroundElement.dataset.active = isActive ? "1" : "0";
+      });
     };
-
 
     /* =====================================================
        MEASURE EVERYTHING
        ===================================================== */
-
     const remeasure = () => {
-
       if (destroyed) {
         return;
       }
-
-
-      markerTops =
-        getMarkerTops();
-
-
+      markerTops = getMarkerTops();
       computeLayerRanges();
-
-
       updateBackgrounds();
-
     };
-
 
     /* =====================================================
        QUEUED MEASUREMENT
        =====================================================
-
        ResizeObserver can fire several times while fonts,
        images and layout settle.
-
        requestAnimationFrame prevents excessive recalculation.
        ===================================================== */
-
     const queueRemeasure = () => {
-
       if (destroyed) {
         return;
       }
-
-
       if (resizeFrame) {
         return;
       }
-
-
-      resizeFrame =
-        window.requestAnimationFrame(() => {
-
-          resizeFrame = 0;
-
-          remeasure();
-
-        });
-
+      resizeFrame = window.requestAnimationFrame(() => {
+        resizeFrame = 0;
+        remeasure();
+      });
     };
-
 
     /* =====================================================
        SCROLL
        ===================================================== */
-
     const onScroll = () => {
-
       updateBackgrounds();
-
     };
-
 
     /* =====================================================
        RESIZE
        ===================================================== */
-
     const onResize = () => {
-
       queueRemeasure();
-
     };
-
 
     /* =====================================================
        RESIZE OBSERVER
        =====================================================
-
        `html, body { height: 100% }` (base/rules.css) pins the
        <body> box to the viewport height, so it never changes
        size when the article grows. Observing <body> therefore
        never fires and the measurement taken before the scene
        images decode is never corrected.
-
        Observe the wrappers that actually grow with the article
        instead, so late layout changes are picked up.
        ===================================================== */
-
     const resizeTargets = [
       document.querySelector("main"),
       document.getElementById("blog-content"),
     ].filter(Boolean);
-
-
-    const resizeObserver =
-      new ResizeObserver(() => {
-
-        queueRemeasure();
-
-      });
-
-
-    resizeTargets.forEach((target) => {
-
-      resizeObserver.observe(target);
-
+    const resizeObserver = new ResizeObserver(() => {
+      queueRemeasure();
     });
-
-
+    resizeTargets.forEach((target) => {
+      resizeObserver.observe(target);
+    });
     if (!resizeTargets.length && document.body) {
-
-      resizeObserver.observe(
-        document.body,
-      );
-
+      resizeObserver.observe(document.body);
     }
-
 
     /* =====================================================
        EVENT REGISTRATION
        ===================================================== */
-
-    window.addEventListener(
-      "scroll",
-      onScroll,
-      {
-        passive: true,
-      },
-    );
-
-
-    window.addEventListener(
-      "resize",
-      onResize,
-    );
-
+    window.addEventListener("scroll", onScroll, {
+      passive: true,
+    });
+    window.addEventListener("resize", onResize);
 
     /* =====================================================
        INITIAL MEASUREMENT
        ===================================================== */
-
     remeasure();
-
 
     /*
      * Run another measurement on the next frame.
@@ -967,15 +569,11 @@ const imagesToPreload = [
      * This catches layout changes caused by the current
      * page becoming visible during an Astro transition.
      */
-
     window.requestAnimationFrame(() => {
-
       if (!destroyed) {
         remeasure();
       }
-
     });
-
 
     /*
      * Cold-load safety net.
@@ -990,129 +588,53 @@ const imagesToPreload = [
      * Re-measure once every image has loaded and once the webfonts
      * are ready so the first load always matches a reload.
      */
-
     if (document.readyState === "complete") {
-
       /* Script re-ran after load — measure on the next frame. */
-
       queueRemeasure();
-
     } else {
-
-      window.addEventListener(
-        "load",
-        queueRemeasure,
-        {
-          once: true,
-        },
-      );
-
+      window.addEventListener("load", queueRemeasure, {
+        once: true,
+      });
     }
-
-
     if (document.fonts?.ready) {
-
       document.fonts.ready
         .then(() => {
-
           queueRemeasure();
-
         })
         .catch(() => {
-
           /* Font loading API unavailable — the load event covers us. */
-
         });
-
     }
-
 
     /* =====================================================
        SIDEBAR
        ===================================================== */
-
-    const sidebarContainer =
-      document.getElementById(
-        "sidebar-container",
-      );
-
-
-    const sidebarToggle =
-      document.getElementById(
-        "sidebar-toggle",
-      );
-
-
+    const sidebarContainer = document.getElementById("sidebar-container");
+    const sidebarToggle = document.getElementById("sidebar-toggle");
     const onSidebarToggle = (event) => {
-
       event.stopPropagation();
-
-
       if (!sidebarContainer) {
         return;
       }
-
-
-      sidebarContainer.classList.toggle(
-        "sidebar-open",
-      );
-
+      sidebarContainer.classList.toggle("sidebar-open");
     };
-
-
     const onSidebarMouseEnter = () => {
-
-      sidebarContainer?.classList.add(
-        "sidebar-open",
-      );
-
+      sidebarContainer?.classList.add("sidebar-open");
     };
-
-
     const onSidebarMouseLeave = () => {
-
-      sidebarContainer?.classList.remove(
-        "sidebar-open",
-      );
-
+      sidebarContainer?.classList.remove("sidebar-open");
     };
-
-
     const onDocumentClick = (event) => {
-
       if (!sidebarContainer) {
         return;
       }
-
-
-      const target =
-        event.target;
-
-
-      if (
-        target instanceof Node &&
-        !sidebarContainer.contains(target)
-      ) {
-
-        sidebarContainer.classList.remove(
-          "sidebar-open",
-        );
-
+      const target = event.target;
+      if (target instanceof Node && !sidebarContainer.contains(target)) {
+        sidebarContainer.classList.remove("sidebar-open");
       }
-
     };
-
-
-    if (
-      sidebarContainer &&
-      sidebarToggle
-    ) {
-
-      sidebarToggle.addEventListener(
-        "click",
-        onSidebarToggle,
-      );
-
+    if (sidebarContainer && sidebarToggle) {
+      sidebarToggle.addEventListener("click", onSidebarToggle);
 
       /*
        * Hover-to-open is pointer-only. On touch screens a tap fires
@@ -1120,278 +642,114 @@ const imagesToPreload = [
        * panel the hover had just opened — the sidebar needed two taps.
        */
       const canHover =
-        window.matchMedia?.(
-          "(hover: hover) and (pointer: fine)",
-        ).matches ?? false;
-
-
+        window.matchMedia?.("(hover: hover) and (pointer: fine)").matches ??
+        false;
       if (canHover) {
-
-        sidebarContainer.addEventListener(
-          "mouseenter",
-          onSidebarMouseEnter,
-        );
-
-
-        sidebarContainer.addEventListener(
-          "mouseleave",
-          onSidebarMouseLeave,
-        );
-
+        sidebarContainer.addEventListener("mouseenter", onSidebarMouseEnter);
+        sidebarContainer.addEventListener("mouseleave", onSidebarMouseLeave);
       }
-
-
-      document.addEventListener(
-        "click",
-        onDocumentClick,
-      );
-
+      document.addEventListener("click", onDocumentClick);
     }
-
 
     /* =====================================================
        THAT'S ALL MESSAGE
        ===================================================== */
-
-    const sentinel =
-      document.getElementById(
-        "blog-end-sentinel",
-      );
-
-
-    const thatsAllMessage =
-      document.getElementById(
-        "thats-all-msg",
-      );
-
-
+    const sentinel = document.getElementById("blog-end-sentinel");
+    const thatsAllMessage = document.getElementById("thats-all-msg");
     let thatsAllObserver = null;
-
     let thatsAllTimeout = 0;
-
-
-    if (
-      sentinel &&
-      thatsAllMessage
-    ) {
-
+    if (sentinel && thatsAllMessage) {
       let hasShown = false;
-
-
-      thatsAllObserver =
-        new IntersectionObserver(
-          (entries) => {
-
-            if (destroyed) {
-              return;
+      thatsAllObserver = new IntersectionObserver(
+        (entries) => {
+          if (destroyed) {
+            return;
+          }
+          entries.forEach((entry) => {
+            if (entry.isIntersecting && !hasShown) {
+              hasShown = true;
+              thatsAllMessage.classList.add("visible");
+              thatsAllTimeout = window.setTimeout(() => {
+                if (!destroyed) {
+                  thatsAllMessage.classList.remove("visible");
+                }
+              }, 2500);
+              thatsAllObserver?.unobserve(sentinel);
             }
-
-
-            entries.forEach((entry) => {
-
-              if (
-                entry.isIntersecting &&
-                !hasShown
-              ) {
-
-                hasShown = true;
-
-
-                thatsAllMessage.classList.add(
-                  "visible",
-                );
-
-
-                thatsAllTimeout =
-                  window.setTimeout(() => {
-
-                    if (!destroyed) {
-
-                      thatsAllMessage.classList.remove(
-                        "visible",
-                      );
-
-                    }
-
-                  }, 2500);
-
-
-                thatsAllObserver?.unobserve(
-                  sentinel,
-                );
-
-              }
-
-            });
-
-          },
-          {
-            threshold: 0.5,
-          },
-        );
-
-
-      thatsAllObserver.observe(
-        sentinel,
+          });
+        },
+        {
+          threshold: 0.5,
+        },
       );
-
+      thatsAllObserver.observe(sentinel);
     }
-
 
     /* =====================================================
        PAGE CLEANUP
        ===================================================== */
-
     const cleanup = () => {
-
       if (destroyed) {
         return;
       }
-
-
       destroyed = true;
 
-
       /* Cancel queued measurement */
-
       if (resizeFrame) {
-
-        window.cancelAnimationFrame(
-          resizeFrame,
-        );
-
+        window.cancelAnimationFrame(resizeFrame);
         resizeFrame = 0;
-
       }
-
 
       /* Remove background listeners */
-
-      window.removeEventListener(
-        "scroll",
-        onScroll,
-      );
-
-
-      window.removeEventListener(
-        "resize",
-        onResize,
-      );
-
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onResize);
 
       /* Remove cold-load measurement hooks */
-
-      window.removeEventListener(
-        "load",
-        queueRemeasure,
-      );
-
+      window.removeEventListener("load", queueRemeasure);
 
       /* Remove ResizeObserver */
-
       resizeObserver.disconnect();
 
-
       /* Remove sidebar listeners */
-
-      if (
-        sidebarContainer &&
-        sidebarToggle
-      ) {
-
-        sidebarToggle.removeEventListener(
-          "click",
-          onSidebarToggle,
-        );
-
-
-        sidebarContainer.removeEventListener(
-          "mouseenter",
-          onSidebarMouseEnter,
-        );
-
-
-        sidebarContainer.removeEventListener(
-          "mouseleave",
-          onSidebarMouseLeave,
-        );
-
-
-        document.removeEventListener(
-          "click",
-          onDocumentClick,
-        );
-
+      if (sidebarContainer && sidebarToggle) {
+        sidebarToggle.removeEventListener("click", onSidebarToggle);
+        sidebarContainer.removeEventListener("mouseenter", onSidebarMouseEnter);
+        sidebarContainer.removeEventListener("mouseleave", onSidebarMouseLeave);
+        document.removeEventListener("click", onDocumentClick);
       }
-
 
       /* Remove "That's all" observer */
-
       if (thatsAllObserver) {
-
         thatsAllObserver.disconnect();
-
         thatsAllObserver = null;
-
       }
-
 
       /* Remove timeout */
-
       if (thatsAllTimeout) {
-
-        window.clearTimeout(
-          thatsAllTimeout,
-        );
-
+        window.clearTimeout(thatsAllTimeout);
         thatsAllTimeout = 0;
-
       }
-
 
       /*
        * Clear active state from the page's background
        * elements before the next page takes over.
        */
-
-      currentBackgrounds.forEach(
-        (_background, index) => {
-
-          const backgroundElement =
-            document.getElementById(
-              `dynamic-bg-${index}`,
-            );
-
-
-          if (!backgroundElement) {
-            return;
-          }
-
-
-          backgroundElement.style.opacity =
-            "0";
-
-
-          backgroundElement.style.transform =
-            "";
-
-
-          backgroundElement.dataset.active =
-            "0";
-
-        },
-      );
-
+      currentBackgrounds.forEach((_background, index) => {
+        const backgroundElement = document.getElementById(
+          `dynamic-bg-${index}`,
+        );
+        if (!backgroundElement) {
+          return;
+        }
+        backgroundElement.style.opacity = "0";
+        backgroundElement.style.transform = "";
+        backgroundElement.dataset.active = "0";
+      });
     };
-
 
     /* =====================================================
        REGISTER GLOBAL CLEANUP
        ===================================================== */
-
-    window.__blogPageCleanup =
-      cleanup;
-
+    window.__blogPageCleanup = cleanup;
   </script>
-
 </MyLayout>

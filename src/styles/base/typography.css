@@ -7,54 +7,40 @@
 
 /* ═══════════════════════════════════════════════════════════════
    TITLE OUTLINES — even black border around text
-   Use .outline-1 through .outline-3 for different thicknesses.
+   Title.astro picks .outline-2, or .outline-3 for a level-1 heading.
    ═══════════════════════════════════════════════════════════════ */
 
 /* Font outline base — ensures crisp rendering */
-.outline-1,
 .outline-2,
 .outline-3 {
   text-rendering: geometricPrecision;
   -webkit-font-smoothing: antialiased;
 }
 
-/* 1px outline — subtle */
-.outline-1 {
-  text-shadow:
-     0    1px 0 #000,
-     0   -1px 0 #000,
-     1px  0   0 #000,
-    -1px  0   0 #000,
-     1px  1px 0 #000,
-    -1px -1px 0 #000,
-     1px -1px 0 #000,
-    -1px  1px 0 #000;
-}
-
 /* 2px outline — standard */
 .outline-2 {
   text-shadow:
-     0    2px 0 #000,
-     0   -2px 0 #000,
-     2px  0   0 #000,
-    -2px  0   0 #000,
-     2px  2px 0 #000,
+    0 2px 0 #000,
+    0 -2px 0 #000,
+    2px 0 0 #000,
+    -2px 0 0 #000,
+    2px 2px 0 #000,
     -2px -2px 0 #000,
-     2px -2px 0 #000,
-    -2px  2px 0 #000;
+    2px -2px 0 #000,
+    -2px 2px 0 #000;
 }
 
 /* 3px outline — thick, for h1 */
 .outline-3 {
   text-shadow:
-     0    3px 0 #000,
-     0   -3px 0 #000,
-     3px  0   0 #000,
-    -3px  0   0 #000,
-     3px  3px 0 #000,
+    0 3px 0 #000,
+    0 -3px 0 #000,
+    3px 0 0 #000,
+    -3px 0 0 #000,
+    3px 3px 0 #000,
     -3px -3px 0 #000,
-     3px -3px 0 #000,
-    -3px  3px 0 #000;
+    3px -3px 0 #000,
+    -3px 3px 0 #000;
 }
 
 #blog-content {

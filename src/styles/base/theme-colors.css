@@ -23,8 +23,17 @@
 
 /* Recompute accent colors from the element's own --project-tag-color
    so they don't fall back to the :root value. */
-.theme-color {   --accent-bold: color-mix(in srgb, var(--project-tag-color, var(--theme-primary)) 90%, white 10%);
-  --accent-italic: color-mix(in srgb, var(--project-tag-color, var(--theme-primary)) 85%, white 15%);
+.theme-color {
+  --accent-bold: color-mix(
+    in srgb,
+    var(--project-tag-color, var(--theme-primary)) 90%,
+    white 10%
+  );
+  --accent-italic: color-mix(
+    in srgb,
+    var(--project-tag-color, var(--theme-primary)) 85%,
+    white 15%
+  );
 }
 
 .theme-color strong,
@@ -42,8 +51,16 @@
    Recompute accents here so they follow the post's theme, not :root. */
 
 #blog-content {
-  --accent-bold: color-mix(in srgb, var(--project-tag-color, var(--theme-primary)) 90%, white 10%);
-  --accent-italic: color-mix(in srgb, var(--project-tag-color, var(--theme-primary)) 85%, white 15%);
+  --accent-bold: color-mix(
+    in srgb,
+    var(--project-tag-color, var(--theme-primary)) 90%,
+    white 10%
+  );
+  --accent-italic: color-mix(
+    in srgb,
+    var(--project-tag-color, var(--theme-primary)) 85%,
+    white 15%
+  );
 }
 
 #blog-content strong,

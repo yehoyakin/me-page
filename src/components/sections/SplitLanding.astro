@@ -15,7 +15,8 @@ interface CardData {
 }
 
 interface Props {
-  background: string;
+  /** Optional backdrop image. Omit it to use the flat overlay only. */
+  background?: string;
   left: CardData;
   right: CardData;
   footerText?: string;
@@ -26,11 +27,14 @@ const { background, left, right, footerText = "" } = Astro.props as Props;
 
 {/* Allow the landing section to grow vertically as content expands. */}
 <section class="relative flex-1 w-full h-full">
-  <div
-    class="absolute inset-0 bg-cover bg-center opacity-20 pointer-events-none"
-    style={`background-image: url('${background}')`}
-  >
-  </div>
+  {
+    background && (
+      <div
+        class="absolute inset-0 bg-cover bg-center opacity-20 pointer-events-none"
+        style={`background-image: url('${background}')`}
+      />
+    )
+  }
 
   <div class="absolute inset-0 bg-zinc-950/85 pointer-events-none"></div>
 
@@ -46,12 +50,7 @@ const { background, left, right, footerText = "" } = Astro.props as Props;
           theme={left.theme ?? "primary"}
           class="h-full w-full border-b border-zinc-800/60 md:border-b-0 md:border-r border-zinc-800/60"
         >
-          <Portrait
-            slot="background"
-            src={left.imageSrc}
-            shape="square"
-            size="xl"
-          />
+          <Portrait slot="background" src={left.imageSrc} size="xl" />
         </Card>
       </div>
 
@@ -66,12 +65,7 @@ const { background, left, right, footerText = "" } = Astro.props as Props;
           theme={right.theme ?? "primary"}
           class="h-full w-full"
         >
-          <Portrait
-            slot="background"
-            src={right.imageSrc}
-            shape="square"
-            size="xl"
-          />
+          <Portrait slot="background" src={right.imageSrc} size="xl" />
         </Card>
       </div>
     </div>
@@ -81,7 +75,10 @@ const { background, left, right, footerText = "" } = Astro.props as Props;
       class="shrink-0 border-t border-zinc-800/60 bg-zinc-950/50 px-3 py-2 sm:px-8 sm:py-6 backdrop-blur-md"
     >
       <div class="mx-auto max-w-2xl text-center">
-        <Body theme="primary" class="text-[0.625rem] sm:text-sm italic text-zinc-500">
+        <Body
+          theme="primary"
+          class="text-[0.625rem] sm:text-sm italic text-zinc-500"
+        >
           {footerText}
         </Body>
       </div>

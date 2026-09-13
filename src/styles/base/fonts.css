@@ -77,27 +77,6 @@
 }
 
 /* ================================================================
-   UTILITY CLASSES — apply a specific font family regardless of theme.
-   Use !important so they win over any theme's --font-* resolution.
-   ================================================================ */
-
-.font-ui {
-  font-family: var(--font-ui) !important;
-}
-
-.font-title {
-  font-family: var(--font-title) !important;
-}
-
-.font-alt-title {
-  font-family: var(--font-alt-title) !important;
-}
-
-.font-terminal {
-  font-family: var(--font-terminal) !important;
-}
-
-/* ================================================================
    BASE APPLICATION — set the document's font family from the
    resolved --font-body / --font-title tokens.  These rules live
    HERE (not in global.css) so they are guaranteed to be declared
@@ -131,11 +110,7 @@ h2,
 h3,
 h4,
 h5,
-h6,
-.header,
-.title,
-.post-title,
-.blog-title {
+h6 {
   font-family: var(--font-title);
 }
 

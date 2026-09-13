@@ -15,7 +15,11 @@ interface Props {
   shadow?: boolean;
 }
 
-const { class: customClass = "", theme: rawTheme, shadow = false } = Astro.props;
+const {
+  class: customClass = "",
+  theme: rawTheme,
+  shadow = false,
+} = Astro.props;
 const themeName = toThemeName(rawTheme);
 const config = getThemeConfig(themeName);
 const themeToken = resolveThemeToken(themeName);

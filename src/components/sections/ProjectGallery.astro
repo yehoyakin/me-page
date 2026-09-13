@@ -16,7 +16,12 @@ const { projects } = Astro.props;
 
 <div id="project-gallery" class="project-gallery">
   <div id="gallery-bg" class="gallery-bg" aria-hidden="true">
-    <img id="gallery-bg-img" class="gallery-bg-img" src={projects[0] ? asset(projects[0].data.images[0]) : ""} alt="" />
+    <img
+      id="gallery-bg-img"
+      class="gallery-bg-img"
+      src={projects[0] ? asset(projects[0].data.images[0]) : ""}
+      alt=""
+    />
     <div class="gallery-bg-overlay"></div>
   </div>
 
@@ -34,8 +39,8 @@ const { projects } = Astro.props;
           const themeName = toThemeName(project.data.theme);
           const themeToken = resolveThemeToken(themeName);
           return (
-            <div class="gallery-project-item" data-project-index={index}>
-              <!-- Thumbnail Button -->
+            <div class="gallery-project-item">
+              {/* Thumbnail button */}
               <button
                 class="gallery-thumb"
                 aria-label={`Expand project ${project.data.title ?? index + 1}`}
@@ -43,32 +48,37 @@ const { projects } = Astro.props;
                 data-thumb-index={index}
                 style={`--thumb-theme-color: ${themeToken}`}
               >
-                <!-- Image carousel container -->
-                <div class="thumb-carousel" data-images={JSON.stringify(project.data.images.map(asset))}>
+                {/* Image carousel */}
+                <div class="thumb-carousel">
                   {project.data.images.map((img: string, imgIndex: number) => (
                     <img
                       src={asset(img)}
                       alt={`${project.data.title ?? `Project ${index + 1}`} - Image ${imgIndex + 1}`}
-                      class={`thumb-carousel-img ${imgIndex === 0 ? 'active' : ''}`}
+                      class={`thumb-carousel-img ${imgIndex === 0 ? "active" : ""}`}
                       loading="lazy"
                       decoding="async"
                     />
                   ))}
                 </div>
-                <!-- Dark overlay -->
-                <div class="thumb-overlay"></div>
+                <div class="thumb-overlay" />
 
-                <!-- Bottom info bar - title + tag -->
+                {/* Bottom info bar: title + tag */}
                 <div class="thumb-info-bar">
                   <span class="thumb-title">{project.data.title}</span>
-                  <span class="thumb-tag retro-font" style={`color: ${themeToken}`}>{project.data.tag}</span>
+                  <span class="thumb-tag" style={`color: ${themeToken}`}>
+                    {project.data.tag}
+                  </span>
                 </div>
               </button>
-              <!-- Links below thumbnail - always visible -->
+              {/* Links below the thumbnail, always visible */}
               <div class="thumb-links">
                 {project.data.links?.map(
                   (link: { href: string; text: string | undefined }) => (
-                    <SocialLink href={link.href} text={link.text} external={true} />
+                    <SocialLink
+                      href={link.href}
+                      text={link.text}
+                      external={true}
+                    />
                   ),
                 )}
               </div>
@@ -83,10 +93,23 @@ const { projects } = Astro.props;
   <div class="gallery-panels-container">
     {
       projects.map((project, index) => (
-        <div class="gallery-card-panel" data-panel={index} style="display: none;">
-          <button class="collapse-btn" aria-label="Collapse project" data-collapse={index}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="18 15 12 9 6 15"></polyline>
+        <div class="gallery-card-panel" data-panel={index}>
+          <button
+            class="collapse-btn"
+            aria-label="Collapse project"
+            data-collapse={index}
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="18 15 12 9 6 15" />
             </svg>
           </button>
           <CallCard
@@ -115,7 +138,7 @@ const { projects } = Astro.props;
     gallery.dataset.galleryInitialized = "true";
 
     if (gallery._carouselTimers) {
-      gallery._carouselTimers.forEach(t => clearInterval(t));
+      gallery._carouselTimers.forEach((t) => clearInterval(t));
     }
     gallery._carouselTimers = [];
 
@@ -137,33 +160,27 @@ const { projects } = Astro.props;
 
     function expandProject(index) {
       // Hide all panels and deactivate all cards
-      panels.forEach(p => {
+      panels.forEach((p) => {
         p.style.display = "none";
         p.classList.remove("panel-hover-preview");
         p.classList.remove("panel-hover-fadeout");
-        const card = p.querySelector('.retro-expandable-card');
-        if (card) {
-          card.setAttribute('data-active', 'false');
-          card.removeAttribute('onclick');
-        }
+        const card = p.querySelector(".retro-expandable-card");
+        if (card) card.setAttribute("data-active", "false");
       });
 
-      const panel = panels.find(p => p.dataset.panel === String(index));
+      const panel = panels.find((p) => p.dataset.panel === String(index));
       if (panel) {
         panel.style.display = "block";
         activeProject = index;
 
-        const card = panel.querySelector('.retro-expandable-card');
-        if (card) {
-          card.setAttribute('data-active', 'true');
-          card.removeAttribute('onclick');
-        }
+        const card = panel.querySelector(".retro-expandable-card");
+        if (card) card.setAttribute("data-active", "true");
 
         // Update background
         const bgImg = document.getElementById("gallery-bg-img");
         const thumb = thumbs[index];
         if (bgImg && thumb) {
-          const firstImg = thumb.querySelector('.thumb-carousel-img');
+          const firstImg = thumb.querySelector(".thumb-carousel-img");
           if (firstImg) {
             bgImg.src = firstImg.src;
             bgImg.style.opacity = "1";
@@ -171,26 +188,27 @@ const { projects } = Astro.props;
         }
 
         // Scroll thumbnail into view within the horizontal scroller
-        const projectItem = thumb?.closest('.gallery-project-item');
+        const projectItem = thumb?.closest(".gallery-project-item");
         if (projectItem) {
-          projectItem.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+          projectItem.scrollIntoView({
+            behavior: "smooth",
+            block: "nearest",
+            inline: "center",
+          });
         }
 
         // Scroll panel into view below
-        panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        panel.scrollIntoView({ behavior: "smooth", block: "start" });
       }
     }
 
     function collapseProject() {
-      panels.forEach(p => {
+      panels.forEach((p) => {
         p.style.display = "none";
         p.classList.remove("panel-hover-preview");
         p.classList.remove("panel-hover-fadeout");
-        const card = p.querySelector('.retro-expandable-card');
-        if (card) {
-          card.setAttribute('data-active', 'false');
-          card.removeAttribute('onclick');
-        }
+        const card = p.querySelector(".retro-expandable-card");
+        if (card) card.setAttribute("data-active", "false");
       });
       activeProject = null;
 
@@ -209,7 +227,7 @@ const { projects } = Astro.props;
           // Don't show hover preview if a panel is already expanded
           if (activeProject !== null) return;
 
-          const panel = panels.find(p => p.dataset.panel === String(index));
+          const panel = panels.find((p) => p.dataset.panel === String(index));
           if (panel) {
             // Clean up any pending fadeout and show preview
             panel.classList.remove("panel-hover-fadeout");
@@ -222,7 +240,7 @@ const { projects } = Astro.props;
           // Don't hide if a panel is actively expanded
           if (activeProject !== null) return;
 
-          const panel = panels.find(p => p.dataset.panel === String(index));
+          const panel = panels.find((p) => p.dataset.panel === String(index));
           if (panel) {
             panel.classList.remove("panel-hover-preview");
             panel.classList.remove("panel-hover-fadeout");
@@ -251,16 +269,16 @@ const { projects } = Astro.props;
 
     // Initialize carousels for all thumbnails
     function initCarousels() {
-      const carousels = gallery.querySelectorAll('.thumb-carousel');
+      const carousels = gallery.querySelectorAll(".thumb-carousel");
       carousels.forEach((carousel) => {
-        const images = carousel.querySelectorAll('.thumb-carousel-img');
+        const images = carousel.querySelectorAll(".thumb-carousel-img");
         if (images.length <= 1) return;
 
         let imageIndex = 0;
         const timer = setInterval(() => {
-          images[imageIndex].classList.remove('active');
+          images[imageIndex].classList.remove("active");
           imageIndex = (imageIndex + 1) % images.length;
-          images[imageIndex].classList.add('active');
+          images[imageIndex].classList.add("active");
         }, CAROUSEL_INTERVAL);
 
         gallery._carouselTimers.push(timer);
@@ -275,7 +293,7 @@ const { projects } = Astro.props;
     if (!gallery) return;
     gallery.dataset.galleryInitialized = "false";
     if (gallery._carouselTimers) {
-      gallery._carouselTimers.forEach(t => clearInterval(t));
+      gallery._carouselTimers.forEach((t) => clearInterval(t));
       gallery._carouselTimers = [];
     }
   }

@@ -27,7 +27,9 @@
   transform: scale(1.45);
   filter: blur(36px) saturate(0.8) contrast(0.9);
   opacity: 0;
-  transition: opacity 600ms var(--ease-soft), transform 900ms var(--ease-settle);
+  transition:
+    opacity 600ms var(--ease-soft),
+    transform 900ms var(--ease-settle);
 }
 
 .gallery-bg-overlay {
@@ -50,7 +52,7 @@
   overflow-y: visible;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
-  scrollbar-color: rgba(255,255,255,0.3) transparent;
+  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
   padding: 1rem 0 2rem 0;
   position: relative;
   z-index: 3;
@@ -65,7 +67,7 @@
 }
 
 .gallery-thumbnails-wrapper::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.3);
+  background: rgba(255, 255, 255, 0.3);
   border-radius: 0;
 }
 
@@ -98,8 +100,8 @@
   width: clamp(260px, 40vw, 480px) !important;
   aspect-ratio: 16 / 10;
   padding: 0;
-  border: 2px solid rgba(255,255,255,0.1);
-  background: rgba(0,0,0,0.4);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -116,15 +118,20 @@
 }
 
 .gallery-thumb:hover {
-  border-color: var(--thumb-theme-color, rgba(255,255,255,0.3));
-  box-shadow: 0 16px 40px rgba(0,0,0,0.5), 0 0 20px color-mix(in srgb, var(--thumb-theme-color, white) 15%, transparent);
+  border-color: var(--thumb-theme-color, rgba(255, 255, 255, 0.3));
+  box-shadow:
+    0 16px 40px rgba(0, 0, 0, 0.5),
+    0 0 20px
+      color-mix(in srgb, var(--thumb-theme-color, white) 15%, transparent);
   transform: translateY(-6px);
 }
 
 .gallery-thumb:focus {
   outline: none;
   border-color: white;
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2), 0 12px 32px rgba(0,0,0,0.5);
+  box-shadow:
+    0 0 0 3px rgba(255, 255, 255, 0.2),
+    0 12px 32px rgba(0, 0, 0, 0.5);
 }
 
 /* ============================================================
@@ -165,7 +172,11 @@
 .thumb-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.4) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.1) 0%,
+    rgba(0, 0, 0, 0.4) 100%
+  );
   transition: opacity 320ms var(--ease-soft);
   pointer-events: none;
   z-index: 1;
@@ -174,8 +185,6 @@
 .gallery-thumb:hover .thumb-overlay {
   opacity: 0.4;
 }
-
-
 
 /* ============================================================
    BOTTOM INFO BAR - Title + Tag on solid black bar
@@ -261,6 +270,8 @@
 ============================================================ */
 
 .gallery-card-panel {
+  /* Panels start closed; the gallery script toggles this inline. */
+  display: none;
   position: relative;
   margin-top: 0.5rem;
 }
@@ -275,7 +286,7 @@
   height: 3rem;
   border-radius: 0;
   border: 2px solid var(--theme-forest, rgb(34, 197, 94));
-  background: rgba(0,0,0,0.8);
+  background: rgba(0, 0, 0, 0.8);
   color: var(--theme-forest, rgb(34, 197, 94));
   cursor: pointer;
   display: flex;
@@ -313,10 +324,22 @@
 .gallery-card-panel.panel-hover-preview {
   opacity: 1;
   transform: translateY(8px);
-  transition: opacity 360ms var(--ease-soft), transform 360ms var(--ease-settle);
+  transition:
+    opacity 360ms var(--ease-soft),
+    transform 360ms var(--ease-settle);
   pointer-events: none;
-  mask-image: linear-gradient(to top, rgba(0,0,0,1) 30%, rgba(0,0,0,0.75) 60%, rgba(0,0,0,0) 100%);
-  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 30%, rgba(0,0,0,0.75) 60%, rgba(0,0,0,0) 100%);
+  mask-image: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 1) 30%,
+    rgba(0, 0, 0, 0.75) 60%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 1) 30%,
+    rgba(0, 0, 0, 0.75) 60%,
+    rgba(0, 0, 0, 0) 100%
+  );
 }
 
 .gallery-card-panel.panel-hover-preview .collapse-btn {
@@ -329,8 +352,18 @@
   opacity: 0;
   transform: translateY(8px);
   pointer-events: none;
-  mask-image: linear-gradient(to top, rgba(0,0,0,1) 30%, rgba(0,0,0,0.75) 60%, rgba(0,0,0,0) 100%);
-  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 30%, rgba(0,0,0,0.75) 60%, rgba(0,0,0,0) 100%);
+  mask-image: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 1) 30%,
+    rgba(0, 0, 0, 0.75) 60%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 1) 30%,
+    rgba(0, 0, 0, 0.75) 60%,
+    rgba(0, 0, 0, 0) 100%
+  );
 }
 
 /* ============================================================

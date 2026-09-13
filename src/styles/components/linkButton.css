@@ -5,31 +5,10 @@
   font-family: var(--retro-font);
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   CLICKABLE INDICATOR — subtle pulse animation
-   ═══════════════════════════════════════════════════════════════ */
+/* The idle shake that draws attention to these buttons lives in
+   components/linkSweep.css. */
 
-/* Hover: stop the pulse, show solid state */
-.retro-link:hover::after {
-  animation: none;
-  opacity: 0;
-}
-
-@keyframes linkPulse {
-  0%, 100% {
-    opacity: 0;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.5;
-    transform: scale(1.02);
-  }
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   EXISTING STYLES
-   ═══════════════════════════════════════════════════════════════ */
-
+/* Placeholder hook for a pixel highlight sweep; currently inert. */
 .pixel-highlight {
   display: none;
 }

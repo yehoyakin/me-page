@@ -15,17 +15,18 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
 
 // Prefer an explicit link when provided; otherwise fall back to the site root.
 const resolvedHref = href || baseUrl;
+
+/* Stepped hover motion plus a hard drop shadow so the link keeps its edge
+   where it overlaps a busy background. */
+const classes = [
+  "back-link fixed top-6 left-6 z-50 font-mono text-sm uppercase tracking-wider",
+  "text-[color:var(--theme-forest)]",
+  "transition-all duration-75 ease-[steps(2)]",
+  "hover:translate-x-[-2px] hover:text-[color:var(--ui-invert)]",
+  "[text-shadow:0.125rem_0.125rem_0px_rgba(0,0,0,1)]",
+].join(" ");
 ---
 
-<a
-  href={resolvedHref}
-    class="back-link fixed top-6 left-6 z-50 font-mono text-sm uppercase tracking-wider
-      text-[color:var(--theme-forest)]
-         /* Subtle hover motion for the back link. */
-         transition-all duration-75 ease-[steps(2)]
-         hover:translate-x-[-2px] hover:text-[color:var(--ui-invert)]
-         /* Add a crisp shadow to improve legibility. */
-         [text-shadow:0.125rem_0.125rem_0px_rgba(0,0,0,1)]"
->
+<a href={resolvedHref} class={classes}>
   <span>{text}</span>
 </a>

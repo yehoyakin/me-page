@@ -75,7 +75,12 @@ const cleanCaption = (raw: string): string => {
     .trim();
 };
 
-const renderScene = (sceneIndex: number, alignOverride?: string, captionOverride?: string, sizeOverride?: string) => {
+const renderScene = (
+  sceneIndex: number,
+  alignOverride?: string,
+  captionOverride?: string,
+  sizeOverride?: string,
+) => {
   const scene = scenes[sceneIndex];
   if (!scene?.image) return "";
 
@@ -84,8 +89,7 @@ const renderScene = (sceneIndex: number, alignOverride?: string, captionOverride
   const captionText = captionOverride ?? scene.caption ?? "";
   const sizeClass = getSceneSizeClass(sizeOverride || "default");
 
-  let figureClass =
-    `scene-reveal my-6 overflow-hidden rounded-none border border-zinc-800 bg-black w-full ${sizeClass} mx-auto`;
+  let figureClass = `scene-reveal my-6 overflow-hidden rounded-none border border-zinc-800 bg-black w-full ${sizeClass} mx-auto`;
 
   let imgClass = "block w-full h-auto";
 
@@ -138,7 +142,8 @@ const renderScene = (sceneIndex: number, alignOverride?: string, captionOverride
  * Pattern: [scene[indexes, optional_size], optional_caption_text]
  * We capture everything after the inner ] as the raw caption text.
  */
-const SCENE_MARKER_RE = /\[scene\[([0-9,\s]+)(?:,\s*(wide|large|full))?\](?:,\s*([^\]]*))?\]/g;
+const SCENE_MARKER_RE =
+  /\[scene\[([0-9,\s]+)(?:,\s*(wide|large|full))?\](?:,\s*([^\]]*))?\]/g;
 
 const parseSceneMarker = (match: string) => {
   const result = SCENE_MARKER_RE.exec(match);
@@ -171,15 +176,19 @@ const sceneHtml =
           return renderScene(indexes[0], undefined, caption, size) || match;
         }
 
-        const groupSizeClass = size === "wide"
-          ? "max-w-[80vw] mx-auto"
-          : size === "large"
-            ? "max-w-[90vw] mx-auto"
-            : size === "full"
-              ? "max-w-[95vw] mx-auto"
-              : "max-w-[85vw] mx-auto";
-        const groupClass = `scene-reveal my-8 grid gap-4 sm:grid-cols-2 ${groupSizeClass}`.trim();
-        const groupCaptionText = cleanCaption(caption || scenes[indexes[0]]?.caption || "");
+        const groupSizeClass =
+          size === "wide"
+            ? "max-w-[80vw] mx-auto"
+            : size === "large"
+              ? "max-w-[90vw] mx-auto"
+              : size === "full"
+                ? "max-w-[95vw] mx-auto"
+                : "max-w-[85vw] mx-auto";
+        const groupClass =
+          `scene-reveal my-8 grid gap-4 sm:grid-cols-2 ${groupSizeClass}`.trim();
+        const groupCaptionText = cleanCaption(
+          caption || scenes[indexes[0]]?.caption || "",
+        );
 
         const groupedScenes = indexes
           .map((sceneIndex: number) => {
@@ -187,7 +196,8 @@ const sceneHtml =
             if (!scene?.image) return "";
 
             const aspectClass = getAspectClass(scene.size ?? "auto");
-            const figureClass = `my-0 overflow-hidden rounded-none border border-zinc-800 bg-black w-full ${aspectClass ? aspectClass : ""}`.trim();
+            const figureClass =
+              `my-0 overflow-hidden rounded-none border border-zinc-800 bg-black w-full ${aspectClass ? aspectClass : ""}`.trim();
             const imgClass = aspectClass
               ? "block h-full w-full object-cover object-center"
               : "block w-full h-auto";
@@ -231,8 +241,6 @@ const sceneHtml =
   <div set:html={sceneHtml} />
 </div>
 
-
-
 <script is:inline>
   (function () {
     const initReveal = () => {
@@ -248,7 +256,7 @@ const sceneHtml =
             }
           });
         },
-        { threshold: 0.15, rootMargin: "0px 0px -50px 0px" }
+        { threshold: 0.15, rootMargin: "0px 0px -50px 0px" },
       );
 
       figures.forEach((fig) => observer.observe(fig));

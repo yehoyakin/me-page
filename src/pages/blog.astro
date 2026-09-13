@@ -13,8 +13,8 @@ const posts = (await getCollection("blog")) as BlogPost[];
 const bgGif = asset("images/kbg1.gif");
 
 // Sort posts: newest first (left), oldest last (right)
-const sortedPosts = posts.sort((a, b) => 
-  new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+const sortedPosts = posts.sort(
+  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime(),
 );
 ---
 
@@ -24,9 +24,7 @@ const sortedPosts = posts.sort((a, b) =>
     class="absolute inset-0 w-full min-h-screen overflow-x-hidden bg-zinc-950"
   >
     {/* Background image layer with soft blur. */}
-    <div
-      class="fixed inset-0 z-0 pointer-events-none style3d blurred-bg-layer"
-    >
+    <div class="fixed inset-0 z-0 pointer-events-none style3d blurred-bg-layer">
       <img
         src={bgGif}
         class="w-full h-full object-cover opacity-100"
@@ -39,9 +37,7 @@ const sortedPosts = posts.sort((a, b) =>
     <div class="absolute inset-0 z-10 pointer-events-none"></div>
 
     {/* Main content layer. */}
-    <section
-      class="relative z-20 py-24 px-4 sm:px-6 md:px-8 w-full"
-    >
+    <section class="relative z-20 py-24 px-4 sm:px-6 md:px-8 w-full">
       <div class="text-center">
         <BackLink />
 
@@ -56,8 +52,10 @@ const sortedPosts = posts.sort((a, b) =>
 
       <div class="mt-16"></div>
 
-      {/* On phones this becomes a one-card-at-a-time carousel (see
-          styles/base/responsive.css + scripts/cardCarousel.js). */}
+      {
+        /* On phones this becomes a one-card-at-a-time carousel (see
+          styles/base/responsive.css + scripts/cardCarousel.js). */
+      }
       <div
         class="blog-cards-wrapper"
         data-carousel
@@ -65,11 +63,13 @@ const sortedPosts = posts.sort((a, b) =>
         data-carousel-label="Blog posts"
       >
         <div class="blog-cards-scroll" data-carousel-track>
-          {sortedPosts.map((post) => (
-            <div class="blog-card-item">
-              <BlogCard post={post} />
-            </div>
-          ))}
+          {
+            sortedPosts.map((post) => (
+              <div class="blog-card-item">
+                <BlogCard post={post} />
+              </div>
+            ))
+          }
         </div>
       </div>
     </section>

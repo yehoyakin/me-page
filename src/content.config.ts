@@ -1,9 +1,7 @@
 import { defineCollection, z } from "astro:content";
 import { glob } from "astro/loaders";
 
-const blog = defineCollection(
-    
-    {
+const blog = defineCollection({
   loader: glob({
     pattern: "**/*.{md,mdx}",
     base: "./src/content/blog",
@@ -23,32 +21,23 @@ const blog = defineCollection(
     backgroundParallax: z.number().optional().default(0.2),
 
     scenes: z
-    .array(
+      .array(
         z.object({
-        image: z.string(),
-        align: z.enum(["left", "right", "center"]).optional(),
-        size: z.enum(["auto", "16:9", "4:3"]).optional(),
-        caption: z.string().optional(),
-        })
-    )
-    .optional(),
+          image: z.string(),
+          align: z.enum(["left", "right", "center"]).optional(),
+          size: z.enum(["auto", "16:9", "4:3"]).optional(),
+          caption: z.string().optional(),
+        }),
+      )
+      .optional(),
 
+    // Placement comes from [background[x]] markers inside the body.
     backgrounds: z
       .array(
         z.object({
           image: z.string(),
-          percent: z.number().optional(), // deprecated: placement now comes from [background[x]] markers in the body
-        })
+        }),
       )
-      .optional(),
-
-    widgetPosition: z
-      .object({
-        top: z.string().optional(),
-        right: z.string().optional(),
-        bottom: z.string().optional(),
-        left: z.string().optional(),
-      })
       .optional(),
     cards: z
       .array(
@@ -67,20 +56,25 @@ const blog = defineCollection(
                   href: z.string(),
                   text: z.string().optional(),
                   image: z.string().optional(),
-                })
+                }),
               )
               .optional(),
           })
-          .refine((item) => !!item.href || (Array.isArray(item.links) && item.links.length > 0), {
-            message: "card must have either `href` or non-empty `links` array",
-          })
+          .refine(
+            (item) =>
+              !!item.href ||
+              (Array.isArray(item.links) && item.links.length > 0),
+            {
+              message:
+                "card must have either `href` or non-empty `links` array",
+            },
+          ),
       )
       .optional(),
   }),
 });
 
 const projects = defineCollection({
-
   loader: glob({
     pattern: "**/*.{md,mdx}",
     base: "./src/content/projects",
@@ -103,7 +97,7 @@ const projects = defineCollection({
         "systems",
         "tools",
         "developer",
-      ])
+      ]),
     ),
 
     theme: z.string().default("primary"),
@@ -116,11 +110,12 @@ const projects = defineCollection({
       z.object({
         text: z.string(),
         href: z.string(),
-      })
+      }),
     ),
   }),
 });
 
 export const collections = {
-  projects,blog
+  projects,
+  blog,
 };

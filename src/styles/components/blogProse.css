@@ -19,13 +19,6 @@
   font-weight: 300;
 }
 
-/* Soft blurred background image layer — used on blog listing, home, portfolio. */
-.blurred-bg-layer {
-  filter: blur(0.325rem);
-  transform: scale(1.05);
-  opacity: 1;
-}
-
 /* --- Compact prose overrides (Gmail-style tight reading) --- */
 #blog-content :where(li, blockquote) {
   line-height: 1.4;
@@ -125,8 +118,9 @@
 .scene-reveal {
   opacity: 0;
   transform: translateY(2rem);
-  transition: opacity 700ms var(--ease-soft),
-              transform 700ms var(--ease-settle);
+  transition:
+    opacity 700ms var(--ease-soft),
+    transform 700ms var(--ease-settle);
 }
 
 .scene-reveal.revealed {
@@ -135,10 +129,18 @@
 }
 
 /* Stagger children in grouped scene grids */
-.scene-reveal.revealed > *:nth-child(1) { transition-delay: 0ms; }
-.scene-reveal.revealed > *:nth-child(2) { transition-delay: 100ms; }
-.scene-reveal.revealed > *:nth-child(3) { transition-delay: 200ms; }
-.scene-reveal.revealed > *:nth-child(4) { transition-delay: 300ms; }
+.scene-reveal.revealed > *:nth-child(1) {
+  transition-delay: 0ms;
+}
+.scene-reveal.revealed > *:nth-child(2) {
+  transition-delay: 100ms;
+}
+.scene-reveal.revealed > *:nth-child(3) {
+  transition-delay: 200ms;
+}
+.scene-reveal.revealed > *:nth-child(4) {
+  transition-delay: 300ms;
+}
 
 @media (prefers-reduced-motion: reduce) {
   .scene-reveal {

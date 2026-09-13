@@ -14,9 +14,7 @@ import { asset } from "../utils/asset";
     class="fixed inset-0 w-full h-screen overflow-y-auto md:overflow-hidden bg-zinc-950"
   >
     {/* Background image layer with a soft blur effect. */}
-    <div
-      class="fixed inset-0 z-0 pointer-events-none style3d blurred-bg-layer"
-    >
+    <div class="fixed inset-0 z-0 pointer-events-none style3d blurred-bg-layer">
       <img
         src={asset("images/kbg.gif")}
         class="w-full h-full object-cover opacity-100"
@@ -58,7 +56,6 @@ import { asset } from "../utils/asset";
         class="w-full flex-1 md:flex-1 flex items-center justify-center overflow-hidden px-2 pb-2 md:p-2"
       >
         <SplitLanding
-          background=""
           left={{
             href: `${import.meta.env.BASE_URL}portfolio/`,
             tag: "My projects",

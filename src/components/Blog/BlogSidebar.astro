@@ -28,26 +28,19 @@ const { cards = [] } = Astro.props as Props;
          lg:max-h-[calc(100vh-6rem)] overflow-y-auto retro-scrollbar"
 >
   {
-    cards.length > 0 && (
-      /* Keep the sidebar layout aligned with the surrounding card styling. */
-      <div
-      >
-        {cards.map((card) => (
-          /* Use sharp edges for a more deliberate editorial presentation. */
-          <div class="w-full overflow-hidden rounded-none border border-zinc-900/40 bg-zinc-950/40">
-            <LinkCard
-              href={card.href}
-              links={card.links}
-              tag={card.tag}
-              title={card.title}
-              description={card.description}
-              actionText={card.actionText}
-              backgroundImage={card.backgroundImage}
-              class="h-auto"
-            />
-          </div>
-        ))}
+    cards.map((card) => (
+      <div class="w-full overflow-hidden border border-zinc-900/40 bg-zinc-950/40">
+        <LinkCard
+          href={card.href}
+          links={card.links}
+          tag={card.tag}
+          title={card.title}
+          description={card.description}
+          actionText={card.actionText}
+          backgroundImage={card.backgroundImage}
+          class="h-auto"
+        />
       </div>
-    )
+    ))
   }
 </aside>

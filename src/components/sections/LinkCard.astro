@@ -49,9 +49,9 @@ const isExternal = (url?: string) =>
 
 {
   links.length > 0 ? (
-<div
-  class={`group block overflow-hidden transition backdrop-blur-[1.5rem] ${extraClass}`}
->
+    <div
+      class={`group block overflow-hidden transition backdrop-blur-[1.5rem] ${extraClass}`}
+    >
       <div class="p-4">
         {backgroundImage && (
           <div class="w-full h-36 mb-4 overflow-hidden">
@@ -69,9 +69,7 @@ const isExternal = (url?: string) =>
           </div>
         )}
 
-        <Body class="mt-2 text-lg font-semibold text-ui-primary">
-          {title}
-        </Body>
+        <Body class="mt-2 text-lg font-semibold">{title}</Body>
 
         {description && <Body class="mt-2 text-sm">{description}</Body>}
 
@@ -91,7 +89,7 @@ const isExternal = (url?: string) =>
       href={resolve(href)}
       target={isExternal(href) ? "_blank" : undefined}
       rel={isExternal(href) ? "noopener noreferrer" : undefined}
-      class={` overflow-hidden border border-zinc-800 bg-zinc-950/60 transition hover:scale-[1.01] ${extraClass}` }
+      class={` overflow-hidden border border-zinc-800 bg-zinc-950/60 transition hover:scale-[1.01] ${extraClass}`}
     >
       <div class="flex items-center gap-4 p-4">
         {backgroundImage && (
@@ -119,7 +117,7 @@ const isExternal = (url?: string) =>
         </div>
 
         <div class="flex items-center">
-          <span class="inline-flex items-center gap-1.5 text-sm font-medium text-ui-primary">
+          <span class="inline-flex items-center gap-1.5 text-sm font-medium">
             {actionText || "Open"}
           </span>
         </div>

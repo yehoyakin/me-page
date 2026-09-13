@@ -114,14 +114,30 @@
 /**/
 @media (prefers-reduced-motion: no-preference) {
   @keyframes blurDissolveOut {
-    0%   { opacity: 1; filter: blur(0px); }
-    100% { opacity: 1; filter: blur(24px); }
+    0% {
+      opacity: 1;
+      filter: blur(0px);
+    }
+    100% {
+      opacity: 1;
+      filter: blur(24px);
+    }
   }
 
   @keyframes blurDissolveIn {
-    0%, 36%  { opacity: 0; filter: blur(24px); }
-    46%      { opacity: 1; filter: blur(24px); }
-    100%     { opacity: 1; filter: blur(0px); }
+    0%,
+    36% {
+      opacity: 0;
+      filter: blur(24px);
+    }
+    46% {
+      opacity: 1;
+      filter: blur(24px);
+    }
+    100% {
+      opacity: 1;
+      filter: blur(0px);
+    }
   }
 
   :root::view-transition-old(root) {
@@ -132,4 +148,3 @@
     animation: blurDissolveIn 600ms var(--ease-settle) both;
   }
 }
-

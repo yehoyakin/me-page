@@ -12,7 +12,6 @@
 */
 
 :root {
-
   /* ── Theme colors — add new themes here ── */
   --theme-primary: rgb(255, 155, 105);
   --theme-secondary: rgb(163, 101, 255);
@@ -38,8 +37,16 @@
   /* If the user agent supports `color-mix()`, override the accents with softer mixes. */
   @supports (color: color-mix(in srgb, red 10%, white)) {
     :root {
-      --accent-bold: color-mix(in srgb, var(--project-tag-color, white) 90%, white 10%);
-      --accent-italic: color-mix(in srgb, var(--project-tag-color, white) 85%, white 15%);
+      --accent-bold: color-mix(
+        in srgb,
+        var(--project-tag-color, white) 90%,
+        white 10%
+      );
+      --accent-italic: color-mix(
+        in srgb,
+        var(--project-tag-color, white) 85%,
+        white 15%
+      );
     }
   }
   /* Contribution font sizing (centralized) */
