@@ -1,12 +1,13 @@
 import { runTransition } from "../utils/transitions";
 
 /**
- * Reads the current animation name from <html data-theme="..."> and
- * runs the matching page transition on every Astro navigation event.
+ * Reads the page-transition name from <html data-transition="..."> and runs
+ * the matching transition on every Astro navigation event. (`data-theme` on
+ * <html> holds the theme token for fonts.css and is a separate concern.)
  */
 
 function getAnimationName() {
-  return document.documentElement.getAttribute("data-theme") || "pixel";
+  return document.documentElement.getAttribute("data-transition") || "pixel";
 }
 
 document.addEventListener("astro:before-preparation", async (event) => {

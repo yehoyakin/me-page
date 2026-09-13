@@ -3,11 +3,14 @@
 /* Duplicate definitions from other component CSS files are intentional —
    each file is self-contained and imported independently. */
 
-/* Figure captions — italic, muted, tracked, body font. */
+/* Figure captions — italic, muted, tracked, body font.
+   Sized one step below the body copy via the fluid scale instead of a flat
+   0.875rem: the body text grows to 1.125rem (18px) on wide screens, so a
+   fixed 14px caption read as tiny exactly where there is room for more. */
 .blog-figcaption {
   margin-top: 0.5rem;
   padding-left: 0.25rem;
-  font-size: 0.875rem;
+  font-size: var(--font-size-sm);
   letter-spacing: 0.02em;
   color: var(--ui-muted, rgb(161 161 170));
   text-align: center;
@@ -21,19 +24,6 @@
   filter: blur(0.625rem);
   transform: scale(1.05);
   opacity: 1;
-}
-
-/* Figure captions — italic, muted, tracked, body font. */
-.blog-figcaption {
-  margin-top: 0.5rem;
-  padding-left: 0.25rem;
-  font-size: 0.875rem;
-  letter-spacing: 0.02em;
-  color: var(--ui-muted, rgb(161 161 170));
-  text-align: center;
-  font-family: var(--font-body);
-  font-style: italic;
-  font-weight: 300;
 }
 
 /* --- Compact prose overrides (Gmail-style tight reading) --- */

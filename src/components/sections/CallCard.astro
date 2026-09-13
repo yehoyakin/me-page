@@ -2,7 +2,7 @@
 // Purpose: Section - src/components/sections/CallCard.astro (Expandable project call card)
 import Title from "../UI/Title.astro";
 import Body from "../UI/Body.astro";
-import { getThemeConfig, resolveThemeToken, toThemeName } from "../../config/uiDictionary";
+import { resolveThemeToken, toThemeName, toThemeToken } from "../../config/uiDictionary";
 import type { ProjectRole } from "../../config/uiDictionary";
 
 interface Props {
@@ -41,8 +41,10 @@ const {
 } = Astro.props;
 
 const themeName = toThemeName(rawTheme);
-const config = getThemeConfig(themeName);
 const dynamicToken = resolveThemeToken(themeName);
+
+// The card's own theme token: makes fonts.css resolve this project's font set
+// for the whole card (title, body, role chips, expanded prose).
 
 // Use the per-card CSS variable so the color follows `--project-tag-color`.
 const themeColorClass = "text-[color:var(--project-tag-color)]";
@@ -65,7 +67,7 @@ const cardClasses = [
 
 <div
   class={cardClasses}
-  data-theme={config.transition}
+  data-theme={toThemeToken(themeName)}
   data-active="false"
   style={`
     --project-tag-color: ${dynamicToken};

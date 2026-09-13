@@ -1,38 +1,51 @@
 /* ================================================================
-   FONT TOKENS — one declaration block per theme, keyed off
-   <html data-theme="...">.  The [data-theme] attribute is set by
-   MyLayout.astro from the page's `animation` prop (which is the
-   theme name).  Each theme gets its own --font-body / --font-title
-   / --font-ui / --font-terminal so the correct typeface is always
-   used for bodies and titles.
+   FONT TOKENS — one font set per theme, keyed off the theme token
+   declared in tokens.css (`--theme-{name}`).
+
+   The token is the value that goes into `data-theme`:
+     <html data-theme="--theme-terminal">   ← a page-wide theme
+     <h1 data-theme="--theme-terminal">     ← a single component
+
+   Assigning `theme="terminal"` to Title/Body, or `theme="terminal"`
+   to MyLayout, is all it takes — the matching set below is used.
+   Elements with no theme token keep the page / `:root` fonts.
    ================================================================ */
 
-/* DEFAULT (fallback when no data-theme matches) */
+/* DEFAULT (fallback when no theme is assigned) */
 :root {
   --font-title: "Space Grotesk", sans-serif;
-  --font-ui: "Space Grotesk", monospace;
-  --font-body: "Space Grotesk", sans-serif;
-  --font-terminal: "Space Grotesk", monospace;
+  --font-ui: "Manrope", monospace;
+  --font-body: "Manrope", sans-serif;
+  --font-terminal: "Manrope", monospace;
+}
+
+/* Retro components (cards, link buttons, contributions) ask for --retro-font.
+   Declared on the root AND on any element carrying a theme token, so the
+   reference resolves against the --font-ui of whichever element is themed
+   (a page-wide theme or a single component) instead of going invalid. */
+:root,
+[data-theme^="--theme-"] {
+  --retro-font: var(--font-ui);
 }
 
 /* EASY READ */
-html[data-theme="--theme-forest"] {
+[data-theme="--theme-forest"] {
   --font-title: "IBM Plex Sans", sans-serif;
   --font-ui: "IBM Plex Mono", monospace;
   --font-body: "Inter", sans-serif;
   --font-terminal: "JetBrains Mono", monospace;
 }
 
-/* PIXEL ART */
-html[data-theme="--theme-terminal"] {
-  --font-title: "Jersey 15", monospace;
-  --font-ui: "Silkscreen", monospace;
-  --font-body: "Pixelify Sans", monospace;
+/* PIXEL ART (Pixeled), (PixelBit-Free), (PixelFlag) */
+[data-theme="--theme-terminal"] {
+  --font-title: "Pixel Operator", monospace;
+  --font-ui: "04b03", monospace;
+  --font-body: "Pixeloid";
   --font-terminal: "JetBrains Mono", monospace;
 }
 
 /* RETRO-FUTURISTIC */
-html[data-theme="--theme-secondary"] {
+[data-theme="--theme-secondary"] {
   --font-title: "Space Grotesk", sans-serif;
   --font-ui: "Space Mono", monospace;
   --font-body: "DM Sans", sans-serif;
@@ -40,15 +53,15 @@ html[data-theme="--theme-secondary"] {
 }
 
 /* UNREAL RETRO */
-html[data-theme="--theme-primary"] {
-  --font-title: "Oxanium", sans-serif;
-  --font-ui: "Roboto Mono", monospace;
-  --font-body: "Roboto", sans-serif;
+[data-theme="--theme-primary"] {
+  --font-title: "Space Grotesk", sans-serif;
+  --font-ui: "Space Mono", monospace;
+  --font-body: "DM Sans", sans-serif;
   --font-terminal: "JetBrains Mono", monospace;
 }
 
 /* CINEMATIC */
-html[data-theme="--theme-sunset"] {
+[data-theme="--theme-sunset"] {
   --font-title: "Bebas Neue", sans-serif;
   --font-ui: "Barlow Condensed", sans-serif;
   --font-body: "Manrope", sans-serif;
@@ -115,6 +128,22 @@ h6,
 .title,
 .post-title,
 .blog-title {
+  font-family: var(--font-title);
+}
+
+/* ================================================================
+   THEMED ELEMENTS — an element carrying a theme token must resolve
+   that theme's fonts for itself.  `font-family: inherit` above would
+   otherwise hand it the parent's (page-level) font and the token
+   would only change the colours.  Mirrors the base rules: headings
+   take --font-title, everything else --font-body.
+   ================================================================ */
+
+[data-theme^="--theme-"] {
+  font-family: var(--font-body);
+}
+
+[data-theme^="--theme-"]:is(h1, h2, h3, h4, h5, h6) {
   font-family: var(--font-title);
 }
 

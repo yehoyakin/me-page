@@ -6,6 +6,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Jersey+10&family=Jersey+15&family=Kode+Mono:wght@400;500;600;700&family=Share+Tech+Mono&family=Major+Mono+Display&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Press+Start+2P&family=Pixelify+Sans:wght@400;500;600;700&family=VT323&family=Tiny5&family=DotGothic16&family=Jersey+10&family=Jersey+15&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400;500;600;700&family=Share+Tech+Mono&family=Major+Mono+Display&family=Nova+Mono&display=swap");
+/* Every family referenced by a theme block in fonts.css must be loaded here,
+   otherwise the theme's font set silently falls back to a generic family. */
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&family=Bebas+Neue&family=DM+Sans:wght@400;500;700&family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans:wght@400;600;700&family=Manrope:wght@400;600;700&family=Oxanium:wght@400;600;700&family=Roboto+Mono:wght@400;600;700&family=Roboto:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap");
 
 /*
 @tailwind base;

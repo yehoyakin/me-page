@@ -3,10 +3,13 @@
  *
  * HOW TO ADD A NEW THEME:
  * 1. Add --theme-{name}: <color>; to tokens.css
- * 2. Use theme: "{name}" in any .md file (blog or project)
- * 3. Done — no TypeScript changes needed for colors.
+ * 2. Add a [data-theme="--theme-{name}"] font set to fonts.css
+ * 3. Use theme: "{name}" in any .md file (blog or project)
+ * 4. Done — no TypeScript changes needed.
  *
- * Theme ONLY controls color. Fonts are set globally in fonts.css.
+ * A theme drives three things: colour (tokens.css), fonts (fonts.css) and
+ * the page transition (the config below). A theme without a font set in
+ * fonts.css falls back to the :root fonts.
  */
 
 export type ThemeConfig = {
@@ -66,6 +69,21 @@ export function getThemeConfig(themeName: string): ThemeConfig {
 }
 
 /**
+ * Theme token NAME, i.e. the string declared in tokens.css and used as the
+ * value of the `data-theme` attribute.
+ *
+ * Convention: theme name "forest" → `--theme-forest`
+ *
+ * `data-theme="--theme-forest"` is what makes fonts.css hand out that
+ * theme's font set (and tokens.css its colour), so anything that can be
+ * themed — the <html> element via MyLayout, or a single component such as
+ * Title/Body — carries this token.
+ */
+export function toThemeToken(themeName: string): string {
+  return `--theme-${themeName}`;
+}
+
+/**
  * Resolve a theme name to its CSS custom-property reference.
  *
  * Convention: theme name "forest" → `var(--theme-forest)`
@@ -74,7 +92,7 @@ export function getThemeConfig(themeName: string): ThemeConfig {
  * the var() as invalid and drops the declaration — graceful degradation.
  */
 export function resolveThemeToken(themeName: string): string {
-  return `var(--theme-${themeName})`;
+  return `var(${toThemeToken(themeName)})`;
 }
 
 /**

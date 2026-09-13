@@ -1,11 +1,20 @@
 ---
 import "../styles/global.css";
 import { ClientRouter } from "astro:transitions";
+import { toThemeName, toThemeToken } from "../config/uiDictionary";
 
-const { title = "JoacoDev", animation = "grid" } = Astro.props;
+const { title = "JoacoDev", animation = "grid", theme } = Astro.props;
+
+// A page that assigns a theme carries the tokens.css token in `data-theme`,
+// which is what fonts.css keys the page's font set off. The page-transition
+// name gets its own attribute so the two can never overwrite each other.
+const themeAttribute =
+  typeof theme === "string" && theme.trim() !== ""
+    ? toThemeToken(toThemeName(theme))
+    : undefined;
 ---
 
-<html lang="en" data-theme={animation}>
+<html lang="en" data-theme={themeAttribute} data-transition={animation}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />

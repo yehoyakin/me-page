@@ -1,12 +1,17 @@
 ---
 // Purpose: Component - src/components/UI/Title.astro (UI Title component)
-import { getThemeConfig, resolveThemeToken, toThemeName } from "../../config/uiDictionary";
+import {
+  getThemeConfig,
+  resolveThemeToken,
+  toThemeName,
+  toThemeToken,
+} from "../../config/uiDictionary";
 
 interface Props {
   class?: string;
   level?: 1 | 2 | 3 | 4 | 5 | 6;
   outline?: boolean;
-  /** Theme name — controls color and transition. Any string works. */
+  /** Theme name — controls font, color and transition. Any string works. */
   theme?: string;
   /** Add subtle text shadow for readability against blurred backgrounds. */
   shadow?: boolean;
@@ -23,6 +28,11 @@ const {
 const themeName = toThemeName(rawTheme);
 const config = getThemeConfig(themeName);
 const themeToken = resolveThemeToken(themeName);
+
+// Only an explicitly assigned theme swaps the typeface. Without one the
+// heading keeps the page's font, which is the previous behaviour.
+const hasTheme = typeof rawTheme === "string" && rawTheme.trim() !== "";
+const themeAttribute = hasTheme ? toThemeToken(themeName) : undefined;
 
 const Tag = `h${level}` as any;
 
@@ -54,6 +64,7 @@ const outlineClass = outline ? (level === 1 ? "outline-3" : "outline-2") : "";
     outlineClass,
     customClass,
   ]}
+  data-theme={themeAttribute}
   style={`--project-tag-color: ${themeToken}`}
 >
   <slot />
