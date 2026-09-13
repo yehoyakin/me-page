@@ -44,11 +44,12 @@
      "Pixel Operator HB SC" — 400 (small caps)
      "Pixeloid Sans"      — regular 400 + bold 700
    Swap any --font-* value below for another family name to restyle. */
+
 [data-theme="--theme-terminal"] {
-  --font-title: "Pixel Operator HB", sans-serif;
-  --font-ui: "Pixel Operator", sans-serif;
-  --font-body: "Pixeloid Sans", sans-serif;
-  --font-terminal: "Pixel Operator HB", sans-serif;
+  --font-title: "Bebas Neue", sans-serif;
+  --font-ui: "Barlow Condensed", sans-serif;
+  --font-body: "Manrope", sans-serif;
+  --font-terminal: "Roboto Mono", monospace;
 }
 
 /* RETRO-FUTURISTIC */
