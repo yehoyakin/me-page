@@ -316,20 +316,62 @@ const imagesToPreload = [heroImage, ...backgrounds.map((b) => b.image)].filter(
       });
     };
 
-    computeLayerRanges();
-    updateBackgrounds();
-    window.addEventListener("scroll", updateBackgrounds, { passive: true });
-    window.addEventListener("resize", () => {
+    // Re-measure marker offsets + layer ranges, then repaint.
+    const remeasure = () => {
       markerTops = getMarkerTops();
       computeLayerRanges();
       updateBackgrounds();
-    });
-    // Layout can shift after fonts/images settle, so re-measure then too.
-    window.addEventListener("load", () => {
-      markerTops = getMarkerTops();
-      computeLayerRanges();
-      updateBackgrounds();
-    });
+    };
+
+    // rAF-throttled remeasure: document height changes while scene images
+    // and fonts settle, and each change would otherwise force sync layout.
+    let measureQueued = false;
+    const queueRemeasure = () => {
+      if (measureQueued) return;
+      measureQueued = true;
+      requestAnimationFrame(() => {
+        measureQueued = false;
+        remeasure();
+      });
+    };
+
+    // This inline script re-executes after Astro view-transition navigations
+    // (when this post's markup is swapped in), so a previous instance's
+    // listeners must be torn down or they stack up, each holding stale
+    // offsets and the previous post's settings.
+    window.__bgController?.destroy();
+
+    const onScroll = () => updateBackgrounds();
+    const ro = new ResizeObserver(queueRemeasure);
+
+    window.__bgController = {
+      destroy: () => {
+        window.removeEventListener("scroll", onScroll);
+        window.removeEventListener("resize", queueRemeasure);
+        document.removeEventListener("astro:page-load", queueRemeasure);
+        ro.disconnect();
+      },
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", queueRemeasure);
+    document.addEventListener("astro:page-load", queueRemeasure);
+
+    // Watch the document itself: scene images loading (and fonts) grow the
+    // page after the swap, which shifts every marker. Crucially, the window
+    // "load" event never fires again in an SPA session, so measuring on it
+    // alone left offsets stale after client-side navigation and backgrounds
+    // activated at the wrong scroll positions.
+    ro.observe(document.body);
+
+    if (document.readyState === "complete") {
+      // Full load already happened (SPA session): settle one frame, then measure.
+      requestAnimationFrame(remeasure);
+    } else {
+      window.addEventListener("load", remeasure, { once: true });
+    }
+
+    remeasure();
 
     // --- SIDEBAR DYNAMIC DEVICE SCRIPTS ---
     const initSidebar = () => {

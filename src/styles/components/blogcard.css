@@ -38,10 +38,10 @@
   .blog-card-image-wrap {
     flex: 1 1 auto;
     width: 100%;
-    min-height: clamp(5rem, 18vw, 12rem);
+    min-height: clamp(4rem, 24vw, 18rem);
     overflow: hidden;
     position: relative;
-    background: rgba(0, 0, 0, 0.35);
+    background: rgb(0, 0, 0);
   }
 
   .blog-card-bg {

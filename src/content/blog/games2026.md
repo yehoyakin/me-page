@@ -15,7 +15,6 @@ backgrounds:
   - image: "images/blog/games2026/afu(0).webp"
   - image: "images/blog/games2026/gstring(0).webp"
   - image: "images/blog/games2026/vaproxy(0).webp"
-
 backgroundBlur: 0.33
 backgroundOpacity: 0.9
 backgroundParallax: 1
@@ -152,6 +151,7 @@ scenes:
 
 I constantly find myself having a harder time enjoying most popular video games, and not for lack of trying. *Vampire Survivors, Clair Obscure 33, Balatro, Peak, I tried, but they are just not for me at all*, same with most AAA productions. Thankfully, diversity is a strength in the video game industry, so here are games that have caught my attention and why…
 
+
 [background[0]]
 
 ## .45 PARABELLUM BLOODHOUND - Cyberpunk Active Time Action
@@ -272,29 +272,33 @@ As I mentioned previously, *I don’t like most popular games(uhhh I'm so differ
 
 [background[7]]
 
-Looks like Mario Kart on Coke. I love the shading, texture work, the vistas, the cyberpunk (ish) settings; just by the game’s Steam thumbnail you can tell Akira was an inspiration. It’s a retro racing game, with no story (sadly), but gameplay looks great, and it’s full of style; it knows what it wants to be and it fulfills it.
+Looks like *Mario Kart on Coke*. I love the shading, texture work, the vistas, the cyberpunk (ish) settings; just by the game’s Steam thumbnail you can tell Akira was an inspiration, mostyle on the world and the bikes of course, it's a worthy homage. 
 
-[scene[21], "Akira’s red motorcycle."]
-[scene[22], "Gorgeous stylized user interface, with vast level diversity."]
-[scene[23], "City nights in Cyberpunk setting never fail to impress."]
+I must also recommend this game's soundtrack (which is how I found Airframe Ultra to begin with), it's 2000's electronic euro vibe goes like dirt and nail with the futuristic setting, and vibrant colors. 
+
+It’s a **retro racing game**, with no story (sadly), but gameplay looks great, and it’s full of style; it knows what it wants to be and it achieves it.
+
+[scene[21], "Akira’s red motorcycle on top and at the bottom a cool teal bike."]
+[scene[22], "Customization is always appreciated in multiplayer games."]
+[scene[23], "Towering buildings, industry factories and pollution on a sunset backdrop, fits the game's aesthetic perfectly. Also lets give some appreciation to that charming old-school user interface."]
 
 ## G String
 
 [background[8]]
 
-Not referring to the sexy G-string to wear but instead to another cyberpunk FPS, I really don’t know how to go about this one; there is so much I like, the Steam capsule alone caught my eye. Turns out this game took 10 years to develop ("10 yearsssss!" Matt Smith in House of the Dragon). As a solo project, this is a formidable feat; it takes a great level of dedication and, most of all, discipline to achieve. Assets were mostly done by the developer, just that fact makes me want to try it.
+Not referring to the sexy G-string to wear but instead to another **cyberpunk FPS**, I really don’t know how to go about this one; there is so much I like, the Steam capsule alone caught my eye. Turns out this game took *10 years to develop* ("10 yearsssss!" Matt Smith in House of the Dragon). As a *solo project*, this is a formidable feat; it takes a great level of dedication and, most of all, discipline to achieve. Assets were mostly done by the developer, just that fact makes me want to try it.
 
 By the time this blog is being written, the game has come out, to some recent mixed reviews… but I’ll play it anyways, it’s a feat that few game devs manage to do, and just because of that I’ll give it the benefit of the doubt. This is someone’s vision; in the screenshots and trailer I see a lot of style, a world I want to explore, and gameplay to get proficient at.
 
-[scene[24], "Semi-apocalyptic sunsets."]
-[scene[25], "Cool narrative sequences."]
-[scene[26], "Once again a massive sci-fi city, pollution, and neon nights."]
+[scene[24], "Overcast sky, a blooming sun, evil robots, red lights of evilness, and a desolate city, this screenshot channels the tone of the story to a tee."]
+[scene[25], "Cool narrative sequences, looks like a dream sequence which is a storytelling device I love and wish more games used."]
+[scene[26], "Once again a massive sci-fi city, pollution, and neon nights. It's so pretty!"]
 
 ## V.A Proxy
 
 [background[9]]
 
-A fast paced game third person action game, with some of the most unique ideas I’ve seen in a game, such as:
+A fast paced game **third person action** game, with some of the most unique ideas I’ve seen in a game, such as:
 
 <ol>
 

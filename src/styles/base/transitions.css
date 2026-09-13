@@ -64,11 +64,10 @@
   100% { filter: brightness(1) saturate(1); }
 }
 
-/* Parallax image strip scroll */
-@keyframes strip-scroll {
-  from { transform: translateY(0); }
-  to   { transform: translateY(-50%); }
-}
+/* NOTE: the "strip-scroll" keyframes for ParallaxBackground strips live in
+   components/parallaxImage.css (background-position based). Do not redefine
+   the same animation name here — duplicate @keyframes silently override each
+   other depending on bundle order. */
 
 /* Gallery progress bar fill */
 @keyframes galleryProgress {
