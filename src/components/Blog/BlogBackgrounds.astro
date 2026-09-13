@@ -31,6 +31,12 @@ const resolve = (path: string) => {
 
   return `${base}${path.replace(/^\//, "")}`;
 };
+
+// Each layer gets a stable, predictable SSR initial state. Layers beyond
+// index 0 start invisible so the client script owns the crossfade without
+// a visible SSR/CSR mismatch on first paint.
+const initialOpacity = (index: number, total: number) =>
+  index === 0 && total > 0 ? backgroundOpacity : 0;
 ---
 
 <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
@@ -46,7 +52,7 @@ const resolve = (path: string) => {
             class="absolute -inset-[20vh] bg-center bg-cover transition-opacity duration-700 will-change-transform"
             style={`
             background-image: url('${src}');
-            opacity: ${index === 0 ? backgroundOpacity : 0};
+            opacity: ${initialOpacity(index, backgrounds.length)};
             filter: blur(${backgroundBlur * 24}px);
             transform: translate3d(0,0,0);
           `}
@@ -54,6 +60,10 @@ const resolve = (path: string) => {
         );
       })
     ) : (
+      /* Single hero fallback when no per-section backgrounds are defined.
+         The client script treats an empty backgrounds array as "no-op", so
+         this element is never touched after first paint — it simply keeps
+         the hero image for the lifetime of the page. */
       <div
         id="dynamic-bg-0"
         data-active="1"

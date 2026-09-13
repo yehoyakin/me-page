@@ -214,7 +214,14 @@ const imagesToPreload = [heroImage, ...backgrounds.map((b) => b.image)].filter(
     const bgBlur = backgroundBlur ?? 0;
     const parallaxFactor = Number(backgroundParallax ?? 0.2);
 
-    window.__backgrounds = backgrounds;
+    // Store the current slug's background descriptors globally so the
+    // scroll/resize handler can read them. Explicitly clear any stale data
+    // from a previous slug before writing the new array — otherwise a post
+    // with zero backgrounds would leave the previous post's array in place
+    // and the scroll handler would keep repainting the old images.
+    window.__backgrounds = backgrounds?.length
+      ? backgrounds.map((b) => ({ image: b.image }))
+      : [];
 
     // Where in the document each [background[x]] marker sits.
     // offsetTop is relative to the offsetParent chain, so convert to
@@ -304,11 +311,23 @@ const imagesToPreload = [heroImage, ...backgrounds.map((b) => b.image)].filter(
         return amplitude * (1 - 2 * progress);
       };
 
-      bgs.forEach((_, index) => {
+      bgs.forEach((bg, index) => {
         const bgEl = document.getElementById(`dynamic-bg-${index}`);
         if (!bgEl) return;
 
-        bgEl.style.backgroundImage = `url('${bgs[index].image}')`;
+        // SSR already set background-image + filter + opacity. Only mutate
+        // the properties the scroll handler actually controls (transform +
+        // opacity crossfade), so the first client-side update can't flicker
+        // if the serialized URL matches the SSR URL. We still write
+        // backgroundImage in case the SSR href used a different base than
+        // the client-resolved one; setting it to the same value is a no-op
+        // in the browser, so there is no visible flash.
+        const resolvedSrc =
+          bg.image.startsWith("http") || bg.image.startsWith("/")
+            ? bg.image
+            : `${import.meta.env.BASE_URL.replace(/\/$/, "")}/${bg.image.replace(/^\//, "")}`;
+
+        bgEl.style.backgroundImage = `url('${resolvedSrc}')`;
         bgEl.style.filter = `blur(${bgBlur * 24}px)`;
         bgEl.style.transform = `translate3d(0, ${offsetForLayer(index)}px, 0)`;
         bgEl.style.opacity = index === activeIndex ? String(bgOpacity) : "0";
@@ -371,7 +390,23 @@ const imagesToPreload = [heroImage, ...backgrounds.map((b) => b.image)].filter(
       window.addEventListener("load", remeasure, { once: true });
     }
 
-    remeasure();
+    // Defer the first measurement to a RAF so layout has settled (scene
+    // images may still be decoding). For a full page load we also listen for
+    // the "load" event to catch the moment images finish and the document
+    // grows. For SPA navigations (readyState already "complete") the RAF
+    // alone is enough because "load" will not fire again.
+    const scheduleFirstMeasure = () => {
+      if (document.readyState === "complete") {
+        requestAnimationFrame(queueRemeasure);
+      } else {
+        window.addEventListener("load", queueRemeasure, { once: true });
+        // Also run on the next frame in case the browser never fires "load"
+        // (some embedded contexts) or it fired before we attached.
+        requestAnimationFrame(queueRemeasure);
+      }
+    };
+
+    scheduleFirstMeasure();
 
     // --- SIDEBAR DYNAMIC DEVICE SCRIPTS ---
     const initSidebar = () => {
