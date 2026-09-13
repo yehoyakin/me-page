@@ -31,7 +31,7 @@
 /* EASY READ */
 [data-theme="--theme-forest"] {
   --font-title: " ", sans-serif;
-  --font-ui: "IBM Plex Mono", monospace;
+  --font-ui: "Barlow Condensed", sans-serif;
   --font-body: "Inter", sans-serif;
   --font-terminal: "JetBrains Mono", monospace;
 }
@@ -47,7 +47,7 @@
 
 [data-theme="--theme-terminal"] {
   --font-title: "Bebas Neue", sans-serif;
-  --font-ui: "Space Mono", sans-serif;
+  --font-ui: "Barlow Condensed", sans-serif;
   --font-body: "Manrope", sans-serif;
   --font-terminal: "Roboto Mono", monospace;
 }
@@ -55,7 +55,7 @@
 /* RETRO-FUTURISTIC */
 [data-theme="--theme-secondary"] {
   --font-title: "Manrope", sans-serif;
-  --font-ui: "Space Mono", monospace;
+  --font-ui: "Barlow Condensed", sans-serif;
   --font-body: "DM Sans", sans-serif;
   --font-terminal: "Roboto Mono", monospace;
 }
@@ -63,7 +63,7 @@
 /* UNREAL RETRO */
 [data-theme="--theme-primary"] {
   --font-title: "Manrope", sans-serif;
-  --font-ui: "Space Mono", monospace;
+  --font-ui: "Barlow Condensed", sans-serif;
   --font-body: "DM Sans", sans-serif;
   --font-terminal: "Roboto Mono", monospace;
 }
@@ -71,7 +71,7 @@
 /* CINEMATIC */
 [data-theme="--theme-sunset"] {
   --font-title: "Bebas Neue", sans-serif;
-  --font-ui: "Space Mono", monospace;
+  --font-ui: "Barlow Condensed", sans-serif;
   --font-body: "Manrope", sans-serif;
   --font-terminal: "Roboto Mono", monospace;
 }

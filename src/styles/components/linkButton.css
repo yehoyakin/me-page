@@ -9,17 +9,6 @@
    CLICKABLE INDICATOR — subtle pulse animation
    ═══════════════════════════════════════════════════════════════ */
 
-/* Pulsing glow border — draws attention without being distracting */
-.retro-link::after {
-  content: "";
-  position: absolute;
-  inset: -0.125rem;
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  pointer-events: none;
-  opacity: 0;
-  animation: linkPulse 2s ease-in-out infinite;
-}
-
 /* Hover: stop the pulse, show solid state */
 .retro-link:hover::after {
   animation: none;

@@ -2,7 +2,7 @@
 title: "My favorite videogame"
 theme: "terminal"
 description: "Warmth | Coziness | Fun"
-date: 04/01/2026
+date: 08/21/2026
 cardBackground: "images/blog/eastward/image (16).webp"
 backgrounds:
   - image: "images/blog/eastward/eastwardbc.webp"

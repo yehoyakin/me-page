@@ -895,9 +895,21 @@ const imagesToPreload = [
        RESIZE OBSERVER
        =====================================================
 
-       This is important because article layout can change
-       after images and fonts finish loading.
+       `html, body { height: 100% }` (base/rules.css) pins the
+       <body> box to the viewport height, so it never changes
+       size when the article grows. Observing <body> therefore
+       never fires and the measurement taken before the scene
+       images decode is never corrected.
+
+       Observe the wrappers that actually grow with the article
+       instead, so late layout changes are picked up.
        ===================================================== */
+
+    const resizeTargets = [
+      document.querySelector("main"),
+      document.getElementById("blog-content"),
+    ].filter(Boolean);
+
 
     const resizeObserver =
       new ResizeObserver(() => {
@@ -907,7 +919,14 @@ const imagesToPreload = [
       });
 
 
-    if (document.body) {
+    resizeTargets.forEach((target) => {
+
+      resizeObserver.observe(target);
+
+    });
+
+
+    if (!resizeTargets.length && document.body) {
 
       resizeObserver.observe(
         document.body,
@@ -956,6 +975,56 @@ const imagesToPreload = [
       }
 
     });
+
+
+    /*
+     * Cold-load safety net.
+     *
+     * On an uncached first load the scene images and webfonts
+     * are still decoding when the script runs, so the article is
+     * far shorter than its final layout. The ResizeObserver above
+     * catches most of the growth, but a font swap can shift marker
+     * positions without changing any observed box, and the last
+     * image to decode can land after the observer's final frame.
+     *
+     * Re-measure once every image has loaded and once the webfonts
+     * are ready so the first load always matches a reload.
+     */
+
+    if (document.readyState === "complete") {
+
+      /* Script re-ran after load — measure on the next frame. */
+
+      queueRemeasure();
+
+    } else {
+
+      window.addEventListener(
+        "load",
+        queueRemeasure,
+        {
+          once: true,
+        },
+      );
+
+    }
+
+
+    if (document.fonts?.ready) {
+
+      document.fonts.ready
+        .then(() => {
+
+          queueRemeasure();
+
+        })
+        .catch(() => {
+
+          /* Font loading API unavailable — the load event covers us. */
+
+        });
+
+    }
 
 
     /* =====================================================
@@ -1192,6 +1261,14 @@ const imagesToPreload = [
       window.removeEventListener(
         "resize",
         onResize,
+      );
+
+
+      /* Remove cold-load measurement hooks */
+
+      window.removeEventListener(
+        "load",
+        queueRemeasure,
       );
 
 
