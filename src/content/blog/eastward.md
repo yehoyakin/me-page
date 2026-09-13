@@ -178,8 +178,6 @@ Lastly I must mention the incredible use of lightning, time of day and weather, 
 
 # Their story
 
-[background[3]]
-
 The game's narrative begins with one of my favorite story-telling devices, *the story within the story*, in this case represented by a videogame (Earthborn) that our protagonist Sam is playing. Later on we realize that Earthborn's story mirrors our protagonist's journey. Afterwards we are dropped right in the middle of their lives, their past will unfold as we progress through the game. 
 
 The plot is very lossesly held together; There is an overarching story but most of the game has TV episode logic to it, lots of self contained stories and some inflection points every now that connect the dots, such as in Samurai Champloo or Space Dandy.
@@ -188,9 +186,10 @@ Most of these episodes within the game's chapters are there to give and breathe 
 
 [scene[1], "The in-game sunset give me a nostalgic mood that's hard to achieve in most games."]
 
-[background[3]]
 
 ## My story
+
+[background[3]]
 
 I got to play this while lockdowns were still active, but I missed family relatives and my friends (fortune allowed me to spend lockdown with my family), *not sharing the space with people that I loved was wearing me down, until I booted up this game*.
 
